@@ -1,5 +1,5 @@
 
-import { wildMagicCheck } from './lib/lib';
+import { wildMagicCheck } from './lib/lib.js';
 
 console.log(
     "Wild Magic Surge 5e"
