@@ -1,7 +1,7 @@
 {
-  "name": "module",
-  "title": "New Module",
-  "description": "",
+  "name": "wild-magic-surge-5e",
+  "title": "Wild Magic Surge 5e",
+  "description": "A module to remind you whenever a player with the Wild Magic Surge Feat casts a spell and to roll a d20.",
   "version": "This is auto replaced",
   "library": "false",
   "manifestPlusVersion": "1.0.0",
@@ -9,13 +9,15 @@
   "compatibleCoreVersion": "0.7.9",
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+      "name": "John Nolan",
+      "url": "https://github.com/johnnolan"
     }
   ],
   "dependencies": [
-
+    {
+      "name": "dnd5e",
+      "type": "system"
+    }
   ],
   "conflicts": [
     
