@@ -4,6 +4,20 @@ const MODULE_ID = "wild-magic-surge-5e";
 const OPT_ENABLE_CHECK = "enableMagicSurgeCheck";
 const OPT_CHAT_MSG = "magicSurgeChatMessage";
 
+function hasWildMagicFeat(data) {
+    return data._actor.data.items.find(
+        (a) => a.name === `Wild Magic Surge` && a.type === "feat"
+      ) !== undefined;
+}
+
+function is1stLevelOrHigherSpell(data) {
+    return data._item.labels.level.indexOf(" Level") > -1;
+}
+
+function isValid(data) {
+    return (hasWildMagicFeat(data) && is1stLevelOrHigherSpell(data))
+}
+
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
 
@@ -34,16 +48,7 @@ Hooks.on("ready", function () {
 Hooks.on("preRollItemBetterRolls", function (arg1, arg2, arg3) {
   try {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
-      const data = arg1;
-
-      const hasWildMagicFeat =
-        data._actor.data.items.find(
-          (a) => a.name === `Wild Magic Surge` && a.type === "feat"
-        ) !== undefined;
-      const is1stLevelOrHigher = data._item.labels.level.indexOf(" Level") > -1;
-
-      if (hasWildMagicFeat && is1stLevelOrHigher) {
-
+      if (isValid(arg1)) {
         let chatData = {
           user: game.user.id,
           speaker: game.user,
