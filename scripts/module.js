@@ -22,7 +22,8 @@ Hooks.on("preRollItemBetterRolls", function (arg1, arg2, arg3) {
 
   try {
     //const arg = arguments[0].args[3][0];
-    const data = arg1[0].args[3][0];
+    //const data = arg1[0].args[3][0];
+    const data = arg1;
   
     const hasWildMagicFeat = data._actor.data.items.find(
         (a) => a.name === `Wild Magic Surge` && a.type === "feat"
