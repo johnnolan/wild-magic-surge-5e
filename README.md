@@ -11,7 +11,15 @@ This module adds a Chat message every time a player with the feat `Wild Magic Su
 
 I was getting fed up of having to remember whenever this occured so I created this small module to alert me.
 
-You have an option to change the default message in the module settings page should you wish.
+You have an option to change the default message in the module settings page should you wish among other options. See the configure section below for more details.
+
+## Configure
+
+This module gives you two ways of playing. 
+
+1. (Default) The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window.
+
+2. The additional option `Auto Roll d20 instead of just the prompt` will auto roll in the background for you and upon a `1` will show a prompt that a Wild Magic Surge has occured and that they should roll a d100. This message is configurable should you wish.
 
 ## Installation
 
