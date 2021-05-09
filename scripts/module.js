@@ -6,12 +6,69 @@ const OPT_CHAT_MSG = "magicSurgeChatMessage";
 const OPT_AUTO_D20 = "autoRollD20";
 const OPT_AUTO_D20_MSG = "autoRollD20Message";
 
+const SPELL_LIST_KEY_WORDS = [
+  "1st Level",
+  "2nd Level",
+  "3rd Level",
+  "4th Level",
+  "5th Level",
+  "6th Level",
+  "7th Level",
+  "8th Level",
+  "9th Level",
+  "10th Level",
+];
+
 function hasWildMagicFeat(actor) {
   return (
     actor.data.items.find(
       (a) => a.name === `Wild Magic Surge` && a.type === "feat"
     ) !== undefined
   );
+}
+
+function isASpell(content) {
+  return SPELL_LIST_KEY_WORDS.some((v) => content.includes(v));
+}
+
+function isANPC(actor) {
+  return actor ? actor.data.type === "npc" : false;
+}
+
+function isValid() {
+  const isASpell = isASpell(chatMessage.data.content);
+  const actor = game.actors.get(chatMessage.data.speaker.actor);
+  const hasWildMagicFeat = hasWildMagicFeat(actor);
+  const isNpc = isANPC(actor);
+
+  return (isASpell && !isNpc && hasWildMagicFeat);   
+}
+
+function wildMagicCheck(chatMessage) {
+  if (isValid(chatMessage)) {
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
+      runAutoCheck();
+    } else {
+      runMessageCheck();
+    }
+  }
+}
+
+function wildMagicSurgeRollCheck() {
+  let r = new Roll("1d20");
+  r.evaluate();
+  return r.total;
+}
+
+function runAutoCheck() {
+  const result = wildMagicSurgeRollCheck();
+  if (result === 1) {
+    sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
+  }
+}
+
+function runMessageCheck() {
+  sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
 }
 
 function sendChat(chatMessage) {
@@ -21,12 +78,6 @@ function sendChat(chatMessage) {
     content: `<div>${chatMessage.toString()}</div>`,
   };
   ChatMessage.create(chatData, {});
-}
-
-function wildMagicSurgeRollCheck() {
-  let r = new Roll("1d20");
-  r.evaluate();
-  return r.total;
 }
 
 Hooks.on("init", function () {
@@ -75,33 +126,7 @@ Hooks.on("ready", function () {
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  const spellList = [
-    "1st Level",
-    "2nd Level",
-    "3rd Level",
-    "4th Level",
-    "5th Level",
-    "6th Level",
-    "7th Level",
-    "8th Level",
-    "9th Level",
-    "10th Level",
-  ];
-
   if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
-    let isASpell = spellList.some((v) => chatMessage.data.content.includes(v));
-    let actor = game.actors.get(chatMessage.data.speaker.actor);
-    const isNpc = actor ? actor.data.type === "npc" : false;
-
-    if (isASpell && !isNpc && hasWildMagicFeat(actor)) {
-      if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-        const result = wildMagicSurgeRollCheck();
-        if (result === 1) {
-          sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
-        }
-      } else {
-        sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
-      }
-    }
+    wildMagicCheck(chatMessage);
   }
 });
