@@ -4,8 +4,6 @@
 [![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fendorsements)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
 [![Foundry Hub Comments](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fcomments)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
 
-
-
 # Wild Magic Surge 5e
 
 This module adds a Chat message every time a player with the feat `Wild Magic Surge` casts a `level 1 spell` or higher.
@@ -16,7 +14,7 @@ You have an option to change the default message in the module settings page sho
 
 ## Configure
 
-This module gives you two ways of playing. 
+This module gives you two ways of playing.
 
 1. (Default) The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window.
 
@@ -26,9 +24,9 @@ This module gives you two ways of playing.
 
 To install, follow these instructions:
 
-* Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
-* Click the Install Module button and enter the following URL: `https://github.com/johnnolan/wild-magic-surge-5e/releases/latest/download/module.json`
-* Click Install and wait for installation to complete.
+- Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
+- Click the Install Module button and enter the following URL: `https://github.com/johnnolan/wild-magic-surge-5e/releases/latest/download/module.json`
+- Click Install and wait for installation to complete.
 
 Alternatively, use the integrated module manager in Foundry.
 

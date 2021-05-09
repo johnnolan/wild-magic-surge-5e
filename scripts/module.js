@@ -1,45 +1,12 @@
-const MODULE_NAME = "Wild Magic Surge 5e";
-const MODULE_ID = "wild-magic-surge-5e";
-
-const OPT_ENABLE_CHECK = "enableMagicSurgeCheck";
-const OPT_CHAT_MSG = "magicSurgeChatMessage";
-const OPT_AUTO_D20 = "autoRollD20";
-const OPT_AUTO_D20_MSG = "autoRollD20Message";
-
-function hasWildMagicFeat(data) {
-  return (
-    data._actor.data.items.find(
-      (a) => a.name === `Wild Magic Surge` && a.type === "feat"
-    ) !== undefined
-  );
-}
-
-function is1stLevelOrHigherSpell(data) {
-  return data._item.labels.level.indexOf(" Level") > -1;
-}
-
-function actorName(data) {
-  return data._actor.data.name;
-}
-
-function isValid(data) {
-  return hasWildMagicFeat(data) && is1stLevelOrHigherSpell(data);
-}
-
-function sendChat(chatMessage) {
-  let chatData = {
-    user: game.user.id,
-    speaker: game.user,
-    content: `<div>${chatMessage.toString()}</div>`,
-  };
-  ChatMessage.create(chatData, {});
-}
-
-function wildMagicSurgeRollCheck() {
-  let r = new Roll("1d20");
-  r.evaluate();
-  return r.total;
-}
+import {
+  MODULE_NAME,
+  MODULE_ID,
+  OPT_ENABLE_CHECK,
+  OPT_CHAT_MSG,
+  OPT_AUTO_D20,
+  OPT_AUTO_D20_MSG,
+} from "./Settings.js";
+import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
@@ -86,21 +53,8 @@ Hooks.on("ready", function () {
   console.log(`Successfully loaded ${MODULE_NAME}`);
 });
 
-Hooks.on("preRollItemBetterRolls", function (arg1, arg2, arg3) {
-  try {
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
-      if (isValid(arg1)) {
-        if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const result = wildMagicSurgeRollCheck();
-          if (result === 1) {
-            sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
-          }
-        } else {
-          sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
-        }
-      }
-    }
-  } catch (e) {
-    console.error(`${MODULE_NAME}`, e);
+Hooks.on("createChatMessage", (chatMessage) => {
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
+    WildMagicCheck(chatMessage);
   }
 });

@@ -1,0 +1,19 @@
+{
+  "name": "wild-magic-surge-5e",
+  "description": "FoundryVTT module for automated Wild Magic Surge Feat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:johnnolan/foundryvtt-wild-magic.git",
+  "author": "John Nolan <me@johnnolan.dev>",
+  "license": "MIT",
+  "scripts": {
+    "lint:check": "eslint --ignore-path .gitignore ."
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1"
+  }
+}
