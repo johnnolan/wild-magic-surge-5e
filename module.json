@@ -16,10 +16,6 @@
   ],
   "dependencies": [
     {
-      "name": "betterrolls5e",
-      "manifest": "https://github.com/RedReign/FoundryVTT-BetterRolls5e/releases/download/v1.4.7/module.json"
-    },
-    {
       "name": "dnd5e",
       "type": "system"
     }

@@ -6,24 +6,12 @@ const OPT_CHAT_MSG = "magicSurgeChatMessage";
 const OPT_AUTO_D20 = "autoRollD20";
 const OPT_AUTO_D20_MSG = "autoRollD20Message";
 
-function hasWildMagicFeat(data) {
+function hasWildMagicFeat(actor) {
   return (
-    data._actor.data.items.find(
+    actor.data.items.find(
       (a) => a.name === `Wild Magic Surge` && a.type === "feat"
     ) !== undefined
   );
-}
-
-function is1stLevelOrHigherSpell(data) {
-  return data._item.labels.level.indexOf(" Level") > -1;
-}
-
-function actorName(data) {
-  return data._actor.data.name;
-}
-
-function isValid(data) {
-  return hasWildMagicFeat(data) && is1stLevelOrHigherSpell(data);
 }
 
 function sendChat(chatMessage) {
@@ -86,21 +74,34 @@ Hooks.on("ready", function () {
   console.log(`Successfully loaded ${MODULE_NAME}`);
 });
 
-Hooks.on("preRollItemBetterRolls", function (arg1, arg2, arg3) {
-  try {
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
-      if (isValid(arg1)) {
-        if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const result = wildMagicSurgeRollCheck();
-          if (result === 1) {
-            sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
-          }
-        } else {
-          sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
+Hooks.on("createChatMessage", (chatMessage) => {
+  const spellList = [
+    "1st Level",
+    "2nd Level",
+    "3rd Level",
+    "4th Level",
+    "5th Level",
+    "6th Level",
+    "7th Level",
+    "8th Level",
+    "9th Level",
+    "10th Level",
+  ];
+
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
+    let isASpell = spellList.some((v) => chatMessage.data.content.includes(v));
+    let actor = game.actors.get(chatMessage.data.speaker.actor);
+    const isNpc = actor ? actor.data.type === "npc" : false;
+
+    if (isASpell && !isNpc && hasWildMagicFeat(actor)) {
+      if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
+        const result = wildMagicSurgeRollCheck();
+        if (result === 1) {
+          sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
         }
+      } else {
+        sendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
       }
     }
-  } catch (e) {
-    console.error(`${MODULE_NAME}`, e);
   }
 });
