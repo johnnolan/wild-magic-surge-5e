@@ -34,6 +34,13 @@ function parseNpc(actor) {
 }
 
 function isValid(chatMessage) {
+  if (
+    chatMessage.data.speaker === undefined ||
+    chatMessage.data.speaker.actor === undefined
+  ) {
+    return false;
+  }
+
   const isASpell = parseSpell(chatMessage.data.content);
   const actor = game.actors.get(chatMessage.data.speaker.actor);
   const hasWildMagicFeat = parseWildMagicFeat(actor);
