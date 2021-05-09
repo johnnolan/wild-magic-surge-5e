@@ -1,0 +1,10 @@
+{
+    "extends": ["prettier"],
+    "plugins": ["prettier"],
+    "rules": {
+        "semi": true,
+        "trailingComma": "all",
+        "singleQuote": true,
+        "printWidth": 70
+    }
+}
