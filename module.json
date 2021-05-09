@@ -20,16 +20,10 @@
       "type": "system"
     }
   ],
-  "conflicts": [
-    
-  ],
-  "esmodules": [
-    "/scripts/module.js"
-  ],
-  "scripts": [
-  ],
-  "styles": [
-  ],
+  "conflicts": [],
+  "esmodules": ["/scripts/module.js"],
+  "scripts": [],
+  "styles": [],
   "languages": [
     {
       "lang": "en",
