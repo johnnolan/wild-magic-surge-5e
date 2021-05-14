@@ -96,7 +96,7 @@ Hooks.on("init", function () {
       "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
     scope: "world",
     config: true,
-    default: "Wild Magic Surge 5e",
+    default: "Wild Magic Surge 5e (PHB)",
     type: String,
   });
 });

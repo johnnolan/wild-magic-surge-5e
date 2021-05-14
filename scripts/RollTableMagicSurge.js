@@ -1,4 +1,8 @@
-import { OPT_ROLLTABLE_ENABLE, OPT_ROLLTABLE_NAME } from "./Settings.js";
+import {
+  OPT_ROLLTABLE_ENABLE,
+  OPT_ROLLTABLE_NAME,
+  MODULE_ID,
+} from "./Settings.js";
 
 export async function RollTableMagicSurge() {
   if (
