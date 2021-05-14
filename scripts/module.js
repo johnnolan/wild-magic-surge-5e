@@ -17,9 +17,8 @@ Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
 
   game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`, {
-    name: "Enable Wild Magic Surge Check",
-    hint:
-      "Enables sending a message to the chat window upon a 1st level or higher spell being cast",
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_check_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_check_hint"),
     scope: "world",
     config: true,
     default: true,
@@ -27,8 +26,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_CHAT_MSG}`, {
-    name: "Text to show in chat",
-    hint: "Enter custom message in chat box",
+    name: game.i18n.format("WildMagicSurge5E.opt_chat_msg_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_chat_msg_hint"),
     scope: "world",
     config: true,
     default: "Wild Magic Check - Roll a D20",
@@ -36,8 +35,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20}`, {
-    name: "Auto Roll d20 instead of just the prompt",
-    hint: "Auto roll a d20 and show the result.",
+    name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_hint"),
     scope: "world",
     config: true,
     default: false,
@@ -45,8 +44,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`, {
-    name: "Text to show in chat with Auto d20 roll.",
-    hint: "On a roll of 1 using the auto roll d20 feature, show this message.",
+    name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_hint"),
     scope: "world",
     config: true,
     default: "Wild Magic Surge! Roll a D100!",
@@ -54,9 +53,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`, {
-    name: "Text to show in chat with Auto d20 roll and no surge happens.",
-    hint:
-      "On a roll of > 1 using the auto roll d20 feature, show this message.",
+    name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_no_surge_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint"),
     scope: "world",
     config: true,
     default: "No wild magic surge",
@@ -64,8 +62,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`, {
-    name: "Enable Tides of Chaos auto recharge",
-    hint: "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs",
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_toc_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_toc_hint"),
     scope: "world",
     config: true,
     default: false,
@@ -73,8 +71,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_TOC_RECHARGE_MSG}`, {
-    name: "Tides of Chaos recharge message",
-    hint: "Tides of Chaos recharge message",
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_toc_recharge_msg_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_toc_recharge_msg_hint"),
     scope: "world",
     config: true,
     default: "Tides of Chaos Recharged",
@@ -82,8 +80,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`, {
-    name: "Enable Auto Roll on a Wild Magic Surge Table",
-    hint: "Enable Auto Roll on a Wild Magic Surge Table",
+    name: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_hint"),
     scope: "world",
     config: true,
     default: false,
@@ -91,9 +89,8 @@ Hooks.on("init", function () {
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`, {
-    name: "Wild Magic Surge Table",
-    hint:
-      "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
+    name: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_hint"),
     scope: "world",
     config: true,
     default: "Wild Magic Surge 5e (PHB)",

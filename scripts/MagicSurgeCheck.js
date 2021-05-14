@@ -23,7 +23,7 @@ export function WildMagicCheck(chatMessage) {
 function parseWildMagicFeat(actor) {
   return (
     actor.data.items.find(
-      (a) => a.name === `Wild Magic Surge` && a.type === "feat"
+      (a) => a.name === "Wild Magic Surge" && a.type === "feat"
     ) !== undefined
   );
 }
@@ -46,6 +46,9 @@ function isValid(chatMessage) {
 
   const isASpell = parseSpell(chatMessage.data.content);
   const actor = game.actors.get(chatMessage.data.speaker.actor);
+  if (actor === null) {
+    return false;
+  }
   const hasWildMagicFeat = parseWildMagicFeat(actor);
   const isNpc = parseNpc(actor);
 
