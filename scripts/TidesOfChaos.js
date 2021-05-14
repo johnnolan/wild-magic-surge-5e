@@ -7,7 +7,7 @@ export async function TidesOfChaos(actor) {
   }
 
   const tidesItem = actor.data.items.find(
-    (a) => a.name === `Tides of Chaos` && a.type === "feat"
+    (a) => a.name === "Tides of Chaos" && a.type === "feat"
   );
 
   if (tidesItem === undefined) {
