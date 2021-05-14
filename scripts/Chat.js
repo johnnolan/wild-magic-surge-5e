@@ -1,8 +1,8 @@
-export function SendChat(chatMessage) {
+export async function SendChat(message, result = "") {
   let chatData = {
     user: game.user.id,
     speaker: game.user,
-    content: `<div>${chatMessage.toString()}</div>`,
+    content: `<div>${message} ${result}</div>`,
   };
-  ChatMessage.create(chatData, {});
+  return ChatMessage.create(chatData, {});
 }

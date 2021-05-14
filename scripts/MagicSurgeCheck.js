@@ -3,14 +3,16 @@ import {
   OPT_CHAT_MSG,
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
+  OPT_AUTO_D20_MSG_NO_SURGE,
   SPELL_LIST_KEY_WORDS,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
+import { TidesOfChaos } from "./TidesOfChaos.js";
 
 export function WildMagicCheck(chatMessage) {
   if (isValid(chatMessage)) {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      runAutoCheck();
+      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor));
     } else {
       runMessageCheck();
     }
@@ -55,10 +57,19 @@ function wildMagicSurgeRollCheck() {
   return r.total;
 }
 
-function runAutoCheck() {
+function runAutoCheck(actor) {
   const result = wildMagicSurgeRollCheck();
   if (result === 1) {
-    SendChat(game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`));
+    SendChat(
+      game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
+      `[[/r ${result} #1d20 result]]`
+    );
+    TidesOfChaos(actor);
+  } else {
+    SendChat(
+      game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
+      `[[/r ${result} #1d20 result]]`
+    );
   }
 }
 
