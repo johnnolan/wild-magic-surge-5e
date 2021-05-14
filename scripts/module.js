@@ -8,6 +8,8 @@ import {
   OPT_AUTO_D20_MSG_NO_SURGE,
   OPT_ENABLE_TOC,
   OPT_TOC_RECHARGE_MSG,
+  OPT_ROLLTABLE_ENABLE,
+  OPT_ROLLTABLE_NAME,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
@@ -76,6 +78,25 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "Tides of Chaos Recharged",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`, {
+    name: "Enable Auto Roll on a Wild Magic Surge Table",
+    hint: "Enable Auto Roll on a Wild Magic Surge Table",
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`, {
+    name: "Wild Magic Surge Table",
+    hint:
+      "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
+    scope: "world",
+    config: true,
+    default: "Wild Magic Surge 5e",
     type: String,
   });
 });

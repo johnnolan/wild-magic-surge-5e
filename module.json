@@ -20,6 +20,15 @@
       "type": "system"
     }
   ],
+  "packs": [
+    {
+      "name": "wild-magic-surge-5e-phb",
+      "label": "Wild Magic Surge 5e (PHB)",
+      "path": "packs/wild-magic-surge-5e-phb.db",
+      "module": "wild-magic-surge-5e",
+      "entity": "RollTable"
+    }
+  ],
   "conflicts": [],
   "esmodules": ["/scripts/module.js"],
   "scripts": [],
