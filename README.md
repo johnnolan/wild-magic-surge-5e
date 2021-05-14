@@ -32,8 +32,4 @@ Alternatively, use the integrated module manager in Foundry.
 
 ## Requirements
 
-This module requires `betterrolls5e` and the `dnd5e` game system to work. Your character will also need to have a `Feat` set in their character called `Wild Magic Surge`.
-
-I will look to remove dependencies in the future and make this more configurable as I level up in Foundry.
-
-This module should prompt you on install if you don't have these dependencies installed.
+This module requires the `dnd5e` game system to work. Your character will also need to have a `Feat` set in their character called `Wild Magic Surge`.
