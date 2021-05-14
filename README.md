@@ -6,19 +6,37 @@
 
 # Wild Magic Surge 5e
 
-This module adds a Chat message every time a player with the feat `Wild Magic Surge` casts a `level 1 spell` or higher.
+This module provide various bits of functionalityto help automate the `Wild Magic Surge` feat when casting a `level 1 spell` or higher.
 
-I was getting fed up of having to remember whenever this occured so I created this small module to alert me.
-
-You have an option to change the default message in the module settings page should you wish among other options. See the configure section below for more details.
+Included is a basic prompt, Tides of Chaos recharge, custom d100 tables and fully automated rolling. See below for all the options available.
 
 ## Configure
 
 This module gives you two ways of playing.
 
-1. (Default) The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window.
+### Default
 
-2. The additional option `Auto Roll d20 instead of just the prompt` will auto roll in the background for you and upon a `1` will show a prompt that a Wild Magic Surge has occured and that they should roll a d100. This message is configurable should you wish.
+The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window. _This is enabled by default and should always be checked, even to enable the automatic options._
+
+### Auto Roll d20 instead of just the prompt
+
+The additional option `Auto Roll d20 instead of just the prompt` will auto roll in the background for you post automatically the result in the Chat.
+
+Upon a `1` it will show a prompt that a Wild Magic Surge has occured and that they should roll a d100. This message is configurable should you wish.
+
+### Enable Auto Roll on a Wild Magic Surge Table
+
+This option takes things a step further and will auto roll a `d100` on a roll of `1` on the previous auto roll option.
+
+You can configure a Custom Roll Table by replacing the default name in the settings with your own version.
+
+Should you wish, there is also included a Roll Table with the `Wild Magic Surge 5e Player Handbook` settings.
+
+You can add this to your Roll Table collection by going to the `Compendium Pack` section called `Wild Magic Surge 5e (PHB)` in the `RollTable` section. Open this up and choose `import` to add it.
+
+### Tides of Chaos Recharge
+
+Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically. 
 
 ## Installation
 

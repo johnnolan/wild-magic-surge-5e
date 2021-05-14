@@ -8,6 +8,7 @@ import {
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
+import { RollTableMagicSurge } from "./RollTableMagicSurge.js";
 
 export function WildMagicCheck(chatMessage) {
   if (isValid(chatMessage)) {
@@ -65,6 +66,7 @@ function runAutoCheck(actor) {
       `[[/r ${result} #1d20 result]]`
     );
     TidesOfChaos(actor);
+    RollTableMagicSurge();
   } else {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
