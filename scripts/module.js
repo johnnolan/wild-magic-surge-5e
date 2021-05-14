@@ -5,6 +5,9 @@ import {
   OPT_CHAT_MSG,
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
+  OPT_AUTO_D20_MSG_NO_SURGE,
+  OPT_ENABLE_TOC,
+  OPT_TOC_RECHARGE_MSG,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
@@ -45,6 +48,34 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "Wild Magic Surge! Roll a D100!",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`, {
+    name: "Text to show in chat with Auto d20 roll and no surge happens.",
+    hint:
+      "On a roll of > 1 using the auto roll d20 feature, show this message.",
+    scope: "world",
+    config: true,
+    default: "No wild magic surge",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`, {
+    name: "Enable Tides of Chaos auto recharge",
+    hint: "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs",
+    scope: "world",
+    config: true,
+    default: true,
+    type: Boolean,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TOC_RECHARGE_MSG}`, {
+    name: "Tides of Chaos recharge message",
+    hint: "Tides of Chaos recharge message",
+    scope: "world",
+    config: true,
+    default: "Tides of Chaos Recharged",
     type: String,
   });
 });
