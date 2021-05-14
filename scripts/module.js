@@ -68,7 +68,7 @@ Hooks.on("init", function () {
     hint: "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs",
     scope: "world",
     config: true,
-    default: true,
+    default: false,
     type: Boolean,
   });
 
