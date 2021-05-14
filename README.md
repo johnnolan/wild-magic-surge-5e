@@ -10,6 +10,18 @@ This module provide various bits of functionalityto help automate the `Wild Magi
 
 Included is a basic prompt, Tides of Chaos recharge, custom d100 tables and fully automated rolling. See below for all the options available.
 
+## Installation
+
+To install, follow these instructions:
+
+- Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
+- Click the Install Module button and enter the following URL: `https://github.com/johnnolan/wild-magic-surge-5e/releases/latest/download/module.json`
+- Click Install and wait for installation to complete.
+
+Alternatively, use the integrated module manager in Foundry.
+
+Foundry modules page: [https://foundryvtt.com/packages/wild-magic-surge-5e](https://foundryvtt.com/packages/wild-magic-surge-5e)
+
 ## Configure
 
 This module gives you two ways of playing.
@@ -38,16 +50,12 @@ You can add this to your Roll Table collection by going to the `Compendium Pack`
 
 Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically. 
 
-## Installation
-
-To install, follow these instructions:
-
-- Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
-- Click the Install Module button and enter the following URL: `https://github.com/johnnolan/wild-magic-surge-5e/releases/latest/download/module.json`
-- Click Install and wait for installation to complete.
-
-Alternatively, use the integrated module manager in Foundry.
-
 ## Requirements
 
 This module requires the `dnd5e` game system to work. Your character will also need to have a `Feat` set in their character called `Wild Magic Surge`.
+
+## Contact
+
+For issues, please raise a bug in Github giving as much detail as you can. I will try and fix things depending on fatherhood responsibilities [https://github.com/johnnolan/wild-magic-surge-5e/issues](https://github.com/johnnolan/wild-magic-surge-5e/issues)
+
+You can also find me lurking around on the Foundry VTT Discord [https://discord.gg/foundryvtt](https://discord.gg/foundryvtt). My Discord Tag is `JB#2780`.
