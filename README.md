@@ -30,6 +30,10 @@ This module gives you two ways of playing.
 
 The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window. _This is enabled by default and should always be checked, even to enable the automatic options._
 
+### Whisper chat results to GM
+
+Whisper the results of the rolls in case you want to be a nice GM and fudge the rolls.
+
 ### Auto Roll d20 instead of just the prompt
 
 The additional option `Auto Roll d20 instead of just the prompt` will auto roll in the background for you post automatically the result in the Chat.
