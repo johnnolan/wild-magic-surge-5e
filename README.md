@@ -66,5 +66,5 @@ For issues, please raise a bug in Github giving as much detail as you can. I wil
 
 You can also find me lurking around on the Foundry VTT Discord [https://discord.gg/foundryvtt](https://discord.gg/foundryvtt). My Discord Tag is `JB#2780`.
 
-[buymeacoffee-shield]: https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/master/images/badges/buymeacoffee.png
+[buymeacoffee-shield]: https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/badges/buymeacoffee.png
 [buymeacoffee]: https://www.buymeacoffee.com/johnnolandev
