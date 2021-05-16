@@ -1,6 +1,8 @@
 export const MODULE_NAME = "Wild Magic Surge 5e";
 export const MODULE_ID = "wild-magic-surge-5e";
 
+export const OPT_WHISPER_GM = "whisperToGM";
+
 export const OPT_ROLLTABLE_ENABLE = "enableRollTable";
 export const OPT_ROLLTABLE_NAME = "rollTableName";
 

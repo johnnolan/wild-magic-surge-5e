@@ -10,6 +10,7 @@ import {
   OPT_TOC_RECHARGE_MSG,
   OPT_ROLLTABLE_ENABLE,
   OPT_ROLLTABLE_NAME,
+  OPT_WHISPER_GM,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
@@ -22,6 +23,15 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: true,
+    type: Boolean,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_hint"),
+    scope: "world",
+    config: true,
+    default: false,
     type: Boolean,
   });
 

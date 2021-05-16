@@ -2,6 +2,9 @@
   "WildMagicSurge5E.opt_enable_check_name": "Enable Wild Magic Surge Check",
   "WildMagicSurge5E.opt_enable_check_hint": "Enables sending a message to the chat window upon a 1st level or higher spell being cast.",
 
+  "WildMagicSurge5E.opt_whisper_gm_name": "Whisper chat results to GM",
+  "WildMagicSurge5E.opt_whisper_gm_hint": "When enabled, all messages are sent as Blind GM messages instead of from the player.",
+
   "WildMagicSurge5E.opt_chat_msg_name": "Text to show in chat",
   "WildMagicSurge5E.opt_chat_msg_hint": "Enter custom message in chat box.",
 
