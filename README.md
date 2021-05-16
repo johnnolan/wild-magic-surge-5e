@@ -4,6 +4,8 @@
 [![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fendorsements)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
 [![Foundry Hub Comments](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fcomments)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
 
+[![Buy me a coffee][buymeacoffee-shield]][buymeacoffee]
+
 # Wild Magic Surge 5e
 
 This module provide various bits of functionalityto help automate the `Wild Magic Surge` feat when casting a `level 1 spell` or higher.
@@ -52,7 +54,7 @@ You can add this to your Roll Table collection by going to the `Compendium Pack`
 
 ### Tides of Chaos Recharge
 
-Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically. 
+Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically.
 
 ## Requirements
 
@@ -63,3 +65,6 @@ This module requires the `dnd5e` game system to work. Your character will also n
 For issues, please raise a bug in Github giving as much detail as you can. I will try and fix things depending on fatherhood responsibilities [https://github.com/johnnolan/wild-magic-surge-5e/issues](https://github.com/johnnolan/wild-magic-surge-5e/issues)
 
 You can also find me lurking around on the Foundry VTT Discord [https://discord.gg/foundryvtt](https://discord.gg/foundryvtt). My Discord Tag is `JB#2780`.
+
+[buymeacoffee-shield]: https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/master/images/badges/buymeacoffee.png
+[buymeacoffee]: https://www.buymeacoffee.com/johnnolandev
