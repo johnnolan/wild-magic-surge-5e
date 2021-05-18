@@ -44,6 +44,10 @@ function isValid(chatMessage) {
     return false;
   }
 
+  if (chatMessage.data.user !== game.user.id) {
+    return false;
+  }
+
   const isASpell = parseSpell(chatMessage.data.content);
   const actor = game.actors.get(chatMessage.data.speaker.actor);
   if (actor === null) {
