@@ -14,7 +14,20 @@ export async function TidesOfChaos(actor) {
     return;
   }
 
-  const resourceName = tidesItem.data.data.consume.target;
+  let isLolDataData = false;
+
+  let resourceName;
+  if (tidesItem.data) {
+    if (tidesItem.data.consume) {
+      // Cannot tell if this is version 8 api change or a module moving the data
+      isLolDataData = true;
+      resourceName = `${tidesItem.data.consume.target}`;
+    } else {
+      resourceName = tidesItem.data.data.consume.target;
+    }
+  }
+
+  if (!resourceName) return false;
 
   let updates = [];
   updates.push({
@@ -23,6 +36,12 @@ export async function TidesOfChaos(actor) {
     "data.recharge.charged": true,
   });
 
-  await actor.update({ data: { [resourceName]: 1 }, items: updates });
+  if (isLolDataData) {
+    await actor.updateEmbeddedEntity("OwnedItem", updates);
+  } else {
+    await actor.update({ items: updates });
+  }
+  await actor.update({ data: { [`${resourceName}`]: 1 } });
+
   SendChat(game.settings.get(`${MODULE_ID}`, `${OPT_TOC_RECHARGE_MSG}`));
 }
