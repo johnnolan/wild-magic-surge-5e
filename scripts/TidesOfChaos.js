@@ -17,7 +17,7 @@ export async function TidesOfChaos(actor) {
   let updates = [];
 
   // If betterRolls5e is enabled, set the following to ensure the spell recharges
-  if (tidesItem.flags["betterRolls5e"] !== undefined) {
+  if (tidesItem.flags["betterRolls5e"]) {
     updates.push({
       _id: tidesItem._id,
       "data.uses.value": 1,

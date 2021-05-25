@@ -3,6 +3,7 @@ import {
   OPT_ROLLTABLE_NAME,
   MODULE_ID,
 } from "./Settings.js";
+import { SendRollTable } from "./Chat.js";
 
 export async function RollTableMagicSurge() {
   if (
@@ -15,5 +16,8 @@ export async function RollTableMagicSurge() {
   const surgeRollTable = game.tables.entities.find(
     (t) => t.name === game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`)
   );
-  surgeRollTable.draw();
+
+  surgeRollTable.roll().then((result) => {
+    SendRollTable(result, surgeRollTable);
+  });
 }
