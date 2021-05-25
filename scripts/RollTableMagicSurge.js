@@ -17,7 +17,12 @@ export async function RollTableMagicSurge() {
     (t) => t.name === game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`)
   );
 
-  surgeRollTable.roll().then((result) => {
-    SendRollTable(result, surgeRollTable);
-  });
+  // TODO: Remove in final v0.8 release
+  if (parseInt(game.data.version.replaceAll(".", "")) > 80) {
+    surgeRollTable.roll().then((result) => {
+      SendRollTable(result, surgeRollTable);
+    });
+  } else {
+    surgeRollTable.draw();
+  }
 }
