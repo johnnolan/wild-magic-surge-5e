@@ -14,29 +14,34 @@ export async function TidesOfChaos(actor) {
     return;
   }
 
-  let updates = [];
+  let isLolDataData = false;
 
-  // If betterRolls5e is enabled, set the following to ensure the spell recharges
-  if (tidesItem.flags["betterRolls5e"] !== undefined) {
-    updates.push({
-      _id: tidesItem._id,
-      "data.uses.value": 1,
-      "data.recharge.charged": true,
-      "flags.betterRolls5e.quickCharges.value.use": false,
-      "flags.betterRolls5e.quickCharges.value.resource": false,
-      "flags.betterRolls5e.quickCharges.value.charge": true,
-      "flags.betterRolls5e.quickCharges.altValue.use": false,
-      "flags.betterRolls5e.quickCharges.altValue.resource": false,
-      "flags.betterRolls5e.quickCharges.altValue.charge": true,
-    });
-  } else {
-    updates.push({
-      _id: tidesItem._id,
-      "data.uses.value": 1,
-      "data.recharge.charged": true,
-    });
+  let resourceName;
+  if (tidesItem.data) {
+    if (tidesItem.data.consume) {
+      // Cannot tell if this is version 8 api change or a module moving the data
+      isLolDataData = true;
+      resourceName = `${tidesItem.data.consume.target}`;
+    } else {
+      resourceName = tidesItem.data.data.consume.target;
+    }
   }
 
-  await actor.updateEmbeddedEntity("OwnedItem", updates);
+  if (!resourceName) return false;
+
+  let updates = [];
+  updates.push({
+    _id: tidesItem._id,
+    "data.uses.value": 1,
+    "data.recharge.charged": true,
+  });
+
+  if (isLolDataData) {
+    await actor.updateEmbeddedEntity("OwnedItem", updates);
+  } else {
+    await actor.update({ items: updates });
+  }
+  await actor.update({ data: { [`${resourceName}`]: 1 } });
+
   SendChat(game.settings.get(`${MODULE_ID}`, `${OPT_TOC_RECHARGE_MSG}`));
 }

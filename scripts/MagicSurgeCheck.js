@@ -5,6 +5,7 @@ import {
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
   SPELL_LIST_KEY_WORDS,
+  OPT_WHISPER_GM,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
@@ -37,15 +38,20 @@ function parseNpc(actor) {
 }
 
 function isValid(chatMessage) {
-  if (
-    chatMessage.data.speaker === undefined ||
-    chatMessage.data.speaker.actor === undefined
-  ) {
+  if (!chatMessage.data.speaker || !chatMessage.data.speaker.actor) {
     return false;
   }
 
-  if (chatMessage.data.user !== game.user.id) {
-    return false;
+  const whisperToGM = game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`);
+  // If whisper is set
+  if (whisperToGM) {
+    // Make sure it is the GM who sends the message
+    if (!game.user.isGM) return false;
+  }
+  // If its just a public message
+  else {
+    // Make sure the player who rolled sends the message
+    if (chatMessage.data.user !== game.user.id) return false;
   }
 
   const isASpell = parseSpell(chatMessage.data.content);
