@@ -18,7 +18,7 @@ export async function RollTableMagicSurge() {
   );
 
   // TODO: Remove in final v0.8 release
-  if (parseInt(game.data.version.replaceAll(".", "")) > 80) {
+  if (parseInt(game.data.version.replace(/./g, '')) > 80) {
     surgeRollTable.roll().then((result) => {
       SendRollTable(result, surgeRollTable);
     });
