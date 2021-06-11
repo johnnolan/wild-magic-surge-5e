@@ -49,10 +49,6 @@ This option takes things a step further and will auto roll a `d100` on a roll of
 
 You can configure a Custom Roll Table by replacing the default name in the settings with your own version.
 
-Should you wish, there is also included a Roll Table with the `Wild Magic Surge 5e Player Handbook` settings.
-
-You can add this to your Roll Table collection by going to the `Compendium Pack` section called `Wild Magic Surge 5e (PHB)` in the `RollTable` section. Open this up and choose `import` to add it.
-
 ### Tides of Chaos Recharge
 
 Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically.
