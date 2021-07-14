@@ -9,7 +9,6 @@ import {
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
-  ROLL_COMPARISON,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
