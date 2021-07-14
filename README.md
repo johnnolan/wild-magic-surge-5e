@@ -11,9 +11,54 @@
 
 # Wild Magic Surge 5e
 
-This module provide various bits of functionalityto help automate the `Wild Magic Surge` feat when casting a `level 1 spell` or higher.
+This module provide various bits of functionality to help automate the `Wild Magic Surge` feat.
 
-Included is a basic prompt, Tides of Chaos recharge, custom d100 tables and fully automated rolling. See below for all the options available.
+## Features
+
+- Prompt to roll on a 1st level or higher spell slot used with the `Wild Magic Surge` feat
+- Whisper results to GM
+- Auto roll for Wild Magic Surge
+- Auto roll Custom Roll Table for effect
+- `Tides of Chaos` auto recharge
+- Custom dice roll check for surge (default is `1d20` and a roll of `1`)
+
+## Options
+
+[![Settings](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
+
+### Whisper chat results to GM
+
+Whisper all message to the GM in case you want to be nice and fudge the rolls.
+
+### Auto Roll a check for Wild Magic Surge instead of just a reminder to roll
+
+The additional option `Auto Roll for a Wild Magic Surge instead of just the prompt` will auto roll in the background for you and post the result in the Chat.
+
+Based on your settings, it will show a prompt that a `Wild Magic Surge` has occured or not.
+
+This message is configurable should you wish.
+
+### Enable Auto Roll on a Wild Magic Surge Table
+
+This option takes things a step further and will roll a Roll Table on a `Wild Magic Surge`.
+
+You can configure a Custom Roll Table by replacing the default name in the settings with your own version.
+
+### Tides of Chaos Recharge
+
+Another option allows you to recharge `Tides of Chaos` automatically on a `Wild Magic Surge`.
+
+### Dice Formula
+
+Set a custom dice formula you want to roll to check for a `Wild Magic Surge`. The default is `1d20`.
+
+### The target result of the dice roll
+
+What is the dice roll result you want to check against. The default is `1`.
+
+### Roll result boolean expression
+
+Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the `Wild Magic Surge`. The default is `=`.
 
 ## Installation
 
@@ -26,34 +71,6 @@ To install, follow these instructions:
 Alternatively, use the integrated module manager in Foundry.
 
 Foundry modules page: [https://foundryvtt.com/packages/wild-magic-surge-5e](https://foundryvtt.com/packages/wild-magic-surge-5e)
-
-## Configure
-
-This module gives you two ways of playing.
-
-### Default
-
-The first option is to show a prompt every time a player uses a 1st level or higher spell in the chat window. _This is enabled by default and should always be checked, even to enable the automatic options._
-
-### Whisper chat results to GM
-
-Whisper the results of the rolls in case you want to be a nice GM and fudge the rolls.
-
-### Auto Roll d20 instead of just the prompt
-
-The additional option `Auto Roll d20 instead of just the prompt` will auto roll in the background for you post automatically the result in the Chat.
-
-Upon a `1` it will show a prompt that a Wild Magic Surge has occured and that they should roll a d100. This message is configurable should you wish.
-
-### Enable Auto Roll on a Wild Magic Surge Table
-
-This option takes things a step further and will auto roll a `d100` on a roll of `1` on the previous auto roll option.
-
-You can configure a Custom Roll Table by replacing the default name in the settings with your own version.
-
-### Tides of Chaos Recharge
-
-Another option allows you to, on a roll of `1`, recharge Tides of Chaos automatically.
 
 ## Requirements
 
