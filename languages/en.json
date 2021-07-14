@@ -8,14 +8,14 @@
   "WildMagicSurge5E.opt_chat_msg_name": "Text to show in chat",
   "WildMagicSurge5E.opt_chat_msg_hint": "Enter custom message in chat box.",
 
-  "WildMagicSurge5E.opt_auto_d20_name": "Auto Roll d20 instead of just the prompt",
-  "WildMagicSurge5E.opt_auto_d20_hint": "Auto roll a d20 and show the result.",
+  "WildMagicSurge5E.opt_auto_d20_name": "Auto Roll for a Wild Magic Surge instead of just the prompt",
+  "WildMagicSurge5E.opt_auto_d20_hint": "Auto roll the dice and show the result.",
 
-  "WildMagicSurge5E.opt_auto_d20_msg_name": "Text to show in chat with Auto d20 roll",
-  "WildMagicSurge5E.opt_auto_d20_msg_hint": "On a roll of 1 using the auto roll d20 feature, show this message.",
+  "WildMagicSurge5E.opt_auto_d20_msg_name": "Text to show in chat with Auto Wild Magic Surge roll",
+  "WildMagicSurge5E.opt_auto_d20_msg_hint": "On a Wild Magic Surge, show this message.",
 
-  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Text to show in chat with Auto d20 roll and no surge happens",
-  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint": "On a roll of > 1 using the auto roll d20 feature, show this message.",
+  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Text to show in chat with Auto Wild Magic Surge roll and no surge happens",
+  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint": "On a failed auto Wild Magic Surge roll, show this message.",
 
   "WildMagicSurge5E.opt_enable_toc_name": "Enable Tides of Chaos auto recharge",
   "WildMagicSurge5E.opt_enable_toc_hint": "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs.",
@@ -27,5 +27,14 @@
   "WildMagicSurge5E.opt_rolltable_enabled_hint": "Enable Auto Roll on a Wild Magic Surge Table.",
 
   "WildMagicSurge5E.opt_rolltable_name_name": "Wild Magic Surge Table",
-  "WildMagicSurge5E.opt_rolltable_name_hint": "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table."
+  "WildMagicSurge5E.opt_rolltable_name_hint": "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
+
+  "WildMagicSurge5E.opt_custom_roll_dice_formula_name": "Dice Formula",
+  "WildMagicSurge5E.opt_custom_roll_dice_formula_hint": "Set the dice formula you want to roll. The default is 1d20.",
+
+  "WildMagicSurge5E.opt_custom_roll_result_name": "The target result of the dice roll",
+  "WildMagicSurge5E.opt_custom_roll_result_hint": "What is the dice roll result you want to check against.",
+
+  "WildMagicSurge5E.opt_custom_roll_result_check_name": "Roll result boolean expression",
+  "WildMagicSurge5E.opt_custom_roll_result_check_hint": "Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the Wild Magic Surge."
 }

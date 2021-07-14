@@ -6,6 +6,10 @@ import {
   OPT_AUTO_D20_MSG_NO_SURGE,
   SPELL_LIST_KEY_WORDS,
   OPT_WHISPER_GM,
+  OPT_CUSTOM_ROLL_DICE_FORMULA,
+  OPT_CUSTOM_ROLL_RESULT,
+  OPT_CUSTOM_ROLL_RESULT_CHECK,
+  ROLL_COMPARISON,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
@@ -66,24 +70,53 @@ function isValid(chatMessage) {
 }
 
 function wildMagicSurgeRollCheck() {
-  let r = new Roll("1d20");
+  let r = new Roll(
+    game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_DICE_FORMULA}`)
+  );
   r.evaluate();
   return r.total;
 }
 
+function resultCheck(result, comparison) {
+  const rollResultTarget = parseInt(
+    game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
+  );
+  switch (comparison) {
+    case "EQ":
+      return result === rollResultTarget;
+    case "GT":
+      return result > rollResultTarget;
+    case "LT":
+      return result < rollResultTarget;
+    default:
+      return false;
+  }
+}
+
 function runAutoCheck(actor) {
   const result = wildMagicSurgeRollCheck();
-  if (result === 1) {
+  if (
+    resultCheck(
+      result,
+      game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
+    )
+  ) {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
-      `[[/r ${result} #1d20 result]]`
+      `[[/r ${result} #${game.settings.get(
+        `${MODULE_ID}`,
+        `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
+      )} result]]`
     );
     TidesOfChaos(actor);
     RollTableMagicSurge();
   } else {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
-      `[[/r ${result} #1d20 result]]`
+      `[[/r ${result} #${game.settings.get(
+        `${MODULE_ID}`,
+        `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
+      )} result]]`
     );
   }
 }

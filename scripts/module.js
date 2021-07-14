@@ -11,6 +11,10 @@ import {
   OPT_ROLLTABLE_ENABLE,
   OPT_ROLLTABLE_NAME,
   OPT_WHISPER_GM,
+  OPT_CUSTOM_ROLL_DICE_FORMULA,
+  OPT_CUSTOM_ROLL_RESULT,
+  OPT_CUSTOM_ROLL_RESULT_CHECK,
+  ROLL_COMPARISON,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
@@ -104,6 +108,42 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "Wild Magic Surge 5e (PHB)",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_DICE_FORMULA}`, {
+    name: game.i18n.format(
+      "WildMagicSurge5E.opt_custom_roll_dice_formula_name"
+    ),
+    hint: game.i18n.format(
+      "WildMagicSurge5E.opt_custom_roll_dice_formula_hint"
+    ),
+    scope: "world",
+    config: true,
+    default: "1d20",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`, {
+    name: game.i18n.format(
+      "WildMagicSurge5E.opt_custom_roll_result_check_name"
+    ),
+    hint: game.i18n.format(
+      "WildMagicSurge5E.opt_custom_roll_result_check_hint"
+    ),
+    scope: "world",
+    config: true,
+    choices: ROLL_COMPARISON,
+    default: "EQ",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_custom_roll_result_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_custom_roll_result_hint"),
+    scope: "world",
+    config: true,
+    default: "1",
     type: String,
   });
 });

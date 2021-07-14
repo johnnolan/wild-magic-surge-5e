@@ -15,6 +15,16 @@ export const OPT_AUTO_D20 = "autoRollD20";
 export const OPT_AUTO_D20_MSG = "autoRollD20Message";
 export const OPT_AUTO_D20_MSG_NO_SURGE = "autoRollD20MessageNoSurge";
 
+export const OPT_CUSTOM_ROLL_DICE_FORMULA = "customRollDiceFormula";
+export const OPT_CUSTOM_ROLL_RESULT = "customRollResult";
+export const OPT_CUSTOM_ROLL_RESULT_CHECK = "customRollResultCheck";
+
+export const ROLL_COMPARISON = {
+  EQ: "=",
+  GT: ">",
+  LT: "<",
+};
+
 export const SPELL_LIST_KEY_WORDS = [
   "1st Level",
   "2nd Level",
