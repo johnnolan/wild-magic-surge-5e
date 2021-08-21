@@ -69,6 +69,8 @@ Adds the ability to set your own roll evaluation dependent on the spell level us
 - A lvl 4 spell triggers if a 4 or lower is rolled
 - A lvl 9 triggers if a 9 or lower is rolled
 
+Special thanks to [Jackolas126](https://github.com/Jackolas126) for this suggestion.
+
 ## Installation
 
 To install, follow these instructions:
