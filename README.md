@@ -21,6 +21,7 @@ This module provide various bits of functionality to help automate the `Wild Mag
 - Auto roll Custom Roll Table for effect
 - `Tides of Chaos` auto recharge
 - Custom dice roll check for surge (default is `1d20` and a roll of `1`)
+- Ability to set your own roll evaluation dependent on the spell level used
 
 ## Options
 
@@ -59,6 +60,14 @@ What is the dice roll result you want to check against. The default is `1`.
 ### Roll result boolean expression
 
 Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the `Wild Magic Surge`. The default is `=`.
+
+### Setup varying Wild Magic Surge triggers dependent on spell level
+
+Adds the ability to set your own roll evaluation dependent on the spell level used. For example
+
+- A lvl 1 spell only triggers wild magic if a 1 is rolled on the d20
+- A lvl 4 spell triggers if a 4 or lower is rolled
+- A lvl 9 triggers if a 9 or lower is rolled
 
 ## Installation
 
