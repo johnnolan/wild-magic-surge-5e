@@ -9,6 +9,18 @@ import {
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
+  OPT_ENABLE_TSL,
+  OPT_TSL_DIE,
+  OPT_TSL_LVL1,
+  OPT_TSL_LVL2,
+  OPT_TSL_LVL3,
+  OPT_TSL_LVL4,
+  OPT_TSL_LVL5,
+  OPT_TSL_LVL6,
+  OPT_TSL_LVL7,
+  OPT_TSL_LVL8,
+  OPT_TSL_LVL9,
+  OPT_TSL_LVL10,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
@@ -17,7 +29,8 @@ import { RollTableMagicSurge } from "./RollTableMagicSurge.js";
 export function WildMagicCheck(chatMessage) {
   if (isValid(chatMessage)) {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor));
+      const spellLevel = parseSpell(chatMessage.data.content);
+      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor), spellLevel);
     } else {
       runMessageCheck();
     }
@@ -33,6 +46,10 @@ function parseWildMagicFeat(actor) {
 }
 
 function parseSpell(content) {
+  return SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
+}
+
+function isSpellCheck(content) {
   return SPELL_LIST_KEY_WORDS.some((v) => content.includes(v));
 }
 
@@ -57,7 +74,7 @@ function isValid(chatMessage) {
     if (chatMessage.data.user !== game.user.id) return false;
   }
 
-  const isASpell = parseSpell(chatMessage.data.content);
+  const isASpell = isSpellCheck(chatMessage.data.content);
   const actor = game.actors.get(chatMessage.data.speaker.actor);
   if (actor === null) {
     return false;
@@ -69,9 +86,15 @@ function isValid(chatMessage) {
 }
 
 function wildMagicSurgeRollCheck() {
-  let r = new Roll(
-    game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_DICE_FORMULA}`)
+  let diceFormula = game.settings.get(
+    `${MODULE_ID}`,
+    `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
   );
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
+    diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
+  }
+
+  let r = new Roll(diceFormula);
   r.evaluate();
   return r.total;
 }
@@ -92,14 +115,73 @@ function resultCheck(result, comparison) {
   }
 }
 
-function runAutoCheck(actor) {
+function parseTSLOption(level) {
+  const levelSplit = level.split(" ");
+  return levelSplit;
+}
+
+function triggerSpellLevelCheck(result, spellLevel) {
+  let spellString;
+  switch (spellLevel) {
+    case "1st Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL1}`);
+      break;
+    case "2nd Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL2}`);
+      break;
+    case "3rd Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL3}`);
+      break;
+    case "4th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL4}`);
+      break;
+    case "5th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL5}`);
+      break;
+    case "6th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL6}`);
+      break;
+    case "7th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL7}`);
+      break;
+    case "8th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL8}`);
+      break;
+    case "9th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL9}`);
+      break;
+    case "10th Level":
+      spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL10}`);
+      break;
+  }
+
+  const splitLevel = parseTSLOption(spellString);
+
+  const rollResultTarget = splitLevel[1];
+  switch (splitLevel[0]) {
+    case "=":
+      return result === rollResultTarget;
+    case ">":
+      return result > rollResultTarget;
+    case "<":
+      return result < rollResultTarget;
+    default:
+      return false;
+  }
+}
+
+function runAutoCheck(actor, spellLevel) {
   const result = wildMagicSurgeRollCheck();
-  if (
-    resultCheck(
+  let isSurge = false;
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
+    isSurge = triggerSpellLevelCheck(result, spellLevel);
+  } else {
+    isSurge = resultCheck(
       result,
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
-    )
-  ) {
+    );
+  }
+  if (isSurge) {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
       `[[/r ${result} #${game.settings.get(
