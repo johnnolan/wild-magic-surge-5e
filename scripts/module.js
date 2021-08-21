@@ -15,6 +15,18 @@ import {
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
   ROLL_COMPARISON,
+  OPT_ENABLE_TSL,
+  OPT_TSL_DIE,
+  OPT_TSL_LVL1,
+  OPT_TSL_LVL2,
+  OPT_TSL_LVL3,
+  OPT_TSL_LVL4,
+  OPT_TSL_LVL5,
+  OPT_TSL_LVL6,
+  OPT_TSL_LVL7,
+  OPT_TSL_LVL8,
+  OPT_TSL_LVL9,
+  OPT_TSL_LVL10,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
@@ -144,6 +156,105 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_tsl_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_tsl_hint"),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_DIE}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_die_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_tsl_die_hint"),
+    scope: "world",
+    config: true,
+    default: "1d20",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL1}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_hint"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL2}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl2_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL3}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl3_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL4}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl4_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL5}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl5_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL6}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl6_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL7}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl7_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL8}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl8_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL9}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl9_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL10}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl10_name"),
+    scope: "world",
+    config: true,
+    default: "= 1",
     type: String,
   });
 });
