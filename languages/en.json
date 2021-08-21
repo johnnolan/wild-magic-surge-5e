@@ -36,5 +36,21 @@
   "WildMagicSurge5E.opt_custom_roll_result_hint": "What is the dice roll result you want to check against.",
 
   "WildMagicSurge5E.opt_custom_roll_result_check_name": "Roll result boolean expression",
-  "WildMagicSurge5E.opt_custom_roll_result_check_hint": "Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the Wild Magic Surge."
+  "WildMagicSurge5E.opt_custom_roll_result_check_hint": "Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the Wild Magic Surge.",
+  
+  "WildMagicSurge5E.opt_enable_tsl_name": "Enable spell level dependent rolls",
+  "WildMagicSurge5E.opt_enable_tsl_hint": "Setup varying Wild Magic Surge triggers dependent on spell level.",
+  "WildMagicSurge5E.opt_tsl_die_name": "Dice Formula",
+  "WildMagicSurge5E.opt_tsl_die_hint": "Set the dice formula you want to roll. The default is 1d20.",
+  "WildMagicSurge5E.opt_tsl_lvl1_name": "Level 1",
+  "WildMagicSurge5E.opt_tsl_lvl1_hint": "Each must start with either a >, < or = followed by a space and a number.",
+  "WildMagicSurge5E.opt_tsl_lvl2_name": "Level 2",
+  "WildMagicSurge5E.opt_tsl_lvl3_name": "Level 3",
+  "WildMagicSurge5E.opt_tsl_lvl4_name": "Level 4",
+  "WildMagicSurge5E.opt_tsl_lvl5_name": "Level 5",
+  "WildMagicSurge5E.opt_tsl_lvl6_name": "Level 6",
+  "WildMagicSurge5E.opt_tsl_lvl7_name": "Level 7",
+  "WildMagicSurge5E.opt_tsl_lvl8_name": "Level 8",
+  "WildMagicSurge5E.opt_tsl_lvl9_name": "Level 9",
+  "WildMagicSurge5E.opt_tsl_lvl10_name": "Level 10"
 }

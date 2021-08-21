@@ -4,40 +4,33 @@ import {
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
-  SPELL_LIST_KEY_WORDS,
   OPT_WHISPER_GM,
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
+  OPT_ENABLE_TSL,
+  OPT_TSL_DIE,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
 import { RollTableMagicSurge } from "./RollTableMagicSurge.js";
+import {
+  IsWildMagicFeat,
+  SpellLevel,
+  IsSpell,
+  IsNPC,
+} from "./utils/SpellParser.js";
+import TriggerSpellLevelCheck from "./utils/SpellLevelTrigger.js";
 
 export function WildMagicCheck(chatMessage) {
   if (isValid(chatMessage)) {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor));
+      const spellLevel = SpellLevel(chatMessage.data.content);
+      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor), spellLevel);
     } else {
       runMessageCheck();
     }
   }
-}
-
-function parseWildMagicFeat(actor) {
-  return (
-    actor.data.items.find(
-      (a) => a.name === "Wild Magic Surge" && a.type === "feat"
-    ) !== undefined
-  );
-}
-
-function parseSpell(content) {
-  return SPELL_LIST_KEY_WORDS.some((v) => content.includes(v));
-}
-
-function parseNpc(actor) {
-  return actor ? actor.data.type === "npc" : false;
 }
 
 function isValid(chatMessage) {
@@ -57,21 +50,27 @@ function isValid(chatMessage) {
     if (chatMessage.data.user !== game.user.id) return false;
   }
 
-  const isASpell = parseSpell(chatMessage.data.content);
+  const isASpell = IsSpell(chatMessage.data.content);
   const actor = game.actors.get(chatMessage.data.speaker.actor);
   if (actor === null) {
     return false;
   }
-  const hasWildMagicFeat = parseWildMagicFeat(actor);
-  const isNpc = parseNpc(actor);
+  const hasWildMagicFeat = IsWildMagicFeat(actor);
+  const isNpc = IsNPC(actor);
 
   return isASpell && !isNpc && hasWildMagicFeat;
 }
 
 function wildMagicSurgeRollCheck() {
-  let r = new Roll(
-    game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_DICE_FORMULA}`)
+  let diceFormula = game.settings.get(
+    `${MODULE_ID}`,
+    `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
   );
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
+    diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
+  }
+
+  let r = new Roll(diceFormula);
   r.evaluate();
   return r.total;
 }
@@ -92,14 +91,18 @@ function resultCheck(result, comparison) {
   }
 }
 
-function runAutoCheck(actor) {
+function runAutoCheck(actor, spellLevel) {
   const result = wildMagicSurgeRollCheck();
-  if (
-    resultCheck(
+  let isSurge = false;
+  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
+    isSurge = TriggerSpellLevelCheck(result, spellLevel);
+  } else {
+    isSurge = resultCheck(
       result,
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
-    )
-  ) {
+    );
+  }
+  if (isSurge) {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
       `[[/r ${result} #${game.settings.get(
