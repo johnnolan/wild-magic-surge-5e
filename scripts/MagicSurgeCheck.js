@@ -8,7 +8,6 @@ import {
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
   OPT_TSL_DIE,
-  SURGE_TYPE,
   OPT_SURGE_TYPE,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
