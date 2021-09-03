@@ -9,7 +9,6 @@ export const OPT_ROLLTABLE_NAME = "rollTableName";
 export const OPT_ENABLE_TOC = "enableTidesOfChaosRecharge";
 export const OPT_TOC_RECHARGE_MSG = "tidesOfChaosRechargeMessage";
 
-export const OPT_ENABLE_CHECK = "enableMagicSurgeCheck";
 export const OPT_CHAT_MSG = "magicSurgeChatMessage";
 export const OPT_AUTO_D20 = "autoRollD20";
 export const OPT_AUTO_D20_MSG = "autoRollD20Message";
@@ -19,7 +18,6 @@ export const OPT_CUSTOM_ROLL_DICE_FORMULA = "customRollDiceFormula";
 export const OPT_CUSTOM_ROLL_RESULT = "customRollResult";
 export const OPT_CUSTOM_ROLL_RESULT_CHECK = "customRollResultCheck";
 
-export const OPT_ENABLE_TSL = "OPT_ENABLE_TSL";
 export const OPT_TSL_DIE = "OPT_TSL_DIE";
 export const OPT_TSL_LVL1 = "OPT_TSL_LVL1";
 export const OPT_TSL_LVL2 = "OPT_TSL_LVL2";
@@ -31,6 +29,13 @@ export const OPT_TSL_LVL7 = "OPT_TSL_LVL7";
 export const OPT_TSL_LVL8 = "OPT_TSL_LVL8";
 export const OPT_TSL_LVL9 = "OPT_TSL_LVL9";
 export const OPT_TSL_LVL10 = "OPT_TSL_LVL10";
+
+export const SURGE_TYPE = {
+  DEFAULT: "Standard",
+  SPELL_LEVEL_DEPENDENT_ROLL: "Spell Level Dependent Rolls",
+  INCREMENTAL_CHECK: "Incremental Check",
+};
+export const OPT_SURGE_TYPE = "OPT_SURGE_TYPE";
 
 export const ROLL_COMPARISON = {
   EQ: "=",

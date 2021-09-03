@@ -1,7 +1,6 @@
 import {
   MODULE_NAME,
   MODULE_ID,
-  OPT_ENABLE_CHECK,
   OPT_CHAT_MSG,
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
@@ -15,7 +14,6 @@ import {
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
   ROLL_COMPARISON,
-  OPT_ENABLE_TSL,
   OPT_TSL_DIE,
   OPT_TSL_LVL1,
   OPT_TSL_LVL2,
@@ -27,19 +25,22 @@ import {
   OPT_TSL_LVL8,
   OPT_TSL_LVL9,
   OPT_TSL_LVL10,
+  SURGE_TYPE,
+  OPT_SURGE_TYPE,
 } from "./Settings.js";
 import { WildMagicCheck } from "./MagicSurgeCheck.js";
 
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
 
-  game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_enable_check_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_enable_check_hint"),
+  game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_surge_type_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_surge_type_hint"),
     scope: "world",
     config: true,
-    default: true,
-    type: Boolean,
+    choices: SURGE_TYPE,
+    default: "Default",
+    type: String,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
@@ -159,15 +160,6 @@ Hooks.on("init", function () {
     type: String,
   });
 
-  game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_enable_tsl_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_enable_tsl_hint"),
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean,
-  });
-
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_DIE}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_die_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_tsl_die_hint"),
@@ -264,7 +256,5 @@ Hooks.on("ready", function () {
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_CHECK}`)) {
-    WildMagicCheck(chatMessage);
-  }
+  WildMagicCheck(chatMessage);
 });
