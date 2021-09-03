@@ -7,13 +7,13 @@ import {
   OPT_WHISPER_GM,
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
-  OPT_CUSTOM_ROLL_RESULT_CHECK,
-  OPT_ENABLE_TSL,
   OPT_TSL_DIE,
+  OPT_SURGE_TYPE,
 } from "./Settings.js";
 import { SendChat } from "./Chat.js";
 import { TidesOfChaos } from "./TidesOfChaos.js";
 import { RollTableMagicSurge } from "./RollTableMagicSurge.js";
+import { IncrementalCheck } from "./IncrementalCheck.js";
 import {
   IsWildMagicFeat,
   SpellLevel,
@@ -66,7 +66,10 @@ function wildMagicSurgeRollCheck() {
     `${MODULE_ID}`,
     `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
   );
-  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
+  if (
+    game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
+    "SPELL_LEVEL_DEPENDENT_ROLL"
+  ) {
     diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
   }
 
@@ -91,17 +94,28 @@ function resultCheck(result, comparison) {
   }
 }
 
-function runAutoCheck(actor, spellLevel) {
+async function runAutoCheck(actor, spellLevel) {
   const result = wildMagicSurgeRollCheck();
   let isSurge = false;
-  if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TSL}`)) {
-    isSurge = TriggerSpellLevelCheck(result, spellLevel);
-  } else {
-    isSurge = resultCheck(
-      result,
-      game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
-    );
+
+  const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
+  switch (gameType) {
+    case "DEFAULT":
+      isSurge = resultCheck(
+        result,
+        game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)
+      );
+      break;
+    case "INCREMENTAL_CHECK":
+      isSurge = await IncrementalCheck(actor, result);
+      break;
+    case "SPELL_LEVEL_DEPENDENT_ROLL":
+      isSurge = TriggerSpellLevelCheck(result, spellLevel);
+      break;
+    default:
+      break;
   }
+
   if (isSurge) {
     SendChat(
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),

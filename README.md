@@ -25,6 +25,15 @@ This module provide various bits of functionality to help automate the `Wild Mag
 
 ## Options
 
+### Settings
+
+Choose between the following options
+
+- **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
+- **Incremental Check**: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1.
+- **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
+
+[![Whisper chat results to GM](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
 
 ### Whisper chat results to GM
 
