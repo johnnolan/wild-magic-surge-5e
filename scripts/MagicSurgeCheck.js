@@ -7,6 +7,7 @@ import {
   OPT_WHISPER_GM,
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
+  OPT_CUSTOM_ROLL_RESULT_CHECK,
   OPT_TSL_DIE,
   OPT_SURGE_TYPE,
 } from "./Settings.js";
@@ -103,7 +104,7 @@ async function runAutoCheck(actor, spellLevel) {
     case "DEFAULT":
       isSurge = resultCheck(
         result,
-        game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)
+        game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
       );
       break;
     case "INCREMENTAL_CHECK":
