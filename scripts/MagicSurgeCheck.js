@@ -27,9 +27,7 @@ export default class WildMagicCheck {
 
   Check(chatMessage) {
     if (this.isValid(chatMessage)) {
-      console.log("Ye1s")
       if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-        console.log("Yes")
         const spellParser = new SpellParser();
         const spellLevel = spellParser.SpellLevel(chatMessage.data.content);
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
@@ -119,8 +117,8 @@ export default class WildMagicCheck {
         );
         break;
       case "INCREMENTAL_CHECK":
-        const incrementalCheck = new IncrementalCheck();
-        isSurge = await incrementalCheck.Check(actor, result);
+        const incrementalCheck = new IncrementalCheck(actor, result);
+        isSurge = await incrementalCheck.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
         const spellLevelTrigger = new SpellLevelTrigger();

@@ -105,7 +105,7 @@ describe("IsNPC", () => {
       const result = spellParser.IsNPC({
         data: {
           type: "npc",
-        }
+        },
       });
       expect(result).toBeTruthy();
     });
@@ -123,7 +123,7 @@ describe("IsNPC", () => {
       const result = spellParser.IsNPC({
         data: {
           type: "pc",
-        }
+        },
       });
       expect(result).toBeFalsy();
     });

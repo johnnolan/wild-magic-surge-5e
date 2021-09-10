@@ -3,7 +3,7 @@ export const chatMessage = {
     content: "1st Level ",
     user: "123",
     speaker: {
-      actor: "123"
-    }
-  }
+      actor: "123",
+    },
+  },
 };

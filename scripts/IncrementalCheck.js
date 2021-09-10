@@ -10,6 +10,7 @@ export default class IncrementalCheck {
     if (!this.actor) {
       return;
     }
+
     if (!this.actor.data.flags.hasOwnProperty(this.FLAG_NAME)) {
       await this.actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, 1);
       return this.rollValue === 1;

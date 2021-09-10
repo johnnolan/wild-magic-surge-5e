@@ -24,7 +24,7 @@ export default class IncrementalCheck {
       content: `<div>${message} ${result}</div>`,
     };
 
-    chatData = await WhisperCheck(chatData, gmsToWhisper);
+    chatData = await this.WhisperCheck(chatData, gmsToWhisper);
 
     return ChatMessage.create(chatData, {});
   }
