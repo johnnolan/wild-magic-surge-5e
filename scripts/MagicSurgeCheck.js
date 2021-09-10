@@ -29,7 +29,9 @@ export default class WildMagicCheck {
   Check(chatMessage) {
     if (this.isValid(chatMessage)) {
       if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-        const spellLevel = this.spellParser.SpellLevel(chatMessage.data.content);
+        const spellLevel = this.spellParser.SpellLevel(
+          chatMessage.data.content
+        );
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
         const result = this.WildMagicSurgeRollCheck();
         this.RunAutoCheck(
