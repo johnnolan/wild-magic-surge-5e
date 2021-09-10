@@ -28,7 +28,7 @@ import {
   SURGE_TYPE,
   OPT_SURGE_TYPE,
 } from "./Settings.js";
-import { WildMagicCheck } from "./MagicSurgeCheck.js";
+import WildMagicCheck from "./MagicSurgeCheck.js";
 
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
@@ -252,9 +252,10 @@ Hooks.on("init", function () {
 });
 
 Hooks.on("ready", function () {
+  window.WildMagicCheck = new WildMagicCheck();
   console.log(`Successfully loaded ${MODULE_NAME}`);
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  WildMagicCheck(chatMessage);
+  window.WildMagicCheck.Check(chatMessage);
 });
