@@ -1,6 +1,6 @@
 import { MODULE_ID, OPT_WHISPER_GM } from "./Settings.js";
 
-export default class IncrementalCheck {
+export default class Chat {
   constructor() {}
 
   async WhisperCheck(chatData, gmsToWhisper) {

@@ -14,11 +14,11 @@ import {
 import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
 import RollTableMagicSurge from "./RollTableMagicSurge.js";
-import IncrementalCheck from "./IncrementalCheck.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 
-export default class WildMagicCheck {
+export default class MagicSurgeCheck {
   constructor() {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();

@@ -1,12 +1,12 @@
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
-import IncrementalCheck from "./IncrementalCheck.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import SpellParser from "./utils/SpellParser.js";
 import { actor } from "../MockData/actor.js";
 import { chatMessage } from "../MockData/chatMessage.js";
 
 jest.mock("./utils/SpellLevelTrigger.js");
-jest.mock("./IncrementalCheck.js");
+jest.mock("./utils/IncrementalCheck.js");
 
 /*
 describe("Check", () => {
