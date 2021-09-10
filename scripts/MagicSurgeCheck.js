@@ -27,7 +27,14 @@ export function WildMagicCheck(chatMessage) {
   if (isValid(chatMessage)) {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       const spellLevel = SpellLevel(chatMessage.data.content);
-      runAutoCheck(game.actors.get(chatMessage.data.speaker.actor), spellLevel);
+      const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
+      const result = wildMagicSurgeRollCheck();
+      runAutoCheck(
+        game.actors.get(chatMessage.data.speaker.actor),
+        spellLevel,
+        result,
+        gameType
+      );
     } else {
       runMessageCheck();
     }
@@ -62,7 +69,7 @@ function isValid(chatMessage) {
   return isASpell && !isNpc && hasWildMagicFeat;
 }
 
-function wildMagicSurgeRollCheck() {
+export function wildMagicSurgeRollCheck() {
   let diceFormula = game.settings.get(
     `${MODULE_ID}`,
     `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
@@ -79,7 +86,7 @@ function wildMagicSurgeRollCheck() {
   return r.total;
 }
 
-function resultCheck(result, comparison) {
+export function resultCheck(result, comparison) {
   const rollResultTarget = parseInt(
     game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
   );
@@ -95,11 +102,11 @@ function resultCheck(result, comparison) {
   }
 }
 
-async function runAutoCheck(actor, spellLevel) {
-  const result = wildMagicSurgeRollCheck();
+export async function runAutoCheck(actor, spellLevel, result, gameType) {
   let isSurge = false;
 
-  const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
+  console.log(spellLevel, result, gameType);
+
   switch (gameType) {
     case "DEFAULT":
       isSurge = resultCheck(
