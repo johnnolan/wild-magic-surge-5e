@@ -1,11 +1,93 @@
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import IncrementalCheck from "./IncrementalCheck.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
+import SpellParser from "./utils/SpellParser.js";
 import { actor } from "../MockData/actor.js";
+import { chatMessage } from "../MockData/chatMessage.js";
 
 jest.mock("./utils/SpellLevelTrigger.js");
 jest.mock("./IncrementalCheck.js");
 
+/*
+describe("Check", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+  describe("OPT_AUTO_D20 is true", () => {
+    let magicSurgeCheck;
+    beforeAll(() => {
+      magicSurgeCheck = new MagicSurgeCheck();
+      global.game = {
+        actors: {
+          get: jest.fn().mockReturnValue({
+            items: [
+              {
+                id: "WWb4vAmh18sMAxfY",
+                data: {
+                  name: "Flame Tongue Greatsword",
+                  data: { actionType: "mwak" },
+                },
+                token: {
+                  _id: "5H4YnyD6zf9vcJ3Q",
+                },
+              },
+            ],
+          }),
+        },
+        user: {
+          id: "123",
+          isGM: true,
+        },
+        settings: {
+          get: jest.fn().mockReturnValue(true),
+        },
+      };
+    });
+    it("It auto checks", async () => {
+      const result = await magicSurgeCheck.Check(chatMessage);
+      expect(SpellParser).toBeCalled();
+      expect(SpellParser).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe("OPT_AUTO_D20 is false", () => {
+    let magicSurgeCheck;
+    beforeAll(() => {
+      magicSurgeCheck = new MagicSurgeCheck();
+      global.game = {
+        actors: {
+          get: jest.fn().mockReturnValue({
+            items: [
+              {
+                id: "WWb4vAmh18sMAxfY",
+                data: {
+                  name: "Flame Tongue Greatsword",
+                  data: { actionType: "mwak" },
+                },
+                token: {
+                  _id: "5H4YnyD6zf9vcJ3Q",
+                },
+              },
+            ],
+          }),
+        },
+        user: {
+          id: "1234",
+          isGM: true,
+        },
+        settings: {
+          get: jest.fn().mockReturnValue(false),
+        },
+      };
+    });
+    test("It sends a message", async () => {
+      const result = await magicSurgeCheck.Check(chatMessage);
+      expect(SpellParser).not.toBeCalled();
+      expect(SpellParser).toHaveBeenCalledTimes(0);
+    });
+  });
+});
+*/
 describe("resultCheck", () => {
   let magicSurgeCheck;
   beforeAll(() => {

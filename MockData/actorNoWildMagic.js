@@ -1,4 +1,4 @@
-export const actor = {
+export const actorNoWildMagic = {
   _id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",
   type: "character",
@@ -1051,7 +1051,7 @@ export const actor = {
       },
       {
         _id: "iGoR4ePl1mTZFAAM",
-        name: "Wild Magic Surge",
+        name: "Wilds Magic Surges",
         type: "feat",
         img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
         data: {
@@ -9244,7 +9244,7 @@ export const actor = {
     },
     {
       _id: "iGoR4ePl1mTZFAAM",
-      name: "Wild Magic Surge",
+      name: "Wilds Magic Surges",
       type: "feat",
       img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
       data: {

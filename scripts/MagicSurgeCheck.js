@@ -23,15 +23,15 @@ export default class WildMagicCheck {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
-    this.spellParser = new SpellParser();
   }
 
   Check(chatMessage) {
     if (this.isValid(chatMessage)) {
+      console.log("Ye1s")
       if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-        const spellLevel = this.spellParser.SpellLevel(
-          chatMessage.data.content
-        );
+        console.log("Yes")
+        const spellParser = new SpellParser();
+        const spellLevel = spellParser.SpellLevel(chatMessage.data.content);
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
         const result = this.WildMagicSurgeRollCheck();
         this.RunAutoCheck(
@@ -63,13 +63,14 @@ export default class WildMagicCheck {
       if (chatMessage.data.user !== game.user.id) return false;
     }
 
-    const isASpell = this.spellParser.IsSpell(chatMessage.data.content);
+    const spellParser = new SpellParser();
+    const isASpell = spellParser.IsSpell(chatMessage.data.content);
     const actor = game.actors.get(chatMessage.data.speaker.actor);
-    if (actor === null) {
+    if (!actor) {
       return false;
     }
-    const hasWildMagicFeat = this.spellParser.IsWildMagicFeat(actor);
-    const isNpc = this.spellParser.IsNPC(actor);
+    const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
+    const isNpc = spellParser.IsNPC(actor);
 
     return isASpell && !isNpc && hasWildMagicFeat;
   }
