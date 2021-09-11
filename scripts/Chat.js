@@ -46,7 +46,7 @@ export default class Chat {
       sound: null,
     };
 
-    chatData = await WhisperCheck(chatData, gmsToWhisper);
+    chatData = await this.WhisperCheck(chatData, gmsToWhisper);
 
     chatData.content = await renderTemplate(CONFIG.RollTable.resultTemplate, {
       description: TextEditor.enrichHTML(surgeRollTable.data.description, {

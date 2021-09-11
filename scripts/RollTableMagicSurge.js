@@ -9,25 +9,23 @@ export default class RollTableMagicSurge {
   constructor() {}
 
   Check() {
+    const rollTableName = game.settings.get(
+      `${MODULE_ID}`,
+      `${OPT_ROLLTABLE_NAME}`
+    );
     if (
       !game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`) ||
-      game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`) === undefined
+      rollTableName === undefined
     ) {
       return;
     }
 
     const surgeRollTable = game.tables.entities.find(
-      (t) =>
-        t.name === game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`)
+      (t) => t.name === rollTableName
     );
 
-    // TODO: Remove in final v0.8 release
-    if (parseInt(game.data.version.replace(/./g, "")) > 80) {
-      surgeRollTable.roll().then((result) => {
-        new Chat().SendRollTable(result, surgeRollTable);
-      });
-    } else {
-      surgeRollTable.draw();
-    }
+    surgeRollTable.roll().then((result) => {
+      new Chat().SendRollTable(result, surgeRollTable);
+    });
   }
 }
