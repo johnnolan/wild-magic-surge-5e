@@ -1,6 +1,4 @@
 import SpellLevelTrigger from "./SpellLevelTrigger.js";
-import { actor } from "../../MockData/actor.js";
-import { actorNoWildMagic } from "../../MockData/actorNoWildMagic.js";
 
 describe("Check", () => {
   describe("Roll 4 < 5", () => {
