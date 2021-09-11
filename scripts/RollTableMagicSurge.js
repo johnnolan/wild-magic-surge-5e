@@ -3,26 +3,29 @@ import {
   OPT_ROLLTABLE_NAME,
   MODULE_ID,
 } from "./Settings.js";
-import { SendRollTable } from "./Chat.js";
+import Chat from "./Chat.js";
 
-export async function RollTableMagicSurge() {
-  if (
-    !game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`) ||
-    game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`) === undefined
-  ) {
-    return;
-  }
+export default class RollTableMagicSurge {
+  constructor() {}
 
-  const surgeRollTable = game.tables.entities.find(
-    (t) => t.name === game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`)
-  );
+  Check() {
+    const rollTableName = game.settings.get(
+      `${MODULE_ID}`,
+      `${OPT_ROLLTABLE_NAME}`
+    );
+    if (
+      !game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`) ||
+      rollTableName === undefined
+    ) {
+      return;
+    }
 
-  // TODO: Remove in final v0.8 release
-  if (parseInt(game.data.version.replace(/./g, "")) > 80) {
+    const surgeRollTable = game.tables.entities.find(
+      (t) => t.name === rollTableName
+    );
+
     surgeRollTable.roll().then((result) => {
-      SendRollTable(result, surgeRollTable);
+      new Chat().SendRollTable(result, surgeRollTable);
     });
-  } else {
-    surgeRollTable.draw();
   }
 }

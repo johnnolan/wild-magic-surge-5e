@@ -1,4 +1,3 @@
-![](https://img.shields.io/badge/Foundry-v0.7.9-informational)
 ![](https://img.shields.io/badge/Foundry-v0.8.9-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/johnnolan/wild-magic-surge-5e/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
