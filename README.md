@@ -12,6 +12,12 @@
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat.
 
+## Prerequisites
+
+Ensure your Player Character has the `Wild Magic Surge` feat added to the character sheet. It will not run on any characters that do not have this set.
+
+When they cast a spell at Level 1 or higher it will trigger the check for a surge based on your options selected from the settings. All options are explained below.
+
 ## Features
 
 - Prompt to roll on a 1st level or higher spell slot used with the `Wild Magic Surge` feat
