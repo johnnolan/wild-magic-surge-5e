@@ -25,7 +25,7 @@ export default class MagicSurgeCheck {
     this.tidesOfChaos = new TidesOfChaos();
   }
 
-  Check(chatMessage) {
+  async Check(chatMessage) {
     const actor = game.actors.get(chatMessage.data.speaker.actor);
     if (!actor) {
       return false;
@@ -36,7 +36,7 @@ export default class MagicSurgeCheck {
         const spellLevel = spellParser.SpellLevel(chatMessage.data.content);
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
         const result = this.WildMagicSurgeRollCheck();
-        this.RunAutoCheck(actor, spellLevel, result, gameType);
+        await this.RunAutoCheck(actor, spellLevel, result, gameType);
       } else {
         this.RunMessageCheck();
       }
@@ -133,6 +133,10 @@ export default class MagicSurgeCheck {
       );
       this.tidesOfChaos.Check(actor);
       this.rollTableMagicSurge.Check();
+      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+        surge: true,
+        result: result,
+      });
     } else {
       this.chat.SendChat(
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
@@ -141,10 +145,15 @@ export default class MagicSurgeCheck {
           `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
         )} result]]`
       );
+      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+        surge: false,
+        result: result,
+      });
     }
   }
 
   RunMessageCheck() {
+    Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
     this.chat.SendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
   }
 }

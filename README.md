@@ -27,6 +27,54 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 - `Tides of Chaos` auto recharge
 - Custom dice roll check for surge (default is `1d20` and a roll of `1`)
 - Ability to set your own roll evaluation dependent on the spell level used
+- Hooks for custom macros and other modules to use
+
+## Hooks
+
+I have added in hooks for the following events. This allows other developers or macro users to listen for events from the result of a Wild Magic Surge and add their own custom scripts.
+
+### wild-magic-surge-5e.CheckForSurge
+
+Example
+
+```
+Hooks.on("wild-magic-surge-5e.CheckForSurge", () => {
+  console.log('I must prompt to get them to roll a d20!')
+});
+```
+
+Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
+
+### wild-magic-surge-5e.IsWildMagicSurge
+
+Example
+
+```
+Hooks.on("wild-magic-surge-5e.IsWildMagicSurge", (isWildMagicSurge) => {
+  console.log(isWildMagicSurge)
+});
+```
+
+Runs when you set the module to auto roll a check for you. The result of the roll will trigger this hook and return whether it is a surge and the roll value.
+
+
+`true` = The PC has triggered a Wild Magic Surge
+
+```
+{
+  surge: true,
+  result: 1,
+}
+```
+
+`false` = The PC has not triggered a Wild Magic Surge
+
+```
+{
+  surge: false,
+  result: 12,
+}
+```
 
 ## Options
 
