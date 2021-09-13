@@ -55,12 +55,26 @@ Hooks.on("wild-magic-surge-5e.IsWildMagicSurge", (isWildMagicSurge) => {
 });
 ```
 
-Runs when you set the module to auto roll a check for you. The result of the roll will trigger this hook and return
+Runs when you set the module to auto roll a check for you. The result of the roll will trigger this hook and return whether it is a surge and the roll value.
+
 
 `true` = The PC has triggered a Wild Magic Surge
 
+```
+{
+  surge: true,
+  result: 1,
+}
+```
+
 `false` = The PC has not triggered a Wild Magic Surge
 
+```
+{
+  surge: false,
+  result: 12,
+}
+```
 
 ## Options
 

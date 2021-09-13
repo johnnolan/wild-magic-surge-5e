@@ -133,7 +133,10 @@ export default class MagicSurgeCheck {
       );
       this.tidesOfChaos.Check(actor);
       this.rollTableMagicSurge.Check();
-      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", true);
+      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+        surge: true,
+        result: result,
+      });
     } else {
       this.chat.SendChat(
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
@@ -142,7 +145,10 @@ export default class MagicSurgeCheck {
           `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
         )} result]]`
       );
-      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", false);
+      Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+        surge: false,
+        result: result,
+      });
     }
   }
 
