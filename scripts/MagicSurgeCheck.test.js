@@ -31,6 +31,9 @@ describe("Check", () => {
         magicSurgeCheck = new MagicSurgeCheck();
         jest.spyOn(magicSurgeCheck, "RunMessageCheck").mockReturnValue(true);
         jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
+        global.Hooks = {
+          callAll: jest.fn().mockReturnValue(true),
+        };
         global.game = {
           actors: {
             get: jest.fn().mockReturnValue({
@@ -77,6 +80,9 @@ describe("Check", () => {
         jest
           .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
           .mockReturnValue(true);
+        global.Hooks = {
+          callAll: jest.fn().mockReturnValue(),
+        };
         global.game = {
           actors: {
             get: jest.fn().mockReturnValue({
@@ -236,6 +242,9 @@ describe("RunAutoCheck", () => {
     jest.resetAllMocks();
     magicSurgeCheck = new MagicSurgeCheck();
     resultCheckSpy = jest.spyOn(magicSurgeCheck, "ResultCheck");
+    global.Hooks = {
+      callAll: jest.fn().mockReturnValue(),
+    };
   });
   test("INVALID_OPTION", async () => {
     await magicSurgeCheck.RunAutoCheck(actor, 1, 1, "INVALID_OPTION");
@@ -245,6 +254,8 @@ describe("RunAutoCheck", () => {
     expect(IncrementalCheck).toHaveBeenCalledTimes(0);
     expect(SpellLevelTrigger).not.toBeCalled();
     expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+    expect(global.Hooks.callAll).toBeCalled();
+    expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
   });
   test("DEFAULT", async () => {
     await magicSurgeCheck.RunAutoCheck(actor, 1, 1, "DEFAULT");
@@ -254,6 +265,8 @@ describe("RunAutoCheck", () => {
     expect(IncrementalCheck).toHaveBeenCalledTimes(0);
     expect(SpellLevelTrigger).not.toBeCalled();
     expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+    expect(global.Hooks.callAll).toBeCalled();
+    expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
   });
   test("INCREMENTAL_CHECK", async () => {
     await magicSurgeCheck.RunAutoCheck(actor, 1, 1, "INCREMENTAL_CHECK");
@@ -263,6 +276,8 @@ describe("RunAutoCheck", () => {
     expect(resultCheckSpy).toHaveBeenCalledTimes(0);
     expect(SpellLevelTrigger).not.toBeCalled();
     expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+    expect(global.Hooks.callAll).toBeCalled();
+    expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
   });
   test("SPELL_LEVEL_DEPENDENT_ROLL", async () => {
     await magicSurgeCheck.RunAutoCheck(
@@ -277,6 +292,8 @@ describe("RunAutoCheck", () => {
     expect(SpellLevelTrigger).toHaveBeenCalledTimes(1);
     expect(IncrementalCheck).not.toBeCalled();
     expect(IncrementalCheck).toHaveBeenCalledTimes(0);
+    expect(global.Hooks.callAll).toBeCalled();
+    expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
   });
   afterEach(() => {
     resultCheckSpy.mockRestore();
