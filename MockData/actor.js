@@ -1,5 +1,9 @@
 export const actor = {
-  getFlag: jest.fn().mockResolvedValue(1),
+  getFlag: jest.fn().mockResolvedValue({
+    max: 20,
+    min: 1,
+    value: 1,
+  }),
   setFlag: jest.fn().mockResolvedValue(2),
   _id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",
@@ -8837,7 +8841,11 @@ export const actor = {
         WildMagicSurge_IncrementalCheck: 1,
       },
       "wild-magic-surge-5e": {
-        surge_increment: 1,
+        surge_increment: {
+          max: 20,
+          min: 1,
+          value: 1,
+        },
       },
       dae: {
         damageApplied: 6,
@@ -17301,7 +17309,11 @@ export const actor = {
       WildMagicSurge_IncrementalCheck: 1,
     },
     "wild-magic-surge-5e": {
-      surge_increment: 1,
+      surge_increment: {
+        max: 20,
+        min: 1,
+        value: 1,
+      },
     },
     dae: {
       damageApplied: 6,

@@ -18,6 +18,8 @@ export const OPT_CUSTOM_ROLL_DICE_FORMULA = "customRollDiceFormula";
 export const OPT_CUSTOM_ROLL_RESULT = "customRollResult";
 export const OPT_CUSTOM_ROLL_RESULT_CHECK = "customRollResultCheck";
 
+export const OPT_INCREMENTAL_CHECK_TO_CHAT = "incrementalCheckToChat";
+
 export const OPT_TSL_DIE = "OPT_TSL_DIE";
 export const OPT_TSL_LVL1 = "OPT_TSL_LVL1";
 export const OPT_TSL_LVL2 = "OPT_TSL_LVL2";

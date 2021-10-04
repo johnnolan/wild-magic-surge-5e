@@ -28,10 +28,23 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 - Custom dice roll check for surge (default is `1d20` and a roll of `1`)
 - Ability to set your own roll evaluation dependent on the spell level used
 - Hooks for custom macros and other modules to use
+- Track incremental wild magic surge count on token
 
 ## Hooks
 
 I have added in hooks for the following events. This allows other developers or macro users to listen for events from the result of a Wild Magic Surge and add their own custom scripts.
+
+### wild-magic-surge-5e.IncrementalCheckChanged
+
+Example
+
+```
+Hooks.on("wild-magic-surge-5e.IncrementalCheckChanged", (num) => {
+  console.log('The current charge value is {num}')
+});
+```
+
+Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
 
 ### wild-magic-surge-5e.CheckForSurge
 
@@ -78,6 +91,13 @@ Runs when you set the module to auto roll a check for you. The result of the rol
 
 ## Options
 
+### Track incremental wild magic surge count on token
+
+To view your count on your token, set the following flag `flags.wild-magic-surge-5e.surge_increment_resource` to be tracked.
+
+[![Track incremental wild magic surge count on token](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute)
+
+
 ### Settings
 
 Choose between the following options
@@ -103,6 +123,12 @@ Based on your settings, it will show a prompt that a `Wild Magic Surge` has occu
 This message is configurable should you wish.
 
 [![Auto Roll a check for Wild Magic Surge instead of just a reminder to roll](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)
+
+### Send Incremental Check charge to chat
+
+When enabled, each time a incremental check for a surge changes it is posted to Chat for others to see.
+
+[![Send Incremental Check charge to chat](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/increment-chat.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/increment-chat.jpg)
 
 ### Enable Auto Roll on a Wild Magic Surge Table
 

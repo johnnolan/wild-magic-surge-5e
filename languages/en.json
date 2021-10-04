@@ -1,4 +1,9 @@
 {
+  "WildMagicSurge5E.opt_incremental_check_to_chat_name": "Send Incremental Check charge to chat",
+  "WildMagicSurge5E.opt_incremental_check_to_chat_hint": "When enabled, each time a incremental check for a surge changes it is posted to Chat for others to see.",
+
+  "WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Wild Magic Surge Charge Count",
+
   "WildMagicSurge5E.opt_whisper_gm_name": "Whisper chat results to GM",
   "WildMagicSurge5E.opt_whisper_gm_hint": "When enabled, all messages are sent as Blind GM messages instead of from the player.",
 
