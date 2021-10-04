@@ -55,5 +55,5 @@
   "WildMagicSurge5E.opt_tsl_lvl10_name": "Level 10",
 
   "WildMagicSurge5E.opt_surge_type_name": "Wild Magic Surge Roll Feature",
-  "WildMagicSurge5E.opt_surge_type_hint": "Choose how you want to play, either Standard, Spell level dependent rolls or Incremental Check. Incremental Check: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1. Spell level dependent rolls: Wild Magic Surge triggers dependent on spell level (Set options below)."
+  "WildMagicSurge5E.opt_surge_type_hint": "Choose how you want to play, either Standard, Spell level dependent rolls or Incremental Check. Incremental Check: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1. Spell level dependent rolls: Wild Magic Surge triggers dependent on spell level (Set options below). Descending Dice: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20."
 }

@@ -10,6 +10,8 @@ import {
   OPT_CUSTOM_ROLL_RESULT_CHECK,
   OPT_TSL_DIE,
   OPT_SURGE_TYPE,
+  MODULE_FLAG_NAME,
+  DIE_DESCENDING_FLAG_OPTION,
 } from "./Settings.js";
 import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
@@ -17,6 +19,7 @@ import RollTableMagicSurge from "./RollTableMagicSurge.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
+import DieDescending from "./utils/DieDescending.js";
 
 export default class MagicSurgeCheck {
   constructor() {
@@ -35,8 +38,7 @@ export default class MagicSurgeCheck {
         const spellParser = new SpellParser();
         const spellLevel = spellParser.SpellLevel(chatMessage.data.content);
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
-        const result = this.WildMagicSurgeRollCheck();
-        await this.RunAutoCheck(actor, spellLevel, result, gameType);
+        await this.RunAutoCheck(actor, spellLevel, gameType);
       } else {
         this.RunMessageCheck();
       }
@@ -68,16 +70,34 @@ export default class MagicSurgeCheck {
     return isASpell && !isNpc && hasWildMagicFeat;
   }
 
-  WildMagicSurgeRollCheck() {
-    let diceFormula = game.settings.get(
-      `${MODULE_ID}`,
-      `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
-    );
-    if (
-      game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
-      "SPELL_LEVEL_DEPENDENT_ROLL"
-    ) {
-      diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
+  async WildMagicSurgeRollCheck(actor) {
+    let diceFormula;
+
+    switch (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)) {
+      case "DIE_DESCENDING":
+        diceFormula = await actor.getFlag(
+          MODULE_FLAG_NAME,
+          DIE_DESCENDING_FLAG_OPTION
+        );
+
+        if (!diceFormula) {
+          diceFormula = "1d20";
+          await actor.setFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION, {
+            value: "1d20",
+          });
+        } else {
+          diceFormula = diceFormula.value;
+        }
+        break;
+      case "SPELL_LEVEL_DEPENDENT_ROLL":
+        diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
+        break;
+      default:
+        diceFormula = game.settings.get(
+          `${MODULE_ID}`,
+          `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
+        );
+        break;
     }
 
     let r = new Roll(diceFormula);
@@ -101,23 +121,32 @@ export default class MagicSurgeCheck {
     }
   }
 
-  async RunAutoCheck(actor, spellLevel, result, gameType) {
+  async RunAutoCheck(actor, spellLevel, gameType) {
     let isSurge = false;
+    let result;
 
     switch (gameType) {
       case "DEFAULT":
+        result = await this.WildMagicSurgeRollCheck();
         isSurge = this.ResultCheck(
           result,
           game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
         );
         break;
       case "INCREMENTAL_CHECK":
+        result = await this.WildMagicSurgeRollCheck();
         const incrementalCheck = new IncrementalCheck(actor, result);
         isSurge = await incrementalCheck.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
+        result = await this.WildMagicSurgeRollCheck();
         const spellLevelTrigger = new SpellLevelTrigger();
         isSurge = spellLevelTrigger.Check(result, spellLevel);
+        break;
+      case "DIE_DESCENDING":
+        result = await this.WildMagicSurgeRollCheck(actor);
+        const dieDescending = new DieDescending(actor, result);
+        isSurge = await dieDescending.Check();
         break;
       default:
         break;

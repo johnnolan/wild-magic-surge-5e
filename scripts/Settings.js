@@ -36,8 +36,12 @@ export const SURGE_TYPE = {
   DEFAULT: "Standard",
   SPELL_LEVEL_DEPENDENT_ROLL: "Spell Level Dependent Rolls",
   INCREMENTAL_CHECK: "Incremental Check",
+  DIE_DESCENDING: "Descending Dice",
 };
 export const OPT_SURGE_TYPE = "OPT_SURGE_TYPE";
+
+export const MODULE_FLAG_NAME = "wild-magic-surge-5e";
+export const DIE_DESCENDING_FLAG_OPTION = "die_type";
 
 export const ROLL_COMPARISON = {
   EQ: "=",
