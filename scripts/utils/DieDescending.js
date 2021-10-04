@@ -8,7 +8,7 @@ export default class DieDescending {
     this.actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
-      value: "d20",
+      value: "1d20",
     };
   }
 
@@ -56,23 +56,23 @@ export default class DieDescending {
       return await this.SetupDefault();
     } else {
       switch (flagValue.value) {
-        case "d20":
-          flagValue.value = "d12";
+        case "1d20":
+          flagValue.value = "1d12";
           break;
-        case "d12":
-          flagValue.value = "d10";
+        case "1d12":
+          flagValue.value = "1d10";
           break;
-        case "d10":
-          flagValue.value = "d8";
+        case "1d10":
+          flagValue.value = "1d8";
           break;
-        case "d8":
-          flagValue.value = "d6";
+        case "1d8":
+          flagValue.value = "1d6";
           break;
-        case "d6":
-          flagValue.value = "d4";
+        case "1d6":
+          flagValue.value = "1d4";
           break;
-        case "d4":
-          flagValue.value = "d4";
+        case "1d4":
+          flagValue.value = "1d4";
           break;
       }
 

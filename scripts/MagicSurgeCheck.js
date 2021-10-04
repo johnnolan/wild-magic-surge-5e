@@ -70,15 +70,24 @@ export default class MagicSurgeCheck {
     return isASpell && !isNpc && hasWildMagicFeat;
   }
 
-  async WildMagicSurgeRollCheck() {
+  async WildMagicSurgeRollCheck(actor) {
     let diceFormula;
 
     switch (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)) {
       case "DIE_DESCENDING":
-        diceFormula = await this.actor.getFlag(
+        diceFormula = await actor.getFlag(
           MODULE_FLAG_NAME,
           DIE_DESCENDING_FLAG_OPTION
         );
+
+        if (!diceFormula) {
+          diceFormula = "1d20";
+          await actor.setFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION, {
+            value: "1d20",
+          });
+        } else {
+          diceFormula = diceFormula.value;
+        }
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
         diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
@@ -118,26 +127,26 @@ export default class MagicSurgeCheck {
 
     switch (gameType) {
       case "DEFAULT":
-        result = this.WildMagicSurgeRollCheck();
+        result = await this.WildMagicSurgeRollCheck();
         isSurge = this.ResultCheck(
           result,
           game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
         );
         break;
       case "INCREMENTAL_CHECK":
-        result = this.WildMagicSurgeRollCheck();
+        result = await this.WildMagicSurgeRollCheck();
         const incrementalCheck = new IncrementalCheck(actor, result);
         isSurge = await incrementalCheck.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
-        result = this.WildMagicSurgeRollCheck();
+        result = await this.WildMagicSurgeRollCheck();
         const spellLevelTrigger = new SpellLevelTrigger();
         isSurge = spellLevelTrigger.Check(result, spellLevel);
         break;
-      case "SPELL_LEVEL_DEPENDENT_ROLL":
-        result = this.WildMagicSurgeRollCheck();
-        const dieDescending = new DieDescending();
-        isSurge = dieDescending.Check(result, spellLevel);
+      case "DIE_DESCENDING":
+        result = await this.WildMagicSurgeRollCheck(actor);
+        const dieDescending = new DieDescending(actor, result);
+        isSurge = await dieDescending.Check();
         break;
       default:
         break;

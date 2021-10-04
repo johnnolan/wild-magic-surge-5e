@@ -242,6 +242,9 @@ describe("RunAutoCheck", () => {
     jest.resetAllMocks();
     magicSurgeCheck = new MagicSurgeCheck();
     resultCheckSpy = jest.spyOn(magicSurgeCheck, "ResultCheck");
+    jest
+      .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
+      .mockReturnValue(true);
     global.Hooks = {
       callAll: jest.fn().mockReturnValue(),
     };
