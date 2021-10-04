@@ -30,9 +30,31 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 - Hooks for custom macros and other modules to use
 - Track incremental wild magic surge count on token
 
+## Wild Magic Surge Variant Options
+
+Choose how you want to play, either
+
+- Standard, Spell level dependent rolls
+- Incremental Check: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1.
+- Spell level dependent rolls: Wild Magic Surge triggers dependent on spell level (Set options below).
+- Descending Dice: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20.
+
 ## Hooks
 
 I have added in hooks for the following events. This allows other developers or macro users to listen for events from the result of a Wild Magic Surge and add their own custom scripts.
+
+
+### wild-magic-surge-5e.DieDescendingChanged
+
+Example
+
+```
+Hooks.on("wild-magic-surge-5e.DieDescendingChanged", (diceFormula) => {
+  console.log('The current dice being rolled is {diceFormula}')
+});
+```
+
+Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
 
 ### wild-magic-surge-5e.IncrementalCheckChanged
 
