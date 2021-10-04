@@ -27,6 +27,7 @@ import {
   OPT_TSL_LVL10,
   SURGE_TYPE,
   OPT_SURGE_TYPE,
+  OPT_INCREMENTAL_CHECK_TO_CHAT,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 
@@ -41,6 +42,19 @@ Hooks.on("init", function () {
     choices: SURGE_TYPE,
     default: "Default",
     type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`, {
+    name: game.i18n.format(
+      "WildMagicSurge5E.opt_incremental_check_to_chat_name"
+    ),
+    hint: game.i18n.format(
+      "WildMagicSurge5E.opt_incremental_check_to_chat_hint"
+    ),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {

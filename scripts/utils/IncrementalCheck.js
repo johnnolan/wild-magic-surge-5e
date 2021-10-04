@@ -1,5 +1,9 @@
+import { MODULE_ID, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings.js";
+import Chat from "../Chat.js";
+
 export default class IncrementalCheck {
   constructor(actor, rollValue) {
+    this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
@@ -11,13 +15,25 @@ export default class IncrementalCheck {
     this.FLAG_OPTION = "surge_increment_resource";
   }
 
+  async CallChanged(value) {
+    Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
+
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
+      this.chat.SendChat(
+        `${game.i18n.format(
+          "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
+        )} ${value}`
+      );
+    }
+  }
+
   async SetupDefault() {
     await this.actor.setFlag(
       this.FLAG_NAME,
       this.FLAG_OPTION,
       this.defaultValue
     );
-    Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", 1);
+    this.CallChanged(1);
     return this.rollValue === 1;
   }
 
@@ -45,7 +61,7 @@ export default class IncrementalCheck {
         this.FLAG_OPTION,
         this.defaultValue
       );
-      Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", 1);
+      this.CallChanged(1);
       return true;
     } else {
       incrementLevel.value = incrementLevel.value + 1;
@@ -54,10 +70,7 @@ export default class IncrementalCheck {
         this.FLAG_OPTION,
         incrementLevel
       );
-      Hooks.callAll(
-        "wild-magic-surge-5e.IncrementalCheckChanged",
-        incrementLevel.value
-      );
+      this.CallChanged(incrementLevel.value);
     }
 
     return false;
