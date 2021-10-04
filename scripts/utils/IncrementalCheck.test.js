@@ -94,7 +94,11 @@ describe("Check", () => {
     let incrementalCheck;
     beforeEach(() => {
       let newActor = actor;
-      newActor.getFlag = jest.fn().mockResolvedValue(2);
+      newActor.getFlag = jest.fn().mockResolvedValue({
+        max: 20,
+        min: 1,
+        value: 2,
+      });
       incrementalCheck = new IncrementalCheck(actor, 4);
     });
 
