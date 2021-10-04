@@ -124,6 +124,12 @@ This message is configurable should you wish.
 
 [![Auto Roll a check for Wild Magic Surge instead of just a reminder to roll](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)
 
+### Send Incremental Check charge to chat
+
+When enabled, each time a incremental check for a surge changes it is posted to Chat for others to see.
+
+[![Send Incremental Check charge to chat](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/increment-chat.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/increment-chat.jpg)
+
 ### Enable Auto Roll on a Wild Magic Surge Table
 
 This option takes things a step further and will roll a Roll Table on a `Wild Magic Surge`.
