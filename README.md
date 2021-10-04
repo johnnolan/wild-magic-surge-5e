@@ -54,7 +54,7 @@ Hooks.on("wild-magic-surge-5e.DieDescendingChanged", (diceFormula) => {
 });
 ```
 
-Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
+Runs when you set the module to `Descending Dice` and the dice value changes. Returns `string`.
 
 ### wild-magic-surge-5e.IncrementalCheckChanged
 
@@ -66,7 +66,7 @@ Hooks.on("wild-magic-surge-5e.IncrementalCheckChanged", (num) => {
 });
 ```
 
-Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
+Runs when you set the module to `Incremental Check` and the increment increases. Returns `integer`.
 
 ### wild-magic-surge-5e.CheckForSurge
 
