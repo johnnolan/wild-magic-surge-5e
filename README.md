@@ -34,6 +34,18 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 
 I have added in hooks for the following events. This allows other developers or macro users to listen for events from the result of a Wild Magic Surge and add their own custom scripts.
 
+### wild-magic-surge-5e.IncrementalCheckChanged
+
+Example
+
+```
+Hooks.on("wild-magic-surge-5e.IncrementalCheckChanged", (num) => {
+  console.log('The current charge value is {num}')
+});
+```
+
+Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
+
 ### wild-magic-surge-5e.CheckForSurge
 
 Example

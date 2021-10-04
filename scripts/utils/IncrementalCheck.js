@@ -17,6 +17,7 @@ export default class IncrementalCheck {
       this.FLAG_OPTION,
       this.defaultValue
     );
+    Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", 1);
     return this.rollValue === 1;
   }
 
@@ -44,6 +45,7 @@ export default class IncrementalCheck {
         this.FLAG_OPTION,
         this.defaultValue
       );
+      Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", 1);
       return true;
     } else {
       incrementLevel.value = incrementLevel.value + 1;
@@ -51,6 +53,10 @@ export default class IncrementalCheck {
         this.FLAG_NAME,
         this.FLAG_OPTION,
         incrementLevel
+      );
+      Hooks.callAll(
+        "wild-magic-surge-5e.IncrementalCheckChanged",
+        incrementLevel.value
       );
     }
 
