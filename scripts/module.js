@@ -49,6 +49,15 @@ Hooks.on("init", function () {
     type: Boolean,
   });
 
+  game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_hint"),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
   game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_surge_type_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_surge_type_hint"),
@@ -104,15 +113,6 @@ Hooks.on("init", function () {
     ),
     scope: "world",
     config: false,
-    default: false,
-    type: Boolean,
-  });
-
-  game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_whisper_gm_hint"),
-    scope: "world",
-    config: true,
     default: false,
     type: Boolean,
   });
