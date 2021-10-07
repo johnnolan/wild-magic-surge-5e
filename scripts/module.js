@@ -30,30 +30,22 @@ import {
   OPT_INCREMENTAL_CHECK_TO_CHAT,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
+import {
+  ChatSettingsPanel,
+  IncrementalSettingsPanel,
+  SpellLevelSettingsPanel,
+  StandardSettingsPanel,
+} from "./panels/index.js";
 
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
 
-  game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_surge_type_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_surge_type_hint"),
+  game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_hint"),
     scope: "world",
     config: true,
-    choices: SURGE_TYPE,
-    default: "Default",
-    type: String,
-  });
-
-  game.settings.register(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`, {
-    name: game.i18n.format(
-      "WildMagicSurge5E.opt_incremental_check_to_chat_name"
-    ),
-    hint: game.i18n.format(
-      "WildMagicSurge5E.opt_incremental_check_to_chat_hint"
-    ),
-    scope: "world",
-    config: true,
-    default: false,
+    default: true,
     type: Boolean,
   });
 
@@ -66,29 +58,79 @@ Hooks.on("init", function () {
     type: Boolean,
   });
 
+  game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_surge_type_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_surge_type_hint"),
+    scope: "world",
+    config: true,
+    choices: SURGE_TYPE,
+    default: "Default",
+    type: String,
+  });
+
+  game.settings.registerMenu(`${MODULE_ID}`, `StandardSettingsPanel`, {
+    name: "Standard PHB Variant",
+    label: "Configure",
+    icon: "fas fa-cog",
+    scope: "world",
+    type: StandardSettingsPanel,
+    restricted: true,
+  });
+
+  game.settings.registerMenu(`${MODULE_ID}`, `SpellLevelSettingsPanel`, {
+    name: "Spell Level Dependent Rolls Variant",
+    label: "Configure",
+    icon: "fas fa-cog",
+    scope: "world",
+    type: SpellLevelSettingsPanel,
+    restricted: true,
+  });
+
+  game.settings.registerMenu(`${MODULE_ID}`, `IncrementalSettingsPanel`, {
+    name: "Incremental Check Variant",
+    label: "Configure",
+    icon: "fas fa-cog",
+    scope: "world",
+    type: IncrementalSettingsPanel,
+    restricted: true,
+  });
+
+  game.settings.registerMenu(`${MODULE_ID}`, `ChatSettingsPanel`, {
+    name: "Chat Message Options",
+    label: "Configure",
+    icon: "fas fa-cog",
+    scope: "world",
+    type: ChatSettingsPanel,
+    restricted: true,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`, {
+    name: game.i18n.format(
+      "WildMagicSurge5E.opt_incremental_check_to_chat_name"
+    ),
+    hint: game.i18n.format(
+      "WildMagicSurge5E.opt_incremental_check_to_chat_hint"
+    ),
+    scope: "world",
+    config: false,
+    default: false,
+    type: Boolean,
+  });
+
   game.settings.register(`${MODULE_ID}`, `${OPT_CHAT_MSG}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_chat_msg_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_chat_msg_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "Wild Magic Check - Roll a D20",
     type: String,
-  });
-
-  game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_hint"),
-    scope: "world",
-    config: true,
-    default: false,
-    type: Boolean,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "Wild Magic Surge! Roll a D100!",
     type: String,
   });
@@ -97,7 +139,7 @@ Hooks.on("init", function () {
     name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_no_surge_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "No wild magic surge",
     type: String,
   });
@@ -146,7 +188,7 @@ Hooks.on("init", function () {
       "WildMagicSurge5E.opt_custom_roll_dice_formula_hint"
     ),
     scope: "world",
-    config: true,
+    config: false,
     default: "1d20",
     type: String,
   });
@@ -159,7 +201,7 @@ Hooks.on("init", function () {
       "WildMagicSurge5E.opt_custom_roll_result_check_hint"
     ),
     scope: "world",
-    config: true,
+    config: false,
     choices: ROLL_COMPARISON,
     default: "EQ",
     type: String,
@@ -169,7 +211,7 @@ Hooks.on("init", function () {
     name: game.i18n.format("WildMagicSurge5E.opt_custom_roll_result_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_custom_roll_result_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "1",
     type: String,
   });
@@ -178,7 +220,7 @@ Hooks.on("init", function () {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_die_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_tsl_die_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "1d20",
     type: String,
   });
@@ -187,7 +229,7 @@ Hooks.on("init", function () {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -195,7 +237,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL2}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl2_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -203,7 +245,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL3}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl3_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -211,7 +253,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL4}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl4_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -219,7 +261,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL5}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl5_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -227,7 +269,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL6}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl6_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -235,7 +277,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL7}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl7_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -243,7 +285,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL8}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl8_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -251,7 +293,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL9}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl9_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });
@@ -259,7 +301,7 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_TSL_LVL10}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl10_name"),
     scope: "world",
-    config: true,
+    config: false,
     default: "= 1",
     type: String,
   });

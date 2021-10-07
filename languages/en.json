@@ -1,5 +1,5 @@
 {
-  "WildMagicSurge5E.opt_incremental_check_to_chat_name": "Send Incremental Check charge to chat",
+  "WildMagicSurge5E.opt_incremental_check_to_chat_name": "Send to chat",
   "WildMagicSurge5E.opt_incremental_check_to_chat_hint": "When enabled, each time a incremental check for a surge changes it is posted to Chat for others to see.",
 
   "WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Wild Magic Surge Charge Count",
@@ -7,28 +7,28 @@
   "WildMagicSurge5E.opt_whisper_gm_name": "Whisper chat results to GM",
   "WildMagicSurge5E.opt_whisper_gm_hint": "When enabled, all messages are sent as Blind GM messages instead of from the player.",
 
-  "WildMagicSurge5E.opt_chat_msg_name": "Text to show in chat",
-  "WildMagicSurge5E.opt_chat_msg_hint": "Enter custom message in chat box.",
+  "WildMagicSurge5E.opt_chat_msg_name": "Message to check for surge",
+  "WildMagicSurge5E.opt_chat_msg_hint": "When automation is disabled, this message will show in chat to remind you when a spell is cast.",
 
-  "WildMagicSurge5E.opt_auto_d20_name": "Auto Roll for a Wild Magic Surge instead of just the prompt",
-  "WildMagicSurge5E.opt_auto_d20_hint": "Auto roll the dice and show the result.",
+  "WildMagicSurge5E.opt_auto_d20_name": "Automate Wild Magic Surge",
+  "WildMagicSurge5E.opt_auto_d20_hint": "When disabled, will ignore all other options and alert to the Chat Message. When enabled, will create a chat message to remind you to ask for a check.",
 
-  "WildMagicSurge5E.opt_auto_d20_msg_name": "Text to show in chat with Auto Wild Magic Surge roll",
+  "WildMagicSurge5E.opt_auto_d20_msg_name": "Surge Chat Message Success",
   "WildMagicSurge5E.opt_auto_d20_msg_hint": "On a Wild Magic Surge, show this message.",
 
-  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Text to show in chat with Auto Wild Magic Surge roll and no surge happens",
+  "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Surge Chat Message Fail",
   "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint": "On a failed auto Wild Magic Surge roll, show this message.",
 
-  "WildMagicSurge5E.opt_enable_toc_name": "Enable Tides of Chaos auto recharge",
+  "WildMagicSurge5E.opt_enable_toc_name": "Tides of Chaos auto recharge",
   "WildMagicSurge5E.opt_enable_toc_hint": "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs.",
 
   "WildMagicSurge5E.opt_enable_toc_recharge_msg_name": "Tides of Chaos recharge message",
   "WildMagicSurge5E.opt_enable_toc_recharge_msg_hint": "Tides of Chaos recharge message.",
 
-  "WildMagicSurge5E.opt_rolltable_enabled_name": "Enable Auto Roll on a Wild Magic Surge Table",
+  "WildMagicSurge5E.opt_rolltable_enabled_name": "Auto Roll Table",
   "WildMagicSurge5E.opt_rolltable_enabled_hint": "Enable Auto Roll on a Wild Magic Surge Table.",
 
-  "WildMagicSurge5E.opt_rolltable_name_name": "Wild Magic Surge Table",
+  "WildMagicSurge5E.opt_rolltable_name_name": "Roll Table Name",
   "WildMagicSurge5E.opt_rolltable_name_hint": "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
 
   "WildMagicSurge5E.opt_custom_roll_dice_formula_name": "Dice Formula",
