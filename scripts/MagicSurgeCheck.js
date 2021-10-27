@@ -36,7 +36,9 @@ export default class MagicSurgeCheck {
     if (await this.isValid(chatMessage, actor)) {
       if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
         const spellParser = new SpellParser();
-        const spellLevel = await spellParser.SpellLevel(chatMessage.data.content);
+        const spellLevel = await spellParser.SpellLevel(
+          chatMessage.data.content
+        );
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
         await this.RunAutoCheck(actor, spellLevel, gameType);
       } else {
