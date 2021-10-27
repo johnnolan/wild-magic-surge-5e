@@ -55,8 +55,8 @@ describe("SpellLevel", () => {
       spellParser = new SpellParser();
     });
 
-    it("should be false", () => {
-      const result = spellParser.SpellLevel("Big Sword");
+    it("should be false", async () => {
+      const result = await spellParser.SpellLevel("Big Sword");
       expect(result).toBeFalsy();
     });
   });
@@ -85,8 +85,8 @@ describe("IsSpell", () => {
       spellParser = new SpellParser();
     });
 
-    it("should be false", () => {
-      const result = spellParser.IsSpell("Big Sword");
+    it("should be false", async () => {
+      const result = await spellParser.IsSpell("Big Sword");
       expect(result).toBeFalsy();
     });
   });

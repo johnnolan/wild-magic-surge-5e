@@ -7,3 +7,13 @@ export const chatMessage = {
     },
   },
 };
+
+export const chatMessageNoSpell = {
+  data: {
+    content: "Big Sword Garh",
+    user: "123",
+    speaker: {
+      actor: "123",
+    },
+  },
+};

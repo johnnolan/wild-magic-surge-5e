@@ -24,12 +24,17 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.2.4",
+    "jquery": "^3.6.0",
     "prettier": "^2.4.1"
   },
   "jest": {
+    "setupFiles": [
+      "<rootDir>/test-env.js"
+    ],
     "resetMocks": false,
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+    },
+    "testEnvironment": "jsdom"
   }
 }
