@@ -33,10 +33,12 @@ export default class MagicSurgeCheck {
     if (!actor) {
       return false;
     }
-    if (this.isValid(chatMessage, actor)) {
+    if (await this.isValid(chatMessage, actor)) {
       if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
         const spellParser = new SpellParser();
-        const spellLevel = spellParser.SpellLevel(chatMessage.data.content);
+        const spellLevel = await spellParser.SpellLevel(
+          chatMessage.data.content
+        );
         const gameType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
         await this.RunAutoCheck(actor, spellLevel, gameType);
       } else {
@@ -45,7 +47,7 @@ export default class MagicSurgeCheck {
     }
   }
 
-  isValid(chatMessage, actor) {
+  async isValid(chatMessage, actor) {
     if (!chatMessage.data.speaker || !chatMessage.data.speaker.actor) {
       return false;
     }
@@ -63,7 +65,7 @@ export default class MagicSurgeCheck {
     }
 
     const spellParser = new SpellParser();
-    const isASpell = spellParser.IsSpell(chatMessage.data.content);
+    const isASpell = await spellParser.IsSpell(chatMessage.data.content);
     const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
     const isNpc = spellParser.IsNPC(actor);
 

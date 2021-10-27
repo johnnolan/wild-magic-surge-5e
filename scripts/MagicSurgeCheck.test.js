@@ -1,9 +1,8 @@
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
-import SpellParser from "./utils/SpellParser.js";
 import { actor } from "../MockData/actor.js";
-import { chatMessage } from "../MockData/chatMessage.js";
+import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
 
 jest.mock("./utils/SpellLevelTrigger.js");
 jest.mock("./utils/IncrementalCheck.js");
@@ -63,7 +62,7 @@ describe("Check", () => {
         };
       });
       it("It returns from module", async () => {
-        const result = await magicSurgeCheck.Check(chatMessage);
+        const result = await magicSurgeCheck.Check(chatMessageNoSpell);
         expect(magicSurgeCheck.RunMessageCheck).not.toBeCalled();
         expect(magicSurgeCheck.RunMessageCheck).toHaveBeenCalledTimes(0);
         expect(magicSurgeCheck.RunAutoCheck).not.toBeCalled();
