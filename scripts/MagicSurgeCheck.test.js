@@ -197,39 +197,82 @@ describe("Check", () => {
 });
 
 describe("resultCheck", () => {
-  let magicSurgeCheck;
-  beforeAll(() => {
-    magicSurgeCheck = new MagicSurgeCheck();
-    global.game = {
-      actors: actor,
-      settings: {
-        get: jest.fn().mockReturnValue(2),
-      },
-    };
+  describe("has 1 value in the result check", () => {
+    let magicSurgeCheck;
+    beforeAll(() => {
+      magicSurgeCheck = new MagicSurgeCheck();
+      global.game = {
+        actors: actor,
+        settings: {
+          get: jest.fn().mockReturnValue("2"),
+        },
+      };
+    });
+    test("roll of 2 EQ 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "EQ");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 2 Not EQ 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(1, "EQ");
+      expect(result).toBeFalsy();
+    });
+    test("roll of 2 Not GT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "GT");
+      expect(result).toBeFalsy();
+    });
+    test("roll of 3 GT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(3, "GT");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 2 Not LT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "LT");
+      expect(result).toBeFalsy();
+    });
+    test("roll of 1 LT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(1, "LT");
+      expect(result).toBeTruthy();
+    });
   });
-  test("roll of 2 EQ 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(2, "EQ");
-    expect(result).toBeTruthy();
-  });
-  test("roll of 2 Not EQ 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(1, "EQ");
-    expect(result).toBeFalsy();
-  });
-  test("roll of 2 Not GT 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(2, "GT");
-    expect(result).toBeFalsy();
-  });
-  test("roll of 3 GT 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(3, "GT");
-    expect(result).toBeTruthy();
-  });
-  test("roll of 2 Not LT 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(2, "LT");
-    expect(result).toBeFalsy();
-  });
-  test("roll of 1 LT 2", async () => {
-    const result = await magicSurgeCheck.ResultCheck(1, "LT");
-    expect(result).toBeTruthy();
+
+  describe("has 2 values in the result check", () => {
+    let magicSurgeCheck;
+    beforeAll(() => {
+      magicSurgeCheck = new MagicSurgeCheck();
+      global.game = {
+        actors: actor,
+        settings: {
+          get: jest.fn().mockReturnValue("2, 4"),
+        },
+      };
+    });
+    test("roll of 2 EQ 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "EQ");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 4 EQ 4", async () => {
+      const result = await magicSurgeCheck.ResultCheck(4, "EQ");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 2 Not EQ 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(1, "EQ");
+      expect(result).toBeFalsy();
+    });
+    test("roll of 2 Not GT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "GT");
+      expect(result).toBeFalsy();
+    });
+    test("roll of 3 GT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(3, "GT");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 2 Not LT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(2, "LT");
+      expect(result).toBeTruthy();
+    });
+    test("roll of 1 LT 2", async () => {
+      const result = await magicSurgeCheck.ResultCheck(1, "LT");
+      expect(result).toBeTruthy();
+    });
   });
 });
 

@@ -107,20 +107,42 @@ export default class MagicSurgeCheck {
     return r.total;
   }
 
+  SplitRollResult(resultValues) {
+    if (resultValues) {
+      return resultValues.toString().replace(/\s/g, "").split(",");
+    } else {
+      return [];
+    }
+  }
+
   ResultCheck(result, comparison) {
-    const rollResultTarget = parseInt(
+    const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
-    switch (comparison) {
-      case "EQ":
-        return result === rollResultTarget;
-      case "GT":
-        return result > rollResultTarget;
-      case "LT":
-        return result < rollResultTarget;
-      default:
-        return false;
+
+    for (let i = 0; i < rollResultTargets.length; i++) {
+      const rollResultTarget = parseInt(rollResultTargets[i]);
+
+      switch (comparison) {
+        case "EQ":
+          if (result === rollResultTarget) {
+            return true;
+          }
+          break;
+        case "GT":
+          if (result > rollResultTarget) {
+            return true;
+          }
+          break;
+        case "LT":
+          if (result < rollResultTarget) {
+            return true;
+          }
+          break;
+      }
     }
+
+    return false;
   }
 
   async RunAutoCheck(actor, spellLevel, gameType) {
