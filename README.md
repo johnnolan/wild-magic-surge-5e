@@ -32,7 +32,9 @@ Also
 - Auto roll for Wild Magic Surge
 - Auto roll Custom Roll Table for effect
 - `Tides of Chaos` auto recharge
-- Custom dice roll check for surge (default is `1d20` and a roll of `1`)
+- Custom dice roll check for surge
+  - default is `1d20` and a roll of `1`
+  - Can also set multiple target results using a comma seperated value list
 - Ability to set your own roll evaluation dependent on the spell level used
 - Hooks for custom macros and other modules to use
 - Track incremental wild magic surge count on token
@@ -174,6 +176,8 @@ Set a custom dice formula you want to roll to check for a `Wild Magic Surge`. Th
 ### The target result of the dice roll
 
 What is the dice roll result you want to check against. The default is `1`.
+
+Can also set multiple target results using a comma seperated value list like `1, 3, 5, 10, 19`
 
 [![The target result of the dice roll](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/target-result-dice-roll.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/target-result-dice-roll.jpg)
 

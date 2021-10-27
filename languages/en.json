@@ -35,7 +35,7 @@
   "WildMagicSurge5E.opt_custom_roll_dice_formula_hint": "Set the dice formula you want to roll. The default is 1d20.",
 
   "WildMagicSurge5E.opt_custom_roll_result_name": "The target result of the dice roll",
-  "WildMagicSurge5E.opt_custom_roll_result_hint": "What is the dice roll result you want to check against.",
+  "WildMagicSurge5E.opt_custom_roll_result_hint": "What is the dice roll result you want to check against. For multiple value use a comma seperated value list like '1, 4, 10'.",
 
   "WildMagicSurge5E.opt_custom_roll_result_check_name": "Roll result boolean expression",
   "WildMagicSurge5E.opt_custom_roll_result_check_hint": "Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the Wild Magic Surge.",
