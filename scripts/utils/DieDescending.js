@@ -1,10 +1,7 @@
-//import { MODULE_ID, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings.js";
-//import Chat from "../Chat.js";
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings.js";
 
 export default class DieDescending {
   constructor(actor, rollValue) {
-    //this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
@@ -14,14 +11,6 @@ export default class DieDescending {
 
   async CallChanged(value) {
     Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", value);
-
-    /*if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
-      this.chat.SendChat(
-        `${game.i18n.format(
-          "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
-        )} ${value}`
-      );
-    }*/
   }
 
   async SetupDefault() {
@@ -31,7 +20,7 @@ export default class DieDescending {
       this.defaultValue
     );
     this.CallChanged(this.defaultValue);
-    return this.rollValue === 1;
+    return this.rollValue === "1";
   }
 
   async Check() {
@@ -52,7 +41,7 @@ export default class DieDescending {
       return await this.SetupDefault();
     }
 
-    if (this.rollValue === 1) {
+    if (this.rollValue === "1") {
       return await this.SetupDefault();
     } else {
       switch (flagValue.value) {

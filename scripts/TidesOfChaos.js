@@ -34,7 +34,7 @@ export default class TidesOfChaos {
 
     let updates = [];
     updates.push({
-      _id: tidesItem._id,
+      _id: tidesItem.id,
       "data.uses.value": 1,
       "data.recharge.charged": true,
     });

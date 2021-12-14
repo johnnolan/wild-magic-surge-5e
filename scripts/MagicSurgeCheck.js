@@ -104,7 +104,7 @@ export default class MagicSurgeCheck {
 
     let r = new Roll(diceFormula);
     r.evaluate();
-    return r.total;
+    return r.result;
   }
 
   SplitRollResult(resultValues) {
