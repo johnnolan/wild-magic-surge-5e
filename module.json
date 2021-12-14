@@ -5,8 +5,8 @@
   "version": "This is auto replaced",
   "library": "false",
   "manifestPlusVersion": "1.0.0",
-  "minimumCoreVersion": "0.9.0",
-  "compatibleCoreVersion": "0.9.0",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
   "author": "John Nolan",
   "authors": [
     {
