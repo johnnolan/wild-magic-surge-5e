@@ -7,14 +7,12 @@ describe("Check", () => {
       jest.clearAllMocks();
       jest.resetAllMocks();
       global.game = {
-        tables: {
-          entities: [
-            {
-              name: "Wild Magic Surge",
-              roll: jest.fn().mockResolvedValue(true),
-            },
-          ],
-        },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+          },
+        ],
         settings: {
           get: jest
             .fn()
@@ -27,8 +25,8 @@ describe("Check", () => {
 
     it("should call the draw function once", () => {
       rollTableMagicSurge.Check();
-      expect(global.game.tables.entities[0].roll).toBeCalled();
-      expect(global.game.tables.entities[0].roll).toHaveBeenCalledTimes(1);
+      expect(global.game.tables[0].roll).toBeCalled();
+      expect(global.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -38,14 +36,12 @@ describe("Check", () => {
       jest.clearAllMocks();
       jest.resetAllMocks();
       global.game = {
-        tables: {
-          entities: [
-            {
-              name: "Wild Magic Surge",
-              roll: jest.fn().mockResolvedValue(true),
-            },
-          ],
-        },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+          },
+        ],
         settings: {
           get: jest
             .fn()
@@ -58,8 +54,8 @@ describe("Check", () => {
 
     it("should not call the draw or roll function", () => {
       rollTableMagicSurge.Check();
-      expect(global.game.tables.entities[0].roll).not.toBeCalled();
-      expect(global.game.tables.entities[0].roll).toHaveBeenCalledTimes(0);
+      expect(global.game.tables[0].roll).not.toBeCalled();
+      expect(global.game.tables[0].roll).toHaveBeenCalledTimes(0);
     });
   });
 });

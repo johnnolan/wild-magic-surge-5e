@@ -5,7 +5,7 @@ describe("Check", () => {
   describe("If a roll of 1 with no actor", () => {
     let dieDescending;
     beforeEach(() => {
-      dieDescending = new DieDescending(undefined, 1);
+      dieDescending = new DieDescending(undefined, "1");
     });
 
     it("should return false", async () => {
@@ -23,7 +23,7 @@ describe("Check", () => {
           flags: [],
         },
       };
-      dieDescending = new DieDescending(newActor, 1);
+      dieDescending = new DieDescending(newActor, "1");
     });
 
     it("should return true", async () => {
@@ -41,7 +41,7 @@ describe("Check", () => {
           flags: [],
         },
       };
-      dieDescending = new DieDescending(newActor, 10);
+      dieDescending = new DieDescending(newActor, "10");
     });
 
     it("should return false", async () => {
@@ -55,7 +55,7 @@ describe("Check", () => {
     beforeEach(() => {
       let newActor = actor;
       newActor.data.flags["wild-magic-surge-5e"] = {};
-      dieDescending = new DieDescending(newActor, 1);
+      dieDescending = new DieDescending(newActor, "1");
     });
 
     it("should return true", async () => {
@@ -69,7 +69,7 @@ describe("Check", () => {
     beforeEach(() => {
       let newActor = actor;
       newActor.data.flags["wild-magic-surge-5e"] = {};
-      dieDescending = new DieDescending(actor, 4);
+      dieDescending = new DieDescending(actor, "4");
     });
 
     it("should return false", async () => {
@@ -81,7 +81,7 @@ describe("Check", () => {
   describe("If a roll of 1 flag set as 1", () => {
     let dieDescending;
     beforeEach(() => {
-      dieDescending = new DieDescending(actor, 1);
+      dieDescending = new DieDescending(actor, "1");
     });
 
     it("should return true", async () => {
@@ -99,7 +99,7 @@ describe("Check", () => {
         min: 1,
         value: 2,
       });
-      dieDescending = new DieDescending(actor, 4);
+      dieDescending = new DieDescending(actor, "4");
     });
 
     it("should return false", async () => {
