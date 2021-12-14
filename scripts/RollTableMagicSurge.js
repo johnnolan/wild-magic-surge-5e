@@ -20,9 +20,7 @@ export default class RollTableMagicSurge {
       return;
     }
 
-    const surgeRollTable = game.tables.entities.find(
-      (t) => t.name === rollTableName
-    );
+    const surgeRollTable = game.tables.find((t) => t.name === rollTableName);
 
     surgeRollTable.roll().then((result) => {
       new Chat().SendRollTable(result, surgeRollTable);
