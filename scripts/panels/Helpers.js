@@ -24,7 +24,7 @@ export function SettingsList(settings) {
         }
 
         chatSettingsList.push({
-          module: value.namespace,
+          module: value.namespace ? value.namespace : value.module,
           key: value.key,
           type: value.type.name,
           isBoolean: value.type.name === "Boolean",
