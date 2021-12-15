@@ -12,6 +12,7 @@ import {
   OPT_SURGE_TYPE,
   MODULE_FLAG_NAME,
   DIE_DESCENDING_FLAG_OPTION,
+  OPT_ENABLE_NPCS,
 } from "./Settings.js";
 import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
@@ -67,8 +68,12 @@ export default class MagicSurgeCheck {
     const spellParser = new SpellParser();
     const isASpell = await spellParser.IsSpell(chatMessage.data.content);
     const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
-    const isNpc = spellParser.IsNPC(actor);
 
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
+      return isASpell && hasWildMagicFeat;
+    }
+
+    const isNpc = spellParser.IsNPC(actor);
     return isASpell && !isNpc && hasWildMagicFeat;
   }
 
