@@ -39,7 +39,7 @@ Also
 - Ability to set your own roll evaluation dependent on the spell level used
 - Hooks for custom macros and other modules to use
 - Track incremental wild magic surge count on token
-
+- Optionally track NPCs Wild Magic Surges
 
 ## Hooks
 
@@ -173,6 +173,12 @@ Another option allows you to recharge `Tides of Chaos` automatically on a `Wild 
 Set a custom dice formula you want to roll to check for a `Wild Magic Surge`. The default is `1d20`.
 
 [![Dice Formula](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/dice-formula.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/dice-formula.jpg)
+
+### Track Wild Magic Surge for NPCs
+
+Enabling this setting will automate Wild Magic Surge for Non Player Characters as well as Player Characters. Ensure the NPC has the `Wilg Magic Surge` feat.
+
+[![Dice Formula](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/track-npcs.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/track-npcs.jpg)
 
 ### The target result of the dice roll
 

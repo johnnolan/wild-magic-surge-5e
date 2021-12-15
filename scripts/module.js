@@ -28,6 +28,7 @@ import {
   SURGE_TYPE,
   OPT_SURGE_TYPE,
   OPT_INCREMENTAL_CHECK_TO_CHAT,
+  OPT_ENABLE_NPCS,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import {
@@ -304,6 +305,15 @@ Hooks.on("init", function () {
     config: false,
     default: "= 1",
     type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_npcs_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_npcs_hint"),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
   });
 });
 
