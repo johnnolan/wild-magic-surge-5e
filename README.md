@@ -40,6 +40,7 @@ Also
 - Hooks for custom macros and other modules to use
 - Track incremental wild magic surge count on token
 - Optionally track NPCs Wild Magic Surges
+- Adds `Dice So Nice` integration if the module is enabled
 
 ## Hooks
 
