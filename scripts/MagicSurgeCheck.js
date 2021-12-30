@@ -120,6 +120,7 @@ export default class MagicSurgeCheck {
   }
 
   ResultCheck(result, comparison) {
+    const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
@@ -129,17 +130,17 @@ export default class MagicSurgeCheck {
 
       switch (comparison) {
         case "EQ":
-          if (result === rollResultTarget) {
+          if (rollResult === rollResultTarget) {
             return true;
           }
           break;
         case "GT":
-          if (result > rollResultTarget) {
+          if (rollResult > rollResultTarget) {
             return true;
           }
           break;
         case "LT":
-          if (result < rollResultTarget) {
+          if (rollResult < rollResultTarget) {
             return true;
           }
           break;
