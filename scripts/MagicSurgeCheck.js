@@ -107,9 +107,8 @@ export default class MagicSurgeCheck {
         break;
     }
 
-    let r = new Roll(diceFormula);
-    r.evaluate();
-    return r.result;
+    let r = await new Roll(diceFormula).roll({ async: true });
+    return r;
   }
 
   SplitRollResult(resultValues) {
@@ -121,6 +120,7 @@ export default class MagicSurgeCheck {
   }
 
   ResultCheck(result, comparison) {
+    const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
@@ -130,17 +130,17 @@ export default class MagicSurgeCheck {
 
       switch (comparison) {
         case "EQ":
-          if (result === rollResultTarget) {
+          if (rollResult === rollResultTarget) {
             return true;
           }
           break;
         case "GT":
-          if (result > rollResultTarget) {
+          if (rollResult > rollResultTarget) {
             return true;
           }
           break;
         case "LT":
-          if (result < rollResultTarget) {
+          if (rollResult < rollResultTarget) {
             return true;
           }
           break;
@@ -152,60 +152,54 @@ export default class MagicSurgeCheck {
 
   async RunAutoCheck(actor, spellLevel, gameType) {
     let isSurge = false;
-    let result;
+    let roll;
 
     switch (gameType) {
       case "DEFAULT":
-        result = await this.WildMagicSurgeRollCheck();
+        roll = await this.WildMagicSurgeRollCheck();
         isSurge = this.ResultCheck(
-          result,
+          roll.result,
           game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
         );
         break;
       case "INCREMENTAL_CHECK":
-        result = await this.WildMagicSurgeRollCheck();
-        const incrementalCheck = new IncrementalCheck(actor, result);
+        roll = await this.WildMagicSurgeRollCheck();
+        const incrementalCheck = new IncrementalCheck(actor, roll.result);
         isSurge = await incrementalCheck.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
-        result = await this.WildMagicSurgeRollCheck();
+        roll = await this.WildMagicSurgeRollCheck();
         const spellLevelTrigger = new SpellLevelTrigger();
-        isSurge = spellLevelTrigger.Check(result, spellLevel);
+        isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
         break;
       case "DIE_DESCENDING":
-        result = await this.WildMagicSurgeRollCheck(actor);
-        const dieDescending = new DieDescending(actor, result);
+        roll = await this.WildMagicSurgeRollCheck(actor);
+        const dieDescending = new DieDescending(actor, roll.result);
         isSurge = await dieDescending.Check();
         break;
       default:
-        break;
+        return;
     }
 
     if (isSurge) {
       this.chat.SendChat(
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
-        `[[/r ${result} #${game.settings.get(
-          `${MODULE_ID}`,
-          `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
-        )} result]]`
+        roll
       );
       this.tidesOfChaos.Check(actor);
       this.rollTableMagicSurge.Check();
       Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
         surge: true,
-        result: result,
+        result: roll.result,
       });
     } else {
       this.chat.SendChat(
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
-        `[[/r ${result} #${game.settings.get(
-          `${MODULE_ID}`,
-          `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
-        )} result]]`
+        roll
       );
       Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
         surge: false,
-        result: result,
+        result: roll.result,
       });
     }
   }

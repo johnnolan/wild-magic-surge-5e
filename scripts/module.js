@@ -6,7 +6,6 @@ import {
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
   OPT_ENABLE_TOC,
-  OPT_TOC_RECHARGE_MSG,
   OPT_ROLLTABLE_ENABLE,
   OPT_ROLLTABLE_NAME,
   OPT_WHISPER_GM,
@@ -152,15 +151,6 @@ Hooks.on("init", function () {
     config: true,
     default: false,
     type: Boolean,
-  });
-
-  game.settings.register(`${MODULE_ID}`, `${OPT_TOC_RECHARGE_MSG}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_enable_toc_recharge_msg_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_enable_toc_recharge_msg_hint"),
-    scope: "world",
-    config: true,
-    default: "Tides of Chaos Recharged",
-    type: String,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`, {

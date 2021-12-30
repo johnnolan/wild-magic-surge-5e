@@ -22,9 +22,6 @@
   "WildMagicSurge5E.opt_enable_toc_name": "Tides of Chaos auto recharge",
   "WildMagicSurge5E.opt_enable_toc_hint": "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs.",
 
-  "WildMagicSurge5E.opt_enable_toc_recharge_msg_name": "Tides of Chaos recharge message",
-  "WildMagicSurge5E.opt_enable_toc_recharge_msg_hint": "Tides of Chaos recharge message.",
-
   "WildMagicSurge5E.opt_rolltable_enabled_name": "Auto Roll Table",
   "WildMagicSurge5E.opt_rolltable_enabled_hint": "Enable Auto Roll on a Wild Magic Surge Table.",
 

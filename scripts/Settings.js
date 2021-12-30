@@ -7,7 +7,6 @@ export const OPT_ROLLTABLE_ENABLE = "enableRollTable";
 export const OPT_ROLLTABLE_NAME = "rollTableName";
 
 export const OPT_ENABLE_TOC = "enableTidesOfChaosRecharge";
-export const OPT_TOC_RECHARGE_MSG = "tidesOfChaosRechargeMessage";
 
 export const OPT_CHAT_MSG = "magicSurgeChatMessage";
 export const OPT_AUTO_D20 = "autoRollD20";
