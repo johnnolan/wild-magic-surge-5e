@@ -299,8 +299,8 @@ describe("RunAutoCheck", () => {
     expect(IncrementalCheck).toHaveBeenCalledTimes(0);
     expect(SpellLevelTrigger).not.toBeCalled();
     expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
-    expect(global.Hooks.callAll).toBeCalled();
-    expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+    expect(global.Hooks.callAll).not.toBeCalled();
+    expect(global.Hooks.callAll).toHaveBeenCalledTimes(0);
   });
   test("DEFAULT", async () => {
     await magicSurgeCheck.RunAutoCheck(actor, 1, "DEFAULT");

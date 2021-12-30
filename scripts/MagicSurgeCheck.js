@@ -177,7 +177,7 @@ export default class MagicSurgeCheck {
         isSurge = await dieDescending.Check();
         break;
       default:
-        break;
+        return;
     }
 
     if (isSurge) {
