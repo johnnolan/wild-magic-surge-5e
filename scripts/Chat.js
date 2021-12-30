@@ -14,19 +14,32 @@ export default class Chat {
     return chatData;
   }
 
-  async SendChat(message, result = "") {
+  async SendChat(message, roll = undefined) {
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
       (u) => u._id
     );
 
-    let chatData = {
-      speaker: gmsToWhisper,
-      content: `<div>${message} ${result}</div>`,
-    };
+    let chatData = {};
+
+    if (roll) {
+      chatData = {
+        flavor: `Wild Magic Surge Check - ${message}`,
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        roll: roll,
+        rollMode: game.settings.get("core", "rollMode"),
+        speaker: gmsToWhisper,
+        //content: `<div>${message} ${result}</div>`,
+      };
+    } else {
+      chatData = {
+        speaker: gmsToWhisper,
+        content: `<div>${message}</div>`,
+      };
+    }
 
     chatData = await this.WhisperCheck(chatData, gmsToWhisper);
 
-    return ChatMessage.create(chatData, {});
+    return ChatMessage.create(chatData);
   }
 
   async SendRollTable(message, surgeRollTable) {
@@ -40,9 +53,11 @@ export default class Chat {
 
     let chatData = {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
       speaker: gmsToWhisper,
       roll: roll,
+      rollMode: game.settings.get("core", "rollMode"),
       sound: null,
     };
 
@@ -60,6 +75,6 @@ export default class Chat {
       table: surgeRollTable,
     });
 
-    return ChatMessage.create(chatData, {});
+    return ChatMessage.create(chatData);
   }
 }
