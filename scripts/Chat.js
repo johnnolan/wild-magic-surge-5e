@@ -23,13 +23,17 @@ export default class Chat {
 
     if (roll) {
       chatData = {
-        flavor: `Wild Magic Surge Check - ${message}`,
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        roll: roll,
-        rollMode: game.settings.get("core", "rollMode"),
         speaker: gmsToWhisper,
-        //content: `<div>${message} ${result}</div>`,
       };
+
+      if (game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`)) {
+        chatData.content = `<div>${message} ${roll.result}</div>`;
+      } else {
+        chatData.flavor = `Wild Magic Surge Check - ${message}`;
+        chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        chatData.roll = roll;
+        chatData.rollMode = game.settings.get("core", "rollMode");
+      }
     } else {
       chatData = {
         speaker: gmsToWhisper,
