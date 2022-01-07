@@ -49,7 +49,9 @@ export default class MagicSurgeCheck {
   }
 
   async isValid(chatMessage, actor) {
-    if (!chatMessage.data.speaker || !chatMessage.data.speaker.actor) {
+    let msgData = chatMessage.data;
+
+    if (!msgData.speaker || !msgData.speaker.actor) {
       return false;
     }
 
@@ -62,11 +64,15 @@ export default class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (chatMessage.data.user !== game.user.id) return false;
+      if (msgData.user !== game.user.id) return false;
     }
 
     const spellParser = new SpellParser();
-    const isASpell = await spellParser.IsSpell(chatMessage.data.content);
+    const isASpell = await spellParser.IsSpell(msgData.content);
+
+    const isASorcererSpell = await spellParser.IsSorcererSpell(msgData.content);
+    if (!isASorcererSpell) return false;
+
     const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
