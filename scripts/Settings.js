@@ -62,3 +62,5 @@ export const SPELL_LIST_KEY_WORDS = [
   "9th Level",
   "10th Level",
 ];
+
+export const OPT_SPELL_REGEX = "spellRegex";

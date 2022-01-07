@@ -13,6 +13,9 @@
   "WildMagicSurge5E.opt_auto_d20_name": "Automate Wild Magic Surge",
   "WildMagicSurge5E.opt_auto_d20_hint": "When disabled, will ignore all other options and alert to the Chat Message. When enabled, will create a chat message to remind you to ask for a check.",
 
+  "WildMagicSurge5E.opt_spell_regex_name": "Spell Filter Regex",
+  "WildMagicSurge5E.opt_spell_regex_hint": "A regex to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like 'Magic Missile (S)' ",
+
   "WildMagicSurge5E.opt_auto_d20_msg_name": "Surge Chat Message Success",
   "WildMagicSurge5E.opt_auto_d20_msg_hint": "On a Wild Magic Surge, show this message.",
 
@@ -36,7 +39,7 @@
 
   "WildMagicSurge5E.opt_custom_roll_result_check_name": "Roll result boolean expression",
   "WildMagicSurge5E.opt_custom_roll_result_check_hint": "Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the Wild Magic Surge.",
-  
+
   "WildMagicSurge5E.opt_tsl_die_name": "Dice Formula",
   "WildMagicSurge5E.opt_tsl_die_hint": "Set the dice formula you want to roll. The default is 1d20.",
   "WildMagicSurge5E.opt_tsl_lvl1_name": "Level 1",
