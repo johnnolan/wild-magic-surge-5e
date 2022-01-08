@@ -55,7 +55,7 @@ Hooks.on("init", function () {
     hint: game.i18n.format("WildMagicSurge5E.opt_spell_regex_hint"),
     scope: "world",
     config: true,
-    default: "(S)",
+    default: "\\(S\\)",
     type: String,
   });
 
