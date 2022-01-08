@@ -85,9 +85,9 @@ export default class SpellParser {
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
-    const isSpellRegexMatch = spellName.match(spellRegex);
-    console.log(
-      `Matching spell name ${spellName} with regex ${spellRegex}: ${isSpellRegexMatch}`
+    const isSpellRegexMatch = !!spellName.match(spellRegex);
+    console.debug(
+      `Matching spell name '${spellName}' with regex '${spellRegex}': ${isSpellRegexMatch}`
     );
 
     return isSpellRegexMatch;
