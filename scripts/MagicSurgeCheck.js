@@ -70,11 +70,13 @@ export default class MagicSurgeCheck {
     const spellParser = new SpellParser();
     const isASpell = await spellParser.IsSpell(messageData.content);
 
-    const isASorcererSpell = await spellParser.IsSorcererSpell(
-      messageData.content,
-      actor
-    );
-    if (!isASorcererSpell) return false;
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
+      const isASorcererSpell = await spellParser.IsSorcererSpell(
+        messageData.content,
+        actor
+      );
+      if (!isASorcererSpell) return false;
+    }
 
     const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
 

@@ -4,6 +4,7 @@ import {
   OPT_CHAT_MSG,
   OPT_AUTO_D20,
   OPT_SPELL_REGEX,
+  OPT_SPELL_REGEX_ENABLED,
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
   OPT_ENABLE_TOC,
@@ -36,6 +37,7 @@ import {
   IncrementalSettingsPanel,
   SpellLevelSettingsPanel,
   StandardSettingsPanel,
+  SpellRegexSettingsPanel,
 } from "./panels/index.js";
 
 Hooks.on("init", function () {
@@ -54,9 +56,18 @@ Hooks.on("init", function () {
     name: game.i18n.format("WildMagicSurge5E.opt_spell_regex_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_spell_regex_hint"),
     scope: "world",
-    config: true,
+    config: false,
     default: "\\(S\\)",
-    type: String,
+    type: SpellRegexSettingsPanel,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enabled_spell_regex_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enabled_spell_regex_hint"),
+    scope: "world",
+    config: false,
+    default: false,
+    type: SpellRegexSettingsPanel,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
