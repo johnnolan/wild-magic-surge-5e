@@ -40,7 +40,8 @@ Also
 - Hooks for custom macros and other modules to use
 - Track incremental wild magic surge count on token
 - Optionally track NPCs Wild Magic Surges
-- Adds `Dice So Nice` integration if the module is enabled
+- `Dice So Nice` integration if the module is enabled
+- Discern between sorcerer spells and other spells when multiclassing
 
 ## Hooks
 
@@ -208,6 +209,15 @@ For example
 Special thanks to [Jackolas126](https://github.com/Jackolas126) for this suggestion.
 
 [![Setup varying Wild Magic Surge triggers dependent on spell level](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)
+
+### Spell Regex for Multiclass spells
+
+The RegEx to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like `Magic Missile (S)`. Special characters must be escaped!
+
+Special thanks to [Jakob Huber](https://github.com/gh7531) for this suggestion and Pull Request.
+
+[![Spell Regex for Multiclass spells](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/multiclass-regex.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/multiclass-regex.jpg)
+
 
 ## Installation
 
