@@ -82,7 +82,7 @@ export default class SpellParser {
   async IsSorcererSpell(content, actor) {
     if (!actor) return false;
 
-    const rollDetails = RollContent(content);
+    const rollDetails = this.RollContent(content);
 
     if (!rollDetails.actorId || !rollDetails.itemId) return false;
 
