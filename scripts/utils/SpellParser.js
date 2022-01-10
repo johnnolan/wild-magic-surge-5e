@@ -1,4 +1,8 @@
-import { SPELL_LIST_KEY_WORDS } from "../Settings.js";
+import {
+  MODULE_ID,
+  OPT_SPELL_REGEX,
+  SPELL_LIST_KEY_WORDS,
+} from "../Settings.js";
 
 export default class SpellParser {
   constructor() {}
@@ -62,6 +66,31 @@ export default class SpellParser {
   async IsSpell(content) {
     const result = await this.SpellDetails(content);
     return result !== undefined;
+  }
+
+  async IsSorcererSpell(content) {
+    const rollContent = $(content);
+
+    const actorId = rollContent.data("actor-id");
+    const itemId = rollContent.data("item-id");
+    if (!actorId || !itemId) return false;
+
+    const actor = await game.actors.get(actorId);
+    if (!actor) return false;
+
+    const getItem = await actor.items.find((i) => i.id === itemId);
+    if (!getItem) return false;
+
+    let spellName = getItem.data.name;
+
+    const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
+
+    const isSpellRegexMatch = !!spellName.match(spellRegex);
+    console.debug(
+      `Matching spell name '${spellName}' with regex '${spellRegex}': ${isSpellRegexMatch}`
+    );
+
+    return isSpellRegexMatch;
   }
 
   IsNPC(actor) {
