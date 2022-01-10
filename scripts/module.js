@@ -52,22 +52,22 @@ Hooks.on("init", function () {
     type: Boolean,
   });
 
+  game.settings.register(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_spell_regex_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_spell_regex_hint"),
+    scope: "world",
+    config: false,
+    default: false,
+    type: Boolean,
+  });
+
   game.settings.register(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_spell_regex_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_spell_regex_hint"),
     scope: "world",
     config: false,
     default: "\\(S\\)",
-    type: SpellRegexSettingsPanel,
-  });
-
-  game.settings.register(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`, {
-    name: game.i18n.format("WildMagicSurge5E.opt_enabled_spell_regex_name"),
-    hint: game.i18n.format("WildMagicSurge5E.opt_enabled_spell_regex_hint"),
-    scope: "world",
-    config: false,
-    default: false,
-    type: SpellRegexSettingsPanel,
+    type: String,
   });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_WHISPER_GM}`, {
@@ -87,6 +87,15 @@ Hooks.on("init", function () {
     choices: SURGE_TYPE,
     default: "Default",
     type: String,
+  });
+
+  game.settings.registerMenu(`${MODULE_ID}`, `SpellRegexSettingsPanel`, {
+    name: "Spell Regex for Multiclass",
+    label: "Configure",
+    icon: "fas fa-cog",
+    scope: "world",
+    type: SpellRegexSettingsPanel,
+    restricted: true,
   });
 
   game.settings.registerMenu(`${MODULE_ID}`, `StandardSettingsPanel`, {
