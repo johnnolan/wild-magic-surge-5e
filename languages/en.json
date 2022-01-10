@@ -13,6 +13,9 @@
   "WildMagicSurge5E.opt_auto_d20_name": "Automate Wild Magic Surge",
   "WildMagicSurge5E.opt_auto_d20_hint": "When disabled, will ignore all other options and alert to the Chat Message. When enabled, will create a chat message to remind you to ask for a check.",
 
+  "WildMagicSurge5E.opt_enable_spell_regex_name": "Enable Spell Filter Regex",
+  "WildMagicSurge5E.opt_enable_spell_regex_hint": "Enable a check based on the spell name as to whether the spell cast is a sorcerer spell.",
+
   "WildMagicSurge5E.opt_spell_regex_name": "Spell Filter Regex",
   "WildMagicSurge5E.opt_spell_regex_hint": "The RegEx to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like 'Magic Missile (S)'. Special characters must be escaped!",
 

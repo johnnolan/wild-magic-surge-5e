@@ -15,19 +15,30 @@ export default class SpellParser {
     );
   }
 
+  RollContent(content) {
+    const rollContent = $(content);
+    const actorId = rollContent.data("actor-id");
+    const itemId = rollContent.data("item-id");
+    return {
+      actorId: actorId,
+      itemId: itemId,
+    };
+  }
+
   async SpellDetails(content) {
     let spellString;
 
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
 
     if (!spellString) {
-      const rollContent = $(content);
-      const actorId = rollContent.data("actor-id");
-      const itemId = rollContent.data("item-id");
-      if (actorId && itemId) {
-        const actor = await game.actors.get(actorId);
+      const rollDetails = this.RollContent(content);
+
+      if (rollDetails.actorId && rollDetails.itemId) {
+        const actor = await game.actors.get(rollDetails.actorId);
         if (actor) {
-          const getItem = await actor.items.find((i) => i.id === itemId);
+          const getItem = await actor.items.find(
+            (i) => i.id === rollDetails.itemId
+          );
           if (getItem) {
             let spellLevel = getItem.data.data.level;
             if (spellLevel > 0) {
@@ -68,17 +79,14 @@ export default class SpellParser {
     return result !== undefined;
   }
 
-  async IsSorcererSpell(content) {
-    const rollContent = $(content);
-
-    const actorId = rollContent.data("actor-id");
-    const itemId = rollContent.data("item-id");
-    if (!actorId || !itemId) return false;
-
-    const actor = await game.actors.get(actorId);
+  async IsSorcererSpell(content, actor) {
     if (!actor) return false;
 
-    const getItem = await actor.items.find((i) => i.id === itemId);
+    const rollDetails = this.RollContent(content);
+
+    if (!rollDetails.actorId || !rollDetails.itemId) return false;
+
+    const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
     if (!getItem) return false;
 
     let spellName = getItem.data.name;

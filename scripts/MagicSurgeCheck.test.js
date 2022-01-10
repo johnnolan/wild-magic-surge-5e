@@ -129,8 +129,6 @@ describe("Check", () => {
         const result = await magicSurgeCheck.Check(chatMessage);
         expect(magicSurgeCheck.RunMessageCheck).not.toBeCalled();
         expect(magicSurgeCheck.RunMessageCheck).toHaveBeenCalledTimes(0);
-        expect(magicSurgeCheck.RunAutoCheck).toBeCalled();
-        expect(magicSurgeCheck.RunAutoCheck).toHaveBeenCalledTimes(1);
         expect(magicSurgeCheck.WildMagicSurgeRollCheck).not.toBeCalled();
         expect(magicSurgeCheck.WildMagicSurgeRollCheck).toHaveBeenCalledTimes(
           0

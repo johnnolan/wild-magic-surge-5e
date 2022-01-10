@@ -1,5 +1,6 @@
 import {
   MODULE_ID,
+  OPT_SPELL_REGEX_ENABLED,
   OPT_CHAT_MSG,
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
@@ -49,9 +50,9 @@ export default class MagicSurgeCheck {
   }
 
   async isValid(chatMessage, actor) {
-    let msgData = chatMessage.data;
+    let messageData = chatMessage.data;
 
-    if (!msgData.speaker || !msgData.speaker.actor) {
+    if (!messageData.speaker || !messageData.speaker.actor) {
       return false;
     }
 
@@ -64,14 +65,19 @@ export default class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (msgData.user !== game.user.id) return false;
+      if (messageData.user !== game.user.id) return false;
     }
 
     const spellParser = new SpellParser();
-    const isASpell = await spellParser.IsSpell(msgData.content);
+    const isASpell = await spellParser.IsSpell(messageData.content);
 
-    const isASorcererSpell = await spellParser.IsSorcererSpell(msgData.content);
-    if (!isASorcererSpell) return false;
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
+      const isASorcererSpell = await spellParser.IsSorcererSpell(
+        messageData.content,
+        actor
+      );
+      if (!isASorcererSpell) return false;
+    }
 
     const hasWildMagicFeat = spellParser.IsWildMagicFeat(actor);
 
