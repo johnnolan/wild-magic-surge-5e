@@ -76,6 +76,16 @@ export default class MagicSurgeCheck {
     }
   }
 
+  async ResetIncrementalCheck(actorId) {
+    const actor = game.actors.get(actorId);
+    if (!actor) {
+      return false;
+    }
+
+    const incrementalCheck = new IncrementalCheck(actor);
+    await incrementalCheck.Reset();
+  }
+
   async isValid(chatMessage, actor) {
     let messageData = chatMessage.data;
 

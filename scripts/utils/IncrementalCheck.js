@@ -16,6 +16,10 @@ export default class IncrementalCheck {
     this.FLAG_OPTION = "surge_increment_resource";
   }
 
+  async Reset() {
+    this.SetupDefault();
+  }
+
   async CallChanged(value) {
     Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
 
