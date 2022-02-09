@@ -22,7 +22,8 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 ## Features
 
 - **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
-- **Incremental Check**: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1.
+- **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
+- **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of checking every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
 - **Descending Dice**: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20.
 
