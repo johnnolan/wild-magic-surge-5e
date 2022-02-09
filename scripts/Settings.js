@@ -37,6 +37,7 @@ export const SURGE_TYPE = {
   DEFAULT: "Standard",
   SPELL_LEVEL_DEPENDENT_ROLL: "Spell Level Dependent Rolls",
   INCREMENTAL_CHECK: "Incremental Check",
+  INCREMENTAL_CHECK_CHAOTIC: "Incremental Check (Chaotic)",
   DIE_DESCENDING: "Descending Dice",
 };
 export const OPT_SURGE_TYPE = "OPT_SURGE_TYPE";

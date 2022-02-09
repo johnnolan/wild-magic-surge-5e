@@ -51,6 +51,29 @@ export default class MagicSurgeCheck {
     }
   }
 
+  async RoundCheck(roundData) {
+    const actor = game.actors.get(roundData.combatant.actor.id);
+    if (!actor) {
+      return false;
+    }
+
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
+      const spellParser = new SpellParser();
+      const IsWildMagicFeat = spellParser.IsWildMagicFeat(actor);
+      if (IsWildMagicFeat) {
+        if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
+          await this.RunAutoCheck(actor, 1, "INCREMENTAL_CHECK_CHAOTIC");
+        } else {
+          if (!spellParser.IsNPC(actor)) {
+            await this.RunAutoCheck(actor, 1, "INCREMENTAL_CHECK_CHAOTIC");
+          }
+        }
+      }
+    } else {
+      this.RunMessageCheck();
+    }
+  }
+
   async isValid(chatMessage, actor) {
     let messageData = chatMessage.data;
 
@@ -180,6 +203,15 @@ export default class MagicSurgeCheck {
         roll = await this.WildMagicSurgeRollCheck();
         const incrementalCheck = new IncrementalCheck(actor, roll.result);
         isSurge = await incrementalCheck.Check();
+        break;
+      case "INCREMENTAL_CHECK_CHAOTIC":
+        roll = await this.WildMagicSurgeRollCheck();
+        const incrementalCheckChaotic = new IncrementalCheck(
+          actor,
+          roll.result,
+          10
+        );
+        isSurge = await incrementalCheckChaotic.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
         roll = await this.WildMagicSurgeRollCheck();

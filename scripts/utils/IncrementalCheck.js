@@ -2,10 +2,11 @@ import { MODULE_ID, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings.js";
 import Chat from "../Chat.js";
 
 export default class IncrementalCheck {
-  constructor(actor, rollValue) {
+  constructor(actor, rollValue, maxValue = 20) {
     this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
+    this.maxValue = maxValue;
     this.defaultValue = {
       max: 20,
       min: 1,
@@ -64,13 +65,15 @@ export default class IncrementalCheck {
       this.CallChanged(1);
       return true;
     } else {
-      incrementLevel.value = incrementLevel.value + 1;
-      await this.actor.setFlag(
-        this.FLAG_NAME,
-        this.FLAG_OPTION,
-        incrementLevel
-      );
-      this.CallChanged(incrementLevel.value);
+      if (incrementLevel.value !== this.maxValue) {
+        incrementLevel.value = incrementLevel.value + 1;
+        await this.actor.setFlag(
+          this.FLAG_NAME,
+          this.FLAG_OPTION,
+          incrementLevel
+        );
+        this.CallChanged(incrementLevel.value);
+      }
     }
 
     return false;
