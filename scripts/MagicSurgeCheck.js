@@ -32,7 +32,7 @@ export default class MagicSurgeCheck {
 
   async Check(chatMessage) {
     // Ignore Damage Log modules chat messages
-    if (chatMessage.data.flags.hasOwnProperty("damage-log")) return;
+    if (chatMessage.data?.flags?.hasOwnProperty("damage-log")) return;
     const actor = game.actors.get(chatMessage.data.speaker.actor);
     if (!actor) {
       return false;
