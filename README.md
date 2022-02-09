@@ -23,7 +23,7 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 
 - **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
-- **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of checking every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
+- **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
 - **Descending Dice**: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20.
 
@@ -116,6 +116,21 @@ Runs when you set the module to auto roll a check for you. The result of the rol
 }
 ```
 
+### wild-magic-surge-5e.ResetIncrementalCheck
+
+This hook allows you to tell the module to reset the incremental count to 1. Handy for when you want to add homebrew rules like resetting after a long rest.
+
+To get the actor ID
+
+* select the token you want on the map
+* Press F12
+* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* This is your actorId
+
+In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
+
+`Hooks.callAll("wild-magic-surge-5e.ResetIncrementalCheck", "Owr50jt6HyYru2e1");`
+
 ## Options
 
 ### Track incremental wild magic surge count on token
@@ -131,7 +146,7 @@ Choose between the following options
 
 - **Default**: On a roll of `1`, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
-- **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of checking every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
+- **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
 
 [![Whisper chat results to GM](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)

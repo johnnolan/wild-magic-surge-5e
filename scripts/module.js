@@ -354,3 +354,7 @@ Hooks.on("updateCombat", async function (roundData, data, arg3) {
     window.MagicSurgeCheck.RoundCheck(roundData);
   }
 });
+
+Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId) {
+  window.MagicSurgeCheck.ResetIncrementalCheck(actorId);
+});
