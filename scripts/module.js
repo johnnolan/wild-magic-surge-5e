@@ -344,7 +344,7 @@ Hooks.on("ready", function () {
 
 Hooks.on("createChatMessage", (chatMessage) => {
   if (
-    !game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
+    game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) !==
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
     window.MagicSurgeCheck.Check(chatMessage);
