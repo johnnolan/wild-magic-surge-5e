@@ -19,6 +19,7 @@ import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
 import RollTableMagicSurge from "./RollTableMagicSurge.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
+import IncrementalCheckChaotic from "./utils/IncrementalCheckChaotic.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import DieDescending from "./utils/DieDescending.js";
@@ -61,11 +62,12 @@ export default class MagicSurgeCheck {
       const spellParser = new SpellParser();
       const IsWildMagicFeat = spellParser.IsWildMagicFeat(actor);
       if (IsWildMagicFeat) {
+        const incrementalCheckChaotic = new IncrementalCheckChaotic(actor);
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-          await this.RunAutoCheck(actor, 1, "INCREMENTAL_CHECK_CHAOTIC");
+          await incrementalCheckChaotic.Check();
         } else {
           if (!spellParser.IsNPC(actor)) {
-            await this.RunAutoCheck(actor, 1, "INCREMENTAL_CHECK_CHAOTIC");
+            await incrementalCheckChaotic.Check();
           }
         }
       }
@@ -200,18 +202,19 @@ export default class MagicSurgeCheck {
         );
         break;
       case "INCREMENTAL_CHECK":
-        roll = await this.WildMagicSurgeRollCheck();
-        const incrementalCheck = new IncrementalCheck(actor, roll.result);
-        isSurge = await incrementalCheck.Check();
-        break;
       case "INCREMENTAL_CHECK_CHAOTIC":
         roll = await this.WildMagicSurgeRollCheck();
-        const incrementalCheckChaotic = new IncrementalCheck(
+        let maxValue =
+          game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
+          `INCREMENTAL_CHECK_CHAOTIC`
+            ? 10
+            : 20;
+        const incrementalCheck = new IncrementalCheck(
           actor,
           roll.result,
-          10
+          maxValue
         );
-        isSurge = await incrementalCheckChaotic.Check();
+        isSurge = await incrementalCheck.Check();
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
         roll = await this.WildMagicSurgeRollCheck();
