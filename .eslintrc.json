@@ -1,7 +1,11 @@
 {
     "extends": ["prettier", "@typhonjs-fvtt/eslint-config-foundry.js"],
     "plugins": ["prettier"],
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "requireConfigFile": false
+    },
     "rules": {
         "prettier/prettier": ["error"]
     }
