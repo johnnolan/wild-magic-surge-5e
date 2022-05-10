@@ -5,6 +5,9 @@
   "WildMagicSurge5E.opt_toc_feat_name_name": "Name of the Tides of Chaos feat",
   "WildMagicSurge5E.opt_toc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language.",
 
+  "WildMagicSurge5E.opt_powm_feat_name_name": "Name of the Path of Wild Magic feat",
+  "WildMagicSurge5E.opt_powm_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language.",
+
   "WildMagicSurge5E.opt_incremental_check_to_chat_name": "Send to chat",
   "WildMagicSurge5E.opt_incremental_check_to_chat_hint": "When enabled, each time a incremental check type for a surge changes it is posted to Chat for others to see.",
 
@@ -39,6 +42,9 @@
 
   "WildMagicSurge5E.opt_rolltable_name_name": "Roll Table Name",
   "WildMagicSurge5E.opt_rolltable_name_hint": "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",
+
+  "WildMagicSurge5E.opt_rolltable_powm_name_name": "Path of Wild Magic Roll Table Name",
+  "WildMagicSurge5E.opt_rolltable_powm_name_hint": "The Roll Table to use when rolling for the Barbarian Path of Wild Magic surge effect. Enter the name of the Roll Table.",
 
   "WildMagicSurge5E.opt_custom_roll_dice_formula_name": "Dice Formula",
   "WildMagicSurge5E.opt_custom_roll_dice_formula_hint": "Set the dice formula you want to roll. The default is 1d20.",

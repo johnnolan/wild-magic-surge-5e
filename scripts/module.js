@@ -32,6 +32,8 @@ import {
   OPT_ENABLE_NPCS,
   OPT_WMS_NAME,
   OPT_TOC_NAME,
+  OPT_POWM_NAME,
+  OPT_POWM_ROLLTABLE_NAME,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import {
@@ -60,6 +62,15 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "Tides of Chaos",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_POWM_NAME}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_powm_feat_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_powm_feat_name_hint"),
+    scope: "world",
+    config: true,
+    default: "Path of Wild Magic",
     type: String,
   });
 
@@ -218,6 +229,24 @@ Hooks.on("init", function () {
     scope: "world",
     config: true,
     default: "Wild Magic Surge 5e (PHB)",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_ROLLTABLE_NAME}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_hint"),
+    scope: "world",
+    config: true,
+    default: "Wild Magic Surge 5e (PHB)",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_POWM_ROLLTABLE_NAME}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_rolltable_powm_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_powm_name_hint"),
+    scope: "world",
+    config: true,
+    default: "Path of Wild Magic Table",
     type: String,
   });
 

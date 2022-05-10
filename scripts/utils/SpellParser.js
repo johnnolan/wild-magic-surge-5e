@@ -3,6 +3,7 @@ import {
   OPT_SPELL_REGEX,
   SPELL_LIST_KEY_WORDS,
   OPT_WMS_NAME,
+  OPT_POWM_NAME,
 } from "../Settings.js";
 
 export default class SpellParser {
@@ -14,6 +15,16 @@ export default class SpellParser {
         (a) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`) &&
           a.type === "feat"
+      ) !== undefined
+    );
+  }
+
+  IsPathOfWildMagicFeat(actor) {
+    return (
+      actor.data.items.find(
+        (a) =>
+          a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
+          a.type === "subclass"
       ) !== undefined
     );
   }
@@ -102,6 +113,21 @@ export default class SpellParser {
     );
 
     return isSpellRegexMatch;
+  }
+
+  async IsRage(content, actor) {
+    if (!actor) return false;
+
+    const rollDetails = this.RollContent(content);
+
+    if (!rollDetails.actorId || !rollDetails.itemId) return false;
+
+    const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
+    if (!getItem) return false;
+
+    let spellName = getItem.data.name;
+
+    return spellName === "Rage";
   }
 
   IsNPC(actor) {
