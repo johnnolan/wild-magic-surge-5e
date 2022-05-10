@@ -17,15 +17,16 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-env": "^7.17.10",
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
-    "babel-jest": "^27.5.1",
-    "eslint": "^8.8.0",
-    "eslint-config-prettier": "^8.3.0",
+    "babel-jest": "^28.1.0",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^27.5.1",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "jquery": "^3.6.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.2"
   },
   "jest": {
     "setupFiles": [
