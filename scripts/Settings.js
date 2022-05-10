@@ -3,11 +3,13 @@ export const MODULE_ID = "wild-magic-surge-5e";
 
 export const OPT_WMS_NAME = "wmsName";
 export const OPT_TOC_NAME = "tocName";
+export const OPT_POWM_NAME = "powmName";
 
 export const OPT_WHISPER_GM = "whisperToGM";
 
 export const OPT_ROLLTABLE_ENABLE = "enableRollTable";
 export const OPT_ROLLTABLE_NAME = "rollTableName";
+export const OPT_POWM_ROLLTABLE_NAME = "powmRollTableName";
 
 export const OPT_ENABLE_TOC = "enableTidesOfChaosRecharge";
 

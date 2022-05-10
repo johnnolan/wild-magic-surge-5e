@@ -27,6 +27,8 @@ When they cast a spell at Level 1 or higher it will trigger the check for a surg
 - **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
 - **Descending Dice**: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20.
 
+- **Barbarian - Pact of Wild Magic - Tasha's Cauldron of Everything**: When you enter a Rage as a Wild Magic Barbarian, the module will auto roll on a table. **Must enable `Enable Auto Roll on a Wild Magic Surge Table` to work**. Specify a custom table (TCOE table not included).
+
 Also
 
 - Prompt to roll on a 1st level or higher spell slot used with the `Wild Magic Surge` feat
