@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_WHISPER_GM } from "./Settings.js";
+import { MODULE_ID, OPT_WHISPER_GM, OPT_WMS_NAME } from "./Settings.js";
 
 export default class Chat {
   constructor() {}
@@ -29,7 +29,10 @@ export default class Chat {
       if (game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`)) {
         chatData.content = `<div>${message} ${roll.result}</div>`;
       } else {
-        chatData.flavor = `Wild Magic Surge Check - ${message}`;
+        chatData.flavor = `${game.settings.get(
+          `${MODULE_ID}`,
+          `${OPT_WMS_NAME}`
+        )} Check - ${message}`;
         chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
         chatData.roll = roll;
         chatData.rollMode = game.settings.get("core", "rollMode");

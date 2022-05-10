@@ -30,6 +30,8 @@ import {
   OPT_SURGE_TYPE,
   OPT_INCREMENTAL_CHECK_TO_CHAT,
   OPT_ENABLE_NPCS,
+  OPT_WMS_NAME,
+  OPT_TOC_NAME,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import {
@@ -42,6 +44,24 @@ import {
 
 Hooks.on("init", function () {
   console.log(`Loading ${MODULE_NAME}`);
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_WMS_NAME}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_wms_feat_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_wms_feat_name_hint"),
+    scope: "world",
+    config: true,
+    default: "Wild Magic Surge",
+    type: String,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_TOC_NAME}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_toc_feat_name_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_toc_feat_name_hint"),
+    scope: "world",
+    config: true,
+    default: "Tides of Chaos",
+    type: String,
+  });
 
   game.settings.register(`${MODULE_ID}`, `${OPT_AUTO_D20}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_name"),

@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_ENABLE_TOC } from "./Settings.js";
+import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings.js";
 
 export default class TidesOfChaos {
   constructor() {}
@@ -9,7 +9,9 @@ export default class TidesOfChaos {
     }
 
     const tidesItem = actor.data.items.find(
-      (a) => a.name === "Tides of Chaos" && a.type === "feat"
+      (a) =>
+        a.name === game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`) &&
+        a.type === "feat"
     );
 
     if (tidesItem === undefined) {

@@ -2,6 +2,7 @@ import {
   MODULE_ID,
   OPT_SPELL_REGEX,
   SPELL_LIST_KEY_WORDS,
+  OPT_WMS_NAME,
 } from "../Settings.js";
 
 export default class SpellParser {
@@ -10,7 +11,9 @@ export default class SpellParser {
   IsWildMagicFeat(actor) {
     return (
       actor.data.items.find(
-        (a) => a.name === "Wild Magic Surge" && a.type === "feat"
+        (a) =>
+          a.name === game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`) &&
+          a.type === "feat"
       ) !== undefined
     );
   }

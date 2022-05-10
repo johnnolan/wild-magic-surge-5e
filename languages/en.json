@@ -1,4 +1,10 @@
 {
+  "WildMagicSurge5E.opt_wms_feat_name_name": "Name of the Wild Magic Surge feat",
+  "WildMagicSurge5E.opt_wms_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language.",
+
+  "WildMagicSurge5E.opt_toc_feat_name_name": "Name of the Tides of Chaos feat",
+  "WildMagicSurge5E.opt_toc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language.",
+
   "WildMagicSurge5E.opt_incremental_check_to_chat_name": "Send to chat",
   "WildMagicSurge5E.opt_incremental_check_to_chat_hint": "When enabled, each time a incremental check type for a surge changes it is posted to Chat for others to see.",
 
