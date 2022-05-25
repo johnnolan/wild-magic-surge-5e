@@ -20,9 +20,14 @@
       "type": "system"
     }
   ],
+  "system": [
+    "dnd5e"
+  ],
   "packs": [],
   "conflicts": [],
-  "esmodules": ["/scripts/module.js"],
+  "esmodules": [
+    "/scripts/module.js"
+  ],
   "scripts": [],
   "styles": [],
   "languages": [
