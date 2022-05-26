@@ -28,7 +28,7 @@ export default class DieDescending {
       return;
     }
 
-    if (!this.actor.data.flags.hasOwnProperty(MODULE_FLAG_NAME)) {
+    if (!this.actor.flags.hasOwnProperty(MODULE_FLAG_NAME)) {
       return await this.SetupDefault();
     }
 

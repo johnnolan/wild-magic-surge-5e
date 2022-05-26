@@ -12,15 +12,14 @@ export default class SpellParser {
   IsWildMagicFeat(actor) {
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
-      actor.data.items.find(
-        (a) => a.name === surgeName && a.type === "feat"
-      ) !== undefined
+      actor.items.find((a) => a.name === surgeName && a.type === "feat") !==
+      undefined
     );
   }
 
   IsPathOfWildMagicFeat(actor) {
     return (
-      actor.data.items.find(
+      actor.items.find(
         (a) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
           a.type === "subclass"
@@ -30,8 +29,8 @@ export default class SpellParser {
 
   RollContent(content) {
     const rollContent = $(content);
-    const actorId = rollContent.data("actor-id");
-    const itemId = rollContent.data("item-id");
+    const actorId = rollContent("actor-id");
+    const itemId = rollContent("item-id");
     return {
       actorId: actorId,
       itemId: itemId,
@@ -53,7 +52,7 @@ export default class SpellParser {
             (i) => i.id === rollDetails.itemId
           );
           if (getItem) {
-            let spellLevel = getItem.data.data.level;
+            let spellLevel = getItem.level;
             if (spellLevel > 0) {
               switch (spellLevel) {
                 case 1:
@@ -102,7 +101,7 @@ export default class SpellParser {
     const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
     if (!getItem) return false;
 
-    let spellName = getItem.data.name;
+    let spellName = getItem.name;
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
@@ -124,12 +123,12 @@ export default class SpellParser {
     const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
     if (!getItem) return false;
 
-    let spellName = getItem.data.name;
+    let spellName = getItem.name;
 
     return spellName === "Rage";
   }
 
   IsNPC(actor) {
-    return actor ? actor.data.type === "npc" : false;
+    return actor ? actor.type === "npc" : false;
   }
 }

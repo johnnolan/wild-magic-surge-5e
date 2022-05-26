@@ -42,7 +42,7 @@ export default class IncrementalCheck {
       return;
     }
 
-    if (!this.actor.data.flags.hasOwnProperty(this.FLAG_NAME)) {
+    if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {
       return await this.SetupDefault();
     }
 

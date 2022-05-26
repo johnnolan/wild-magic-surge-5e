@@ -34,8 +34,10 @@ export default class Chat {
           `${OPT_WMS_NAME}`
         )} Check - ${message}`;
         chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
-        chatData.roll = roll;
-        chatData.rollMode = game.settings.get("core", "rollMode");
+        //chatData.roll = roll;
+        //chatData.rollMode = game.settings.get("core", "rollMode");
+        chatData.rolls = [{roll: roll}];
+        //chatData.rollMode = game.settings.get("core", "rollMode");
       }
     } else {
       chatData = {
@@ -64,15 +66,16 @@ export default class Chat {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
       speaker: gmsToWhisper,
-      roll: roll,
-      rollMode: game.settings.get("core", "rollMode"),
+      rolls: [{roll: roll}],
+      //roll: roll,
+      //rollMode: game.settings.get("core", "rollMode"),
       sound: null,
     };
 
     chatData = await this.WhisperCheck(chatData, gmsToWhisper);
 
     chatData.content = await renderTemplate(CONFIG.RollTable.resultTemplate, {
-      description: TextEditor.enrichHTML(surgeRollTable.data.description, {
+      description: TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
       }),
       results: results.map((r) => {
