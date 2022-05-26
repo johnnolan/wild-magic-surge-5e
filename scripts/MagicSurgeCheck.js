@@ -34,8 +34,8 @@ export default class MagicSurgeCheck {
 
   async Check(chatMessage) {
     // Ignore Damage Log modules chat messages
-    if (chatMessage.data?.flags?.hasOwnProperty("damage-log")) return;
-    const actor = game.actors.get(chatMessage.data.speaker.actor);
+    if (chatMessage.flags?.hasOwnProperty("damage-log")) return;
+    const actor = game.actors.get(chatMessage.speaker.actor);
     if (!actor) {
       return false;
     }
@@ -47,9 +47,7 @@ export default class MagicSurgeCheck {
         this.Surge(true, actor, null, "POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const spellLevel = await spellParser.SpellLevel(
-            chatMessage.data.content
-          );
+          const spellLevel = await spellParser.SpellLevel(chatMessage.content);
           const gameType = game.settings.get(
             `${MODULE_ID}`,
             `${OPT_SURGE_TYPE}`
@@ -96,9 +94,7 @@ export default class MagicSurgeCheck {
     await incrementalCheck.Reset();
   }
 
-  async isValid(chatMessage, actor) {
-    let messageData = chatMessage.data;
-
+  async isValid(messageData, actor) {
     if (!messageData.speaker || !messageData.speaker.actor) {
       return false;
     }
@@ -112,7 +108,8 @@ export default class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (messageData.user !== game.user.id) return false;
+      if (!messageData.isAuthor) return false;
+      //if (messageData.author.id !== game.user.id) return false;
     }
 
     const spellParser = new SpellParser();
