@@ -14,6 +14,7 @@ import {
   MODULE_FLAG_NAME,
   DIE_DESCENDING_FLAG_OPTION,
   OPT_ENABLE_NPCS,
+  OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
@@ -221,71 +222,90 @@ export default class MagicSurgeCheck {
     let isSurge = false;
     let roll;
 
-    switch (gameType) {
-      case "DEFAULT":
-        roll = await this.WildMagicSurgeRollCheck();
-        isSurge = this.ResultCheck(
-          roll.result,
-          game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
-        );
-        break;
-      case "INCREMENTAL_CHECK":
-      case "INCREMENTAL_CHECK_CHAOTIC":
-        roll = await this.WildMagicSurgeRollCheck();
-        let maxValue =
-          game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
-          `INCREMENTAL_CHECK_CHAOTIC`
-            ? 10
-            : 20;
-        const incrementalCheck = new IncrementalCheck(
-          actor,
-          roll.result,
-          maxValue
-        );
-        isSurge = await incrementalCheck.Check();
-        break;
-      case "SPELL_LEVEL_DEPENDENT_ROLL":
-        roll = await this.WildMagicSurgeRollCheck();
-        const spellLevelTrigger = new SpellLevelTrigger();
-        isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
-        break;
-      case "DIE_DESCENDING":
-        roll = await this.WildMagicSurgeRollCheck(actor);
-        const dieDescending = new DieDescending(actor, roll.result);
-        isSurge = await dieDescending.Check();
-        break;
-      default:
-        return;
+    let isAutoSurge;
+    if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
+      if (await this.tidesOfChaos.IsTidesOfChaosUsed(actor)) {
+        isAutoSurge = true;
+        this.Surge(isAutoSurge, actor, null, "TOCSURGE");
+      }
     }
 
-    this.Surge(isSurge, actor, roll, "WMS");
+    if (!isAutoSurge) {
+      switch (gameType) {
+        case "DEFAULT":
+          roll = await this.WildMagicSurgeRollCheck();
+          isSurge = this.ResultCheck(
+            roll.result,
+            game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
+          );
+          break;
+        case "INCREMENTAL_CHECK":
+        case "INCREMENTAL_CHECK_CHAOTIC":
+          roll = await this.WildMagicSurgeRollCheck();
+          let maxValue =
+            game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
+            `INCREMENTAL_CHECK_CHAOTIC`
+              ? 10
+              : 20;
+          const incrementalCheck = new IncrementalCheck(
+            actor,
+            roll.result,
+            maxValue
+          );
+          isSurge = await incrementalCheck.Check();
+          break;
+        case "SPELL_LEVEL_DEPENDENT_ROLL":
+          roll = await this.WildMagicSurgeRollCheck();
+          const spellLevelTrigger = new SpellLevelTrigger();
+          isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
+          break;
+        case "DIE_DESCENDING":
+          roll = await this.WildMagicSurgeRollCheck(actor);
+          const dieDescending = new DieDescending(actor, roll.result);
+          isSurge = await dieDescending.Check();
+          break;
+        default:
+          return;
+      }
+      this.Surge(isSurge, actor, roll, "WMS");
+    }
   }
 
   async Surge(isSurge, actor, roll, surgeType) {
-    if (surgeType === "POWM") {
-      this.rollTableMagicSurge.Check(surgeType);
-    } else {
-      if (isSurge) {
-        this.chat.SendChat(
-          game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
-          roll
-        );
+    switch (surgeType) {
+      case "POWM":
+        this.rollTableMagicSurge.Check(surgeType);
+        break;
+      case "TOCSURGE":
+        this.rollTableMagicSurge.Check(surgeType);
         this.tidesOfChaos.Check(actor);
-        this.rollTableMagicSurge.Check();
         Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
           surge: true,
-          result: roll.result,
         });
-      } else {
-        this.chat.SendChat(
-          game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
-          roll
-        );
-        Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-          surge: false,
-          result: roll.result,
-        });
-      }
+        break;
+      case "WMS":
+        if (isSurge) {
+          this.chat.SendChat(
+            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
+            roll
+          );
+          this.tidesOfChaos.Check(actor);
+          this.rollTableMagicSurge.Check();
+          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+            surge: true,
+            result: roll.result,
+          });
+        } else {
+          this.chat.SendChat(
+            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
+            roll
+          );
+          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+            surge: false,
+            result: roll.result,
+          });
+        }
+        break;
     }
   }
 

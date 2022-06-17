@@ -34,6 +34,7 @@ import {
   OPT_TOC_NAME,
   OPT_POWM_NAME,
   OPT_POWM_ROLLTABLE_NAME,
+  OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import {
@@ -379,6 +380,15 @@ Hooks.on("init", function () {
   game.settings.register(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`, {
     name: game.i18n.format("WildMagicSurge5E.opt_enable_npcs_name"),
     hint: game.i18n.format("WildMagicSurge5E.opt_enable_npcs_hint"),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_surge_toc_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_surge_toc_hint"),
     scope: "world",
     config: true,
     default: false,

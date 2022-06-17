@@ -20,16 +20,7 @@ export default class TidesOfChaos {
 
     let isLolDataData = false;
 
-    let resourceName;
-    if (tidesItem.data) {
-      if (tidesItem.data.consume) {
-        // Cannot tell if this is version 8 api change or a module moving the data
-        isLolDataData = true;
-        resourceName = `${tidesItem.data.consume.target}`;
-      } else {
-        resourceName = tidesItem.data.data.consume.target;
-      }
-    }
+    let resourceName = tidesItem?.data?.data?.consume?.target;
 
     if (!resourceName) return false;
 
@@ -46,5 +37,29 @@ export default class TidesOfChaos {
       await actor.update({ items: updates });
     }
     await actor.update({ data: { [`${resourceName}`]: 1 } });
+  }
+
+  async IsTidesOfChaosUsed(actor) {
+    const tidesItem = actor.data.items.find(
+      (a) =>
+        a.name === game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`) &&
+        a.type === "feat"
+    );
+
+    if (tidesItem === undefined) {
+      // If not enabled or exists then return false indicating not used.
+      return false;
+    }
+
+    if (!tidesItem?.data?.data?.consume?.target) {
+      // If not enabled or exists then return false indicating not used.
+      return false;
+    }
+
+    if (tidesItem.data.data.uses.value === 0) {
+      return true;
+    }
+
+    return false;
   }
 }

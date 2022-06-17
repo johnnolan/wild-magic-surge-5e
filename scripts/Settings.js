@@ -71,3 +71,5 @@ export const SPELL_LIST_KEY_WORDS = [
 
 export const OPT_SPELL_REGEX = "spellRegex";
 export const OPT_SPELL_REGEX_ENABLED = "spellRegexEnabled";
+
+export const OPT_SURGE_TOC_ENABLED = "surgeTocEnabled";
