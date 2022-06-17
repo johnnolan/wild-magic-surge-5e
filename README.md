@@ -45,6 +45,7 @@ Also
 - Optionally track NPCs Wild Magic Surges
 - `Dice So Nice` integration if the module is enabled
 - Discern between sorcerer spells and other spells when multiclassing
+- Auto surge when Tides of Chaos is used
 
 ## Hooks
 
@@ -214,6 +215,12 @@ Can also set multiple target results using a comma seperated value list like `1,
 Based on the target dice roll, should the result be less/greater than or equal to the result to trigger the `Wild Magic Surge`. The default is `=`.
 
 [![Roll result boolean expression](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-result-boolean.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-result-boolean.jpg)
+
+### Auto surge when Tides of Chaos is used
+
+When Tides of Chaos is used, until you regain its use, every 1st level spell and higher will trigger a surge as defined in the PHB.
+
+[![Auto surge when Tides of Chaos is used](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)
 
 ### Setup varying Wild Magic Surge triggers dependent on spell level
 
