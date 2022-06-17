@@ -34,6 +34,7 @@ import {
   OPT_TOC_NAME,
   OPT_POWM_NAME,
   OPT_POWM_ROLLTABLE_NAME,
+  OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import {

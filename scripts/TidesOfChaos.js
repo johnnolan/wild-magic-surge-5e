@@ -20,16 +20,7 @@ export default class TidesOfChaos {
 
     let isLolDataData = false;
 
-    let resourceName;
-    if (tidesItem.data) {
-      if (tidesItem.data.consume) {
-        // Cannot tell if this is version 8 api change or a module moving the data
-        isLolDataData = true;
-        resourceName = `${tidesItem.data.consume.target}`;
-      } else {
-        resourceName = tidesItem.data.data.consume.target;
-      }
-    }
+    let resourceName = tidesItem?.data?.data?.consume?.target;
 
     if (!resourceName) return false;
 
@@ -60,27 +51,15 @@ export default class TidesOfChaos {
       return false;
     }
 
-    let isLolDataData = false;
-
-    let resourceName;
-    // TODO: Remove lol data for just v9?
-    if (tidesItem.data) {
-      if (tidesItem.data.consume) {
-        // Cannot tell if this is version 8 api change or a module moving the data
-        isLolDataData = true;
-        resourceName = `${tidesItem.data.consume.target}`;
-      } else {
-        resourceName = tidesItem.data.data.consume.target;
-      }
-    }
-
-    if (!resourceName) {
-      // If not enabled or exists then return true indicating not used.
+    if (!tidesItem?.data?.data?.consume?.target) {
+      // If not enabled or exists then return false indicating not used.
       return false;
     }
 
-    if (tidesItem.data.uses.value === 1 && tidesItem.data.recharge.charged) {
+    if (tidesItem.data.data.uses.value === 0) {
       return true;
     }
+
+    return false;
   }
 }
