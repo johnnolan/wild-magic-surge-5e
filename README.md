@@ -216,11 +216,11 @@ Based on the target dice roll, should the result be less/greater than or equal t
 
 [![Roll result boolean expression](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-result-boolean.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-result-boolean.jpg)
 
-### Auto surge when Tides of Chaos is used
+### Auto surge on spell use after Tides of Chaos has been used
 
-When Tides of Chaos is used, until you regain its use, every 1st level spell and higher will trigger a surge as defined in the PHB.
+When Tides of Chaos is used, any 1st level spell and higher will trigger a surge and restore your Tides of Chaos.
 
-[![Auto surge when Tides of Chaos is used](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)
+[![Auto surge on spell use after Tides of Chaos has been used](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)
 
 ### Setup varying Wild Magic Surge triggers dependent on spell level
 

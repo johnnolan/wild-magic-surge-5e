@@ -75,6 +75,6 @@
   "WildMagicSurge5E.opt_enable_npcs_name": "Track Wild Magic Surge for NPCs",
   "WildMagicSurge5E.opt_enable_npcs_hint": "Enabling this setting will automate Wild Magic Surge for Non Player Characters as well as Player Characters.",
 
-  "WildMagicSurge5E.opt_enable_surge_toc_name": "Auto surge when Tides of Chaos is used",
-  "WildMagicSurge5E.opt_enable_surge_toc_hint": "When Tides of Chaos is used, until you regain its use, every 1st level spell and higher will trigger a surge as defined in the PHB."
+  "WildMagicSurge5E.opt_enable_surge_toc_name": "Auto surge on spell use after Tides of Chaos has been used",
+  "WildMagicSurge5E.opt_enable_surge_toc_hint": "When Tides of Chaos is used, any 1st level spell and higher will trigger a surge and restore your Tides of Chaos."
 }
