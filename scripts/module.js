@@ -384,6 +384,15 @@ Hooks.on("init", function () {
     default: false,
     type: Boolean,
   });
+
+  game.settings.register(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`, {
+    name: game.i18n.format("WildMagicSurge5E.opt_enable_surge_toc_name"),
+    hint: game.i18n.format("WildMagicSurge5E.opt_enable_surge_toc_hint"),
+    scope: "world",
+    config: true,
+    default: false,
+    type: Boolean,
+  });
 });
 
 Hooks.on("ready", function () {
