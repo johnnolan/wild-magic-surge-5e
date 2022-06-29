@@ -1,0 +1,14 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: ''  # Use the sha / tag you want to point at
+    hooks:
+    -   id: eslint
+-   repo: https://github.com/pre-commit/mirrors-jshint
+    rev: ''  # Use the sha / tag you want to point at
+    hooks:
+    -   id: jshint
