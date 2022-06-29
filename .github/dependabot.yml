@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "07:00"
+      timezone: "Europe/London"
+    commit-message:
+      prefix: "#patch"
+    pull-request-branch-name:
+      separator: "-"
