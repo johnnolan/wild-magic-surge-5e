@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Jest
         run: yarn run test:coverage
-      
+
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always() && ${{ github.actor != 'dependabot[bot]' }}

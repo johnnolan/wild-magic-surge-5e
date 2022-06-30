@@ -1,4 +1,4 @@
-/* exported */
+/* exported config */
 
 const config = {
   setupFiles: ["<rootDir>/test-env.js"],
