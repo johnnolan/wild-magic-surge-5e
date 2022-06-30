@@ -9,7 +9,7 @@
   "scripts": {
     "jshint": "jshint scripts/",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --ci --runInBand --reporters=default --reporters=jest-junit --collectCoverage=true",
     "test:watch": "jest --watch",
     "test:watchcov": "jest --watch --coverage",
     "lint:check": "eslint --ignore-path .gitignore .",
@@ -25,17 +25,13 @@
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
+    "jest-junit": "^14.0.0",
     "jquery": "^3.6.0",
     "prettier": "^2.7.1"
   },
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/test-env.js"
-    ],
-    "resetMocks": false,
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    },
-    "testEnvironment": "jsdom"
-  }
+  "jest-junit": {
+    "outputDirectory": "./test-results/junit",
+    "outputName": "results.xml"
+  },
+  "dependencies": {}
 }

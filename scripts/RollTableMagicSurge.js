@@ -9,7 +9,7 @@ import Chat from "./Chat.js";
 export default class RollTableMagicSurge {
   constructor() {}
 
-  Check(type = "WMS") {
+  async Check(type = "WMS") {
     let rollTableName;
     if (type === "POWM") {
       rollTableName = game.settings.get(
@@ -31,8 +31,9 @@ export default class RollTableMagicSurge {
 
     const surgeRollTable = game.tables.find((t) => t.name === rollTableName);
 
-    surgeRollTable.roll().then((result) => {
-      new Chat().SendRollTable(result, surgeRollTable);
+    await surgeRollTable.roll().then((result) => {
+      let chat = new Chat();
+      chat.SendRollTable(result, surgeRollTable);
     });
   }
 }

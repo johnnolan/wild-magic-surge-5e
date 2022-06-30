@@ -10,11 +10,10 @@ export default class SpellParser {
   constructor() {}
 
   IsWildMagicFeat(actor) {
+    const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
       actor.data.items.find(
-        (a) =>
-          a.name === game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`) &&
-          a.type === "feat"
+        (a) => a.name === surgeName && a.type === "feat"
       ) !== undefined
     );
   }

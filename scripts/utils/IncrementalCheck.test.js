@@ -1,7 +1,12 @@
 import IncrementalCheck from "./IncrementalCheck.js";
 import { actor } from "../../MockData/actor.js";
+import "../../__mocks__/index.js";
 
-describe("Check", () => {
+describe("IncrementalCheck", () => {
+  global.Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+  };
+
   describe("If a roll of 1 with no actor", () => {
     let incrementalCheck;
     beforeEach(() => {

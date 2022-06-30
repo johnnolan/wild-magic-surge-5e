@@ -53,6 +53,7 @@ export default class Chat {
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
       (u) => u._id
     );
+
     const results = message.results;
     const roll = message.roll;
 
