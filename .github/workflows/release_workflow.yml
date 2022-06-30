@@ -1,4 +1,4 @@
-name: Create Release
+name: "[Workflow] Publish Release"
 
 on:
   release:
@@ -10,7 +10,16 @@ env:
   MANIFEST_FILE_PATH: module.json
 
 jobs:
-  build:
+  lint:
+    name: ESLint Javascript
+    uses: ./.github/workflows/lint_job.yml
+
+  test:
+    name: Jest Tests
+    uses: ./.github/workflows/test_job.yml
+
+  build_package:
+    needs: ['lint', 'test']
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
