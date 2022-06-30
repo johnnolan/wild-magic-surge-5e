@@ -16,7 +16,7 @@ jobs:
 
   test:
     name: Test
-    uses: ./.github/workflows/lint_test.yml
+    uses: ./.github/workflows/test_job.yml
 
   build:
     runs-on: ubuntu-latest
