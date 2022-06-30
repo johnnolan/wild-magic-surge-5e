@@ -28,7 +28,7 @@ describe("RollTableMagicSurge", () => {
           get: jest
             .fn()
             .mockReturnValueOnce("Wild Magic Surge")
-            .mockReturnValueOnce(false),
+            .mockReturnValueOnce(true),
         },
         user: {
           id: "123",
