@@ -1,6 +1,6 @@
 global.ChatMessage = {
   create: jest.fn().mockResolvedValue(null),
-  getWhisperRecipients: (v) => {
+  getWhisperRecipients: () => {
     return [{ _id: "" }];
   },
 };

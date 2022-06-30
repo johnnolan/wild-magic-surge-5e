@@ -1,3 +1,5 @@
+/* exported */
+
 const config = {
   setupFiles: ["<rootDir>/test-env.js"],
   reporters: ["default", "jest-junit"],

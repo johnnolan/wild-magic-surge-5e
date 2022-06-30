@@ -64,4 +64,3 @@ jobs:
           name: junit
           path: |
             test-results/junit
-
