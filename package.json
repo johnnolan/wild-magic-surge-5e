@@ -9,7 +9,7 @@
   "scripts": {
     "jshint": "jshint scripts/",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --ci --runInBand --reporters=default --reporters=jest-junit --collectCoverage=true",
     "test:watch": "jest --watch",
     "test:watchcov": "jest --watch --coverage",
     "lint:check": "eslint --ignore-path .gitignore .",

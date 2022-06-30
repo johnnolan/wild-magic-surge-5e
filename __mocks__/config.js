@@ -1,5 +1,5 @@
 global.CONFIG = {
   RollTable: {
-    resultTemplate: '<div>test</div>',
-  }
+    resultTemplate: "<div>test</div>",
+  },
 };

@@ -42,8 +42,26 @@ jobs:
         run: yarn install
 
       - name: Run Jest
-        uses: mattallty/jest-github-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn run test:coverage
+      
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always() && ${{ github.actor != 'dependabot[bot]' }}
         with:
-          test-command: "yarn run test:coverage"
+          check_name: "Unit Test Results"
+          files: test-results/junit/results.xml
+
+      - name: Coverage Report
+        uses: lucassabreu/comment-coverage-clover@main
+        with:
+          file: "coverage/clover.xml"
+          min-line-coverage: 20
+          min-method-coverage: 20
+
+      - name: Upload Junit
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit
+          path: |
+            test-results/junit
+
