@@ -12,4 +12,5 @@ jobs:
 
   test:
     name: Jest Tests
+    needs: ['lint']
     uses: ./.github/workflows/test_job.yml
