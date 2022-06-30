@@ -3,7 +3,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: ESLint
     runs-on: ubuntu-latest
 
     steps:

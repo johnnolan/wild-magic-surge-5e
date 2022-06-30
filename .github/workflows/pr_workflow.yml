@@ -7,9 +7,9 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: ESLint Javascript
     uses: ./.github/workflows/lint_job.yml
 
   test:
-    name: Test
+    name: Jest Tests
     uses: ./.github/workflows/test_job.yml

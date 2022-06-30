@@ -11,14 +11,15 @@ env:
 
 jobs:
   lint:
-    name: Lint
+    name: ESLint Javascript
     uses: ./.github/workflows/lint_job.yml
 
   test:
-    name: Test
+    name: Jest Tests
     uses: ./.github/workflows/test_job.yml
 
-  build:
+  build_package:
+    needs: ['lint', 'test']
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
