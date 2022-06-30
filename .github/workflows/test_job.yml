@@ -16,7 +16,7 @@ jobs:
           node-version-file: '.nvmrc'
 
       - name: Install packages
-        run: yarn install
+        uses: ./.github/workflows/yarn_install_job.yml
 
       - name: Run Jest
         run: yarn run test:coverage
