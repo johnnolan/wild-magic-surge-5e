@@ -1,7 +1,11 @@
 import DieDescending from "./DieDescending.js";
 import { actor } from "../../MockData/actor.js";
+import "../../__mocks__/index.js";
 
-describe("Check", () => {
+describe("DieDescending", () => {
+  global.Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+  };
   describe("If a roll of 1 with no actor", () => {
     let dieDescending;
     beforeEach(() => {

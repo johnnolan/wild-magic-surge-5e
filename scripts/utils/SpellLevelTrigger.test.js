@@ -1,6 +1,9 @@
 import SpellLevelTrigger from "./SpellLevelTrigger.js";
 
-describe("Check", () => {
+describe("SpellLevelTrigger", () => {
+  global.Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+  };
   describe("Roll 4 < 5", () => {
     let spellLevelTrigger;
     beforeEach(() => {
@@ -10,6 +13,13 @@ describe("Check", () => {
         settings: {
           get: jest.fn().mockReturnValueOnce("< 5"),
         },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+          },
+        ],
       };
       spellLevelTrigger = new SpellLevelTrigger();
     });
@@ -29,6 +39,13 @@ describe("Check", () => {
         settings: {
           get: jest.fn().mockReturnValueOnce("> 6"),
         },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+          },
+        ],
       };
       spellLevelTrigger = new SpellLevelTrigger();
     });
@@ -48,6 +65,13 @@ describe("Check", () => {
         settings: {
           get: jest.fn().mockReturnValueOnce("= 4"),
         },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+          },
+        ],
       };
       spellLevelTrigger = new SpellLevelTrigger();
     });
@@ -67,6 +91,13 @@ describe("Check", () => {
         settings: {
           get: jest.fn().mockReturnValueOnce("= 4"),
         },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+          },
+        ],
       };
       spellLevelTrigger = new SpellLevelTrigger();
     });
