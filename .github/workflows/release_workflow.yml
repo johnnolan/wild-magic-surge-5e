@@ -1,4 +1,4 @@
-name: Create Release
+name: "[Workflow] Publish Release"
 
 on:
   release:
@@ -10,6 +10,14 @@ env:
   MANIFEST_FILE_PATH: module.json
 
 jobs:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint_job.yml
+
+  test:
+    name: Test
+    uses: ./.github/workflows/lint_test.yml
+
   build:
     runs-on: ubuntu-latest
     steps:
