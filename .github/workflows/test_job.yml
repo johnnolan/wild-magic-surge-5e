@@ -34,7 +34,7 @@ jobs:
         run: yarn run test:coverage
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always() && ${{ github.actor != 'dependabot[bot]' }}
         with:
           check_name: "Unit Test Results"
