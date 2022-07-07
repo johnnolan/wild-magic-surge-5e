@@ -14,12 +14,12 @@ jobs:
     name: Jest Tests
     uses: ./.github/workflows/test_job.yml
 
-  pubish_unit_tests:
+  publish_unit_tests:
     name: Publish Unit Tests
     needs: ['lint', 'test']
     uses: ./.github/workflows/publish_unit_tests.yml
 
   dependabot:
     name: Dependabot Approve and Auto Merge
-    needs: ['pubish_unit_tests']
+    needs: ['publish_unit_tests']
     uses: ./.github/workflows/dependabot-approve-and-auto-merge_job.yml
