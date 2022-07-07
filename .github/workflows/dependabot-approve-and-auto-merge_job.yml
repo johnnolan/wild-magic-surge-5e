@@ -1,6 +1,7 @@
 name: Dependabot Pull Request Approve and Merge
 
-on: pull_request_target
+on:
+  workflow_call:
 
 permissions:
   pull-requests: write
@@ -20,31 +21,6 @@ jobs:
         uses: dependabot/fetch-metadata@v1.3.3
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: Cache yarn dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Run Jest
-        run: yarn run test
 
       # Here the PR gets approved.
       - name: Approve a PR
