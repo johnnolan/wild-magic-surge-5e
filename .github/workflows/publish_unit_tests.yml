@@ -3,7 +3,7 @@ on:
 
 jobs:
   pubish_unit_tests:
-    name: Test
+    name: Publish Unit Tests
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
 

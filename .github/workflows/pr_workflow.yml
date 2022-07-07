@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/test_job.yml
 
   pubish_unit_tests:
-    name: Jest Tests
+    name: Publish Unit Tests
     needs: ['lint', 'test']
     uses: ./.github/workflows/publish_unit_tests.yml
 
