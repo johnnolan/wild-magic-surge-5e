@@ -9,18 +9,18 @@ jobs:
 
     steps:
       - name: Download Junit Artifact
-          id: download_junit
-          uses: actions/download-artifact@v3
-          with:
-            name: junit
-            path: test-results/junit
+        id: download_junit
+        uses: actions/download-artifact@v3
+        with:
+          name: junit
+          path: test-results/junit
 
       - name: Download Clover Artifact
-          id: download_clover
-          uses: actions/download-artifact@v3
-          with:
-            name: clover
-            path: coverage/clover.xml
+        id: download_clover
+        uses: actions/download-artifact@v3
+        with:
+          name: clover
+          path: coverage/clover.xml
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
