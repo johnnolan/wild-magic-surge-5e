@@ -5,7 +5,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - name: Checkout
@@ -34,21 +33,14 @@ jobs:
       - name: Run Jest
         run: yarn run test:coverage
 
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+      - name: Upload Clover Artifact
+        uses: actions/upload-artifact@v3
         with:
-          check_name: "Unit Test Results"
-          files: test-results/junit/results.xml
+          name: clover
+          path: |
+            coverage/clover.xml
 
-      - name: Coverage Report
-        uses: lucassabreu/comment-coverage-clover@main
-        with:
-          file: "coverage/clover.xml"
-          min-line-coverage: 20
-          min-method-coverage: 20
-
-      - name: Upload Junit
+      - name: Upload Junit Artifact
         uses: actions/upload-artifact@v3
         with:
           name: junit
