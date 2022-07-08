@@ -29,8 +29,8 @@ export default class SpellParser {
 
   RollContent(content) {
     const rollContent = $(content);
-    const actorId = rollContent("actor-id");
-    const itemId = rollContent("item-id");
+    const actorId = rollContent.data("actor-id");
+    const itemId = rollContent.data("item-id");
     return {
       actorId: actorId,
       itemId: itemId,

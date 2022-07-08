@@ -24,9 +24,7 @@ describe("IncrementalCheck", () => {
     beforeEach(() => {
       let newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
-        data: {
-          flags: [],
-        },
+        flags: [],
       };
       incrementalCheck = new IncrementalCheck(newActor, 1);
     });
@@ -42,9 +40,7 @@ describe("IncrementalCheck", () => {
     beforeEach(() => {
       let newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
-        data: {
-          flags: [],
-        },
+        flags: [],
       };
       incrementalCheck = new IncrementalCheck(newActor, 10);
     });
@@ -59,7 +55,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck;
     beforeEach(() => {
       let newActor = actor;
-      newActor.data.flags["wild-magic-surge-5e"] = {};
+      newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(newActor, 1);
     });
 
@@ -73,7 +69,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck;
     beforeEach(() => {
       let newActor = actor;
-      newActor.data.flags["wild-magic-surge-5e"] = {};
+      newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(actor, 4);
     });
 
