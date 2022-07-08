@@ -36,7 +36,7 @@ export default class Chat {
         chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
         //chatData.roll = roll;
         //chatData.rollMode = game.settings.get("core", "rollMode");
-        chatData.rolls = [{roll: roll}];
+        chatData.rolls = [{ roll: roll }];
         //chatData.rollMode = game.settings.get("core", "rollMode");
       }
     } else {
@@ -66,7 +66,7 @@ export default class Chat {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
       speaker: gmsToWhisper,
-      rolls: [{roll: roll}],
+      rolls: [{ roll: roll }],
       //roll: roll,
       //rollMode: game.settings.get("core", "rollMode"),
       sound: null,
