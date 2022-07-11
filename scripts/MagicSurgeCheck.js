@@ -34,7 +34,9 @@ export default class MagicSurgeCheck {
 
   async Check(chatMessage) {
     // Ignore Damage Log modules chat messages
-    if (chatMessage.data?.flags?.hasOwnProperty("damage-log")) return;
+    if (chatMessage.data?.flags) {
+      if (chatMessage.data.flags.hasOwnProperty("damage-log")) return;
+    }
     const actor = game.actors.get(chatMessage.data.speaker.actor);
     if (!actor) {
       return false;
@@ -231,6 +233,7 @@ export default class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
+      const surgeType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
       switch (gameType) {
         case "DEFAULT":
           roll = await this.WildMagicSurgeRollCheck();
@@ -242,11 +245,7 @@ export default class MagicSurgeCheck {
         case "INCREMENTAL_CHECK":
         case "INCREMENTAL_CHECK_CHAOTIC":
           roll = await this.WildMagicSurgeRollCheck();
-          let maxValue =
-            game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
-            `INCREMENTAL_CHECK_CHAOTIC`
-              ? 10
-              : 20;
+          let maxValue = surgeType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             actor,
             roll.result,
