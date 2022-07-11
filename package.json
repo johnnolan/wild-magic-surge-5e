@@ -13,6 +13,7 @@
     "test:watch": "jest --watch",
     "test:watchcov": "jest --watch --coverage",
     "lint:check": "eslint --ignore-path .gitignore .",
+    "lint:report": "eslint --ignore-path .gitignore --output-file eslint_report.json --format json .",
     "lint:fix": "eslint --fix --ignore-path .gitignore ."
   },
   "devDependencies": {

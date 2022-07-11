@@ -30,5 +30,20 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run Linting
-        run: yarn run lint:check
+      - name: Run JSHint
+        run: yarn run jshint
+        continue-on-error: true
+
+      - name: Run ESLint
+        run: yarn run lint:report
+        continue-on-error: true
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint_report.json"
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v2
+        with:
+          name: eslint_report.json
+          path: eslint_report.json
