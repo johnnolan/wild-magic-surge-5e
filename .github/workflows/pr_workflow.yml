@@ -17,7 +17,7 @@ jobs:
   publish_unit_tests:
     name: Publish Unit Tests
     needs: ['lint', 'test']
-    uses: ./.github/workflows/publish_unit_tests.yml
+    uses: ./.github/workflows/publish_unit_tests_job.yml
 
   dependabot:
     name: Dependabot Approve and Auto Merge
