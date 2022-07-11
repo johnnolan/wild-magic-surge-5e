@@ -37,7 +37,7 @@ jobs:
       - name: Run ESLint
         run: yarn run lint:report
         continue-on-error: true
-      
+
       - name: Upload ESLint Artifact
         uses: actions/upload-artifact@v3
         with:
