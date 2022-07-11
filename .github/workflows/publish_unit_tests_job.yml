@@ -23,11 +23,11 @@ jobs:
           path: coverage/clover.xml
 
       - name: Download ESLint Artifact
-          id: eslint_report
-          uses: actions/download-artifact@v3
-          with:
-            name: eslint_report
-            path: eslint_report.json
+        id: eslint_report
+        uses: actions/download-artifact@v3
+        with:
+          name: eslint_report
+          path: eslint_report.json
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
