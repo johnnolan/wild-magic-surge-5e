@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true
 
       - name: Run ESLint
-        run: yarn run lint:check
+        run: yarn run lint:report
         continue-on-error: true
       - name: Annotate Code Linting Results
         uses: ataylorme/eslint-annotate-action@v2
