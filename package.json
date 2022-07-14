@@ -28,6 +28,7 @@
     "jest-environment-jsdom": "^28.1.2",
     "jest-junit": "^14.0.0",
     "jquery": "^3.6.0",
+    "jshint": "^2.13.5",
     "prettier": "^2.7.1"
   },
   "jest-junit": {
