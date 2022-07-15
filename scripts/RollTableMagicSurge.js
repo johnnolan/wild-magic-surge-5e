@@ -22,7 +22,7 @@ export default class RollTableMagicSurge {
    * Checks and rolls on the correct table
    * @public
    * @return {Promise<void>}
-   * @param {string} type The type of RollTable to use.
+   * @param {string} type The type of RollTable to use (WMS or POWM).
    */
   async Check(type = "WMS") {
     let rollTableName;
