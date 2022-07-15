@@ -17,6 +17,7 @@ export default class Chat {
   constructor() {}
 
   /**
+   * Sends the correct ChatMessage to the Chat window
    * @public
    * @return {Promise<void>}
    * @param {CHAT_TYPE} type The type of roll to be sent.
@@ -58,6 +59,7 @@ export default class Chat {
   }
 
   /**
+   * Creates a basic HTML string message
    * @private
    * @return {Promise<object>} The chatData object
    * @param {string} message The chat message to send.
@@ -71,6 +73,7 @@ export default class Chat {
   }
 
   /**
+   * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
    * @private
    * @return {Promise<object>} The chatData object
    * @param {string} message The chat message to send.
@@ -97,6 +100,7 @@ export default class Chat {
   }
 
   /**
+   * Creates a HTML string message based on a RollTable
    * @private
    * @return {Promise<object>} The chatData object
    * @param {RollResult} rollResult The result of a Roll.
@@ -127,6 +131,7 @@ export default class Chat {
   }
 
   /**
+   * Based on the RollTable template, generates the appropriate HTML to display in chat
    * @private
    * @return {Promise<string>} A rendered HTML string.
    * @param {string} template The foundry template to use for the message.

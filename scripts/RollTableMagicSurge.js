@@ -7,9 +7,23 @@ import {
 } from "./Settings.js";
 import Chat from "./Chat.js";
 
+/**
+ * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
+ * @example
+ * let rollTableMagicSurge = new RollTableMagicSurge();
+ */
 export default class RollTableMagicSurge {
+  /**
+   * Constructor for RollTableMagicSurge class
+   */
   constructor() {}
 
+  /**
+   * Checks and rolls on the correct table
+   * @public
+   * @return {Promise<void>}
+   * @param {string} type The type of RollTable to use.
+   */
   async Check(type = "WMS") {
     let rollTableName;
     if (type === "POWM") {
