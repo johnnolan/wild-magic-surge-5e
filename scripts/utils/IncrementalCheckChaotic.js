@@ -1,4 +1,8 @@
-import { MODULE_ID, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings.js";
+import {
+  MODULE_ID,
+  OPT_INCREMENTAL_CHECK_TO_CHAT,
+  CHAT_TYPE,
+} from "../Settings.js";
 import Chat from "../Chat.js";
 
 export default class IncrementalCheck {
@@ -19,7 +23,8 @@ export default class IncrementalCheck {
     Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
-      this.chat.SendChat(
+      this.chat.Send(
+        CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
         )} ${value}`

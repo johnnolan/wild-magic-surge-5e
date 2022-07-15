@@ -38,6 +38,12 @@ export const OPT_TSL_LVL8 = "OPT_TSL_LVL8";
 export const OPT_TSL_LVL9 = "OPT_TSL_LVL9";
 export const OPT_TSL_LVL10 = "OPT_TSL_LVL10";
 
+export const CHAT_TYPE = {
+  DEFAULT: "DEFAULT",
+  ROLL: "ROLL",
+  TABLE: "TABLE",
+};
+
 export const SURGE_TYPE = {
   DEFAULT: "Standard",
   SPELL_LEVEL_DEPENDENT_ROLL: "Spell Level Dependent Rolls",
