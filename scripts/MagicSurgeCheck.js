@@ -15,6 +15,7 @@ import {
   DIE_DESCENDING_FLAG_OPTION,
   OPT_ENABLE_NPCS,
   OPT_SURGE_TOC_ENABLED,
+  CHAT_TYPE,
 } from "./Settings.js";
 import Chat from "./Chat.js";
 import TidesOfChaos from "./TidesOfChaos.js";
@@ -284,7 +285,8 @@ export default class MagicSurgeCheck {
         break;
       case "WMS":
         if (isSurge) {
-          this.chat.SendChat(
+          this.chat.Send(
+            CHAT_TYPE.ROLL,
             game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
             roll
           );
@@ -295,7 +297,8 @@ export default class MagicSurgeCheck {
             result: roll.result,
           });
         } else {
-          this.chat.SendChat(
+          this.chat.Send(
+            CHAT_TYPE.ROLL,
             game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
             roll
           );
@@ -310,6 +313,9 @@ export default class MagicSurgeCheck {
 
   RunMessageCheck() {
     Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
-    this.chat.SendChat(game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`));
+    this.chat.Send(
+      CHAT_TYPE.DEFAULT,
+      game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
+    );
   }
 }

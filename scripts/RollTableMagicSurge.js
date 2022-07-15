@@ -3,6 +3,7 @@ import {
   OPT_ROLLTABLE_NAME,
   OPT_POWM_ROLLTABLE_NAME,
   MODULE_ID,
+  CHAT_TYPE,
 } from "./Settings.js";
 import Chat from "./Chat.js";
 
@@ -33,7 +34,7 @@ export default class RollTableMagicSurge {
 
     await surgeRollTable.roll().then((result) => {
       let chat = new Chat();
-      chat.SendRollTable(result, surgeRollTable);
+      chat.Send(CHAT_TYPE.TABLE, result, surgeRollTable);
     });
   }
 }

@@ -1,0 +1,161 @@
+import {
+  MODULE_ID,
+  OPT_WHISPER_GM,
+  OPT_WMS_NAME,
+  CHAT_TYPE,
+} from "./Settings.js";
+import Chat from "./Chat.js";
+import "../__mocks__/index.js";
+
+describe("Chat", () => {
+  beforeEach(() => {
+    global.game.roll = {
+      get: jest.fn().mockResolvedValue(true),
+      result: jest.fn().mockResolvedValue(20),
+    };
+  });
+  describe("createDefaultChat", () => {
+    describe("Given I pass it a message", () => {
+      let chat;
+      beforeEach(() => {
+        chat = new Chat();
+      });
+      it("It returns the just the content", async () => {
+        await chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message");
+        expect(ChatMessage.create).toHaveBeenCalledWith({
+          content: "<div>My Custom Message</div>",
+          speaker: [""],
+        });
+      });
+    });
+  });
+
+  describe("createRollChat", () => {
+    describe("Given I pass it a message and roll but is whisper to GM", () => {
+      let chat;
+      let roll;
+      beforeEach(() => {
+        global.game.settings.get = jest.fn().mockResolvedValue(true);
+        chat = new Chat();
+        roll = {
+          result: 20,
+        };
+      });
+      it("It returns the just the content", async () => {
+        await chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        expect(ChatMessage.create).toHaveBeenCalledWith({
+          content: `<div>My Custom Message ${roll.result}</div>`,
+          speaker: [""],
+          whisper: [""],
+          blind: true,
+          type: "WHISPER",
+        });
+      });
+    });
+
+    describe("Given I pass it a message and roll but its a public message", () => {
+      let chat;
+      let roll;
+      beforeEach(() => {
+        global.game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        chat = new Chat();
+        roll = {
+          result: 20,
+        };
+      });
+      it("It returns the just the content", async () => {
+        await chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        expect(ChatMessage.create).toHaveBeenCalledWith({
+          flavor: "Wild Magic Surge Check - My Custom Message",
+          roll: {
+            result: 20,
+          },
+          rollMode: "rollMode",
+          type: "ROLL",
+          speaker: [""],
+        });
+      });
+    });
+  });
+
+  describe("createRollTable", () => {
+    describe("Given I pass it a message and roll table with one result", () => {
+      let chat;
+      let rollResult;
+      let surgeRollTable;
+      beforeEach(() => {
+        global.game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        chat = new Chat();
+        surgeRollTable = {
+          data: {
+            description: "Wild Magic Surge Table",
+          },
+        };
+        rollResult = {
+          results: [
+            {
+              text: "test text",
+              getChatText: jest.fn(),
+            },
+          ],
+          roll: {
+            result: 20,
+            render: jest.fn().mockResolvedValue(null),
+          },
+        };
+      });
+      it("It returns the just the content", async () => {
+        await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
+        expect(ChatMessage.create).toHaveBeenCalled();
+        expect(global.renderTemplate).toHaveBeenCalled();
+      });
+    });
+    describe("Given I pass it a message and roll table with two results", () => {
+      let chat;
+      let rollResult;
+      let surgeRollTable;
+      beforeEach(() => {
+        global.game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        chat = new Chat();
+        surgeRollTable = {
+          data: {
+            description: "Wild Magic Surge Table",
+          },
+        };
+        rollResult = {
+          results: [
+            {
+              text: "test text",
+              getChatText: jest.fn(),
+            },
+            {
+              text: "test text 2",
+              getChatText: jest.fn(),
+            },
+          ],
+          roll: {
+            result: 20,
+            render: jest.fn().mockResolvedValue(null),
+          },
+        };
+      });
+      it("It returns the just the content", async () => {
+        await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
+        expect(ChatMessage.create).toHaveBeenCalled();
+        expect(global.renderTemplate).toHaveBeenCalled();
+      });
+    });
+  });
+});
