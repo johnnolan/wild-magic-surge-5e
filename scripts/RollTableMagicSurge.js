@@ -25,6 +25,9 @@ export default class RollTableMagicSurge {
    * @param {string} type The type of RollTable to use (WMS or POWM).
    */
   async Check(type = "WMS") {
+    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
+      return;
+    }
     let rollTableName;
     if (type === "POWM") {
       rollTableName = game.settings.get(
@@ -37,10 +40,7 @@ export default class RollTableMagicSurge {
         `${OPT_ROLLTABLE_NAME}`
       );
     }
-    if (
-      !game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`) ||
-      rollTableName === undefined
-    ) {
+    if (rollTableName === undefined) {
       return;
     }
 

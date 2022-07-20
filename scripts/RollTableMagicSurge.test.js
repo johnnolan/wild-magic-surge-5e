@@ -25,8 +25,8 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce("Wild Magic Surge")
-            .mockReturnValueOnce(true),
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
           id: "123",
@@ -63,8 +63,8 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce("Wild Magic Surge")
-            .mockReturnValueOnce(true),
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
           id: "123",
@@ -101,8 +101,8 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce("Path of Wild Magic")
-            .mockReturnValueOnce(true),
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Path of Wild Magic"),
         },
         user: {
           id: "123",
@@ -139,8 +139,8 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce("Wild Magic Surge")
-            .mockReturnValueOnce(false),
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
           id: "123",
