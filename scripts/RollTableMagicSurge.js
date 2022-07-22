@@ -7,10 +7,25 @@ import {
 } from "./Settings.js";
 import Chat from "./Chat.js";
 
-export default class RollTableMagicSurge {
+/**
+ * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
+ * @class RollTableMagicSurge
+ * @example
+ * let rollTableMagicSurge = new RollTableMagicSurge();
+ */
+class RollTableMagicSurge {
   constructor() {}
 
+  /**
+   * Checks and rolls on the correct table
+   * @public
+   * @return {Promise<void>}
+   * @param {string} type The type of RollTable to use (WMS or POWM).
+   */
   async Check(type = "WMS") {
+    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
+      return;
+    }
     let rollTableName;
     if (type === "POWM") {
       rollTableName = game.settings.get(
@@ -23,10 +38,7 @@ export default class RollTableMagicSurge {
         `${OPT_ROLLTABLE_NAME}`
       );
     }
-    if (
-      !game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`) ||
-      rollTableName === undefined
-    ) {
+    if (rollTableName === undefined) {
       return;
     }
 
@@ -38,3 +50,5 @@ export default class RollTableMagicSurge {
     });
   }
 }
+
+export default RollTableMagicSurge;
