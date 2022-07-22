@@ -1,6 +1,8 @@
 name: "[Workflow] PR"
 
 on:
+  schedule:
+    - cron: '20 * * * *'
   pull_request:
     branches:
       - main
