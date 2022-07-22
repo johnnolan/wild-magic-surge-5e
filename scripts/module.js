@@ -410,7 +410,8 @@ Hooks.on("updateCombat", async function (roundData, data, arg3) {
     game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
-    window.MagicSurgeCheck.RoundCheck(roundData);
+    let roundCheck = new RoundCheck();
+    roundCheck.Check(roundData);
   }
 });
 

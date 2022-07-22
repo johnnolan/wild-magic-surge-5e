@@ -26,7 +26,13 @@ import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import DieDescending from "./utils/DieDescending.js";
 
-export default class MagicSurgeCheck {
+/**
+ * Main entry point for Wild Magic Surge Checks
+ * @class MagicSurgeCheck
+ * @example
+ * let magicSurgeCheck = new MagicSurgeCheck();
+ */
+class MagicSurgeCheck {
   constructor() {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
@@ -59,33 +65,9 @@ export default class MagicSurgeCheck {
           );
           await this.RunAutoCheck(actor, spellLevel, gameType);
         } else {
-          this.RunMessageCheck();
+          this.chat.RunMessageCheck();
         }
       }
-    }
-  }
-
-  async RoundCheck(roundData) {
-    const actor = game.actors.get(roundData.combatant.actor.id);
-    if (!actor) {
-      return false;
-    }
-
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      const spellParser = new SpellParser();
-      const IsWildMagicFeat = spellParser.IsWildMagicFeat(actor);
-      if (IsWildMagicFeat) {
-        const incrementalCheckChaotic = new IncrementalCheckChaotic(actor);
-        if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-          await incrementalCheckChaotic.Check();
-        } else {
-          if (!spellParser.IsNPC(actor)) {
-            await incrementalCheckChaotic.Check();
-          }
-        }
-      }
-    } else {
-      this.RunMessageCheck();
     }
   }
 
@@ -310,12 +292,6 @@ export default class MagicSurgeCheck {
         break;
     }
   }
-
-  RunMessageCheck() {
-    Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
-    this.chat.Send(
-      CHAT_TYPE.DEFAULT,
-      game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
-    );
-  }
 }
+
+export default MagicSurgeCheck;

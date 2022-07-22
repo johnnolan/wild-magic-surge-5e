@@ -1,12 +1,14 @@
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
+import Chat from "./Chat.js";
 import { actor } from "../MockData/actor.js";
 import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
 
 jest.mock("./utils/SpellLevelTrigger.js");
 jest.mock("./utils/IncrementalCheck.js");
+jest.mock("./Chat.js");
 
 describe("MagicSurgeCheck", () => {
   describe("Check", () => {
@@ -37,7 +39,6 @@ describe("MagicSurgeCheck", () => {
         let magicSurgeCheck;
         beforeEach(() => {
           magicSurgeCheck = new MagicSurgeCheck();
-          jest.spyOn(magicSurgeCheck, "RunMessageCheck").mockReturnValue(true);
           jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
           global.Hooks = {
             callAll: jest.fn().mockReturnValue(true),
@@ -79,8 +80,7 @@ describe("MagicSurgeCheck", () => {
         });
         it("It returns from module", async () => {
           const result = await magicSurgeCheck.Check(chatMessageNoSpell);
-          expect(magicSurgeCheck.RunMessageCheck).not.toBeCalled();
-          expect(magicSurgeCheck.RunMessageCheck).toHaveBeenCalledTimes(0);
+          expect(Chat).toHaveBeenCalled();
           expect(magicSurgeCheck.RunAutoCheck).not.toBeCalled();
           expect(magicSurgeCheck.RunAutoCheck).toHaveBeenCalledTimes(0);
         });
@@ -90,7 +90,6 @@ describe("MagicSurgeCheck", () => {
         let magicSurgeCheck;
         beforeEach(() => {
           magicSurgeCheck = new MagicSurgeCheck();
-          jest.spyOn(magicSurgeCheck, "RunMessageCheck").mockReturnValue(true);
           jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
           jest
             .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
@@ -150,8 +149,7 @@ describe("MagicSurgeCheck", () => {
         });
         it("It auto checks", async () => {
           const result = await magicSurgeCheck.Check(chatMessage);
-          expect(magicSurgeCheck.RunMessageCheck).not.toBeCalled();
-          expect(magicSurgeCheck.RunMessageCheck).toHaveBeenCalledTimes(0);
+          expect(Chat).toHaveBeenCalled();
           expect(magicSurgeCheck.WildMagicSurgeRollCheck).not.toBeCalled();
           expect(magicSurgeCheck.WildMagicSurgeRollCheck).toHaveBeenCalledTimes(
             0

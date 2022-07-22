@@ -2,6 +2,7 @@ import {
   MODULE_ID,
   OPT_WHISPER_GM,
   OPT_WMS_NAME,
+  OPT_CHAT_MSG,
   CHAT_TYPE,
 } from "./Settings.js";
 
@@ -145,6 +146,18 @@ class Chat {
       rollHTML: roll.render(),
       table: surgeRollTable,
     });
+  }
+
+  /**
+   * Sends the default Wild Magic Surge Check chat message
+   * @return {Promise<null>} The chatData object
+   */
+  async RunMessageCheck() {
+    Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
+    await this.Send(
+      CHAT_TYPE.DEFAULT,
+      game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
+    );
   }
 }
 

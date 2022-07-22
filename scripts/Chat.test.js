@@ -1,9 +1,4 @@
-import {
-  MODULE_ID,
-  OPT_WHISPER_GM,
-  OPT_WMS_NAME,
-  CHAT_TYPE,
-} from "./Settings.js";
+import { CHAT_TYPE } from "./Settings.js";
 import Chat from "./Chat.js";
 import "../__mocks__/index.js";
 
@@ -14,6 +9,7 @@ describe("Chat", () => {
       result: jest.fn().mockResolvedValue(20),
     };
   });
+
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
       let chat;
@@ -155,6 +151,28 @@ describe("Chat", () => {
         await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
         expect(ChatMessage.create).toHaveBeenCalled();
         expect(global.renderTemplate).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe("RunMessageCheck", () => {
+    describe("Given I call RunMessageCheck to send a message to chat", () => {
+      let chat;
+      beforeEach(() => {
+        chat = new Chat();
+        global.Hooks = {
+          callAll: jest.fn(),
+        };
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValueOnce("Surge Message"),
+          },
+        };
+      });
+      it("It returns the just the content", async () => {
+        await chat.RunMessageCheck();
+        expect(global.Hooks.callAll).toHaveBeenCalled();
+        expect(ChatMessage.create).toHaveBeenCalled();
       });
     });
   });
