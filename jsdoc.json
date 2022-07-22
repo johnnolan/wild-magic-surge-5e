@@ -1,0 +1,9 @@
+{
+    "source": {
+        "include": ["scripts"]
+    },
+    "opts": {
+        "template": "node_modules/better-docs",
+        "destination": "./docs/"
+    }
+}

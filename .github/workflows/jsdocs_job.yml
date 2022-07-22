@@ -3,7 +3,7 @@ on:
 
 jobs:
   esdocs_publish:
-    name: Publish ESDocs
+    name: Publish JSDocs
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run ESDocs
+      - name: Run JSDocs
         run: yarn run docs
 
       - name: Deploy to GitHub Pages
