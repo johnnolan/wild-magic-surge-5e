@@ -1,0 +1,11 @@
+name: "[Workflow] Main"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  documentation:
+    name: Create and Publish Documentation
+    uses: ./.github/workflows/jsdocs_job.yml
