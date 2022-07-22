@@ -15,7 +15,7 @@
     "lint:check": "eslint --ignore-path .gitignore .",
     "lint:report": "eslint --ignore-path .gitignore --output-file eslint_report.json --format json .",
     "lint:fix": "eslint --fix --ignore-path .gitignore .",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json -p -a all"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",

@@ -7,13 +7,11 @@ import {
 
 /**
  * Chat class for handling common chat methods
+ * @class Chat
  * @example
  * let chat = new Chat();
  */
-export default class Chat {
-  /**
-   * Constructor for Chat class
-   */
+class Chat {
   constructor() {}
 
   /**
@@ -60,7 +58,6 @@ export default class Chat {
 
   /**
    * Creates a basic HTML string message
-   * @private
    * @return {Promise<object>} The chatData object
    * @param {string} message The chat message to send.
    */
@@ -74,7 +71,6 @@ export default class Chat {
 
   /**
    * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
-   * @private
    * @return {Promise<object>} The chatData object
    * @param {string} message The chat message to send.
    * @param {Roll} roll The Roll to parse for the message.
@@ -101,7 +97,6 @@ export default class Chat {
 
   /**
    * Creates a HTML string message based on a RollTable
-   * @private
    * @return {Promise<object>} The chatData object
    * @param {RollResult} rollResult The result of a Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
@@ -132,7 +127,6 @@ export default class Chat {
 
   /**
    * Based on the RollTable template, generates the appropriate HTML to display in chat
-   * @private
    * @return {Promise<string>} A rendered HTML string.
    * @param {string} template The foundry template to use for the message.
    * @param {RollTable} surgeRollTable The Roll Table to use.
@@ -153,3 +147,5 @@ export default class Chat {
     });
   }
 }
+
+export default Chat;

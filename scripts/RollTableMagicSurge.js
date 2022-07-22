@@ -9,13 +9,11 @@ import Chat from "./Chat.js";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
+ * @class RollTableMagicSurge
  * @example
  * let rollTableMagicSurge = new RollTableMagicSurge();
  */
-export default class RollTableMagicSurge {
-  /**
-   * Constructor for RollTableMagicSurge class
-   */
+class RollTableMagicSurge {
   constructor() {}
 
   /**
@@ -52,3 +50,5 @@ export default class RollTableMagicSurge {
     });
   }
 }
+
+export default RollTableMagicSurge;

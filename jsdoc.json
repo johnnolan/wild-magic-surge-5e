@@ -4,6 +4,7 @@
     },
     "opts": {
         "template": "node_modules/better-docs",
-        "destination": "./docs/"
+        "destination": "./docs/",
+        "private": "all"
     }
 }
