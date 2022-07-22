@@ -19,13 +19,13 @@ class TidesOfChaos {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
       return;
     }
-    const tidesItemData = this.getTidesOfChaosResource(actor);
+    const tidesItemData = await this.getTidesOfChaosResource(actor);
 
     if (tidesItemData === undefined) return false;
 
     let updates = [];
     updates.push({
-      _id: tidesItemData.tidesItem.id,
+      _id: tidesItemData.id,
       "data.uses.value": 1,
       "data.recharge.charged": true,
     });
@@ -41,7 +41,7 @@ class TidesOfChaos {
    * @param {Actor} actor The Foundry Actor.
    */
   async IsTidesOfChaosUsed(actor) {
-    const tidesItemData = this.getTidesOfChaosResource(actor);
+    const tidesItemData = await this.getTidesOfChaosResource(actor);
 
     if (tidesItemData === undefined) return false;
 
@@ -58,10 +58,9 @@ class TidesOfChaos {
    * @param {Actor} actor The Foundry Actor.
    */
   async getTidesOfChaosResource(actor) {
+    const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesItem = actor.data.items.find(
-      (a) =>
-        a.name === game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`) &&
-        a.type === "feat"
+      (a) => a.name === featName && a.type === "feat"
     );
 
     if (tidesItem === undefined) {
@@ -76,7 +75,7 @@ class TidesOfChaos {
 
     return {
       usesLeft: tidesItem.data.data.uses.value,
-      tidesItem: tidesItem,
+      id: tidesItem.id,
       resourceName: tidesItem?.data?.data?.consume?.target,
     };
   }
