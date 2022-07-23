@@ -27,8 +27,9 @@ import DieDescending from "./utils/DieDescending.js";
 /**
  * Main entry point for Wild Magic Surge Checks
  * @class MagicSurgeCheck
+ * @param {Actor} actor
  * @example
- * let magicSurgeCheck = new MagicSurgeCheck();
+ * let magicSurgeCheck = new MagicSurgeCheck(actor);
  */
 class MagicSurgeCheck {
   constructor(actor) {
@@ -39,6 +40,11 @@ class MagicSurgeCheck {
     this._actor = actor;
   }
 
+  /**
+   *
+   * @param {ChatMessage} chatMessage
+   * @returns Promise<void>
+   */
   async Check(chatMessage) {
     if (!this._actor) {
       return false;
