@@ -57,7 +57,7 @@ class MagicSurgeCheck {
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
           const spellLevel = await this._spellParser.SpellLevel(
-            chatMessage.data.content
+            chatMessage.content
           );
           const gameType = game.settings.get(
             `${MODULE_ID}`,
@@ -73,12 +73,10 @@ class MagicSurgeCheck {
 
   /**
    * @private
-   * @param {ChatMessage} chatMessage
+   * @param {ChatMessage} messageData
    * @returns boolean
    */
-  async isValid(chatMessage) {
-    let messageData = chatMessage.data;
-
+  async isValid(messageData) {
     if (!messageData.speaker || !messageData.speaker.actor) {
       return false;
     }

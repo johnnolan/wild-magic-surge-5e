@@ -112,8 +112,7 @@ class Chat {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
-      roll: roll,
-      rollMode: await game.settings.get("core", "rollMode"),
+      rolls: [{ roll: roll }],
       sound: null,
     };
 
@@ -136,7 +135,7 @@ class Chat {
    */
   async createTemplate(template, surgeRollTable, roll, results) {
     return await renderTemplate(template, {
-      description: TextEditor.enrichHTML(surgeRollTable.data.description, {
+      description: TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
       }),
       results: results.map((r) => {
