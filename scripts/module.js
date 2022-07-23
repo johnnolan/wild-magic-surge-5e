@@ -403,7 +403,11 @@ Hooks.on("ready", function () {
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  const magicSurgeCheck = new MagicSurgeCheck(chatMessage.data.speaker.actor);
+  const actor = game.actors.get(chatMessage.data.speaker.actor);
+  if (!actor) {
+    return false;
+  }
+  const magicSurgeCheck = new MagicSurgeCheck(actor);
   magicSurgeCheck.Check(chatMessage);
 });
 

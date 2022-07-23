@@ -27,7 +27,7 @@ describe("MagicSurgeCheck", () => {
             },
           ],
         };
-        magicSurgeCheck = new MagicSurgeCheck(1);
+        magicSurgeCheck = new MagicSurgeCheck(undefined);
       });
       it("It returns from module", async () => {
         const result = await magicSurgeCheck.Check(chatMessage);
@@ -75,7 +75,7 @@ describe("MagicSurgeCheck", () => {
               },
             ],
           };
-          magicSurgeCheck = new MagicSurgeCheck(1);
+          magicSurgeCheck = new MagicSurgeCheck(actor);
           jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
         });
         it("It returns from module", async () => {
@@ -135,7 +135,7 @@ describe("MagicSurgeCheck", () => {
               get: jest.fn().mockReturnValue(true),
             },
           };
-          magicSurgeCheck = new MagicSurgeCheck(1);
+          magicSurgeCheck = new MagicSurgeCheck(actor);
           jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
           jest
             .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
@@ -170,7 +170,7 @@ describe("MagicSurgeCheck", () => {
             },
           ],
         };
-        magicSurgeCheck = new MagicSurgeCheck(1);
+        magicSurgeCheck = new MagicSurgeCheck(actor);
       });
       test("roll of 2 EQ 2", async () => {
         const result = await magicSurgeCheck.ResultCheck(2, "EQ");
@@ -285,7 +285,7 @@ describe("MagicSurgeCheck", () => {
           }),
         },
       };
-      magicSurgeCheck = new MagicSurgeCheck(1);
+      magicSurgeCheck = new MagicSurgeCheck(actor);
       resultCheckSpy = jest.spyOn(magicSurgeCheck, "ResultCheck");
       jest
         .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")

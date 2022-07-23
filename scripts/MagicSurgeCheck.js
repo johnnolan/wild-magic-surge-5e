@@ -31,12 +31,11 @@ import DieDescending from "./utils/DieDescending.js";
  * let magicSurgeCheck = new MagicSurgeCheck();
  */
 class MagicSurgeCheck {
-  constructor(actorId) {
+  constructor(actor) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
-    this.actorId = actorId;
-    this.actor = game.actors.get(actorId);
+    this.actor = actor;
   }
 
   async Check(chatMessage) {
@@ -234,9 +233,9 @@ class MagicSurgeCheck {
 
     if (!isAutoSurge) {
       const surgeType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
+      roll = await this.WildMagicSurgeRollCheck();
       switch (gameType) {
         case "DEFAULT":
-          roll = await this.WildMagicSurgeRollCheck();
           isSurge = this.ResultCheck(
             roll.result,
             game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
@@ -244,7 +243,6 @@ class MagicSurgeCheck {
           break;
         case "INCREMENTAL_CHECK":
         case "INCREMENTAL_CHECK_CHAOTIC":
-          roll = await this.WildMagicSurgeRollCheck();
           let maxValue = surgeType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             this.actor,
@@ -254,12 +252,10 @@ class MagicSurgeCheck {
           isSurge = await incrementalCheck.Check();
           break;
         case "SPELL_LEVEL_DEPENDENT_ROLL":
-          roll = await this.WildMagicSurgeRollCheck();
           const spellLevelTrigger = new SpellLevelTrigger();
           isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
           break;
         case "DIE_DESCENDING":
-          roll = await this.WildMagicSurgeRollCheck();
           const dieDescending = new DieDescending(this.actor, roll.result);
           isSurge = await dieDescending.Check();
           break;
