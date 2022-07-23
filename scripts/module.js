@@ -37,7 +37,7 @@ import {
   OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
-import IncrementalCheck from "./IncrementalCheck.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
 import RoundCheck from "./RoundCheck.js";
 import {
   ChatSettingsPanel,
@@ -399,12 +399,12 @@ Hooks.on("init", function () {
 });
 
 Hooks.on("ready", function () {
-  window.MagicSurgeCheck = new MagicSurgeCheck();
   console.log(`Successfully loaded ${MODULE_NAME}`);
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  window.MagicSurgeCheck.Check(chatMessage);
+  const magicSurgeCheck = new MagicSurgeCheck(chatMessage.data.speaker.actor);
+  magicSurgeCheck.Check(chatMessage);
 });
 
 Hooks.on("updateCombat", async function (roundData, data, arg3) {

@@ -4,6 +4,31 @@ export const actor = {
     min: 1,
     value: 1,
   }),
+  get: jest.fn().mockReturnValue({
+    data: {
+      items: [
+        {
+          id: "WWb4vAmh18sMAxfY",
+          data: {
+            name: "Flame Tongue Greatsword",
+            data: { actionType: "mwak" },
+          },
+          token: {
+            _id: "5H4YnyD6zf9vcJ3Q",
+          },
+        },
+        {
+          _id: "iGoR4ePl1mTZFAAM",
+          name: "Wild Magic Surge",
+          type: "feat",
+          img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
+          data: {
+            source: "Sorcerer : Wild Magic",
+          },
+        },
+      ],
+    },
+  }),
   setFlag: jest.fn().mockResolvedValue(2),
   _id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",

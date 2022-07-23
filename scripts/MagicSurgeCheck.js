@@ -31,19 +31,15 @@ import DieDescending from "./utils/DieDescending.js";
  * let magicSurgeCheck = new MagicSurgeCheck();
  */
 class MagicSurgeCheck {
-  constructor() {
+  constructor(actorId) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
-    this.actor = {};
+    this.actorId = actorId;
+    this.actor = game.actors.get(actorId);
   }
 
   async Check(chatMessage) {
-    // Ignore Damage Log modules chat messages
-    if (chatMessage.data?.flags) {
-      if (chatMessage.data.flags.hasOwnProperty("damage-log")) return;
-    }
-    this.actor = game.actors.get(chatMessage.data.speaker.actor);
     if (!this.actor) {
       return false;
     }
@@ -228,7 +224,7 @@ class MagicSurgeCheck {
     let isSurge = false;
     let roll;
 
-    let isAutoSurge;
+    let isAutoSurge = false;
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
       if (await this.tidesOfChaos.IsTidesOfChaosUsed(this.actor)) {
         isAutoSurge = true;
@@ -251,7 +247,7 @@ class MagicSurgeCheck {
           roll = await this.WildMagicSurgeRollCheck();
           let maxValue = surgeType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
-            actor,
+            this.actor,
             roll.result,
             maxValue
           );
