@@ -35,22 +35,22 @@ class MagicSurgeCheck {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
-    this.actor = actor;
+    this._spellParser = new SpellParser(actor);
+    this._actor = actor;
   }
 
   async Check(chatMessage) {
-    if (!this.actor) {
+    if (!this._actor) {
       return false;
     }
 
     if (await this.isValid(chatMessage)) {
-      const spellParser = new SpellParser();
-      const hasPathOfWildMagicFeat = spellParser.IsPathOfWildMagicFeat(actor);
+      const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
       if (hasPathOfWildMagicFeat) {
         this.Surge(true, null, "POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const spellLevel = await spellParser.SpellLevel(
+          const spellLevel = await this._spellParser.SpellLevel(
             chatMessage.data.content
           );
           const gameType = game.settings.get(
@@ -89,35 +89,31 @@ class MagicSurgeCheck {
       if (messageData.user !== game.user.id) return false;
     }
 
-    const spellParser = new SpellParser();
-    const hasPathOfWildMagicFeat = spellParser.IsPathOfWildMagicFeat(
-      this.actor
-    );
+    const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
     if (hasPathOfWildMagicFeat) {
-      if (await spellParser.IsRage(messageData.content, this.actor)) {
+      if (await this._spellParser.IsRage(messageData.content)) {
         return true;
       } else {
         return false;
       }
     }
 
-    const isASpell = await spellParser.IsSpell(messageData.content);
+    const isASpell = await this._spellParser.IsSpell(messageData.content);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
-      const isASorcererSpell = await spellParser.IsSorcererSpell(
-        messageData.content,
-        this.actor
+      const isASorcererSpell = await this._spellParser.IsSorcererSpell(
+        messageData.content
       );
       if (!isASorcererSpell) return false;
     }
 
-    const hasWildMagicFeat = spellParser.IsWildMagicFeat(this.actor);
+    const hasWildMagicFeat = this._spellParser.IsWildMagicFeat();
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
       return isASpell && hasWildMagicFeat;
     }
 
-    const isNpc = spellParser.IsNPC(this.actor);
+    const isNpc = this._spellParser.IsNPC();
     return isASpell && !isNpc && hasWildMagicFeat;
   }
 
@@ -130,14 +126,14 @@ class MagicSurgeCheck {
 
     switch (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)) {
       case "DIE_DESCENDING":
-        diceFormula = await this.actor.getFlag(
+        diceFormula = await this._actor.getFlag(
           MODULE_FLAG_NAME,
           DIE_DESCENDING_FLAG_OPTION
         );
 
         if (!diceFormula) {
           diceFormula = "1d20";
-          await this.actor.setFlag(
+          await this._actor.setFlag(
             MODULE_FLAG_NAME,
             DIE_DESCENDING_FLAG_OPTION,
             {
@@ -225,9 +221,9 @@ class MagicSurgeCheck {
 
     let isAutoSurge = false;
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
-      if (await this.tidesOfChaos.IsTidesOfChaosUsed(this.actor)) {
+      if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
-        this.Surge(isAutoSurge, this.actor, null, "TOCSURGE");
+        this.Surge(isAutoSurge, this._actor, null, "TOCSURGE");
       }
     }
 
@@ -245,7 +241,7 @@ class MagicSurgeCheck {
         case "INCREMENTAL_CHECK_CHAOTIC":
           let maxValue = surgeType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
-            this.actor,
+            this._actor,
             roll.result,
             maxValue
           );
@@ -256,7 +252,7 @@ class MagicSurgeCheck {
           isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
           break;
         case "DIE_DESCENDING":
-          const dieDescending = new DieDescending(this.actor, roll.result);
+          const dieDescending = new DieDescending(this._actor, roll.result);
           isSurge = await dieDescending.Check();
           break;
         default:
@@ -279,7 +275,7 @@ class MagicSurgeCheck {
         break;
       case "TOCSURGE":
         this.rollTableMagicSurge.Check(surgeType);
-        this.tidesOfChaos.Check(this.actor);
+        this.tidesOfChaos.Check(this._actor);
         Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
           surge: true,
         });
@@ -291,7 +287,7 @@ class MagicSurgeCheck {
             game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
             roll
           );
-          this.tidesOfChaos.Check(this.actor);
+          this.tidesOfChaos.Check(this._actor);
           this.rollTableMagicSurge.Check();
           Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
             surge: true,

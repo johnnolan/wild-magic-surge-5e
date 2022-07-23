@@ -15,9 +15,10 @@ class RoundCheck {
    * @param {RoundData} roundData - The current round data sent from the updateCombat Hook.
    * @constructs RoundCheck
    */
-  constructor() {
-    this.spellParser = new SpellParser();
+  constructor(actor) {
+    this.spellParser = new SpellParser(actor);
     this.chat = new Chat();
+    this._actor = actor;
   }
 
   /**
@@ -26,19 +27,16 @@ class RoundCheck {
    * @return {Promise<void>}
    * @param {RoundData} roundData - The current round data sent from the updateCombat Hook.
    */
-  async Check(roundData) {
-    const actor = game.actors.get(roundData.combatant.actor.id);
-    if (!actor) {
-      return false;
-    }
-
+  async Check() {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      if (this.spellParser.IsWildMagicFeat(actor)) {
-        const incrementalCheckChaotic = new IncrementalCheckChaotic(actor);
+      if (this.spellParser.IsWildMagicFeat()) {
+        const incrementalCheckChaotic = new IncrementalCheckChaotic(
+          this._actor
+        );
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
           await incrementalCheckChaotic.Check();
         } else {
-          if (!this.spellParser.IsNPC(actor)) {
+          if (!this.spellParser.IsNPC()) {
             await incrementalCheckChaotic.Check();
           }
         }

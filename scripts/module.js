@@ -416,7 +416,11 @@ Hooks.on("updateCombat", async function (roundData, data, arg3) {
     game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
-    let roundCheck = new RoundCheck();
+    const actor = game.actors.get(roundData.combatant.actor.id);
+    if (!actor) {
+      return false;
+    }
+    let roundCheck = new RoundCheck(actor);
     roundCheck.Check(roundData);
   }
 });

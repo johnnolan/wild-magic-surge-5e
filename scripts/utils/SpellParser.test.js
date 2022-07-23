@@ -25,7 +25,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
         global.game = {
           settings: {
             get: jest.fn().mockReturnValue("Wild Magic Surge"),
@@ -44,7 +44,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be false", () => {
@@ -63,7 +63,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be true", () => {
@@ -77,7 +77,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be false", async () => {
@@ -96,7 +96,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be true", () => {
@@ -110,7 +110,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be false", async () => {
@@ -129,7 +129,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be true", () => {
@@ -147,7 +147,7 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser();
+        spellParser = new SpellParser(actor);
       });
 
       it("should be false", () => {

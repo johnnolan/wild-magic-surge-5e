@@ -2,6 +2,7 @@ import RoundCheck from "./RoundCheck.js";
 import IncrementalCheckChaotic from "./utils/IncrementalCheckChaotic.js";
 import SpellParser from "./utils/SpellParser.js";
 import Chat from "./Chat.js";
+import { actor } from "../MockData/actor.js";
 import "../__mocks__/index.js";
 
 jest.mock("./utils/SpellParser.js");
@@ -19,7 +20,6 @@ describe("RoundCheck", () => {
   describe("Check", () => {
     describe("Given I pass round data with a valid Actor", () => {
       let roundCheck;
-      let roundData;
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
@@ -28,25 +28,20 @@ describe("RoundCheck", () => {
           actors: {
             get: jest.fn().mockReturnValueOnce(false),
           },
-        };
-        roundCheck = new RoundCheck();
-        roundData = {
-          combatant: {
-            actor: {
-              id: 1,
-            },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
           },
         };
+        roundCheck = new RoundCheck(actor);
       });
       it("It should return false", async () => {
-        const result = await roundCheck.Check(roundData);
+        const result = await roundCheck.Check();
         expect(result).toBeFalsy();
       });
     });
 
     describe("Given I pass round data with a valid Actor", () => {
       let roundCheck;
-      let roundData;
       let spellParser;
       let incrementalCheckChaotic;
       beforeEach(() => {
@@ -80,17 +75,10 @@ describe("RoundCheck", () => {
               .mockReturnValueOnce(false),
           },
         };
-        roundCheck = new RoundCheck();
-        roundData = {
-          combatant: {
-            actor: {
-              id: 1,
-            },
-          },
-        };
+        roundCheck = new RoundCheck(actor);
       });
       it("It should do the checks", async () => {
-        await roundCheck.Check(roundData);
+        await roundCheck.Check();
         expect(SpellParser).toHaveBeenCalled();
         expect(IncrementalCheckChaotic).toHaveBeenCalled();
       });
@@ -98,7 +86,6 @@ describe("RoundCheck", () => {
 
     describe("Given I have auto D20 check disabled", () => {
       let roundCheck;
-      let roundData;
       let chat;
       beforeEach(() => {
         jest.clearAllMocks();
@@ -125,17 +112,10 @@ describe("RoundCheck", () => {
             get: jest.fn().mockReturnValueOnce(false),
           },
         };
-        roundCheck = new RoundCheck();
-        roundData = {
-          combatant: {
-            actor: {
-              id: 1,
-            },
-          },
-        };
+        roundCheck = new RoundCheck(actor);
       });
       it("It should do the manual message checks", async () => {
-        await roundCheck.Check(roundData);
+        await roundCheck.Check();
         expect(Chat).toHaveBeenCalled();
       });
     });
