@@ -229,7 +229,7 @@ class MagicSurgeCheck {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
       if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
-        this.Surge(isAutoSurge, this._actor, null, "TOCSURGE");
+        this.Surge(isAutoSurge, null, "TOCSURGE");
       }
     }
 
@@ -280,6 +280,10 @@ class MagicSurgeCheck {
         break;
       case "TOCSURGE":
         this.rollTableMagicSurge.Check(surgeType);
+        this.chat.Send(
+          CHAT_TYPE.DEFAULT,
+          game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
+        );
         this.tidesOfChaos.Check(this._actor);
         Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
           surge: true,
