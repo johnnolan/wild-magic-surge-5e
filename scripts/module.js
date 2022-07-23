@@ -37,6 +37,8 @@ import {
   OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
+import RoundCheck from "./RoundCheck.js";
 import {
   ChatSettingsPanel,
   IncrementalSettingsPanel,
@@ -397,12 +399,16 @@ Hooks.on("init", function () {
 });
 
 Hooks.on("ready", function () {
-  window.MagicSurgeCheck = new MagicSurgeCheck();
   console.log(`Successfully loaded ${MODULE_NAME}`);
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  window.MagicSurgeCheck.Check(chatMessage);
+  const actor = game.actors.get(chatMessage.data.speaker.actor);
+  if (!actor) {
+    return false;
+  }
+  const magicSurgeCheck = new MagicSurgeCheck(actor);
+  magicSurgeCheck.Check(chatMessage);
 });
 
 Hooks.on("updateCombat", async function (roundData, data, arg3) {
@@ -410,10 +416,21 @@ Hooks.on("updateCombat", async function (roundData, data, arg3) {
     game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
-    window.MagicSurgeCheck.RoundCheck(roundData);
+    const actor = game.actors.get(roundData.combatant.actor.id);
+    if (!actor) {
+      return false;
+    }
+    let roundCheck = new RoundCheck(actor);
+    roundCheck.Check(roundData);
   }
 });
 
 Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId) {
-  window.MagicSurgeCheck.ResetIncrementalCheck(actorId);
+  const actor = game.actors.get(actorId);
+  if (!actor) {
+    return false;
+  }
+
+  const incrementalCheck = new IncrementalCheck(actor);
+  await incrementalCheck.Reset();
 });

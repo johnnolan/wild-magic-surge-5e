@@ -7,20 +7,22 @@ import {
 } from "../Settings.js";
 
 export default class SpellParser {
-  constructor() {}
+  constructor(actor) {
+    this._actor = actor;
+  }
 
-  IsWildMagicFeat(actor) {
+  IsWildMagicFeat() {
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
-      actor.data.items.find(
+      this._actor.data.items.find(
         (a) => a.name === surgeName && a.type === "feat"
       ) !== undefined
     );
   }
 
-  IsPathOfWildMagicFeat(actor) {
+  IsPathOfWildMagicFeat() {
     return (
-      actor.data.items.find(
+      this._actor.data.items.find(
         (a) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
           a.type === "subclass"
@@ -92,14 +94,16 @@ export default class SpellParser {
     return result !== undefined;
   }
 
-  async IsSorcererSpell(content, actor) {
-    if (!actor) return false;
+  async IsSorcererSpell(content) {
+    if (!this._actor) return false;
 
     const rollDetails = this.RollContent(content);
 
     if (!rollDetails.actorId || !rollDetails.itemId) return false;
 
-    const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
+    const getItem = await this._actor.items.find(
+      (i) => i.id === rollDetails.itemId
+    );
     if (!getItem) return false;
 
     let spellName = getItem.data.name;
@@ -114,14 +118,16 @@ export default class SpellParser {
     return isSpellRegexMatch;
   }
 
-  async IsRage(content, actor) {
-    if (!actor) return false;
+  async IsRage(content) {
+    if (!this._actor) return false;
 
     const rollDetails = this.RollContent(content);
 
     if (!rollDetails.actorId || !rollDetails.itemId) return false;
 
-    const getItem = await actor.items.find((i) => i.id === rollDetails.itemId);
+    const getItem = await this._actor.items.find(
+      (i) => i.id === rollDetails.itemId
+    );
     if (!getItem) return false;
 
     let spellName = getItem.data.name;
