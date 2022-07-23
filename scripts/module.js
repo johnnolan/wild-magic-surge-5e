@@ -37,6 +37,8 @@ import {
   OPT_SURGE_TOC_ENABLED,
 } from "./Settings.js";
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
+import IncrementalCheck from "./IncrementalCheck.js";
+import RoundCheck from "./RoundCheck.js";
 import {
   ChatSettingsPanel,
   IncrementalSettingsPanel,
@@ -416,5 +418,11 @@ Hooks.on("updateCombat", async function (roundData, data, arg3) {
 });
 
 Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId) {
-  window.MagicSurgeCheck.ResetIncrementalCheck(actorId);
+  const actor = game.actors.get(actorId);
+  if (!actor) {
+    return false;
+  }
+
+  const incrementalCheck = new IncrementalCheck(actor);
+  await incrementalCheck.Reset();
 });

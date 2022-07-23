@@ -269,7 +269,7 @@ describe("MagicSurgeCheck", () => {
       };
     });
     test("INVALID_OPTION", async () => {
-      await magicSurgeCheck.RunAutoCheck(actor, 1, "INVALID_OPTION");
+      await magicSurgeCheck.RunAutoCheck(1, "INVALID_OPTION");
       expect(resultCheckSpy).not.toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(0);
       expect(IncrementalCheck).not.toBeCalled();
@@ -280,7 +280,7 @@ describe("MagicSurgeCheck", () => {
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(0);
     });
     test("DEFAULT", async () => {
-      await magicSurgeCheck.RunAutoCheck(actor, 1, "DEFAULT");
+      await magicSurgeCheck.RunAutoCheck(1, "DEFAULT");
       expect(resultCheckSpy).toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(1);
       expect(IncrementalCheck).not.toBeCalled();
@@ -291,7 +291,7 @@ describe("MagicSurgeCheck", () => {
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
     test("INCREMENTAL_CHECK", async () => {
-      await magicSurgeCheck.RunAutoCheck(actor, 1, "INCREMENTAL_CHECK");
+      await magicSurgeCheck.RunAutoCheck(1, "INCREMENTAL_CHECK");
       expect(IncrementalCheck).toBeCalled();
       expect(IncrementalCheck).toHaveBeenCalledTimes(1);
       expect(resultCheckSpy).not.toBeCalled();
