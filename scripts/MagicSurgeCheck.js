@@ -234,8 +234,7 @@ class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
-      const surgeType = game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`);
-      roll = await this.WildMagicSurgeRollCheck();
+      roll = await this.WildMagicSurgeRollCheck(gameType);
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.ResultCheck(
@@ -245,7 +244,7 @@ class MagicSurgeCheck {
           break;
         case "INCREMENTAL_CHECK":
         case "INCREMENTAL_CHECK_CHAOTIC":
-          let maxValue = surgeType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
+          let maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             this._actor,
             roll.result,
