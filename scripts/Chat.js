@@ -142,7 +142,7 @@ class Chat {
         r.text = r.getChatText();
         return r;
       }),
-      rollHTML: roll.render(),
+      rollHTML: await roll.render(),
       table: surgeRollTable,
     });
   }

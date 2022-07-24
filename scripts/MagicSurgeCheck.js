@@ -90,7 +90,7 @@ class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (messageData.user !== game.user.id) return false;
+      if (messageData.user.id !== game.user.id) return false;
     }
 
     const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
