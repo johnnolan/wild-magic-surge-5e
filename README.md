@@ -13,6 +13,12 @@
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat.
 
+# V10 NOTICE
+
+The latest version of the module that supports Foundry V10 is [https://github.com/johnnolan/wild-magic-surge-5e/releases/download/2.0.2/module.json](https://github.com/johnnolan/wild-magic-surge-5e/releases/download/2.0.2/module.json). You can use this release until V10 is released, at which point I will remove its prerelease status and it will be available through the Foundry interface.
+
+This is to prevent annoying popups for those not on V10 yet.
+
 ## Prerequisites
 
 Ensure your Player Character has the `Wild Magic Surge` feat added to the character sheet. It will not run on any characters that do not have this set.
