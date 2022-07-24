@@ -14,7 +14,7 @@ export default class SpellParser {
   IsWildMagicFeat() {
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
-      this._actor.data.items.find(
+      this._actor.items.find(
         (a) => a.name === surgeName && a.type === "feat"
       ) !== undefined
     );
@@ -22,7 +22,7 @@ export default class SpellParser {
 
   IsPathOfWildMagicFeat() {
     return (
-      this._actor.data.items.find(
+      this._actor.items.find(
         (a) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
           a.type === "subclass"
@@ -55,7 +55,7 @@ export default class SpellParser {
             (i) => i.id === rollDetails.itemId
           );
           if (getItem) {
-            let spellLevel = getItem.data.data.level;
+            let spellLevel = getItem.level;
             if (spellLevel > 0) {
               switch (spellLevel) {
                 case 1:
@@ -106,7 +106,7 @@ export default class SpellParser {
     );
     if (!getItem) return false;
 
-    let spellName = getItem.data.name;
+    let spellName = getItem.name;
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
@@ -130,12 +130,12 @@ export default class SpellParser {
     );
     if (!getItem) return false;
 
-    let spellName = getItem.data.name;
+    let spellName = getItem.name;
 
     return spellName === "Rage";
   }
 
   IsNPC(actor) {
-    return actor ? actor.data.type === "npc" : false;
+    return actor ? actor.type === "npc" : false;
   }
 }

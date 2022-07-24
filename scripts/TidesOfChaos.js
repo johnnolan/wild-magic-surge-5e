@@ -30,7 +30,7 @@ class TidesOfChaos {
       "data.recharge.charged": true,
     });
 
-    await actor.update({ items: updates });
+    await actor.updateEmbeddedDocuments("Item", updates);
     await actor.update({ data: { [`${tidesItemData.resourceName}`]: 1 } });
   }
 

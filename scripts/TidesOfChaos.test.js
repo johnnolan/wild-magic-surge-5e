@@ -98,6 +98,7 @@ describe("TidesOfChaos", () => {
           tidesOfChaos = new TidesOfChaos();
           actor = {
             update: jest.fn(),
+            updateEmbeddedDocuments: jest.fn(),
             data: {
               items: {
                 find: jest.fn().mockReturnValueOnce({
@@ -123,7 +124,9 @@ describe("TidesOfChaos", () => {
         it("should return true", async () => {
           await tidesOfChaos.Check(actor);
           expect(actor.update).toBeCalled();
-          expect(actor.update).toHaveBeenCalledTimes(2);
+          expect(actor.update).toHaveBeenCalledTimes(1);
+          expect(actor.updateEmbeddedDocuments).toBeCalled();
+          expect(actor.updateEmbeddedDocuments).toHaveBeenCalledTimes(1);
         });
       });
     });

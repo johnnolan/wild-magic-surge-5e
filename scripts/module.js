@@ -403,7 +403,8 @@ Hooks.on("ready", function () {
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
-  const actor = game.actors.get(chatMessage.data.speaker.actor);
+  if (chatMessage.flags?.hasOwnProperty("damage-log")) return;
+  const actor = game.actors.get(chatMessage.speaker.actor);
   if (!actor) {
     return false;
   }

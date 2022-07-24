@@ -23,9 +23,7 @@ describe("DieDescending", () => {
     beforeEach(() => {
       let newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
-        data: {
-          flags: [],
-        },
+        flags: [],
       };
       dieDescending = new DieDescending(newActor, "1");
     });
@@ -41,9 +39,7 @@ describe("DieDescending", () => {
     beforeEach(() => {
       let newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
-        data: {
-          flags: [],
-        },
+        flags: [],
       };
       dieDescending = new DieDescending(newActor, "10");
     });
@@ -58,7 +54,7 @@ describe("DieDescending", () => {
     let dieDescending;
     beforeEach(() => {
       let newActor = actor;
-      newActor.data.flags["wild-magic-surge-5e"] = {};
+      newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(newActor, "1");
     });
 
@@ -72,7 +68,7 @@ describe("DieDescending", () => {
     let dieDescending;
     beforeEach(() => {
       let newActor = actor;
-      newActor.data.flags["wild-magic-surge-5e"] = {};
+      newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(actor, "4");
     });
 
