@@ -36,11 +36,11 @@ jobs:
         RELEASE_BRANCHES: main
         WITH_V: false
 
-    - name: Build Changelog
-      id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v3.1.1
+    - name: Changelog
+      uses: Bullrich/generate-release-changelog@2.0.1
+      id: changelog
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.repository }}
 
     # Substitute the Manifest and Download URLs in the module.json
     - name: Substitute Manifest and Download Links For Versioned Ones
@@ -69,4 +69,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: './module.json, ./module.zip'
         tag: ${{ steps.bump_version.outputs.new_tag }}
-        body: ${{ steps.build_changelog.outputs.changelog }}
+        body: ${{ steps.changelog.outputs.changelog }}
