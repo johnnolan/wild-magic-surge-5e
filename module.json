@@ -7,6 +7,10 @@
   "manifestPlusVersion": "1.0.0",
   "minimumCoreVersion": "10",
   "compatibleCoreVersion": "10",
+  "compatibility": {
+    "minimum": "10.274",
+    "verified": "10"
+  },
   "authors": [
     {
       "name": "John Nolan",
