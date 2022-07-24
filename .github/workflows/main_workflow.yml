@@ -31,7 +31,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         INITIAL_VERSION: 1.0.0
-        DEFAULT_BUMP: minor
+        DEFAULT_BUMP: patch
         PRERELEASE_SUFFIX: ${{ env.BRANCH_NAME }}
         RELEASE_BRANCHES: main
         WITH_V: false
