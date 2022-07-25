@@ -46,12 +46,6 @@ jobs:
           min-line-coverage: 20
           min-method-coverage: 20
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD_SECRET }}
-
       # - name: Annotate Code Linting Results
       #   uses: ataylorme/eslint-annotate-action@v2
       #   with:
