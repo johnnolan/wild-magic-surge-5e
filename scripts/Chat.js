@@ -13,7 +13,9 @@ import {
  * let chat = new Chat();
  */
 class Chat {
-  constructor() {}
+  constructor() {
+    // This is intentional
+  }
 
   /**
    * Sends the correct ChatMessage to the Chat window
@@ -63,11 +65,9 @@ class Chat {
    * @param {string} message The chat message to send.
    */
   async createDefaultChat(message) {
-    const chatData = {
+    return {
       content: `<div>${message}</div>`,
     };
-
-    return chatData;
   }
 
   /**
@@ -134,7 +134,7 @@ class Chat {
    * @param {Array} results An Array of results from the roll.
    */
   async createTemplate(template, surgeRollTable, roll, results) {
-    return await renderTemplate(template, {
+    return renderTemplate(template, {
       description: TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
       }),

@@ -29,7 +29,7 @@ export default class DieDescending {
     }
 
     if (!this.actor.flags.hasOwnProperty(MODULE_FLAG_NAME)) {
-      return await this.SetupDefault();
+      return this.SetupDefault();
     }
 
     let flagValue = await this.actor.getFlag(
@@ -38,11 +38,11 @@ export default class DieDescending {
     );
 
     if (!flagValue) {
-      return await this.SetupDefault();
+      return this.SetupDefault();
     }
 
     if (this.rollValue === "1") {
-      return await this.SetupDefault();
+      return this.SetupDefault();
     } else {
       switch (flagValue.value) {
         case "1d20":

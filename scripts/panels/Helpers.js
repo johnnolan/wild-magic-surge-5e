@@ -3,8 +3,8 @@ import { MODULE_ID } from "../Settings.js";
 export function SettingsList(settings) {
   let chatSettingsList = [];
 
-  for (let i = 0; i < settings.length; i++) {
-    const setting = settings[i];
+  for (const element of settings) {
+    const setting = element;
 
     for (const [key, value] of game.settings.settings.entries()) {
       if (key === `${MODULE_ID}.${setting}`) {
@@ -14,11 +14,11 @@ export function SettingsList(settings) {
         let isArray = false;
         if (value.choices) {
           isArray = true;
-          for (const key in value.choices) {
+          for (const keyChoice in value.choices) {
             choicesSelect.push({
-              key: key.toString(),
-              value: value.choices[key],
-              selected: key.toString() === settingValue,
+              key: keyChoice.toString(),
+              value: value.choices[keyChoice],
+              selected: keyChoice.toString() === settingValue,
             });
           }
         }

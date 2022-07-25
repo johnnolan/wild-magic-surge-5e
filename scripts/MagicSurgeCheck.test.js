@@ -79,7 +79,7 @@ describe("MagicSurgeCheck", () => {
           jest.spyOn(magicSurgeCheck, "RunAutoCheck").mockReturnValue(true);
         });
         it("It returns from module", async () => {
-          const result = await magicSurgeCheck.Check(chatMessageNoSpell);
+          await magicSurgeCheck.Check(chatMessageNoSpell);
           expect(Chat).toHaveBeenCalled();
           expect(magicSurgeCheck.RunAutoCheck).not.toBeCalled();
           expect(magicSurgeCheck.RunAutoCheck).toHaveBeenCalledTimes(0);
@@ -142,7 +142,7 @@ describe("MagicSurgeCheck", () => {
             .mockReturnValue(true);
         });
         it("It auto checks", async () => {
-          const result = await magicSurgeCheck.Check(chatMessage);
+          await magicSurgeCheck.Check(chatMessage);
           expect(Chat).toHaveBeenCalled();
           expect(magicSurgeCheck.WildMagicSurgeRollCheck).not.toBeCalled();
           expect(magicSurgeCheck.WildMagicSurgeRollCheck).toHaveBeenCalledTimes(

@@ -7,7 +7,9 @@ import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings.js";
  * let tidesOfChaos = new TidesOfChaos();
  */
 class TidesOfChaos {
-  constructor() {}
+  constructor() {
+    // This is intentional
+  }
 
   /**
    * Checks to see if Tides of Chaos has been used and if so recharge it
@@ -45,11 +47,7 @@ class TidesOfChaos {
 
     if (tidesItemData === undefined) return false;
 
-    if (tidesItemData.usesLeft === 0) {
-      return true;
-    }
-
-    return false;
+    return tidesItemData.usesLeft === 0;
   }
 
   /**

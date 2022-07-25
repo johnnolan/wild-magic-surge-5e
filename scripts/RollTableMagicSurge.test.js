@@ -18,7 +18,7 @@ describe("RollTableMagicSurge", () => {
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-              description: "Wild Magic Surge Table",
+              description: "Wild Magic Surge Table Test",
             },
           },
         ],
@@ -36,7 +36,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await rollTableMagicSurge.Check("WMS");
+      await rollTableMagicSurge.Check();
       expect(global.game.tables[0].roll).toBeCalled();
       expect(global.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
@@ -112,7 +112,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await rollTableMagicSurge.Check("WMS");
+      await rollTableMagicSurge.Check("POWM");
       expect(global.game.tables[0].roll).toBeCalled();
       expect(global.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });

@@ -1,12 +1,12 @@
 import RoundCheck from "./RoundCheck.js";
-import IncrementalCheckChaotic from "./utils/IncrementalCheckChaotic.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import Chat from "./Chat.js";
 import { actor } from "../MockData/actor.js";
 import "../__mocks__/index.js";
 
 jest.mock("./utils/SpellParser.js");
-jest.mock("./utils/IncrementalCheckChaotic.js");
+jest.mock("./utils/IncrementalCheck.js");
 jest.mock("./Chat.js");
 
 describe("RoundCheck", () => {
@@ -43,14 +43,14 @@ describe("RoundCheck", () => {
     describe("Given I pass round data with a valid Actor", () => {
       let roundCheck;
       let spellParser;
-      let incrementalCheckChaotic;
+      let incrementalCheck;
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        incrementalCheckChaotic = new IncrementalCheckChaotic();
+        incrementalCheck = new IncrementalCheck();
         spellParser = new SpellParser();
 
-        jest.spyOn(incrementalCheckChaotic, "Check").mockReturnValue(true);
+        jest.spyOn(incrementalCheck, "Check").mockReturnValue(true);
         jest.spyOn(spellParser, "IsWildMagicFeat").mockReturnValue(true);
         global.game = {
           actors: {
@@ -80,7 +80,7 @@ describe("RoundCheck", () => {
       it("It should do the checks", async () => {
         await roundCheck.Check();
         expect(SpellParser).toHaveBeenCalled();
-        expect(IncrementalCheckChaotic).toHaveBeenCalled();
+        expect(IncrementalCheck).toHaveBeenCalled();
       });
     });
 

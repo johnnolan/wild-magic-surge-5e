@@ -23,13 +23,12 @@ export class IncrementalSettingsPanel extends FormApplication {
   getData() {
     const settings = [OPT_INCREMENTAL_CHECK_TO_CHAT];
 
-    let data = {
+    return {
       modules: this.settingsList(settings),
     };
-    return data;
   }
 
-  _updateObject(event, formData) {
+  _updateObject(_event, formData) {
     UpdateObject(formData);
   }
 }

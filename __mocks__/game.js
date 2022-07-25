@@ -9,16 +9,16 @@ let user = {
   isGM: false,
   isSelf: true,
   data: {},
-  can: jest.fn((permission) => {
+  can: jest.fn((_permission) => {
     return false;
   }),
-  hasPermission: jest.fn((permission) => {
+  hasPermission: jest.fn((_permission) => {
     return false;
   }),
-  hasRole: jest.fn((role) => {
+  hasRole: jest.fn((_role) => {
     return true;
   }),
-  isRole: jest.fn((role) => {
+  isRole: jest.fn((_role) => {
     return false;
   }),
 };
@@ -36,9 +36,11 @@ let game = {
   ],
   settings: {
     get: jest.fn(),
-    register: jest.fn((moduleName, settingName, data) => {}),
+    register: jest.fn((_moduleName, _settingName, _data) => {
+      // This is intentional
+    }),
     registerMenu: jest.fn(),
-    set: (moduleName, settingName, data) => {
+    set: (_moduleName, _settingName, _data) => {
       return Promise.resolve(true);
     },
   },
@@ -88,7 +90,7 @@ let game = {
   },
   togglePause: jest.fn(),
   journal: {
-    get: (id, obj) => {
+    get: (id, _obj) => {
       if (id) {
         return {
           getFlag: jest.fn().mockReturnValue({
@@ -102,7 +104,9 @@ let game = {
             remindUsers: ["qwe"],
           }),
           update: jest.fn(),
-          delete: async () => {},
+          delete: async () => {
+            // This is intentional
+          },
         };
       }
       return null;

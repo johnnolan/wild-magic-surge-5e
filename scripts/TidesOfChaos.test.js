@@ -1,8 +1,6 @@
 import TidesOfChaos from "./TidesOfChaos.js";
 import "../__mocks__/index.js";
 
-//jest.mock("./Chat.js");
-
 describe("TidesOfChaos", () => {
   describe("If TidesOfChaos exists on the Actor", () => {
     describe("And I want to check whether it is charged or not", () => {

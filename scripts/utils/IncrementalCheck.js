@@ -53,7 +53,7 @@ export default class IncrementalCheck {
     }
 
     if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {
-      return await this.SetupDefault();
+      return this.SetupDefault();
     }
 
     let incrementLevel = await this.actor.getFlag(
@@ -62,10 +62,10 @@ export default class IncrementalCheck {
     );
 
     if (!incrementLevel) {
-      return await this.SetupDefault();
+      return this.SetupDefault();
     }
 
-    if (this.rollValue <= incrementLevel.value) {
+    if (this.rollValue !== null && this.rollValue <= incrementLevel.value) {
       await this.actor.setFlag(
         this.FLAG_NAME,
         this.FLAG_OPTION,
