@@ -147,9 +147,10 @@ describe("Chat", () => {
           },
         };
       });
-      it("It returns the just the content", async () => {
+      it("It calls the correct methods", async () => {
         await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
         expect(ChatMessage.create).toHaveBeenCalled();
+        expect(ChatMessage.create).toHaveBeenCalledTimes(1);
         expect(global.renderTemplate).toHaveBeenCalled();
       });
     });

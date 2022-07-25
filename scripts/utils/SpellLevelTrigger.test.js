@@ -82,14 +82,14 @@ describe("SpellLevelTrigger", () => {
     });
   });
 
-  describe("Roll 5 !== 4", () => {
+  describe("Roll 5 !== 3", () => {
     let spellLevelTrigger;
     beforeEach(() => {
       jest.clearAllMocks();
       jest.resetAllMocks();
       global.game = {
         settings: {
-          get: jest.fn().mockReturnValueOnce("= 4"),
+          get: jest.fn().mockReturnValueOnce("= 3"),
         },
         tables: [
           {
@@ -103,7 +103,7 @@ describe("SpellLevelTrigger", () => {
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(5, "4th Level");
+      const result = spellLevelTrigger.Check(5, "3rd Level");
       expect(result).toBeFalsy();
     });
   });
