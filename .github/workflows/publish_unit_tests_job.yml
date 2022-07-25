@@ -1,5 +1,8 @@
 on:
   workflow_call:
+    secrets:
+      SONARCLOUD_SECRET:
+        required: true
 
 jobs:
   publish_unit_tests:
@@ -20,7 +23,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: clover
-          path: coverage/clover.xml
+          path: coverage
 
       - name: Download ESLint Artifact
         id: eslint_report
