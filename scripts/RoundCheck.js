@@ -12,7 +12,7 @@ import Chat from "./Chat.js";
 class RoundCheck {
   /**
    * Check for Incrementmenal Check
-   * @param {RoundData} roundData - The current round data sent from the updateCombat Hook.
+   * @param {Actor} actor - The Actor to check against.
    * @constructs RoundCheck
    */
   constructor(actor) {
@@ -25,7 +25,6 @@ class RoundCheck {
    * Checks for and does an incremental check for a surge on a new combat round
    * @public
    * @return {Promise<void>}
-   * @param {RoundData} roundData - The current round data sent from the updateCombat Hook.
    */
   async Check() {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {

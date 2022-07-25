@@ -14,7 +14,9 @@ import Chat from "./Chat.js";
  * let rollTableMagicSurge = new RollTableMagicSurge();
  */
 class RollTableMagicSurge {
-  constructor() {}
+  constructor() {
+    // This is intentional
+  }
 
   /**
    * Checks and rolls on the correct table

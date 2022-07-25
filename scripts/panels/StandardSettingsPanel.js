@@ -29,13 +29,12 @@ export class StandardSettingsPanel extends FormApplication {
       OPT_CUSTOM_ROLL_RESULT,
     ];
 
-    let data = {
+    return {
       modules: this.settingsList(settings),
     };
-    return data;
   }
 
-  _updateObject(event, formData) {
+  _updateObject(_event, formData) {
     UpdateObject(formData);
   }
 }

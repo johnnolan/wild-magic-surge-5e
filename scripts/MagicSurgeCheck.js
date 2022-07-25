@@ -95,11 +95,7 @@ class MagicSurgeCheck {
 
     const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
     if (hasPathOfWildMagicFeat) {
-      if (await this._spellParser.IsRage(messageData.content)) {
-        return true;
-      } else {
-        return false;
-      }
+      return !!(await this._spellParser.IsRage(messageData.content));
     }
 
     const isASpell = await this._spellParser.IsSpell(messageData.content);
@@ -159,8 +155,7 @@ class MagicSurgeCheck {
         break;
     }
 
-    let r = await new Roll(diceFormula).roll({ async: true });
-    return r;
+    return new Roll(diceFormula).roll({ async: true });
   }
 
   /**
@@ -188,8 +183,8 @@ class MagicSurgeCheck {
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
 
-    for (let i = 0; i < rollResultTargets.length; i++) {
-      const rollResultTarget = parseInt(rollResultTargets[i]);
+    for (const element of rollResultTargets) {
+      const rollResultTarget = parseInt(element);
 
       switch (comparison) {
         case "EQ":

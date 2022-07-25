@@ -29,13 +29,12 @@ export class ChatSettingsPanel extends FormApplication {
       OPT_AUTO_D20_MSG_NO_SURGE,
     ];
 
-    let data = {
+    return {
       modules: this.settingsList(settings),
     };
-    return data;
   }
 
-  _updateObject(event, formData) {
+  _updateObject(_event, formData) {
     UpdateObject(formData);
   }
 }

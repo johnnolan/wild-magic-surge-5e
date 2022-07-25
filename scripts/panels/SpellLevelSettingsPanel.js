@@ -45,13 +45,12 @@ export class SpellLevelSettingsPanel extends FormApplication {
       OPT_TSL_LVL10,
     ];
 
-    let data = {
+    return {
       modules: this.settingsList(settings),
     };
-    return data;
   }
 
-  _updateObject(event, formData) {
+  _updateObject(_event, formData) {
     UpdateObject(formData);
   }
 }

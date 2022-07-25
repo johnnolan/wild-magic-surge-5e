@@ -13,7 +13,9 @@ import {
 } from "../Settings.js";
 
 export default class SpellLevelTrigger {
-  constructor() {}
+  constructor() {
+    // This is intentional
+  }
 
   Check(result, spellLevel) {
     let spellString;
@@ -50,7 +52,7 @@ export default class SpellLevelTrigger {
         break;
     }
 
-    const splitLevel = this.parseTSLOption(spellString);
+    const splitLevel = spellString.split(" ");
 
     const rollResultTarget = parseInt(splitLevel[1]);
     switch (splitLevel[0]) {
@@ -63,10 +65,5 @@ export default class SpellLevelTrigger {
       default:
         return false;
     }
-  }
-
-  parseTSLOption(level) {
-    const levelSplit = level.split(" ");
-    return levelSplit;
   }
 }

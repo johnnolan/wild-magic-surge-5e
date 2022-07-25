@@ -24,13 +24,12 @@ export class SpellRegexSettingsPanel extends FormApplication {
   getData() {
     const settings = [OPT_SPELL_REGEX_ENABLED, OPT_SPELL_REGEX];
 
-    let data = {
+    return {
       modules: this.settingsList(settings),
     };
-    return data;
   }
 
-  _updateObject(event, formData) {
+  _updateObject(_event, formData) {
     UpdateObject(formData);
   }
 }

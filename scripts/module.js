@@ -412,7 +412,7 @@ Hooks.on("createChatMessage", (chatMessage) => {
   magicSurgeCheck.Check(chatMessage);
 });
 
-Hooks.on("updateCombat", async function (roundData, data, arg3) {
+Hooks.on("updateCombat", async function (roundData) {
   if (
     game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`

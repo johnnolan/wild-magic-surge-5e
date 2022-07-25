@@ -86,7 +86,7 @@ export default class SpellParser {
   }
 
   async SpellLevel(content) {
-    return await this.SpellDetails(content);
+    return this.SpellDetails(content);
   }
 
   async IsSpell(content) {
