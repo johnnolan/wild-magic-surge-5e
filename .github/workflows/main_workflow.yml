@@ -18,6 +18,13 @@ jobs:
     name: Create and Publish Documentation
     uses: ./.github/workflows/jsdocs_job.yml
 
+  sonar_cloud:
+    name: Sonar Cloud
+    needs: ['lint', 'test']
+    uses: ./.github/workflows/sonar_cloud_job.yml
+    secrets:
+      SONARCLOUD_SECRET: ${{ secrets.SONARCLOUD_TOKEN }}
+
   create_tag_publish:
     name: Bump, Tag and Publish Pre-release
     runs-on: ubuntu-latest
