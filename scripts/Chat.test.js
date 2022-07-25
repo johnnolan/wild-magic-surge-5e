@@ -116,7 +116,7 @@ describe("Chat", () => {
     });
     describe("Given I pass it a message and roll table with two results", () => {
       let chat;
-      let rollResult;
+      let rollResultTwoResults;
       let surgeRollTable;
       beforeEach(() => {
         global.game.settings.get = jest
@@ -130,7 +130,7 @@ describe("Chat", () => {
             description: "Wild Magic Surge Table",
           },
         };
-        rollResult = {
+        rollResultTwoResults = {
           results: [
             {
               text: "test text",
@@ -148,9 +148,8 @@ describe("Chat", () => {
         };
       });
       it("It calls the correct methods", async () => {
-        await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
+        await chat.Send(CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
         expect(ChatMessage.create).toHaveBeenCalled();
-        expect(ChatMessage.create).toHaveBeenCalledTimes(1);
         expect(global.renderTemplate).toHaveBeenCalled();
       });
     });
