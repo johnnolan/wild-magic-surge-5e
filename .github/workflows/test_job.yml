@@ -38,7 +38,7 @@ jobs:
         with:
           name: clover
           path: |
-            coverage/clover.xml
+            coverage
 
       - name: Upload Junit Artifact
         uses: actions/upload-artifact@v3
