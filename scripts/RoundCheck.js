@@ -1,5 +1,5 @@
 import { MODULE_ID, OPT_AUTO_D20, OPT_ENABLE_NPCS } from "./Settings.js";
-import IncrementalCheckChaotic from "./utils/IncrementalCheckChaotic.js";
+import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import Chat from "./Chat.js";
 
@@ -29,14 +29,12 @@ class RoundCheck {
   async Check() {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       if (this.spellParser.IsWildMagicFeat()) {
-        const incrementalCheckChaotic = new IncrementalCheckChaotic(
-          this._actor
-        );
+        const incrementalCheck = new IncrementalCheck(this._actor, null, 10);
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-          await incrementalCheckChaotic.Check();
+          await incrementalCheck.Check();
         } else {
           if (!this.spellParser.IsNPC()) {
-            await incrementalCheckChaotic.Check();
+            await incrementalCheck.Check();
           }
         }
       }

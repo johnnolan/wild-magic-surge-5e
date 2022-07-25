@@ -65,7 +65,7 @@ export default class IncrementalCheck {
       return this.SetupDefault();
     }
 
-    if (this.rollValue <= incrementLevel.value) {
+    if (this.rollValue !== null && this.rollValue <= incrementLevel.value) {
       await this.actor.setFlag(
         this.FLAG_NAME,
         this.FLAG_OPTION,
