@@ -129,13 +129,13 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser(actor);
+        spellParser = new SpellParser({
+          type: "npc",
+        });
       });
 
       it("should be true", () => {
-        const result = spellParser.IsNPC({
-          type: "npc",
-        });
+        const result = spellParser.IsNPC();
         expect(result).toBeTruthy();
       });
     });
@@ -145,13 +145,13 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        spellParser = new SpellParser(actor);
+        spellParser = new SpellParser({
+          type: "pc",
+        });
       });
 
       it("should be false", () => {
-        const result = spellParser.IsNPC({
-          type: "pc",
-        });
+        const result = spellParser.IsNPC();
         expect(result).toBeFalsy();
       });
     });

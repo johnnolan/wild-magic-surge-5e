@@ -43,7 +43,7 @@ export default class SpellParser {
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
 
     if (!spellString) {
-      const getItem = this.RollContent(content);
+      const getItem = await this.RollContent(content);
       if (getItem) {
         let spellLevel = getItem.level;
         if (spellLevel > 0) {
@@ -83,7 +83,7 @@ export default class SpellParser {
   }
 
   async IsSorcererSpell(content) {
-    const getItem = this.RollContent(content);
+    const getItem = await this.RollContent(content);
 
     if (!getItem) return false;
 
@@ -100,7 +100,7 @@ export default class SpellParser {
   }
 
   async IsRage(content) {
-    const getItem = this.RollContent(content);
+    const getItem = await this.RollContent(content);
 
     if (!getItem) return false;
 
