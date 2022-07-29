@@ -15,24 +15,20 @@ describe("TidesOfChaos", () => {
           };
           tidesOfChaos = new TidesOfChaos();
           actor = {
-            data: {
-              items: {
-                find: jest.fn().mockReturnValueOnce({
-                  id: 1,
-                  name: "Tides of Chaos",
-                  type: "feat",
-                  data: {
-                    data: {
-                      uses: {
-                        value: 0,
-                      },
-                      consume: {
-                        target: "test",
-                      },
-                    },
+            items: {
+              find: jest.fn().mockReturnValueOnce({
+                id: 1,
+                name: "Tides of Chaos",
+                type: "feat",
+                system: {
+                  uses: {
+                    value: 0,
                   },
-                }),
-              },
+                  consume: {
+                    target: "test",
+                  },
+                },
+              }),
             },
           };
         });
@@ -54,24 +50,20 @@ describe("TidesOfChaos", () => {
           };
           tidesOfChaos = new TidesOfChaos();
           actor = {
-            data: {
-              items: {
-                find: jest.fn().mockReturnValueOnce({
-                  id: 1,
-                  name: "Tides of Chaos",
-                  type: "feat",
-                  data: {
-                    data: {
-                      uses: {
-                        value: 1,
-                      },
-                      consume: {
-                        target: "test",
-                      },
-                    },
+            items: {
+              find: jest.fn().mockReturnValueOnce({
+                id: 1,
+                name: "Tides of Chaos",
+                type: "feat",
+                system: {
+                  uses: {
+                    value: 1,
                   },
-                }),
-              },
+                  consume: {
+                    target: "test",
+                  },
+                },
+              }),
             },
           };
         });
@@ -97,24 +89,20 @@ describe("TidesOfChaos", () => {
           actor = {
             update: jest.fn(),
             updateEmbeddedDocuments: jest.fn(),
-            data: {
-              items: {
-                find: jest.fn().mockReturnValueOnce({
-                  id: 1,
-                  name: "Tides of Chaos",
-                  type: "feat",
-                  data: {
-                    data: {
-                      uses: {
-                        value: 0,
-                      },
-                      consume: {
-                        target: "test",
-                      },
-                    },
+            items: {
+              find: jest.fn().mockReturnValueOnce({
+                id: 1,
+                name: "Tides of Chaos",
+                type: "feat",
+                system: {
+                  uses: {
+                    value: 0,
                   },
-                }),
-              },
+                  consume: {
+                    target: "test",
+                  },
+                },
+              }),
             },
           };
         });
@@ -141,10 +129,8 @@ describe("TidesOfChaos", () => {
       };
       tidesOfChaos = new TidesOfChaos();
       actor = {
-        data: {
-          items: {
-            find: jest.fn().mockReturnValueOnce(undefined),
-          },
+        items: {
+          find: jest.fn().mockReturnValueOnce(undefined),
         },
       };
     });
