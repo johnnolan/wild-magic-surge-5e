@@ -135,7 +135,7 @@ class Chat {
    */
   async createTemplate(template, surgeRollTable, roll, results) {
     return renderTemplate(template, {
-      description: TextEditor.enrichHTML(surgeRollTable.description, {
+      description: await TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
       }),
       results: results.map((r) => {
