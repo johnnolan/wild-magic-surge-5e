@@ -1,8 +1,6 @@
 ![](https://img.shields.io/badge/Foundry-v0.10.0-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/johnnolan/wild-magic-surge-5e/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
-[![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fendorsements)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
-[![Foundry Hub Comments](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fwild-magic-surge-5e%2Fshield%2Fcomments)](https://www.foundryvtt-hub.com/package/wild-magic-surge-5e/)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![CodeFactor](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e/badge)](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e)
 
@@ -11,12 +9,6 @@
 # Wild Magic Surge 5e
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat.
-
-# V10 NOTICE
-
-The latest version of the module that supports Foundry V10 is [https://github.com/johnnolan/wild-magic-surge-5e/releases/download/2.0.2/module.json](https://github.com/johnnolan/wild-magic-surge-5e/releases/download/2.0.2/module.json). You can use this release until V10 is released, at which point I will remove its prerelease status and it will be available through the Foundry interface.
-
-This is to prevent annoying popups for those not on V10 yet.
 
 ## Prerequisites
 
