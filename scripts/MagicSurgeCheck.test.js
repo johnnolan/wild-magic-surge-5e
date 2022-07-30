@@ -1,14 +1,57 @@
 import MagicSurgeCheck from "./MagicSurgeCheck.js";
+import RollTableMagicSurge from "./RollTableMagicSurge.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import Chat from "./Chat.js";
 import { actor } from "../MockData/actor.js";
 import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
+import TidesOfChaos from "./TidesOfChaos.js";
 
 jest.mock("./utils/SpellLevelTrigger.js");
 jest.mock("./utils/IncrementalCheck.js");
-jest.mock("./Chat.js");
+
+const mockChatSend = jest.fn();
+jest.mock("./Chat.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Send: mockChatSend,
+    };
+  });
+});
+
+const mockTidesOfChaosCheck = jest.fn();
+const mockTidesOfChaosIsTidesOfChaosUsed = jest.fn().mockReturnValue(false);
+jest.mock("./TidesOfChaos.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockTidesOfChaosCheck,
+      IsTidesOfChaosUsed: mockTidesOfChaosIsTidesOfChaosUsed,
+    };
+  });
+});
+
+const mockRollTableMagicSurgeCheck = jest.fn();
+jest.mock("./RollTableMagicSurge.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockRollTableMagicSurgeCheck,
+    };
+  });
+});
+global.Hooks = {
+  callAll: jest.fn().mockReturnValue(),
+};
+
+beforeEach(() => {
+  mockChatSend.mockClear();
+  mockTidesOfChaosCheck.mockClear();
+  mockRollTableMagicSurgeCheck.mockClear();
+  RollTableMagicSurge.mockClear();
+  Chat.mockClear();
+  TidesOfChaos.mockClear();
+  global.Hooks.callAll.mockClear();
+});
 
 describe("MagicSurgeCheck", () => {
   describe("Check", () => {
@@ -251,8 +294,6 @@ describe("MagicSurgeCheck", () => {
     let resultCheckSpy;
     let magicSurgeCheck;
     beforeEach(() => {
-      jest.clearAllMocks();
-      jest.resetAllMocks();
       global.game = {
         settings: {
           get: jest.fn().mockReturnValue(true),
@@ -290,9 +331,6 @@ describe("MagicSurgeCheck", () => {
       jest
         .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
         .mockReturnValue(true);
-      global.Hooks = {
-        callAll: jest.fn().mockReturnValue(),
-      };
     });
     test("INVALID_OPTION", async () => {
       await magicSurgeCheck.RunAutoCheck(1, "INVALID_OPTION");
@@ -302,8 +340,6 @@ describe("MagicSurgeCheck", () => {
       expect(IncrementalCheck).toHaveBeenCalledTimes(0);
       expect(SpellLevelTrigger).not.toBeCalled();
       expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
-      expect(global.Hooks.callAll).not.toBeCalled();
-      expect(global.Hooks.callAll).toHaveBeenCalledTimes(0);
     });
     test("DEFAULT", async () => {
       await magicSurgeCheck.RunAutoCheck(1, "DEFAULT");
@@ -333,14 +369,59 @@ describe("MagicSurgeCheck", () => {
       expect(resultCheckSpy).toHaveBeenCalledTimes(0);
       expect(SpellLevelTrigger).toBeCalled();
       expect(SpellLevelTrigger).toHaveBeenCalledTimes(1);
-      expect(IncrementalCheck).not.toBeCalled();
-      expect(IncrementalCheck).toHaveBeenCalledTimes(0);
       expect(global.Hooks.callAll).toBeCalled();
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
     afterEach(() => {
       resultCheckSpy.mockRestore();
       resultCheckSpy.mockReset();
+    });
+  });
+
+  describe("SurgeWildMagic", () => {
+    let magicSurgeCheck;
+    beforeEach(() => {
+      global.game = {
+        settings: {
+          get: jest.fn().mockReturnValue(true),
+        },
+      };
+      magicSurgeCheck = new MagicSurgeCheck(actor);
+    });
+    it("It runs correctly on true", async () => {
+      await magicSurgeCheck.SurgeWildMagic(true, { result: 1 });
+      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+      expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+    });
+
+    it("It runs correctly on false", async () => {
+      await magicSurgeCheck.SurgeWildMagic(false, { result: 1 });
+      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      expect(mockTidesOfChaosCheck).not.toHaveBeenCalled();
+      expect(mockRollTableMagicSurgeCheck).not.toHaveBeenCalled();
+      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("SurgeTidesOfChaos", () => {
+    let magicSurgeCheck;
+    beforeEach(() => {
+      global.game = {
+        settings: {
+          get: jest.fn().mockReturnValue("Auto D20 Message"),
+        },
+      };
+      magicSurgeCheck = new MagicSurgeCheck(actor);
+    });
+    it("It runs the correct functions", async () => {
+      await magicSurgeCheck.SurgeTidesOfChaos();
+      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+      expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+      expect(global.Hooks.callAll).toBeCalled();
+      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
   });
 });
