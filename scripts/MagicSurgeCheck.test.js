@@ -8,8 +8,32 @@ import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
 import TidesOfChaos from "./TidesOfChaos.js";
 
-jest.mock("./utils/SpellLevelTrigger.js");
-jest.mock("./utils/IncrementalCheck.js");
+const mockDieDescendingCheck = jest.fn();
+jest.mock("./utils/DieDescending.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockDieDescendingCheck,
+    };
+  });
+});
+
+const mockSpellLevelTriggerCheck = jest.fn();
+jest.mock("./utils/SpellLevelTrigger.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockSpellLevelTriggerCheck,
+    };
+  });
+});
+
+const mockIncrementalCheckCheck = jest.fn();
+jest.mock("./utils/IncrementalCheck.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockIncrementalCheckCheck,
+    };
+  });
+});
 
 const mockChatSend = jest.fn();
 jest.mock("./Chat.js", () => {
@@ -47,9 +71,13 @@ beforeEach(() => {
   mockChatSend.mockClear();
   mockTidesOfChaosCheck.mockClear();
   mockRollTableMagicSurgeCheck.mockClear();
+  mockSpellLevelTriggerCheck.mockClear();
+  mockIncrementalCheckCheck.mockClear();
   RollTableMagicSurge.mockClear();
   Chat.mockClear();
   TidesOfChaos.mockClear();
+  IncrementalCheck.mockClear();
+  SpellLevelTrigger.mockClear();
   global.Hooks.callAll.mockClear();
 });
 
@@ -336,30 +364,41 @@ describe("MagicSurgeCheck", () => {
       await magicSurgeCheck.RunAutoCheck(1, "INVALID_OPTION");
       expect(resultCheckSpy).not.toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(0);
-      expect(IncrementalCheck).not.toBeCalled();
-      expect(IncrementalCheck).toHaveBeenCalledTimes(0);
-      expect(SpellLevelTrigger).not.toBeCalled();
-      expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+      expect(mockIncrementalCheckCheck).not.toBeCalled();
+      expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(0);
+      expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+      expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
     });
     test("DEFAULT", async () => {
       await magicSurgeCheck.RunAutoCheck(1, "DEFAULT");
       expect(resultCheckSpy).toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(1);
-      expect(IncrementalCheck).not.toBeCalled();
-      expect(IncrementalCheck).toHaveBeenCalledTimes(0);
-      expect(SpellLevelTrigger).not.toBeCalled();
-      expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+      expect(mockIncrementalCheckCheck).not.toBeCalled();
+      expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(0);
+      expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+      expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
       expect(global.Hooks.callAll).toBeCalled();
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
     test("INCREMENTAL_CHECK", async () => {
       await magicSurgeCheck.RunAutoCheck(1, "INCREMENTAL_CHECK");
-      expect(IncrementalCheck).toBeCalled();
-      expect(IncrementalCheck).toHaveBeenCalledTimes(1);
+      expect(mockIncrementalCheckCheck).toBeCalled();
+      expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
       expect(resultCheckSpy).not.toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(0);
-      expect(SpellLevelTrigger).not.toBeCalled();
-      expect(SpellLevelTrigger).toHaveBeenCalledTimes(0);
+      expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+      expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
+      expect(global.Hooks.callAll).toBeCalled();
+      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+    });
+    test("INCREMENTAL_CHECK_CHAOTIC", async () => {
+      await magicSurgeCheck.RunAutoCheck(1, "INCREMENTAL_CHECK_CHAOTIC");
+      expect(mockIncrementalCheckCheck).toBeCalled();
+      expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
+      expect(resultCheckSpy).not.toBeCalled();
+      expect(resultCheckSpy).toHaveBeenCalledTimes(0);
+      expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+      expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
       expect(global.Hooks.callAll).toBeCalled();
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
@@ -367,14 +406,19 @@ describe("MagicSurgeCheck", () => {
       await magicSurgeCheck.RunAutoCheck(1, "SPELL_LEVEL_DEPENDENT_ROLL");
       expect(resultCheckSpy).not.toBeCalled();
       expect(resultCheckSpy).toHaveBeenCalledTimes(0);
-      expect(SpellLevelTrigger).toBeCalled();
-      expect(SpellLevelTrigger).toHaveBeenCalledTimes(1);
+      expect(mockSpellLevelTriggerCheck).toBeCalled();
+      expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(1);
       expect(global.Hooks.callAll).toBeCalled();
       expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
-    afterEach(() => {
-      resultCheckSpy.mockRestore();
-      resultCheckSpy.mockReset();
+    test("DIE_DESCENDING", async () => {
+      await magicSurgeCheck.RunAutoCheck(1, "DIE_DESCENDING");
+      expect(resultCheckSpy).not.toBeCalled();
+      expect(resultCheckSpy).toHaveBeenCalledTimes(0);
+      expect(mockDieDescendingCheck).toBeCalled();
+      expect(mockDieDescendingCheck).toHaveBeenCalledTimes(1);
+      expect(global.Hooks.callAll).toBeCalled();
+      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
     });
   });
 
