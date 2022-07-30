@@ -53,7 +53,7 @@ class MagicSurgeCheck {
     if (await this.isValid(chatMessage)) {
       const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
       if (hasPathOfWildMagicFeat) {
-        this.Surge(true, null, "POWM");
+        this.rollTableMagicSurge.Check("POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
           const spellLevel = await this._spellParser.SpellLevel(
@@ -222,7 +222,7 @@ class MagicSurgeCheck {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
       if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
-        this.Surge(isAutoSurge, null, "TOCSURGE");
+        this.SurgeTidesOfChaos();
       }
     }
 
@@ -256,58 +256,60 @@ class MagicSurgeCheck {
         default:
           return;
       }
-      this.Surge(isSurge, roll, "WMS");
+      this.SurgeWildMagic(isSurge, roll);
     }
   }
 
   /**
    * @private
    * @param {boolean} isSurge
-   * @param {Roll} roll
-   * @param {string} surgeType
+   * @param {RollResult} rollResult
    */
-  async Surge(isSurge, roll, surgeType) {
-    switch (surgeType) {
-      case "POWM":
-        this.rollTableMagicSurge.Check(surgeType);
-        break;
-      case "TOCSURGE":
-        this.rollTableMagicSurge.Check(surgeType);
-        this.chat.Send(
-          CHAT_TYPE.DEFAULT,
-          game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
-        );
-        this.tidesOfChaos.Check(this._actor);
-        Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-          surge: true,
-        });
-        break;
-      case "WMS":
-        if (isSurge) {
-          this.chat.Send(
-            CHAT_TYPE.ROLL,
-            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
-            roll
-          );
-          this.tidesOfChaos.Check(this._actor);
-          this.rollTableMagicSurge.Check();
-          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-            surge: true,
-            result: roll.result,
-          });
-        } else {
-          this.chat.Send(
-            CHAT_TYPE.ROLL,
-            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
-            roll
-          );
-          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-            surge: false,
-            result: roll.result,
-          });
-        }
-        break;
+  async _callIsSurgeHook(isSurge, rollResult = null) {
+    Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+      surge: isSurge,
+      result: rollResult,
+    });
+  }
+
+  /**
+   * Calls a standard Wild Magic Surge.
+   * @private
+   * @param {boolean} isSurge
+   * @param {Roll} roll
+   */
+  async SurgeWildMagic(isSurge, roll) {
+    if (isSurge) {
+      this.chat.Send(
+        CHAT_TYPE.ROLL,
+        game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
+        roll
+      );
+      this.tidesOfChaos.Check(this._actor);
+      this.rollTableMagicSurge.Check();
+      this._callIsSurgeHook(true, roll.result);
+    } else {
+      this.chat.Send(
+        CHAT_TYPE.ROLL,
+        game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
+        roll
+      );
+      this._callIsSurgeHook(false, roll.result);
     }
+  }
+
+  /**
+   * Calls the Surge for the Tides of Chaos auto surge.
+   * @private
+   */
+  async SurgeTidesOfChaos() {
+    this.rollTableMagicSurge.Check("TOCSURGE");
+    this.chat.Send(
+      CHAT_TYPE.DEFAULT,
+      game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
+    );
+    this.tidesOfChaos.Check(this._actor);
+    this._callIsSurgeHook(true);
   }
 }
 
