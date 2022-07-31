@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Chat.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Chat.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+  MODULE_ID,
+  OPT_WHISPER_GM,
+  OPT_WMS_NAME,
+  OPT_CHAT_MSG,
+  CHAT_TYPE,
+} from "./Settings.js";
+
+/**
+ * Chat class for handling common chat methods
+ * @class Chat
+ * @example
+ * let chat = new Chat();
+ */
+class Chat {
+  constructor() {
+    // This is intentional
+  }
+
+  /**
+   * Sends the correct ChatMessage to the Chat window
+   * @public
+   * @return {Promise&lt;void>}
+   * @param {CHAT_TYPE} type The type of roll to be sent.
+   * @param {string} message The chat message to send.
+   * @param {object} rollObject Optional RollTable or Roll to send.
+   */
+  async Send(type, message, rollObject = null) {
+    const isWhisperGM = await game.settings.get(
+      `${MODULE_ID}`,
+      `${OPT_WHISPER_GM}`
+    );
+
+    const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
+      (u) => u._id
+    );
+
+    let chatData = {};
+
+    switch (type) {
+      case CHAT_TYPE.DEFAULT:
+        chatData = await this.createDefaultChat(message);
+        break;
+      case CHAT_TYPE.ROLL:
+        chatData = await this.createRollChat(message, rollObject, isWhisperGM);
+        break;
+      case CHAT_TYPE.TABLE:
+        chatData = await this.createRollTable(message, rollObject);
+        break;
+    }
+
+    if (isWhisperGM) {
+      chatData.whisper = gmsToWhisper;
+      chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
+      chatData.blind = true;
+    }
+    chatData.speaker = gmsToWhisper;
+
+    return ChatMessage.create(chatData);
+  }
+
+  /**
+   * Creates a basic HTML string message
+   * @return {Promise&lt;object>} The chatData object
+   * @param {string} message The chat message to send.
+   */
+  async createDefaultChat(message) {
+    return {
+      content: `&lt;div>${message}&lt;/div>`,
+    };
+  }
+
+  /**
+   * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
+   * @return {Promise&lt;object>} The chatData object
+   * @param {string} message The chat message to send.
+   * @param {Roll} roll The Roll to parse for the message.
+   * @param {boolean} isWhisperGM Should the roll only whisper the GM.
+   */
+  async createRollChat(message, roll, isWhisperGM) {
+    if (isWhisperGM) {
+      return {
+        content: `&lt;div>${message} ${roll.result}&lt;/div>`,
+      };
+    } else {
+      const wildMagicSurgeName = await game.settings.get(
+        `${MODULE_ID}`,
+        `${OPT_WMS_NAME}`
+      );
+      return {
+        flavor: `${wildMagicSurgeName} Check - ${message}`,
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        roll: roll,
+        rollMode: await game.settings.get("core", "rollMode"),
+      };
+    }
+  }
+
+  /**
+   * Creates a HTML string message based on a RollTable
+   * @return {Promise&lt;object>} The chatData object
+   * @param {RollResult} rollResult The result of a Roll.
+   * @param {RollTable} surgeRollTable The Roll Table to use.
+   */
+  async createRollTable(rollResult, surgeRollTable) {
+    const results = rollResult.results;
+    const roll = rollResult.roll;
+
+    const nr = results.length > 1 ? `${results.length} results` : "a result";
+
+    let chatData = {
+      flavor: `Draws ${nr} from the &lt;WILD MAGIC SURGE> table.`,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      user: game.user.id,
+      rolls: [{ roll: roll }],
+      sound: null,
+    };
+
+    chatData.content = await this.createTemplate(
+      CONFIG.RollTable.resultTemplate,
+      surgeRollTable,
+      roll,
+      results
+    );
+    return chatData;
+  }
+
+  /**
+   * Based on the RollTable template, generates the appropriate HTML to display in chat
+   * @return {Promise&lt;string>} A rendered HTML string.
+   * @param {string} template The foundry template to use for the message.
+   * @param {RollTable} surgeRollTable The Roll Table to use.
+   * @param {Roll} roll The result of a Roll.
+   * @param {Array} results An Array of results from the roll.
+   */
+  async createTemplate(template, surgeRollTable, roll, results) {
+    return renderTemplate(template, {
+      description: await TextEditor.enrichHTML(surgeRollTable.description, {
+        entities: true,
+      }),
+      results: results.map((r) => {
+        r.text = r.getChatText();
+        return r;
+      }),
+      rollHTML: await roll.render(),
+      table: surgeRollTable,
+    });
+  }
+
+  /**
+   * Sends the default Wild Magic Surge Check chat message
+   * @return {Promise&lt;null>} The chatData object
+   */
+  async RunMessageCheck() {
+    Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
+    await this.Send(
+      CHAT_TYPE.DEFAULT,
+      game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
+    );
+  }
+}
+
+export default Chat;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Chat.html">Chat</a></li><li><a href="MagicSurgeCheck.html">MagicSurgeCheck</a></li><li><a href="RollTableMagicSurge.html">RollTableMagicSurge</a></li><li><a href="RoundCheck.html">RoundCheck</a></li><li><a href="TidesOfChaos.html">TidesOfChaos</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jul 31 2022 08:30:36 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
