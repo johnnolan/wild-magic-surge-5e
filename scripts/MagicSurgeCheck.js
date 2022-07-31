@@ -41,19 +41,19 @@ class MagicSurgeCheck {
   }
 
   /**
-   *
+   * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
    * @param {ChatMessage} chatMessage
    * @returns Promise<void>
    */
-  async Check(chatMessage) {
+  async CheckChatMessage(chatMessage) {
     if (!this._actor) {
       return false;
     }
 
-    if (await this.isValid(chatMessage)) {
+    if (await this.isValidChatMessage(chatMessage)) {
       const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
       if (hasPathOfWildMagicFeat) {
-        this.Surge(true, null, "POWM");
+        this.rollTableMagicSurge.Check("POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
           const spellLevel = await this._spellParser.SpellLevel(
@@ -63,7 +63,7 @@ class MagicSurgeCheck {
             `${MODULE_ID}`,
             `${OPT_SURGE_TYPE}`
           );
-          await this.RunAutoCheck(spellLevel, gameType);
+          await this.AutoSurgeCheck(spellLevel, gameType);
         } else {
           this.chat.RunMessageCheck();
         }
@@ -76,7 +76,7 @@ class MagicSurgeCheck {
    * @param {ChatMessage} messageData
    * @returns boolean
    */
-  async isValid(messageData) {
+  async isValidChatMessage(messageData) {
     if (!messageData.speaker || !messageData.speaker.actor) {
       return false;
     }
@@ -159,6 +159,7 @@ class MagicSurgeCheck {
   }
 
   /**
+   * If there are more than 1 Surge numbers to check against, split them into an array.
    * @private
    * @param {string} resultValues
    * @returns Array
@@ -172,19 +173,20 @@ class MagicSurgeCheck {
   }
 
   /**
+   * On a Default Wild Magic Surge, check the result of the roll against the specified roll targe.
    * @private
    * @param {integer} result
    * @param {string} comparison
    * @returns boolean
    */
-  ResultCheck(result, comparison) {
+  DefaultMagicSurgeRollResult(result, comparison) {
     const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
 
-    for (const element of rollResultTargets) {
-      const rollResultTarget = parseInt(element);
+    for (const resultTarget of rollResultTargets) {
+      const rollResultTarget = parseInt(resultTarget);
 
       switch (comparison) {
         case "EQ":
@@ -209,12 +211,12 @@ class MagicSurgeCheck {
   }
 
   /**
-   * @private
+   * Automatically checks for a surge against the spell level and game type.
    * @param {integer} spellLevel
    * @param {string} gameType
    * @returns Promise<void>
    */
-  async RunAutoCheck(spellLevel, gameType) {
+  async AutoSurgeCheck(spellLevel, gameType) {
     let isSurge = false;
     let roll;
 
@@ -222,7 +224,7 @@ class MagicSurgeCheck {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
       if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
-        this.Surge(isAutoSurge, null, "TOCSURGE");
+        this.SurgeTidesOfChaos();
       }
     }
 
@@ -230,7 +232,7 @@ class MagicSurgeCheck {
       roll = await this.WildMagicSurgeRollCheck(gameType);
       switch (gameType) {
         case "DEFAULT":
-          isSurge = this.ResultCheck(
+          isSurge = this.DefaultMagicSurgeRollResult(
             roll.result,
             game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
           );
@@ -256,58 +258,61 @@ class MagicSurgeCheck {
         default:
           return;
       }
-      this.Surge(isSurge, roll, "WMS");
+      this.SurgeWildMagic(isSurge, roll);
     }
   }
 
   /**
+   * Fires a hook for external integrations when a surge happens.
+   * @private
+   * @param {boolean} isSurge
+   * @param {RollResult} rollResult
+   */
+  async _callIsSurgeHook(isSurge, rollResult = null) {
+    Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+      surge: isSurge,
+      result: rollResult,
+    });
+  }
+
+  /**
+   * Calls a standard Wild Magic Surge.
    * @private
    * @param {boolean} isSurge
    * @param {Roll} roll
-   * @param {string} surgeType
    */
-  async Surge(isSurge, roll, surgeType) {
-    switch (surgeType) {
-      case "POWM":
-        this.rollTableMagicSurge.Check(surgeType);
-        break;
-      case "TOCSURGE":
-        this.rollTableMagicSurge.Check(surgeType);
-        this.chat.Send(
-          CHAT_TYPE.DEFAULT,
-          game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
-        );
-        this.tidesOfChaos.Check(this._actor);
-        Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-          surge: true,
-        });
-        break;
-      case "WMS":
-        if (isSurge) {
-          this.chat.Send(
-            CHAT_TYPE.ROLL,
-            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
-            roll
-          );
-          this.tidesOfChaos.Check(this._actor);
-          this.rollTableMagicSurge.Check();
-          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-            surge: true,
-            result: roll.result,
-          });
-        } else {
-          this.chat.Send(
-            CHAT_TYPE.ROLL,
-            game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
-            roll
-          );
-          Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
-            surge: false,
-            result: roll.result,
-          });
-        }
-        break;
+  async SurgeWildMagic(isSurge, roll) {
+    if (isSurge) {
+      this.chat.Send(
+        CHAT_TYPE.ROLL,
+        game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
+        roll
+      );
+      this.tidesOfChaos.Check(this._actor);
+      this.rollTableMagicSurge.Check();
+      this._callIsSurgeHook(true, roll.result);
+    } else {
+      this.chat.Send(
+        CHAT_TYPE.ROLL,
+        game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
+        roll
+      );
+      this._callIsSurgeHook(false, roll.result);
     }
+  }
+
+  /**
+   * Calls the Surge for the Tides of Chaos auto surge.
+   * @private
+   */
+  async SurgeTidesOfChaos() {
+    this.rollTableMagicSurge.Check("TOCSURGE");
+    this.chat.Send(
+      CHAT_TYPE.DEFAULT,
+      game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
+    );
+    this.tidesOfChaos.Check(this._actor);
+    this._callIsSurgeHook(true);
   }
 }
 
