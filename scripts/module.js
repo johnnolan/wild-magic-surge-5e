@@ -20,7 +20,7 @@ Hooks.on("createChatMessage", (chatMessage) => {
     return false;
   }
   const magicSurgeCheck = new MagicSurgeCheck(actor);
-  magicSurgeCheck.Check(chatMessage);
+  magicSurgeCheck.CheckChatMessage(chatMessage);
 });
 
 Hooks.on("updateCombat", async function (roundData) {

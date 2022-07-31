@@ -41,16 +41,16 @@ class MagicSurgeCheck {
   }
 
   /**
-   *
+   * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
    * @param {ChatMessage} chatMessage
    * @returns Promise<void>
    */
-  async Check(chatMessage) {
+  async CheckChatMessage(chatMessage) {
     if (!this._actor) {
       return false;
     }
 
-    if (await this.isValid(chatMessage)) {
+    if (await this.isValidChatMessage(chatMessage)) {
       const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
       if (hasPathOfWildMagicFeat) {
         this.rollTableMagicSurge.Check("POWM");
@@ -63,7 +63,7 @@ class MagicSurgeCheck {
             `${MODULE_ID}`,
             `${OPT_SURGE_TYPE}`
           );
-          await this.RunAutoCheck(spellLevel, gameType);
+          await this.AutoSurgeCheck(spellLevel, gameType);
         } else {
           this.chat.RunMessageCheck();
         }
@@ -76,7 +76,7 @@ class MagicSurgeCheck {
    * @param {ChatMessage} messageData
    * @returns boolean
    */
-  async isValid(messageData) {
+  async isValidChatMessage(messageData) {
     if (!messageData.speaker || !messageData.speaker.actor) {
       return false;
     }
@@ -159,6 +159,7 @@ class MagicSurgeCheck {
   }
 
   /**
+   * If there are more than 1 Surge numbers to check against, split them into an array.
    * @private
    * @param {string} resultValues
    * @returns Array
@@ -172,19 +173,20 @@ class MagicSurgeCheck {
   }
 
   /**
+   * On a Default Wild Magic Surge, check the result of the roll against the specified roll targe.
    * @private
    * @param {integer} result
    * @param {string} comparison
    * @returns boolean
    */
-  ResultCheck(result, comparison) {
+  DefaultMagicSurgeRollResult(result, comparison) {
     const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
 
-    for (const element of rollResultTargets) {
-      const rollResultTarget = parseInt(element);
+    for (const resultTarget of rollResultTargets) {
+      const rollResultTarget = parseInt(resultTarget);
 
       switch (comparison) {
         case "EQ":
@@ -209,12 +211,12 @@ class MagicSurgeCheck {
   }
 
   /**
-   * @private
+   * Automatically checks for a surge against the spell level and game type.
    * @param {integer} spellLevel
    * @param {string} gameType
    * @returns Promise<void>
    */
-  async RunAutoCheck(spellLevel, gameType) {
+  async AutoSurgeCheck(spellLevel, gameType) {
     let isSurge = false;
     let roll;
 
@@ -230,7 +232,7 @@ class MagicSurgeCheck {
       roll = await this.WildMagicSurgeRollCheck(gameType);
       switch (gameType) {
         case "DEFAULT":
-          isSurge = this.ResultCheck(
+          isSurge = this.DefaultMagicSurgeRollResult(
             roll.result,
             game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
           );
@@ -261,6 +263,7 @@ class MagicSurgeCheck {
   }
 
   /**
+   * Fires a hook for external integrations when a surge happens.
    * @private
    * @param {boolean} isSurge
    * @param {RollResult} rollResult
