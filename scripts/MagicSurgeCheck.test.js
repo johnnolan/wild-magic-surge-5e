@@ -7,6 +7,7 @@ import { actor } from "../MockData/actor.js";
 import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
 import TidesOfChaos from "./TidesOfChaos.js";
+import AutoEffects from "./AutoEffects.js";
 
 const mockDieDescendingCheck = jest.fn();
 jest.mock("./utils/DieDescending.js", () => {
@@ -63,6 +64,9 @@ jest.mock("./RollTableMagicSurge.js", () => {
     };
   });
 });
+
+const mockAutoEffect = jest.fn();
+AutoEffects.Run = mockAutoEffect;
 global.Hooks = {
   callAll: jest.fn().mockReturnValue(),
 };
@@ -73,6 +77,7 @@ beforeEach(() => {
   mockRollTableMagicSurgeCheck.mockClear();
   mockSpellLevelTriggerCheck.mockClear();
   mockIncrementalCheckCheck.mockClear();
+  mockAutoEffect.mockClear();
   RollTableMagicSurge.mockClear();
   Chat.mockClear();
   TidesOfChaos.mockClear();

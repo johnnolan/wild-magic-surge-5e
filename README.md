@@ -43,6 +43,7 @@ Also
 - `Dice So Nice` integration if the module is enabled
 - Discern between sorcerer spells and other spells when multiclassing
 - Auto surge when Tides of Chaos is used
+- Auto play animation effect on a Wild Magic Surge
 
 ## Hooks
 
@@ -104,6 +105,7 @@ Runs when you set the module to auto roll a check for you. The result of the rol
 {
   surge: true,
   result: 1,
+  tokenId: "4lw0Gp7s0WH5DSil",
 }
 ```
 
@@ -113,6 +115,7 @@ Runs when you set the module to auto roll a check for you. The result of the rol
 {
   surge: false,
   result: 12,
+  tokenId: "4lw0Gp7s0WH5DSil",
 }
 ```
 
@@ -240,6 +243,12 @@ The RegEx to differentiate between sorcerer spells and non sorcerer spells. This
 Special thanks to [Jakob Huber](https://github.com/gh7531) for this suggestion and Pull Request.
 
 [![Spell Regex for Multiclass spells](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/multiclass-regex.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/multiclass-regex.jpg)
+
+### Play animation on Surge
+
+On a Wild Magic Surge, the token that triggered the Surge will get an animation play. This requires the awesome [https://github.com/fantasycalendar/FoundryVTT-Sequencer](Sequencer) and [https://github.com/Jules-Bens-Aa/JB2A_DnD5e](JB2A) modules to be installed and active.
+
+[![Play animation on Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)
 
 
 ## Installation

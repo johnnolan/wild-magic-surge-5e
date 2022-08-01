@@ -23,6 +23,7 @@ import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import DieDescending from "./utils/DieDescending.js";
+import AutoEffects from "./AutoEffects.js";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -32,12 +33,13 @@ import DieDescending from "./utils/DieDescending.js";
  * let magicSurgeCheck = new MagicSurgeCheck(actor);
  */
 class MagicSurgeCheck {
-  constructor(actor) {
+  constructor(actor, tokenId) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
     this._spellParser = new SpellParser(actor);
     this._actor = actor;
+    this._tokenId = tokenId;
   }
 
   /**
@@ -272,6 +274,7 @@ class MagicSurgeCheck {
     Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult,
+      tokenId: this._tokenId,
     });
   }
 
@@ -291,6 +294,7 @@ class MagicSurgeCheck {
       this.tidesOfChaos.Check(this._actor);
       this.rollTableMagicSurge.Check();
       this._callIsSurgeHook(true, roll.result);
+      AutoEffects.Run(this._tokenId);
     } else {
       this.chat.Send(
         CHAT_TYPE.ROLL,
@@ -313,6 +317,7 @@ class MagicSurgeCheck {
     );
     this.tidesOfChaos.Check(this._actor);
     this._callIsSurgeHook(true);
+    AutoEffects.Run(this._tokenId);
   }
 }
 
