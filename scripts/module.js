@@ -19,7 +19,7 @@ Hooks.on("createChatMessage", (chatMessage) => {
   if (!actor) {
     return false;
   }
-  const magicSurgeCheck = new MagicSurgeCheck(actor);
+  const magicSurgeCheck = new MagicSurgeCheck(actor, chatMessage.speaker.token);
   magicSurgeCheck.CheckChatMessage(chatMessage);
 });
 

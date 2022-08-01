@@ -274,6 +274,7 @@ class MagicSurgeCheck {
     Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult,
+      tokenId: this._tokenId,
     });
   }
 
@@ -293,6 +294,7 @@ class MagicSurgeCheck {
       this.tidesOfChaos.Check(this._actor);
       this.rollTableMagicSurge.Check();
       this._callIsSurgeHook(true, roll.result);
+      AutoEffects.Run(this._tokenId);
     } else {
       this.chat.Send(
         CHAT_TYPE.ROLL,
@@ -315,6 +317,7 @@ class MagicSurgeCheck {
     );
     this.tidesOfChaos.Check(this._actor);
     this._callIsSurgeHook(true);
+    AutoEffects.Run(this._tokenId);
   }
 }
 
