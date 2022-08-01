@@ -79,3 +79,4 @@ export const OPT_SPELL_REGEX = "spellRegex";
 export const OPT_SPELL_REGEX_ENABLED = "spellRegexEnabled";
 
 export const OPT_SURGE_TOC_ENABLED = "surgeTocEnabled";
+export const OPT_EFFECTS_ENABLED = "wildMagicSurgeEffectsEnabled";

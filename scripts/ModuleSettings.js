@@ -34,6 +34,7 @@ import {
   OPT_POWM_NAME,
   OPT_POWM_ROLLTABLE_NAME,
   OPT_SURGE_TOC_ENABLED,
+  OPT_EFFECTS_ENABLED,
 } from "./Settings.js";
 import {
   ChatSettingsPanel,
@@ -398,6 +399,15 @@ class ModuleSettings {
       scope: "world",
       config: true,
       default: false,
+      type: Boolean,
+    });
+
+    game.settings.register(`${MODULE_ID}`, `${OPT_EFFECTS_ENABLED}`, {
+      name: game.i18n.format("WildMagicSurge5E.opt_enable_effects_name"),
+      hint: game.i18n.format("WildMagicSurge5E.opt_enable_effects_hint"),
+      scope: "world",
+      config: true,
+      default: true,
       type: Boolean,
     });
   }

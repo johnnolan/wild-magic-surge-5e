@@ -23,6 +23,7 @@ import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import DieDescending from "./utils/DieDescending.js";
+import AutoEffects from "./AutoEffects.js";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -32,12 +33,13 @@ import DieDescending from "./utils/DieDescending.js";
  * let magicSurgeCheck = new MagicSurgeCheck(actor);
  */
 class MagicSurgeCheck {
-  constructor(actor) {
+  constructor(actor, tokenId) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
     this._spellParser = new SpellParser(actor);
     this._actor = actor;
+    this._tokenId = tokenId;
   }
 
   /**
