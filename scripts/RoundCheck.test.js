@@ -5,118 +5,138 @@ import Chat from "./Chat.js";
 import { actor } from "../MockData/actor.js";
 import "../__mocks__/index.js";
 
-jest.mock("./utils/SpellParser.js");
-jest.mock("./utils/IncrementalCheck.js");
-jest.mock("./Chat.js");
-
-describe("RoundCheck", () => {
-  beforeEach(() => {
-    global.game.actors = {
-      get: jest.fn().mockResolvedValue(true),
-      result: jest.fn().mockResolvedValue(20),
+const mockIncrementalCheckCheck = jest.fn();
+jest.mock("./utils/IncrementalCheck.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      Check: mockIncrementalCheckCheck,
     };
   });
+});
 
+const mockChatRunMessageCheck = jest.fn();
+jest.mock("./Chat.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      RunMessageCheck: mockChatRunMessageCheck,
+    };
+  });
+});
+
+const mockSpellParserIsWildMagicFeat = jest.fn();
+const mockSpellParserIsNPC = jest.fn();
+jest.mock("./utils/SpellParser.js", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      IsWildMagicFeat: mockSpellParserIsWildMagicFeat,
+      IsNPC: mockSpellParserIsNPC,
+    };
+  });
+});
+
+beforeEach(() => {
+  mockChatRunMessageCheck.mockClear();
+  mockSpellParserIsWildMagicFeat.mockClear();
+  mockSpellParserIsNPC.mockClear();
+  mockIncrementalCheckCheck.mockClear();
+  Chat.mockClear();
+  SpellParser.mockClear();
+  IncrementalCheck.mockClear();
+});
+
+describe("RoundCheck", () => {
   describe("Check", () => {
-    describe("Given I pass round data with a valid Actor", () => {
+    describe("Given Auto D20 setting is false", () => {
       let roundCheck;
       beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-
         global.game = {
-          actors: {
-            get: jest.fn().mockReturnValueOnce(false),
-          },
           settings: {
             get: jest.fn().mockReturnValueOnce(false),
           },
         };
         roundCheck = new RoundCheck(actor);
       });
-      it("It should return false", async () => {
-        const result = await roundCheck.Check();
-        expect(result).toBeFalsy();
+      it("It should call RunMessageCheck", async () => {
+        await roundCheck.Check();
+        expect(mockChatRunMessageCheck).toHaveBeenCalledTimes(1);
       });
     });
 
-    describe("Given I pass round data with a valid Actor", () => {
+    describe("Given Auto D20 setting is true and IsWildMagicFeat is false", () => {
       let roundCheck;
-      let spellParser;
-      let incrementalCheck;
       beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-        incrementalCheck = new IncrementalCheck();
-        spellParser = new SpellParser();
-
-        jest.spyOn(incrementalCheck, "Check").mockReturnValue(true);
-        jest.spyOn(spellParser, "IsWildMagicFeat").mockReturnValue(true);
         global.game = {
-          actors: {
-            get: jest.fn().mockReturnValueOnce({
-              id: 1,
-              data: {
-                type: "pc",
-                items: [
-                  {
-                    name: "itemName",
-                    type: "feat",
-                  },
-                ],
-              },
-            }),
-          },
           settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce(true)
-              .mockReturnValueOnce("itemName")
-              .mockReturnValueOnce(false),
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
           },
         };
         roundCheck = new RoundCheck(actor);
+        mockSpellParserIsWildMagicFeat.mockReturnValueOnce(false);
       });
-      it("It should do the checks", async () => {
+      it("It should not call anything", async () => {
         await roundCheck.Check();
-        expect(SpellParser).toHaveBeenCalled();
-        expect(IncrementalCheck).toHaveBeenCalled();
+        expect(mockChatRunMessageCheck).not.toHaveBeenCalled();
+        expect(mockIncrementalCheckCheck).not.toHaveBeenCalled();
       });
     });
 
-    describe("Given I have auto D20 check disabled", () => {
-      let roundCheck;
-      let chat;
+    describe("Given Auto D20 setting and enable npcs is true", () => {
       beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-        chat = new Chat();
-
-        jest.spyOn(chat, "RunMessageCheck").mockReturnValue(true);
         global.game = {
-          actors: {
-            get: jest.fn().mockReturnValueOnce({
-              id: 1,
-              data: {
-                type: "pc",
-                items: [
-                  {
-                    name: "itemName",
-                    type: "feat",
-                  },
-                ],
-              },
-            }),
-          },
           settings: {
-            get: jest.fn().mockReturnValueOnce(false),
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
           },
         };
-        roundCheck = new RoundCheck(actor);
       });
-      it("It should do the manual message checks", async () => {
-        await roundCheck.Check();
-        expect(Chat).toHaveBeenCalled();
+      describe("Given IsWildMagicFeat is true", () => {
+        let roundCheck;
+        beforeEach(() => {
+          roundCheck = new RoundCheck(actor);
+          mockSpellParserIsWildMagicFeat.mockReturnValueOnce(true);
+        });
+        it("It should call correctly", async () => {
+          await roundCheck.Check();
+          expect(mockChatRunMessageCheck).not.toHaveBeenCalled();
+          expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
+        });
+      });
+    });
+
+    describe("Given Auto D20 setting and enable npcs is false", () => {
+      beforeEach(() => {
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+          },
+        };
+      });
+      describe("Given IsWildMagicFeat is true and not IsNPC", () => {
+        let roundCheck;
+        beforeEach(() => {
+          roundCheck = new RoundCheck(actor);
+          mockSpellParserIsWildMagicFeat.mockReturnValueOnce(true);
+          mockSpellParserIsNPC.mockReturnValueOnce(true);
+        });
+        it("It should call correctly", async () => {
+          await roundCheck.Check();
+          expect(mockChatRunMessageCheck).not.toHaveBeenCalled();
+          expect(mockIncrementalCheckCheck).not.toHaveBeenCalled();
+          expect(mockSpellParserIsNPC).toHaveBeenCalledTimes(1);
+        });
+      });
+      describe("Given IsWildMagicFeat is true and  IsNPC", () => {
+        let roundCheck;
+        beforeEach(() => {
+          roundCheck = new RoundCheck(actor);
+          mockSpellParserIsWildMagicFeat.mockReturnValueOnce(true);
+          mockSpellParserIsNPC.mockReturnValueOnce(false);
+        });
+        it("It should call correctly", async () => {
+          await roundCheck.Check();
+          expect(mockChatRunMessageCheck).not.toHaveBeenCalled();
+          expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
+          expect(mockSpellParserIsNPC).toHaveBeenCalledTimes(1);
+        });
       });
     });
   });
