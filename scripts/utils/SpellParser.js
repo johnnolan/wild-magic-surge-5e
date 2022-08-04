@@ -93,9 +93,7 @@ export default class SpellParser {
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
-    const isSpellRegexMatch = !!spellName.match(spellRegex);
-
-    return isSpellRegexMatch;
+    return !!spellName.match(spellRegex);
   }
 
   async IsRage(content) {

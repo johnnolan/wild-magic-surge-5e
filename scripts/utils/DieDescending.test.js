@@ -117,27 +117,6 @@ describe("DieDescending", () => {
     });
   });
 
-  describe("If a roll of 18 flag set as 1d20", () => {
-    let dieDescending;
-    let newActor = actor;
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d20",
-      });
-      dieDescending = new DieDescending(newActor, "18");
-    });
-
-    it("should change to D12", async () => {
-      const result = await dieDescending.Check();
-      expect(result).toBeFalsy();
-      expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d12" }
-      );
-    });
-  });
-
   describe("If a roll of 18 flag set as 1d12", () => {
     let dieDescending;
     let newActor = actor;

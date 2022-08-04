@@ -6,7 +6,7 @@ import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import Chat from "./Chat.js";
 import { actor } from "../MockData/actor.js";
 import { actorRage } from "../MockData/actorRage.js";
-import { chatMessage, chatMessageNoSpell } from "../MockData/chatMessage.js";
+import { chatMessage } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
 import TidesOfChaos from "./TidesOfChaos.js";
 import AutoEffects from "./AutoEffects.js";
