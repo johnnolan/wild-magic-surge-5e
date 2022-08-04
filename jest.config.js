@@ -1,14 +1,21 @@
 /* exported config */
 
 const config = {
-  setupFiles: ["<rootDir>/test-env.js"],
   reporters: ["default", "jest-junit"],
-  resetMocks: true,
-  restoreMocks: true,
-  transform: {
-    "^.+\\.[t|j]sx?$": "babel-jest",
+  coverageThreshold: {
+    global: {
+      lines: 90,
+    },
   },
-  testEnvironment: "jsdom",
   collectCoverage: true,
-  collectCoverageFrom: ["!**/node_modules/**", "scripts/**/*.js"],
+  collectCoverageFrom: [
+    "!**/node_modules/**",
+    "scripts/**/*.js",
+    "!scripts/panels/*.js",
+    "!scripts/**/*.test.js",
+    "!scripts/ModuleSettings.js",
+    "!scripts/module.js",
+  ],
 };
+
+module.exports = config;
