@@ -2,3 +2,4 @@ node_modules/
 coverage/
 docs/
 eslint_report.json
+test-results/junit
