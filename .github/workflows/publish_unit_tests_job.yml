@@ -46,6 +46,11 @@ jobs:
           min-line-coverage: 20
           min-method-coverage: 20
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/clover.xml
+
       # - name: Annotate Code Linting Results
       #   uses: ataylorme/eslint-annotate-action@v2
       #   with:

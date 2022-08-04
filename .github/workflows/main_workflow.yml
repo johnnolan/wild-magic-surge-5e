@@ -19,6 +19,13 @@ jobs:
     name: Jest Tests
     uses: ./.github/workflows/test_job.yml
 
+  publish_unit_tests:
+    name: Publish Unit Tests
+    needs: ['lint', 'test']
+    uses: ./.github/workflows/publish_unit_tests_job.yml
+    secrets:
+      SONARCLOUD_SECRET: ${{ secrets.SONARCLOUD_TOKEN }}
+
   documentation:
     name: Create and Publish Documentation
     uses: ./.github/workflows/jsdocs_job.yml
