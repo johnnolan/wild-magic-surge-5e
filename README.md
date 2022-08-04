@@ -3,6 +3,7 @@
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![CodeFactor](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e/badge)](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e)
+[![codecov](https://codecov.io/gh/johnnolan/wild-magic-surge-5e/branch/main/graph/badge.svg?token=VSC0EOJVX1)](https://codecov.io/gh/johnnolan/wild-magic-surge-5e)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X354DCG)
 
