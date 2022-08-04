@@ -48,8 +48,6 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage/cobertura-coverage.xml
 
       # - name: Annotate Code Linting Results
       #   uses: ataylorme/eslint-annotate-action@v2
