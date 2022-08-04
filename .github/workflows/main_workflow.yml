@@ -2,11 +2,6 @@ name: "[Workflow] Main"
 
 on:
   push:
-    paths:
-      - scripts/**
-      - templates/**
-      - languages/**
-      - module.json
     branches:
       - main
 
