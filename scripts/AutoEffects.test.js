@@ -32,18 +32,62 @@ global.Sequence = jest.fn().mockImplementation(() => ({
 }));
 
 describe("AutoEffects", () => {
+  describe("ModuleActive", () => {
+    describe("Given module is Active", () => {
+      beforeEach(() => {
+        global.game = {
+          modules: {
+            get: () => {
+              return { active: true };
+            },
+          },
+        };
+      });
+      it("It returns true", async () => {
+        const result = await AutoEffects.ModuleActive("sequencer");
+        expect(result).toBeTruthy();
+      });
+    });
+
+    describe("Given module is Inactive", () => {
+      beforeEach(() => {
+        global.game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+        };
+      });
+      it("It returns true", async () => {
+        const result = await AutoEffects.ModuleActive("sequencer");
+        expect(result).toBeFalsy();
+      });
+    });
+  });
+
+  describe("Given AutoEffects setting is disabled", () => {
+    beforeEach(() => {
+      global.game = {
+        settings: {
+          get: jest.fn().mockReturnValueOnce(false),
+        },
+      };
+    });
+    it("It returns undefined", async () => {
+      const result = await AutoEffects.Run("tokenid");
+      expect(result).toBeUndefined();
+    });
+  });
+
   describe("Given Effects are enabled", () => {
     beforeEach(() => {
       global.game = {
         settings: {
           get: jest.fn().mockResolvedValueOnce(true),
         },
-        modules: {
-          get: () => {
-            return { active: true };
-          },
-        },
       };
+      AutoEffects.ModuleActive = jest.fn().mockResolvedValue(true);
     });
     describe("Given Sequencer and JB2A are installed and active", () => {
       it("It returns the just the content", async () => {
@@ -71,12 +115,8 @@ describe("AutoEffects", () => {
           settings: {
             get: jest.fn().mockResolvedValueOnce(true),
           },
-          modules: {
-            get: () => {
-              return { active: false };
-            },
-          },
         };
+        AutoEffects.ModuleActive = jest.fn().mockReturnValue(false);
       });
       it("It returns the just the content", async () => {
         await AutoEffects.Run("tokenid");
@@ -89,6 +129,39 @@ describe("AutoEffects", () => {
         expect(mockSequencePlay).not.toHaveBeenCalled();
         expect(mockUiInfo).toHaveBeenCalledWith(
           `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`
+        );
+      });
+    });
+
+    describe("Given JB2A_DnD5e is not installed or active", () => {
+      beforeEach(() => {
+        global.ui = {
+          notifications: {
+            info: mockUiInfo,
+          },
+        };
+        global.game = {
+          settings: {
+            get: jest.fn().mockResolvedValueOnce(true),
+          },
+        };
+
+        AutoEffects.ModuleActive = jest
+          .fn()
+          .mockReturnValueOnce(true)
+          .mockReturnValueOnce(false);
+      });
+      it("It returns the just the content", async () => {
+        await AutoEffects.Run("tokenid");
+        expect(mockSequenceEffect).not.toHaveBeenCalled();
+        expect(mockSequenceFile).not.toHaveBeenCalled();
+        expect(mockSequenceDuration).not.toHaveBeenCalled();
+        expect(mockSequenceFadeIn).not.toHaveBeenCalled();
+        expect(mockSequenceFadeOut).not.toHaveBeenCalled();
+        expect(mockSequenceAtLocation).not.toHaveBeenCalled();
+        expect(mockSequencePlay).not.toHaveBeenCalled();
+        expect(mockUiInfo).toHaveBeenCalledWith(
+          `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the JB2A module is not active/installed. Disable the play animation in settings or install and enable JB2A.`
         );
       });
     });

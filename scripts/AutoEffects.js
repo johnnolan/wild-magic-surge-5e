@@ -12,19 +12,28 @@ class AutoEffects {
   }
 
   /**
+   * Checks to see if module is active
+   * @public
+   * @return {boolean}
+   */
+  static ModuleActive(moduleName) {
+    return game.modules.get(moduleName)?.active;
+  }
+
+  /**
    * Runs the Wild Magic Surge animation
    * @public
    * @return {Promise<void>}
    */
   static async Run(tokenId) {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_EFFECTS_ENABLED}`)) return;
-    if (!game.modules.get("sequencer")?.active) {
+    if (!this.ModuleActive("sequencer")) {
       ui.notifications.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`
       );
       return;
     }
-    if (!game.modules.get("JB2A_DnD5e")?.active) {
+    if (!this.ModuleActive("JB2A_DnD5e")) {
       ui.notifications.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the JB2A module is not active/installed. Disable the play animation in settings or install and enable JB2A.`
       );
