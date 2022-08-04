@@ -33,7 +33,7 @@ export default class SpellParser {
   async RollContent(content) {
     const rollContent = $(content);
     const itemId = rollContent.data("item-id");
-    if (!this._actor || itemId) return undefined;
+    if (!this._actor || !itemId) return undefined;
     return this._actor.items.find((i) => i.id === itemId);
   }
 
@@ -65,6 +65,8 @@ export default class SpellParser {
             case 9:
               spellString = `${spellLevel}th Level`;
               break;
+            default:
+              break;
           }
         }
       }
@@ -91,12 +93,7 @@ export default class SpellParser {
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
-    const isSpellRegexMatch = !!spellName.match(spellRegex);
-    console.debug(
-      `Matching spell name '${spellName}' with regex '${spellRegex}': ${isSpellRegexMatch}`
-    );
-
-    return isSpellRegexMatch;
+    return !!spellName.match(spellRegex);
   }
 
   async IsRage(content) {

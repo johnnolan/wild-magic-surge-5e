@@ -2,7 +2,7 @@ import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings.js";
 
 export default class DieDescending {
   constructor(actor, rollValue) {
-    this.actor = actor;
+    this._actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
       value: "1d20",
@@ -14,7 +14,7 @@ export default class DieDescending {
   }
 
   async SetupDefault() {
-    await this.actor.setFlag(
+    await this._actor.setFlag(
       MODULE_FLAG_NAME,
       DIE_DESCENDING_FLAG_OPTION,
       this.defaultValue
@@ -24,15 +24,15 @@ export default class DieDescending {
   }
 
   async Check() {
-    if (!this.actor) {
+    if (!this._actor) {
       return;
     }
 
-    if (!this.actor.flags.hasOwnProperty(MODULE_FLAG_NAME)) {
+    if (!this._actor.flags.hasOwnProperty(MODULE_FLAG_NAME)) {
       return this.SetupDefault();
     }
 
-    let flagValue = await this.actor.getFlag(
+    let flagValue = await this._actor.getFlag(
       MODULE_FLAG_NAME,
       DIE_DESCENDING_FLAG_OPTION
     );
@@ -65,7 +65,7 @@ export default class DieDescending {
           break;
       }
 
-      await this.actor.setFlag(
+      await this._actor.setFlag(
         MODULE_FLAG_NAME,
         DIE_DESCENDING_FLAG_OPTION,
         flagValue
