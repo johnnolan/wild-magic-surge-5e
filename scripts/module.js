@@ -48,17 +48,14 @@ Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId) {
   await incrementalCheck.Reset();
 });
 
-Hooks.on("renderActorSheet", initActorSheetHook);
-
-function initActorSheetHook(app, html, data) {
-  const title = "WMS";
-  let openBtn = $(
-    `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>${title}</a>`
+Hooks.on("renderActorSheet", async function (app, html, data) {
+  let openButton = $(
+    `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`
   );
-  openBtn.on("click", (ev) => {
+  openButton.on("click", () => {
     new ActorHelperPanel(app.document, { actor: data.actor }).render(true);
   });
   html.closest(".app").find(".open-actor-wms").remove();
   let titleElement = html.closest(".app").find(".window-title");
-  if (!app._minimized) openBtn.insertAfter(titleElement);
-}
+  if (!app._minimized) openButton.insertAfter(titleElement);
+});
