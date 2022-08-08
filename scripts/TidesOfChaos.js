@@ -50,6 +50,25 @@ class TidesOfChaos {
     return tidesItemData.usesLeft === 0;
   }
 
+  async IsTidesOfChaosSetup(actor) {
+    let tidesItem = false;
+    const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
+    const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
+    const hasTidesOfChaosResource =
+      tidesOfChaosResourceSetup === undefined ? false : true;
+    if (hasTidesOfChaosResource) {
+      const resourceLevel =
+        tidesOfChaosResourceSetup.resourceName.split(".")[1];
+      tidesItem = actor.system.resources[resourceLevel].label === featName;
+    }
+
+    return {
+      hasTidesOfChaosResource: tidesItem,
+      hasTidesOfChaosFeat: hasTidesOfChaosResource,
+      isValid: hasTidesOfChaosResource && tidesItem,
+    };
+  }
+
   /**
    * Fetches the actors Tides of Chaos data. If not available, returns undefined.
    * @return {Promise<TidesItemData>}
