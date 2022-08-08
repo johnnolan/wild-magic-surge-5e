@@ -301,7 +301,7 @@ describe("TidesOfChaos", () => {
         };
       });
 
-      it("should return false", async () => {
+      it("should return false for resource check", async () => {
         const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
         expect(result).toEqual({
           hasTidesOfChaosFeat: true,
