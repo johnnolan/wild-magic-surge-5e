@@ -3,6 +3,7 @@ import MagicSurgeCheck from "./MagicSurgeCheck.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import RoundCheck from "./RoundCheck.js";
 import ModuleSettings from "./ModuleSettings.js";
+import { ActorHelperPanel } from "./panels/ActorHelperPanel.js";
 
 Hooks.on("init", function () {
   console.info(`Registering ${MODULE_NAME} Settings.`);
@@ -45,4 +46,16 @@ Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId) {
 
   const incrementalCheck = new IncrementalCheck(actor);
   await incrementalCheck.Reset();
+});
+
+Hooks.on("renderActorSheet", async function (app, html, data) {
+  let openButton = $(
+    `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`
+  );
+  openButton.on("click", () => {
+    new ActorHelperPanel(app.document, { actor: data.actor }).render(true);
+  });
+  html.closest(".app").find(".open-actor-wms").remove();
+  let titleElement = html.closest(".app").find(".window-title");
+  if (!app._minimized) openButton.insertAfter(titleElement);
 });

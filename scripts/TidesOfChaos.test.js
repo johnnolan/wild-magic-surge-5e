@@ -227,4 +227,182 @@ describe("TidesOfChaos", () => {
       expect(result).toBeFalsy();
     });
   });
+
+  describe("I want to check whether Tides of Chaos is setup correctly", () => {
+    describe("And there is no Feat available", () => {
+      let tidesOfChaos;
+      let actor;
+      beforeEach(() => {
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
+        tidesOfChaos = new TidesOfChaos();
+        actor = {
+          system: {
+            resources: {
+              tertiary: {
+                value: "1",
+                label: "Tides of Chaos",
+              },
+            },
+          },
+          items: {
+            find: jest.fn().mockReturnValueOnce(undefined),
+          },
+        };
+      });
+
+      it("should return false", async () => {
+        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        expect(result).toEqual({
+          hasTidesOfChaosFeat: false,
+          hasTidesOfChaosResource: false,
+          isValid: false,
+        });
+      });
+    });
+
+    describe("And there is a Feat available and no resource", () => {
+      let tidesOfChaos;
+      let actor;
+      beforeEach(() => {
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
+        tidesOfChaos = new TidesOfChaos();
+        actor = {
+          system: {
+            resources: {
+              tertiary: {
+                value: "",
+                label: "",
+              },
+            },
+          },
+          items: {
+            find: jest.fn().mockReturnValueOnce({
+              id: 1,
+              name: "Tides of Chaos",
+              type: "feat",
+              system: {
+                uses: {
+                  value: 0,
+                },
+                consume: {
+                  target: "resources.tertiary.value",
+                },
+              },
+            }),
+          },
+        };
+      });
+
+      it("should return false for resource check", async () => {
+        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        expect(result).toEqual({
+          hasTidesOfChaosFeat: true,
+          hasTidesOfChaosResource: false,
+          isValid: false,
+        });
+      });
+    });
+
+    describe("And there is a Feat available and resource setup to wrong resource", () => {
+      let tidesOfChaos;
+      let actor;
+      beforeEach(() => {
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
+        tidesOfChaos = new TidesOfChaos();
+        actor = {
+          system: {
+            resources: {
+              tertiary: {
+                value: "1",
+                label: "Tides of Chaos",
+              },
+            },
+          },
+          items: {
+            find: jest.fn().mockReturnValueOnce({
+              id: 1,
+              name: "Tides of Chaos",
+              type: "feat",
+              system: {
+                uses: {
+                  value: 0,
+                },
+                consume: {
+                  target: "resources.tertiary",
+                },
+              },
+            }),
+          },
+        };
+      });
+
+      it("should return false", async () => {
+        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        expect(result).toEqual({
+          hasTidesOfChaosFeat: true,
+          hasTidesOfChaosResource: false,
+          isValid: false,
+        });
+      });
+    });
+
+    describe("And there is a Feat available and resource setup", () => {
+      let tidesOfChaos;
+      let actor;
+      beforeEach(() => {
+        global.game = {
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
+        tidesOfChaos = new TidesOfChaos();
+        actor = {
+          system: {
+            resources: {
+              tertiary: {
+                value: "1",
+                label: "Tides of Chaos",
+              },
+            },
+          },
+          items: {
+            find: jest.fn().mockReturnValueOnce({
+              id: 1,
+              name: "Tides of Chaos",
+              type: "feat",
+              system: {
+                uses: {
+                  value: 0,
+                },
+                consume: {
+                  target: "resources.tertiary.value",
+                },
+              },
+            }),
+          },
+        };
+      });
+
+      it("should return false", async () => {
+        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        expect(result).toEqual({
+          hasTidesOfChaosFeat: true,
+          hasTidesOfChaosResource: true,
+          isValid: true,
+        });
+      });
+    });
+  });
 });

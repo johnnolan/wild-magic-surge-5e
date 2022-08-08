@@ -51,6 +51,32 @@ class TidesOfChaos {
   }
 
   /**
+   * Returns whether Tides of Chaos is setup correctly.
+   * @return {Promise<TidesItemData>}
+   * @param {Actor} actor The Foundry Actor.
+   */
+  async IsTidesOfChaosSetup(actor) {
+    let tidesItem = false;
+    const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
+    const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
+    const hasTidesOfChaosResource =
+      tidesOfChaosResourceSetup === undefined ? false : true;
+
+    if (hasTidesOfChaosResource) {
+      const resourceName = tidesOfChaosResourceSetup.resourceName.split(".");
+      if (resourceName.length === 3) {
+        tidesItem = actor.system.resources[resourceName[1]].label === featName;
+      }
+    }
+
+    return {
+      hasTidesOfChaosResource: tidesItem,
+      hasTidesOfChaosFeat: hasTidesOfChaosResource,
+      isValid: hasTidesOfChaosResource && tidesItem,
+    };
+  }
+
+  /**
    * Fetches the actors Tides of Chaos data. If not available, returns undefined.
    * @return {Promise<TidesItemData>}
    * @param {Actor} actor The Foundry Actor.
