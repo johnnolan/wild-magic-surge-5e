@@ -1,3 +1,3 @@
-global.TextEditor = {
-  enrichHTML: jest.fn().mockResolvedValue("Test Description"),
+(global as any).TextEditor = {
+    enrichHTML: jest.fn().mockResolvedValue("Test Description"),
 };

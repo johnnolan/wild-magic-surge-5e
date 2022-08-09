@@ -1,2 +1,2 @@
 let jsdom = require("jsdom");
-global.$ = require("jquery")(new jsdom.JSDOM().window);
+(global as any).$ = require("jquery")(new jsdom.JSDOM().window);

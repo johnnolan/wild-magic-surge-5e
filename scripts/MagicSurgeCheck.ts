@@ -63,12 +63,10 @@ class MagicSurgeCheck {
       if (hasPathOfWildMagicFeat) {
         this.rollTableMagicSurge.Check("POWM");
       } else {
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
           const spellLevel = await this._spellParser.SpellLevel(
             chatMessage.content
           );
-          // @ts-expect-error TS(2304): Cannot find name 'game'.
           const gameType = game.settings.get(
             `${MODULE_ID}`,
             `${OPT_SURGE_TYPE}`
@@ -91,18 +89,15 @@ class MagicSurgeCheck {
       return false;
     }
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const whisperToGM = game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`);
     // If whisper is set
     if (whisperToGM) {
       // Make sure it is the GM who sends the message
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       if (!game.user.isGM) return false;
     }
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       if (messageData.user.id !== game.user.id) return false;
     }
 
@@ -113,7 +108,6 @@ class MagicSurgeCheck {
 
     const isASpell = await this._spellParser.IsSpell(messageData.content);
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
       const isASorcererSpell = await this._spellParser.IsSorcererSpell(
         messageData.content
@@ -123,7 +117,6 @@ class MagicSurgeCheck {
 
     const hasWildMagicFeat = this._spellParser.IsWildMagicFeat();
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
       return isASpell && hasWildMagicFeat;
     }
@@ -139,7 +132,6 @@ class MagicSurgeCheck {
   async WildMagicSurgeRollCheck() {
     let diceFormula;
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     switch (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)) {
       case "DIE_DESCENDING":
         diceFormula = await this._actor.getFlag(
@@ -161,11 +153,9 @@ class MagicSurgeCheck {
         }
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         diceFormula = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_DIE}`);
         break;
       default:
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         diceFormula = game.settings.get(
           `${MODULE_ID}`,
           `${OPT_CUSTOM_ROLL_DICE_FORMULA}`
@@ -173,7 +163,6 @@ class MagicSurgeCheck {
         break;
     }
 
-    // @ts-expect-error TS(2304): Cannot find name 'Roll'.
     return new Roll(diceFormula).roll({ async: true });
   }
 
@@ -201,7 +190,6 @@ class MagicSurgeCheck {
   DefaultMagicSurgeRollResult(result: any, comparison: any) {
     const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
     );
 
@@ -241,7 +229,6 @@ class MagicSurgeCheck {
     let roll;
 
     let isAutoSurge = false;
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
       if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
@@ -256,7 +243,6 @@ class MagicSurgeCheck {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
             roll.result,
-            // @ts-expect-error TS(2304): Cannot find name 'game'.
             game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT_CHECK}`)
           );
           break;
@@ -294,7 +280,6 @@ class MagicSurgeCheck {
    * @param {RollResult} rollResult
    */
   async _callIsSurgeHook(isSurge: any, rollResult = null) {
-    // @ts-expect-error TS(2304): Cannot find name 'Hooks'.
     Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult,
@@ -312,7 +297,6 @@ class MagicSurgeCheck {
     if (isSurge) {
       this.chat.Send(
         CHAT_TYPE.ROLL,
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
         roll
       );
@@ -323,7 +307,6 @@ class MagicSurgeCheck {
     } else {
       this.chat.Send(
         CHAT_TYPE.ROLL,
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
         roll
       );
@@ -339,7 +322,6 @@ class MagicSurgeCheck {
     this.rollTableMagicSurge.Check("TOCSURGE");
     this.chat.Send(
       CHAT_TYPE.DEFAULT,
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
     );
     this.tidesOfChaos.Check(this._actor);

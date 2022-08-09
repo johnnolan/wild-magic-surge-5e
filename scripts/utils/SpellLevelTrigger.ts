@@ -21,43 +21,33 @@ export default class SpellLevelTrigger {
     let spellString;
     switch (spellLevel) {
       case "1st Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL1}`);
         break;
       case "2nd Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL2}`);
         break;
       case "3rd Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL3}`);
         break;
       case "4th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL4}`);
         break;
       case "5th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL5}`);
         break;
       case "6th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL6}`);
         break;
       case "7th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL7}`);
         break;
       case "8th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL8}`);
         break;
       case "9th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL9}`);
         break;
       case "10th Level":
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         spellString = game.settings.get(`${MODULE_ID}`, `${OPT_TSL_LVL10}`);
         break;
     }

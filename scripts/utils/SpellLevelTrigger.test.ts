@@ -1,10 +1,9 @@
 import SpellLevelTrigger from "./SpellLevelTrigger.js";
 
 describe("SpellLevelTrigger", () => {
-  // @ts-expect-error TS(2304): Cannot find name 'global'.
-  global.Hooks = {
+  (global as any).Hooks = {
     callAll: jest.fn().mockReturnValue(true),
-  };
+};
 
   describe("Roll 4 < 5", () => {
     let spellLevelTrigger: any;
@@ -13,21 +12,18 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("< 5"),
-        },
-        tables: [
-          {
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("< 5"),
+    },
+    tables: [
+        {
             name: "Wild Magic Surge",
-
             roll: jest.fn().mockResolvedValue(true),
-
             results: jest.fn().mockResolvedValue([]),
-          },
-        ],
-      };
+        },
+    ],
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -45,21 +41,18 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("> 6"),
-        },
-        tables: [
-          {
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("> 6"),
+    },
+    tables: [
+        {
             name: "Wild Magic Surge",
-
             roll: jest.fn().mockResolvedValue(true),
-
             results: jest.fn().mockResolvedValue([]),
-          },
-        ],
-      };
+        },
+    ],
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -77,21 +70,18 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 4"),
-        },
-        tables: [
-          {
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 4"),
+    },
+    tables: [
+        {
             name: "Wild Magic Surge",
-
             roll: jest.fn().mockResolvedValue(true),
-
             results: jest.fn().mockResolvedValue([]),
-          },
-        ],
-      };
+        },
+    ],
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -109,21 +99,18 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 3"),
-        },
-        tables: [
-          {
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 3"),
+    },
+    tables: [
+        {
             name: "Wild Magic Surge",
-
             roll: jest.fn().mockResolvedValue(true),
-
             results: jest.fn().mockResolvedValue([]),
-          },
-        ],
-      };
+        },
+    ],
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -141,12 +128,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 1"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 1"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -164,12 +150,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 2"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 2"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -187,12 +172,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 3"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 3"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -210,12 +194,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 7"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 7"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -233,12 +216,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 8"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 8"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -256,12 +238,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 9"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 9"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -279,12 +260,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("= 10"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("= 10"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 
@@ -302,12 +282,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("11"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("11"),
+    },
+};
       spellLevelTrigger = new SpellLevelTrigger();
     });
 

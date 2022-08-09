@@ -2,11 +2,10 @@ import { MODULE_FLAG_NAME } from "../Settings.js";
 import TidesOfChaos from "../TidesOfChaos.js";
 import SpellParser from "../utils/SpellParser.js";
 
-// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
+// @ts-expect-error TS(2515): Non-abstract class 'ActorHelperPanel' does not imp... Remove this comment to see the full error message
 export class ActorHelperPanel extends FormApplication {
   object: any;
   static get defaultOptions() {
-    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Wild Magic Surge 5e Information",
       template: "modules/wild-magic-surge-5e/templates/ActorHelperPanel.html",
@@ -17,6 +16,7 @@ export class ActorHelperPanel extends FormApplication {
     });
   }
 
+  // @ts-expect-error TS(2416): Property 'getData' in type 'ActorHelperPanel' is n... Remove this comment to see the full error message
   async getData() {
     const actor = this.object;
     const tidesOfChaos = new TidesOfChaos();

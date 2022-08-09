@@ -14,10 +14,8 @@ import {
 } from "../Settings.js";
 import { SettingsList, UpdateObject } from "./Helpers.js";
 
-// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
 export class SpellLevelSettingsPanel extends FormApplication {
   static get defaultOptions() {
-    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Spell Level Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
@@ -32,6 +30,7 @@ export class SpellLevelSettingsPanel extends FormApplication {
     return SettingsList(settings);
   }
 
+  // @ts-expect-error TS(2416): Property 'getData' in type 'SpellLevelSettingsPane... Remove this comment to see the full error message
   getData() {
     const settings = [
       OPT_TSL_DIE,
@@ -52,6 +51,7 @@ export class SpellLevelSettingsPanel extends FormApplication {
     };
   }
 
+  // @ts-expect-error TS(2416): Property '_updateObject' in type 'SpellLevelSettin... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
     UpdateObject(formData);
   }

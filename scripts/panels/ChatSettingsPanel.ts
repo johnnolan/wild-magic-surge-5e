@@ -6,10 +6,8 @@ import {
 } from "../Settings.js";
 import { SettingsList, UpdateObject } from "./Helpers.js";
 
-// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
 export class ChatSettingsPanel extends FormApplication {
   static get defaultOptions() {
-    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Chat Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
@@ -24,6 +22,7 @@ export class ChatSettingsPanel extends FormApplication {
     return SettingsList(settings);
   }
 
+  // @ts-expect-error TS(2416): Property 'getData' in type 'ChatSettingsPanel' is ... Remove this comment to see the full error message
   getData() {
     const settings = [
       OPT_CHAT_MSG,
@@ -36,6 +35,7 @@ export class ChatSettingsPanel extends FormApplication {
     };
   }
 
+  // @ts-expect-error TS(2416): Property '_updateObject' in type 'ChatSettingsPane... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
     UpdateObject(formData);
   }

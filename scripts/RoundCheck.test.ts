@@ -2,7 +2,6 @@ import RoundCheck from "./RoundCheck.js";
 import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import Chat from "./Chat.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../M... Remove this comment to see the full error message
 import { actor } from "../MockData/actor.js";
 import "../__mocks__/index.js";
 
@@ -55,12 +54,11 @@ describe("RoundCheck", () => {
       let roundCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(false),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(false),
+    },
+};
         roundCheck = new RoundCheck(actor);
       });
 
@@ -75,12 +73,11 @@ describe("RoundCheck", () => {
       let roundCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+    },
+};
         roundCheck = new RoundCheck(actor);
         mockSpellParserIsWildMagicFeat.mockReturnValueOnce(false);
       });
@@ -96,12 +93,11 @@ describe("RoundCheck", () => {
 
     describe("Given Auto D20 setting and enable npcs is true", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+    },
+};
       });
 
       describe("Given IsWildMagicFeat is true", () => {
@@ -124,12 +120,11 @@ describe("RoundCheck", () => {
 
     describe("Given Auto D20 setting and enable npcs is false", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+    },
+};
       });
 
       describe("Given IsWildMagicFeat is true and not IsNPC", () => {

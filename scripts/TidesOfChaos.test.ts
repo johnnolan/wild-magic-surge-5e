@@ -7,12 +7,11 @@ describe("TidesOfChaos", () => {
     let actor: any;
 
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce(false),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(false),
+    },
+};
       tidesOfChaos = new TidesOfChaos();
     });
 
@@ -29,12 +28,11 @@ describe("TidesOfChaos", () => {
         let actor: any;
 
         beforeEach(() => {
-          // @ts-expect-error TS(2304): Cannot find name 'global'.
-          global.game = {
-            settings: {
-              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-            },
-          };
+          (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
@@ -67,12 +65,11 @@ describe("TidesOfChaos", () => {
         let actor: any;
 
         beforeEach(() => {
-          // @ts-expect-error TS(2304): Cannot find name 'global'.
-          global.game = {
-            settings: {
-              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-            },
-          };
+          (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: [
@@ -102,12 +99,11 @@ describe("TidesOfChaos", () => {
         let actor: any;
 
         beforeEach(() => {
-          // @ts-expect-error TS(2304): Cannot find name 'global'.
-          global.game = {
-            settings: {
-              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-            },
-          };
+          (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
@@ -142,12 +138,11 @@ describe("TidesOfChaos", () => {
         let actor: any;
 
         beforeEach(() => {
-          // @ts-expect-error TS(2304): Cannot find name 'global'.
-          global.game = {
-            settings: {
-              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-            },
-          };
+          (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
           tidesOfChaos = new TidesOfChaos();
           actor = {
             update: jest.fn(),
@@ -189,12 +184,11 @@ describe("TidesOfChaos", () => {
         let actor: any;
 
         beforeEach(() => {
-          // @ts-expect-error TS(2304): Cannot find name 'global'.
-          global.game = {
-            settings: {
-              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-            },
-          };
+          (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
           tidesOfChaos = new TidesOfChaos();
           actor = {
             update: jest.fn(),
@@ -232,12 +226,11 @@ describe("TidesOfChaos", () => {
     let actor: any;
 
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+    },
+};
       tidesOfChaos = new TidesOfChaos();
       actor = {
         items: {
@@ -259,12 +252,11 @@ describe("TidesOfChaos", () => {
       let actor: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("Tides of Chaos"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Tides of Chaos"),
+    },
+};
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -297,12 +289,11 @@ describe("TidesOfChaos", () => {
       let actor: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("Tides of Chaos"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Tides of Chaos"),
+    },
+};
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -347,12 +338,11 @@ describe("TidesOfChaos", () => {
       let actor: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("Tides of Chaos"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Tides of Chaos"),
+    },
+};
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -397,12 +387,11 @@ describe("TidesOfChaos", () => {
       let actor: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("Tides of Chaos"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Tides of Chaos"),
+    },
+};
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {

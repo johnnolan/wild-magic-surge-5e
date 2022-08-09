@@ -13,7 +13,6 @@ export default class DieDescending {
   }
 
   async CallChanged(value: any) {
-    // @ts-expect-error TS(2304): Cannot find name 'Hooks'.
     Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", value);
   }
 

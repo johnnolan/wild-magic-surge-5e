@@ -13,7 +13,6 @@ export default class SpellParser {
   }
 
   IsWildMagicFeat() {
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return this._actor.items.find(
       (a: any) => a.name === surgeName && a.type === "feat"
@@ -22,14 +21,12 @@ export default class SpellParser {
 
   IsPathOfWildMagicFeat() {
     return this._actor.items.find(
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       (a: any) => a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
       a.type === "subclass"
     ) !== undefined;
   }
 
   async RollContent(content: any) {
-    // @ts-expect-error TS(2581): Cannot find name '$'. Do you need to install type ... Remove this comment to see the full error message
     const rollContent = $(content);
     const itemId = rollContent.data("item-id");
     if (!this._actor || !itemId) return undefined;
@@ -90,7 +87,6 @@ export default class SpellParser {
 
     let spellName = getItem.name;
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
     return !!spellName.match(spellRegex);

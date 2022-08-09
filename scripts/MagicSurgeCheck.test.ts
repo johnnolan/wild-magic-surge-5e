@@ -4,11 +4,8 @@ import IncrementalCheck from "./utils/IncrementalCheck.js";
 import SpellParser from "./utils/SpellParser.js";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
 import Chat from "./Chat.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../M... Remove this comment to see the full error message
 import { actor } from "../MockData/actor.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../M... Remove this comment to see the full error message
 import { actorRage } from "../MockData/actorRage.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../M... Remove this comment to see the full error message
 import { chatMessage } from "../MockData/chatMessage.js";
 import "../__mocks__/index.js";
 import TidesOfChaos from "./TidesOfChaos.js";
@@ -110,9 +107,8 @@ jest.mock("./RollTableMagicSurge.js", () => {
 
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
-// @ts-expect-error TS(2304): Cannot find name 'global'.
-global.Hooks = {
-  callAll: jest.fn().mockReturnValue(undefined),
+(global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(undefined),
 };
 
 beforeEach(() => {
@@ -137,8 +133,7 @@ beforeEach(() => {
   (IncrementalCheck as any).mockClear();
   (SpellLevelTrigger as any).mockClear();
   (SpellParser as any).mockClear();
-  // @ts-expect-error TS(2304): Cannot find name 'global'.
-  global.Hooks.callAll.mockClear();
+  (global as any).Hooks.callAll.mockClear();
 });
 
 describe("MagicSurgeCheck", () => {
@@ -147,15 +142,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce(true)
-              .mockReturnValueOnce("DEFAULT"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("DEFAULT"),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
@@ -183,12 +177,11 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(false),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(false),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
@@ -216,12 +209,11 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
@@ -249,21 +241,18 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          actors: {
-            get: jest.fn().mockReturnValue(undefined),
-          },
-          tables: [
-            {
-              name: "Wild Magic Surge",
-
-              roll: jest.fn().mockResolvedValue(true),
-
-              results: jest.fn().mockResolvedValue([]),
-            },
-          ],
-        };
+        (global as any).game = {
+    actors: {
+        get: jest.fn().mockReturnValue(undefined),
+    },
+    tables: [
+        {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+        },
+    ],
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(undefined);
       });
@@ -281,15 +270,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: false,
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: false,
+    },
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -305,16 +293,15 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: false,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(false),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: false,
+        id: "12345",
+    },
+    settings: {
+        get: jest.fn().mockReturnValueOnce(false),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -334,16 +321,15 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: true,
+        id: "12345",
+    },
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true),
+    },
+};
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
         mockSpellParserIsRage.mockReturnValue(true);
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
@@ -365,16 +351,15 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: true,
+        id: "12345",
+    },
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+    },
+};
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(false);
@@ -401,16 +386,15 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: true,
+        id: "12345",
+    },
+    settings: {
+        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+    },
+};
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
@@ -443,20 +427,19 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce(true)
-              .mockReturnValueOnce(false)
-              .mockReturnValueOnce(true),
-          },
-        };
+        (global as any).game = {
+    user: {
+        isGM: true,
+        id: "12345",
+    },
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(true),
+    },
+};
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
@@ -505,15 +488,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce("DEFAULT")
-              .mockReturnValueOnce("1D20"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce("DEFAULT")
+            .mockReturnValueOnce("1D20"),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -521,7 +503,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect(global.Roll).toHaveBeenCalledWith("1D20");
+        expect((global as any).Roll).toHaveBeenCalledWith("1D20");
       });
     });
 
@@ -529,15 +511,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce("SPELL_LEVEL_DEPENDENT_ROLL")
-              .mockReturnValueOnce("1D20"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce("SPELL_LEVEL_DEPENDENT_ROLL")
+            .mockReturnValueOnce("1D20"),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -545,7 +526,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect(global.Roll).toHaveBeenCalledWith("1D20");
+        expect((global as any).Roll).toHaveBeenCalledWith("1D20");
       });
     });
 
@@ -553,15 +534,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce("DIE_DESCENDING")
-              .mockReturnValueOnce("1D20"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce("DIE_DESCENDING")
+            .mockReturnValueOnce("1D20"),
+    },
+};
 
         actor.getFlag = jest.fn().mockReturnValue({ value: "1D20" });
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
@@ -571,7 +551,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect(global.Roll).toHaveBeenCalledWith("1D20");
+        expect((global as any).Roll).toHaveBeenCalledWith("1D20");
       });
     });
 
@@ -579,15 +559,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce("DIE_DESCENDING")
-              .mockReturnValueOnce("1D20"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest
+            .fn()
+            .mockReturnValueOnce("DIE_DESCENDING")
+            .mockReturnValueOnce("1D20"),
+    },
+};
 
         actor.getFlag = jest.fn().mockReturnValue(undefined);
 
@@ -605,7 +584,7 @@ describe("MagicSurgeCheck", () => {
           { value: "1d20" }
         );
 
-        expect(global.Roll).toHaveBeenCalledWith("1d20");
+        expect((global as any).Roll).toHaveBeenCalledWith("1d20");
       });
     });
   });
@@ -613,28 +592,23 @@ describe("MagicSurgeCheck", () => {
   describe("resultCheck", () => {
     describe("has 1 value in the result check", () => {
       let magicSurgeCheck: any;
-      // @ts-expect-error TS(2304): Cannot find name 'beforeAll'.
       beforeAll(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          actors: actor,
-          settings: {
-            get: jest.fn().mockReturnValue("2"),
-          },
-          tables: [
-            {
-              name: "Wild Magic Surge",
-
-              roll: jest.fn().mockResolvedValue(true),
-
-              results: jest.fn().mockResolvedValue([]),
-            },
-          ],
-        };
+        (global as any).game = {
+    actors: actor,
+    settings: {
+        get: jest.fn().mockReturnValue("2"),
+    },
+    tables: [
+        {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+        },
+    ],
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 2 EQ 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
@@ -643,7 +617,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 2 Not EQ 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           1,
@@ -652,7 +625,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeFalsy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 2 Not GT 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
@@ -661,7 +633,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeFalsy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 3 GT 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
@@ -670,7 +641,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 2 Not LT 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
@@ -679,7 +649,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeFalsy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 1 LT 2", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           1,
@@ -692,28 +661,23 @@ describe("MagicSurgeCheck", () => {
 
     describe("has 2 values in the result check", () => {
       let magicSurgeCheck: any;
-      // @ts-expect-error TS(2304): Cannot find name 'beforeAll'.
       beforeAll(() => {
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
         magicSurgeCheck = new MagicSurgeCheck();
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          actors: actor,
-          settings: {
-            get: jest.fn().mockReturnValue("3, 4"),
-          },
-          tables: [
-            {
-              name: "Wild Magic Surge",
-
-              roll: jest.fn().mockResolvedValue(true),
-
-              results: jest.fn().mockResolvedValue([]),
-            },
-          ],
-        };
+        (global as any).game = {
+    actors: actor,
+    settings: {
+        get: jest.fn().mockReturnValue("3, 4"),
+    },
+    tables: [
+        {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+        },
+    ],
+};
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 3 EQ 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
@@ -722,7 +686,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 4 EQ 4", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           4,
@@ -731,7 +694,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 1 Not EQ 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           5,
@@ -740,7 +702,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeFalsy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 3 Not GT 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
@@ -749,7 +710,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeFalsy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 4 GT 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           4,
@@ -758,7 +718,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 2 Not LT 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
@@ -767,7 +726,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(result).toBeTruthy();
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("roll of 1 LT 4", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
@@ -785,12 +743,11 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue(true),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue(true),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
 
@@ -802,7 +759,6 @@ describe("MagicSurgeCheck", () => {
         jest.spyOn(magicSurgeCheck, "SurgeWildMagic").mockReturnValue(true);
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(true);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("Calls Tides of Chaos surge", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "INVALID_OPTION");
 
@@ -817,39 +773,38 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue(true),
-          },
-          actors: {
-            get: jest.fn().mockReturnValue({
-              data: {
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue(true),
+    },
+    actors: {
+        get: jest.fn().mockReturnValue({
+            data: {
                 items: [
-                  {
-                    id: "WWb4vAmh18sMAxfY",
-                    data: {
-                      name: "Flame Tongue Greatsword",
-                      data: { actionType: "mwak" },
+                    {
+                        id: "WWb4vAmh18sMAxfY",
+                        data: {
+                            name: "Flame Tongue Greatsword",
+                            data: { actionType: "mwak" },
+                        },
+                        token: {
+                            _id: "5H4YnyD6zf9vcJ3Q",
+                        },
                     },
-                    token: {
-                      _id: "5H4YnyD6zf9vcJ3Q",
+                    {
+                        _id: "iGoR4ePl1mTZFAAM",
+                        name: "Wild Magic Surge",
+                        type: "feat",
+                        img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
+                        data: {
+                            source: "Sorcerer : Wild Magic",
+                        },
                     },
-                  },
-                  {
-                    _id: "iGoR4ePl1mTZFAAM",
-                    name: "Wild Magic Surge",
-                    type: "feat",
-                    img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
-                    data: {
-                      source: "Sorcerer : Wild Magic",
-                    },
-                  },
                 ],
-              },
-            }),
-          },
-        };
+            },
+        }),
+    },
+};
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
@@ -863,7 +818,6 @@ describe("MagicSurgeCheck", () => {
           .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
           .mockReturnValue(true);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("INVALID_OPTION", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "INVALID_OPTION");
 
@@ -879,7 +833,6 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("DEFAULT", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "DEFAULT");
 
@@ -895,11 +848,10 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect(global.Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toBeCalled();
 
-        expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("INCREMENTAL_CHECK", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "INCREMENTAL_CHECK");
 
@@ -915,11 +867,10 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect(global.Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toBeCalled();
 
-        expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("INCREMENTAL_CHECK_CHAOTIC", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "INCREMENTAL_CHECK_CHAOTIC");
 
@@ -935,11 +886,10 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect(global.Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toBeCalled();
 
-        expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("SPELL_LEVEL_DEPENDENT_ROLL", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "SPELL_LEVEL_DEPENDENT_ROLL");
 
@@ -951,11 +901,10 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(1);
 
-        expect(global.Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toBeCalled();
 
-        expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
-      // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
       test("DIE_DESCENDING", async () => {
         await magicSurgeCheck.AutoSurgeCheck(1, "DIE_DESCENDING");
 
@@ -967,9 +916,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockDieDescendingCheck).toHaveBeenCalledTimes(1);
 
-        expect(global.Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toBeCalled();
 
-        expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -978,12 +927,11 @@ describe("MagicSurgeCheck", () => {
     let magicSurgeCheck: any;
 
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValue(true),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue(true),
+    },
+};
       // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       magicSurgeCheck = new MagicSurgeCheck(actor);
     });
@@ -997,7 +945,7 @@ describe("MagicSurgeCheck", () => {
 
       expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
 
-      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
     });
 
     it("It runs correctly on false", async () => {
@@ -1009,7 +957,7 @@ describe("MagicSurgeCheck", () => {
 
       expect(mockRollTableMagicSurgeCheck).not.toHaveBeenCalled();
 
-      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -1017,12 +965,11 @@ describe("MagicSurgeCheck", () => {
     let magicSurgeCheck: any;
 
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValue("Auto D20 Message"),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Auto D20 Message"),
+    },
+};
       // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       magicSurgeCheck = new MagicSurgeCheck(actor);
     });
@@ -1036,9 +983,9 @@ describe("MagicSurgeCheck", () => {
 
       expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
 
-      expect(global.Hooks.callAll).toBeCalled();
+      expect((global as any).Hooks.callAll).toBeCalled();
 
-      expect(global.Hooks.callAll).toHaveBeenCalledTimes(1);
+      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
     });
   });
 

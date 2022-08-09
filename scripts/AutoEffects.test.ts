@@ -28,7 +28,7 @@ beforeEach(() => {
   mockSequencePlay.mockClear();
 });
 
-// @ts-expect-error TS(2304): Cannot find name 'global'.
+// @ts-expect-error TS(7017): Element implicitly has an 'any' type because type ... Remove this comment to see the full error message
 global.Sequence = jest.fn().mockImplementation(() => ({
   play: mockSequencePlay,
   effect: mockSequenceEffect,
@@ -43,14 +43,13 @@ describe("AutoEffects", () => {
   describe("ModuleActive", () => {
     describe("Given module is Active", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          modules: {
-            get: () => {
-              return { active: true };
-            },
-          },
-        };
+        (global as any).game = {
+    modules: {
+        get: () => {
+            return { active: true };
+        },
+    },
+};
       });
 
       it("It returns true", async () => {
@@ -62,14 +61,13 @@ describe("AutoEffects", () => {
 
     describe("Given module is Inactive", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          modules: {
-            get: () => {
-              return { active: false };
-            },
-          },
-        };
+        (global as any).game = {
+    modules: {
+        get: () => {
+            return { active: false };
+        },
+    },
+};
       });
 
       it("It returns true", async () => {
@@ -82,12 +80,11 @@ describe("AutoEffects", () => {
 
   describe("Given AutoEffects setting is disabled", () => {
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockReturnValueOnce(false),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce(false),
+    },
+};
     });
 
     it("It returns undefined", async () => {
@@ -99,12 +96,11 @@ describe("AutoEffects", () => {
 
   describe("Given Effects are enabled", () => {
     beforeEach(() => {
-      // @ts-expect-error TS(2304): Cannot find name 'global'.
-      global.game = {
-        settings: {
-          get: jest.fn().mockResolvedValueOnce(true),
-        },
-      };
+      (global as any).game = {
+    settings: {
+        get: jest.fn().mockResolvedValueOnce(true),
+    },
+};
 
       AutoEffects.ModuleActive = jest.fn().mockResolvedValue(true);
     });
@@ -133,18 +129,16 @@ describe("AutoEffects", () => {
   describe("Given Effects are disabled", () => {
     describe("Given Sequencer is not installed or active", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.ui = {
-          notifications: {
-            info: mockUiInfo,
-          },
-        };
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockResolvedValueOnce(true),
-          },
-        };
+        (global as any).ui = {
+    notifications: {
+        info: mockUiInfo,
+    },
+};
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockResolvedValueOnce(true),
+    },
+};
 
         AutoEffects.ModuleActive = jest.fn().mockReturnValue(false);
       });
@@ -174,18 +168,16 @@ describe("AutoEffects", () => {
 
     describe("Given JB2A_DnD5e is not installed or active", () => {
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.ui = {
-          notifications: {
-            info: mockUiInfo,
-          },
-        };
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockResolvedValueOnce(true),
-          },
-        };
+        (global as any).ui = {
+    notifications: {
+        info: mockUiInfo,
+    },
+};
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockResolvedValueOnce(true),
+    },
+};
 
         AutoEffects.ModuleActive = jest
           .fn()

@@ -18,7 +18,6 @@ class TidesOfChaos {
    * @param {Actor} actor The Foundry Actor.
    */
   async Check(actor: any) {
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
       return;
     }
@@ -58,7 +57,6 @@ class TidesOfChaos {
    */
   async IsTidesOfChaosSetup(actor: any) {
     let tidesItem = false;
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
     const hasTidesOfChaosResource =
@@ -85,7 +83,6 @@ class TidesOfChaos {
    * @param {Actor} actor The Foundry Actor.
    */
   async getTidesOfChaosResource(actor: any) {
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesItem = actor.items.find(
       (a: any) => a.name === featName && a.type === "feat"

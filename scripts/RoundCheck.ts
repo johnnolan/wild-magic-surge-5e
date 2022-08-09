@@ -30,11 +30,9 @@ class RoundCheck {
    * @return {Promise<void>}
    */
   async Check() {
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       if (this.spellParser.IsWildMagicFeat()) {
         const incrementalCheck = new IncrementalCheck(this._actor, null, 10);
-        // @ts-expect-error TS(2304): Cannot find name 'game'.
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
           await incrementalCheck.Check();
         } else {

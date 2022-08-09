@@ -23,6 +23,7 @@ let user = {
   }),
 };
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'game'.
 let game = {
   data: null,
   user: user,
@@ -40,7 +41,7 @@ let game = {
       // This is intentional
     }),
     registerMenu: jest.fn(),
-    set: (_moduleName, _settingName, _data) => {
+    set: (_moduleName: any, _settingName: any, _data: any) => {
       return Promise.resolve(true);
     },
   },
@@ -68,16 +69,16 @@ let game = {
   },
   users: {
     get: jest.fn(),
-    find: (v) => {
+    find: (v: any) => {
       return v.call(undefined, { isGM: false, active: true });
     },
-    forEach: (v) => {
+    forEach: (v: any) => {
       return v.call(undefined, { id: "" });
     },
-    filter: (v) => {
+    filter: (v: any) => {
       return v.call(undefined, user);
     },
-    map: (v) => {
+    map: (v: any) => {
       return v.call(undefined, user);
     },
   },
@@ -90,7 +91,7 @@ let game = {
   },
   togglePause: jest.fn(),
   journal: {
-    get: (id, _obj) => {
+    get: (id: any, _obj: any) => {
       if (id) {
         return {
           getFlag: jest.fn().mockReturnValue({
@@ -111,12 +112,12 @@ let game = {
       }
       return null;
     },
-    forEach: (v) => {
+    forEach: (v: any) => {
       return v.call(undefined, {});
     },
     directory: {
       folders: {
-        find: (v) => {
+        find: (v: any) => {
           return v.call(undefined, {
             getFlag: jest
               .fn()
@@ -128,7 +129,7 @@ let game = {
     },
   },
   macros: {
-    forEach: (v) => {
+    forEach: (v: any) => {
       return v.call(undefined, { canExecute: true, name: "asd", id: "123" });
     },
     get: () => {
@@ -137,4 +138,4 @@ let game = {
   },
 };
 
-global.game = game;
+(global as any).game = game;

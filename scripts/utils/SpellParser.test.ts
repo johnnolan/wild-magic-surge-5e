@@ -1,33 +1,26 @@
 import SpellParser from "./SpellParser.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../.... Remove this comment to see the full error message
 import { actor } from "../../MockData/actor.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../.... Remove this comment to see the full error message
 import { actorRage } from "../../MockData/actorRage.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../.... Remove this comment to see the full error message
 import { actorNoWildMagic } from "../../MockData/actorNoWildMagic.js";
 import "../../__mocks__/index.js";
 
 describe("SpellParser", () => {
   describe("IsWildMagicFeat", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.game = {
-      settings: {
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
+    (global as any).game = {
+    settings: {
         get: jest.fn().mockReturnValueOnce("= 4"),
-      },
-      tables: [
+    },
+    tables: [
         {
-          name: "Wild Magic Surge",
-
-          roll: jest.fn().mockResolvedValue(true),
-
-          results: jest.fn().mockResolvedValue([]),
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
         },
-      ],
-    };
+    ],
+};
 
     describe("Has Wild Magic Feat", () => {
       let spellParser: any;
@@ -37,12 +30,11 @@ describe("SpellParser", () => {
 
         jest.resetAllMocks();
         spellParser = new SpellParser(actor);
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("Wild Magic Surge"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("Wild Magic Surge"),
+    },
+};
       });
 
       it("should be true", () => {
@@ -71,10 +63,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsPathOfWildMagicFeat", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
 
     describe("Has Path of Wild Magic Feat", () => {
       let spellParser: any;
@@ -83,12 +74,11 @@ describe("SpellParser", () => {
         jest.clearAllMocks();
 
         jest.resetAllMocks();
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValue("POWM"),
-          },
-        };
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValue("POWM"),
+    },
+};
         spellParser = new SpellParser({
           items: [
             {
@@ -132,10 +122,9 @@ describe("SpellParser", () => {
   });
 
   describe("SpellLevel", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
 
     describe("Has a level", () => {
       let spellParser: any;
@@ -173,10 +162,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsSpell", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
 
     describe("Has a level", () => {
       let spellParser: any;
@@ -283,16 +271,14 @@ describe("SpellParser", () => {
   });
 
   describe("IsSorcererSpell", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.game = {
-      settings: {
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
+    (global as any).game = {
+    settings: {
         get: jest.fn().mockReturnValueOnce("\\(S\\)"),
-      },
-    };
+    },
+};
 
     describe("Is a Sorcerer Spell", () => {
       let spellParser: any;
@@ -353,10 +339,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsRage", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
 
     describe("Is Rage", () => {
       let spellParser: any;
@@ -415,10 +400,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsNPC", () => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+    (global as any).Hooks = {
+    callAll: jest.fn().mockReturnValue(true),
+};
 
     describe("Is set to be a NPC", () => {
       let spellParser: any;

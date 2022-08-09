@@ -6,10 +6,8 @@ import {
 } from "../Settings.js";
 import { SettingsList, UpdateObject } from "./Helpers.js";
 
-// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
 export class StandardSettingsPanel extends FormApplication {
   static get defaultOptions() {
-    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Standard Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
@@ -24,6 +22,7 @@ export class StandardSettingsPanel extends FormApplication {
     return SettingsList(settings);
   }
 
+  // @ts-expect-error TS(2416): Property 'getData' in type 'StandardSettingsPanel'... Remove this comment to see the full error message
   getData() {
     const settings = [
       OPT_CUSTOM_ROLL_DICE_FORMULA,
@@ -36,6 +35,7 @@ export class StandardSettingsPanel extends FormApplication {
     };
   }
 
+  // @ts-expect-error TS(2416): Property '_updateObject' in type 'StandardSettings... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
     UpdateObject(formData);
   }

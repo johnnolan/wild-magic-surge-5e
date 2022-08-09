@@ -1,13 +1,11 @@
 import IncrementalCheck from "./IncrementalCheck.js";
-// @ts-expect-error TS(7016): Could not find a declaration file for module '../.... Remove this comment to see the full error message
 import { actor } from "../../MockData/actor.js";
 import "../../__mocks__/index.js";
 
 describe("IncrementalCheck", () => {
-  // @ts-expect-error TS(2304): Cannot find name 'global'.
-  global.Hooks = {
+  (global as any).Hooks = {
     callAll: jest.fn().mockReturnValue(true),
-  };
+};
 
   describe("If a roll of 1 with no actor", () => {
     let incrementalCheck: any;
@@ -64,6 +62,7 @@ describe("IncrementalCheck", () => {
 
     beforeEach(() => {
       let newActor = actor;
+      // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(newActor, 1);
     });
@@ -80,6 +79,7 @@ describe("IncrementalCheck", () => {
 
     beforeEach(() => {
       let newActor = actor;
+      // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(actor, 4);
     });

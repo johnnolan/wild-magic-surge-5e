@@ -25,19 +25,16 @@ class RollTableMagicSurge {
    * @param {string} type The type of RollTable to use (WMS or POWM).
    */
   async Check(type = "WMS") {
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
       return;
     }
     let rollTableName: any;
     if (type === "POWM") {
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       rollTableName = game.settings.get(
         `${MODULE_ID}`,
         `${OPT_POWM_ROLLTABLE_NAME}`
       );
     } else {
-      // @ts-expect-error TS(2304): Cannot find name 'game'.
       rollTableName = game.settings.get(
         `${MODULE_ID}`,
         `${OPT_ROLLTABLE_NAME}`
@@ -47,11 +44,12 @@ class RollTableMagicSurge {
       return;
     }
 
-    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const surgeRollTable = game.tables.find((t: any) => t.name === rollTableName);
 
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     await surgeRollTable.roll().then((result: any) => {
       let chat = new Chat();
+      // @ts-expect-error TS(2345): Argument of type '{ name: string; roll: Mock<any, ... Remove this comment to see the full error message
       chat.Send(CHAT_TYPE.TABLE, result, surgeRollTable);
     });
   }

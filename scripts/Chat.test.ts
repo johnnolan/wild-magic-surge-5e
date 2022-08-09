@@ -4,12 +4,10 @@ import "../__mocks__/index.js";
 
 describe("Chat", () => {
   beforeEach(() => {
-    // @ts-expect-error TS(2304): Cannot find name 'global'.
-    global.game.roll = {
-      get: jest.fn().mockResolvedValue(true),
-
-      result: jest.fn().mockResolvedValue(20),
-    };
+    (global as any).game.roll = {
+    get: jest.fn().mockResolvedValue(true),
+    result: jest.fn().mockResolvedValue(20),
+};
   });
 
   describe("createDefaultChat", () => {
@@ -37,8 +35,7 @@ describe("Chat", () => {
       let roll: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game.settings.get = jest.fn().mockResolvedValue(true);
+        (global as any).game.settings.get = jest.fn().mockResolvedValue(true);
         chat = new Chat();
         roll = {
           result: 20,
@@ -63,12 +60,11 @@ describe("Chat", () => {
       let roll: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game.settings.get = jest
-          .fn()
-          .mockResolvedValueOnce(false)
-          .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+        (global as any).game.settings.get = jest
+    .fn()
+    .mockResolvedValueOnce(false)
+    .mockResolvedValueOnce("Wild Magic Surge")
+    .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         roll = {
           result: 20,
@@ -98,12 +94,11 @@ describe("Chat", () => {
       let surgeRollTable: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game.settings.get = jest
-          .fn()
-          .mockResolvedValueOnce(false)
-          .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+        (global as any).game.settings.get = jest
+    .fn()
+    .mockResolvedValueOnce(false)
+    .mockResolvedValueOnce("Wild Magic Surge")
+    .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         surgeRollTable = {
           data: {
@@ -141,12 +136,11 @@ describe("Chat", () => {
       let surgeRollTable: any;
 
       beforeEach(() => {
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game.settings.get = jest
-          .fn()
-          .mockResolvedValueOnce(false)
-          .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+        (global as any).game.settings.get = jest
+    .fn()
+    .mockResolvedValueOnce(false)
+    .mockResolvedValueOnce("Wild Magic Surge")
+    .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         surgeRollTable = {
           data: {
@@ -190,22 +184,20 @@ describe("Chat", () => {
 
       beforeEach(() => {
         chat = new Chat();
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.Hooks = {
-          callAll: jest.fn(),
-        };
-        // @ts-expect-error TS(2304): Cannot find name 'global'.
-        global.game = {
-          settings: {
-            get: jest.fn().mockReturnValueOnce("Surge Message"),
-          },
-        };
+        (global as any).Hooks = {
+    callAll: jest.fn(),
+};
+        (global as any).game = {
+    settings: {
+        get: jest.fn().mockReturnValueOnce("Surge Message"),
+    },
+};
       });
 
       it("It returns the just the content", async () => {
         await chat.RunMessageCheck();
 
-        expect(global.Hooks.callAll).toHaveBeenCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect(ChatMessage.create).toHaveBeenCalled();
       });

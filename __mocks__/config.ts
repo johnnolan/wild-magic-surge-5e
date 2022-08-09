@@ -1,5 +1,5 @@
-global.CONFIG = {
-  RollTable: {
-    resultTemplate: "<div>test</div>",
-  },
+(global as any).CONFIG = {
+    RollTable: {
+        resultTemplate: "<div>test</div>",
+    },
 };

@@ -4,10 +4,8 @@ import {
 } from "../Settings.js";
 import { SettingsList, UpdateObject } from "./Helpers.js";
 
-// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
 export class IncrementalSettingsPanel extends FormApplication {
   static get defaultOptions() {
-    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Incremental Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
@@ -22,6 +20,7 @@ export class IncrementalSettingsPanel extends FormApplication {
     return SettingsList(settings);
   }
 
+  // @ts-expect-error TS(2416): Property 'getData' in type 'IncrementalSettingsPan... Remove this comment to see the full error message
   getData() {
     const settings = [OPT_INCREMENTAL_CHECK_TO_CHAT];
 
@@ -30,6 +29,7 @@ export class IncrementalSettingsPanel extends FormApplication {
     };
   }
 
+  // @ts-expect-error TS(2416): Property '_updateObject' in type 'IncrementalSetti... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
     UpdateObject(formData);
   }
