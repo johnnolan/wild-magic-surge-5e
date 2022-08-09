@@ -6,7 +6,14 @@ import {
 import Chat from "../Chat.js";
 
 export default class IncrementalCheck {
-  constructor(actor, rollValue, maxValue = 20) {
+  FLAG_NAME: any;
+  FLAG_OPTION: any;
+  actor: any;
+  chat: any;
+  defaultValue: any;
+  maxValue: any;
+  rollValue: any;
+  constructor(actor: any, rollValue: any, maxValue = 20) {
     this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
@@ -24,13 +31,17 @@ export default class IncrementalCheck {
     this.SetupDefault();
   }
 
-  async CallChanged(value) {
+  async CallChanged(value: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'Hooks'.
     Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
 
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
       this.chat.Send(
         CHAT_TYPE.DEFAULT,
-        `${game.i18n.format(
+        `${        
+// @ts-expect-error TS(2304): Cannot find name 'game'.
+game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
         )} ${value}`
       );

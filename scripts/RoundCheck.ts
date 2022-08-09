@@ -10,12 +10,15 @@ import Chat from "./Chat.js";
  * let roundCheck = new RoundCheck(actor);
  */
 class RoundCheck {
+  _actor: any;
+  chat: any;
+  spellParser: any;
   /**
    * Check for Incrementmenal Check
    * @param {Actor} actor - The Actor to check against.
    * @constructs RoundCheck
    */
-  constructor(actor) {
+  constructor(actor: any) {
     this.spellParser = new SpellParser(actor);
     this.chat = new Chat();
     this._actor = actor;
@@ -27,9 +30,11 @@ class RoundCheck {
    * @return {Promise<void>}
    */
   async Check() {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       if (this.spellParser.IsWildMagicFeat()) {
         const incrementalCheck = new IncrementalCheck(this._actor, null, 10);
+        // @ts-expect-error TS(2304): Cannot find name 'game'.
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
           await incrementalCheck.Check();
         } else {

@@ -1,7 +1,10 @@
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings.js";
 
 export default class DieDescending {
-  constructor(actor, rollValue) {
+  _actor: any;
+  defaultValue: any;
+  rollValue: any;
+  constructor(actor: any, rollValue: any) {
     this._actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
@@ -9,7 +12,8 @@ export default class DieDescending {
     };
   }
 
-  async CallChanged(value) {
+  async CallChanged(value: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'Hooks'.
     Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", value);
   }
 

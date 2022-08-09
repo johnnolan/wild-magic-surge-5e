@@ -5,8 +5,10 @@ import {
 } from "../Settings.js";
 import { SettingsList, UpdateObject } from "./Helpers.js";
 
+// @ts-expect-error TS(2304): Cannot find name 'FormApplication'.
 export class SpellRegexSettingsPanel extends FormApplication {
   static get defaultOptions() {
+    // @ts-expect-error TS(2304): Cannot find name 'mergeObject'.
     return mergeObject(super.defaultOptions, {
       title: "Spell Regex for Multiclass",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
@@ -17,7 +19,7 @@ export class SpellRegexSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings) {
+  settingsList(settings: any) {
     return SettingsList(settings);
   }
 
@@ -29,7 +31,7 @@ export class SpellRegexSettingsPanel extends FormApplication {
     };
   }
 
-  _updateObject(_event, formData) {
+  _updateObject(_event: any, formData: any) {
     UpdateObject(formData);
   }
 }

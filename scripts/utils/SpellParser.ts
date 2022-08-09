@@ -7,37 +7,36 @@ import {
 } from "../Settings.js";
 
 export default class SpellParser {
-  constructor(actor) {
+  _actor: any;
+  constructor(actor: any) {
     this._actor = actor;
   }
 
   IsWildMagicFeat() {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
-    return (
-      this._actor.items.find(
-        (a) => a.name === surgeName && a.type === "feat"
-      ) !== undefined
-    );
+    return this._actor.items.find(
+      (a: any) => a.name === surgeName && a.type === "feat"
+    ) !== undefined;
   }
 
   IsPathOfWildMagicFeat() {
-    return (
-      this._actor.items.find(
-        (a) =>
-          a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
-          a.type === "subclass"
-      ) !== undefined
-    );
+    return this._actor.items.find(
+      // @ts-expect-error TS(2304): Cannot find name 'game'.
+      (a: any) => a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
+      a.type === "subclass"
+    ) !== undefined;
   }
 
-  async RollContent(content) {
+  async RollContent(content: any) {
+    // @ts-expect-error TS(2581): Cannot find name '$'. Do you need to install type ... Remove this comment to see the full error message
     const rollContent = $(content);
     const itemId = rollContent.data("item-id");
     if (!this._actor || !itemId) return undefined;
-    return this._actor.items.find((i) => i.id === itemId);
+    return this._actor.items.find((i: any) => i.id === itemId);
   }
 
-  async SpellDetails(content) {
+  async SpellDetails(content: any) {
     let spellString;
 
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
@@ -75,28 +74,29 @@ export default class SpellParser {
     return spellString;
   }
 
-  async SpellLevel(content) {
+  async SpellLevel(content: any) {
     return this.SpellDetails(content);
   }
 
-  async IsSpell(content) {
+  async IsSpell(content: any) {
     const result = await this.SpellDetails(content);
     return result !== undefined;
   }
 
-  async IsSorcererSpell(content) {
+  async IsSorcererSpell(content: any) {
     const getItem = await this.RollContent(content);
 
     if (!getItem) return false;
 
     let spellName = getItem.name;
 
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
     return !!spellName.match(spellRegex);
   }
 
-  async IsRage(content) {
+  async IsRage(content: any) {
     const getItem = await this.RollContent(content);
 
     if (!getItem) return false;

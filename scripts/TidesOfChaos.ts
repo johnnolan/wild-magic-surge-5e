@@ -17,7 +17,8 @@ class TidesOfChaos {
    * @return {Promise<void>}
    * @param {Actor} actor The Foundry Actor.
    */
-  async Check(actor) {
+  async Check(actor: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
       return;
     }
@@ -42,7 +43,7 @@ class TidesOfChaos {
    * @return {Promise<boolean>}
    * @param {Actor} actor The Foundry Actor.
    */
-  async IsTidesOfChaosUsed(actor) {
+  async IsTidesOfChaosUsed(actor: any) {
     const tidesItemData = await this.getTidesOfChaosResource(actor);
 
     if (tidesItemData === undefined) return false;
@@ -55,14 +56,16 @@ class TidesOfChaos {
    * @return {Promise<TidesItemData>}
    * @param {Actor} actor The Foundry Actor.
    */
-  async IsTidesOfChaosSetup(actor) {
+  async IsTidesOfChaosSetup(actor: any) {
     let tidesItem = false;
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
     const hasTidesOfChaosResource =
       tidesOfChaosResourceSetup === undefined ? false : true;
 
     if (hasTidesOfChaosResource) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const resourceName = tidesOfChaosResourceSetup.resourceName.split(".");
       if (resourceName.length === 3) {
         tidesItem = actor.system.resources[resourceName[1]].label === featName;
@@ -81,10 +84,11 @@ class TidesOfChaos {
    * @return {Promise<TidesItemData>}
    * @param {Actor} actor The Foundry Actor.
    */
-  async getTidesOfChaosResource(actor) {
+  async getTidesOfChaosResource(actor: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesItem = actor.items.find(
-      (a) => a.name === featName && a.type === "feat"
+      (a: any) => a.name === featName && a.type === "feat"
     );
 
     if (tidesItem === undefined) {

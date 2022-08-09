@@ -16,7 +16,8 @@ class AutoEffects {
    * @public
    * @return {boolean}
    */
-  static ModuleActive(moduleName) {
+  static ModuleActive(moduleName: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     return game.modules.get(moduleName)?.active;
   }
 
@@ -25,21 +26,25 @@ class AutoEffects {
    * @public
    * @return {Promise<void>}
    */
-  static async Run(tokenId) {
+  static async Run(tokenId: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_EFFECTS_ENABLED}`)) return;
     if (!this.ModuleActive("sequencer")) {
+      // @ts-expect-error TS(2304): Cannot find name 'ui'.
       ui.notifications.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`
       );
       return;
     }
     if (!this.ModuleActive("JB2A_DnD5e")) {
+      // @ts-expect-error TS(2304): Cannot find name 'ui'.
       ui.notifications.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the JB2A module is not active/installed. Disable the play animation in settings or install and enable JB2A.`
       );
       return;
     }
 
+    // @ts-expect-error TS(2304): Cannot find name 'Sequence'.
     const wildMagicSurgeEffect = new Sequence(MODULE_ID)
       .effect()
       .file(

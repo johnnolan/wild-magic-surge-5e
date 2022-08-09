@@ -25,14 +25,16 @@ class Chat {
    * @param {string} message The chat message to send.
    * @param {object} rollObject Optional RollTable or Roll to send.
    */
-  async Send(type, message, rollObject = null) {
+  async Send(type: any, message: any, rollObject = null) {
+    // @ts-expect-error TS(2304): Cannot find name 'game'.
     const isWhisperGM = await game.settings.get(
       `${MODULE_ID}`,
       `${OPT_WHISPER_GM}`
     );
 
+    // @ts-expect-error TS(2304): Cannot find name 'ChatMessage'.
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
-      (u) => u._id
+      (u: any) => u._id
     );
 
     let chatData = {};
@@ -50,12 +52,14 @@ class Chat {
     }
 
     if (isWhisperGM) {
-      chatData.whisper = gmsToWhisper;
-      chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
-      chatData.blind = true;
+      (chatData as any).whisper = gmsToWhisper;
+      // @ts-expect-error TS(2304): Cannot find name 'CONST'.
+      (chatData as any).type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
+      (chatData as any).blind = true;
     }
-    chatData.speaker = gmsToWhisper;
+    (chatData as any).speaker = gmsToWhisper;
 
+    // @ts-expect-error TS(2304): Cannot find name 'ChatMessage'.
     return ChatMessage.create(chatData);
   }
 
@@ -64,7 +68,7 @@ class Chat {
    * @return {Promise<object>} The chatData object
    * @param {string} message The chat message to send.
    */
-  async createDefaultChat(message) {
+  async createDefaultChat(message: any) {
     return {
       content: `<div>${message}</div>`,
     };
@@ -77,20 +81,23 @@ class Chat {
    * @param {Roll} roll The Roll to parse for the message.
    * @param {boolean} isWhisperGM Should the roll only whisper the GM.
    */
-  async createRollChat(message, roll, isWhisperGM) {
+  async createRollChat(message: any, roll: any, isWhisperGM: any) {
     if (isWhisperGM) {
       return {
         content: `<div>${message} ${roll.result}</div>`,
       };
     } else {
+      // @ts-expect-error TS(2304): Cannot find name 'game'.
       const wildMagicSurgeName = await game.settings.get(
         `${MODULE_ID}`,
         `${OPT_WMS_NAME}`
       );
       return {
         flavor: `${wildMagicSurgeName} Check - ${message}`,
+        // @ts-expect-error TS(2304): Cannot find name 'CONST'.
         type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         roll: roll,
+        // @ts-expect-error TS(2304): Cannot find name 'game'.
         rollMode: await game.settings.get("core", "rollMode"),
       };
     }
@@ -102,7 +109,7 @@ class Chat {
    * @param {RollResult} rollResult The result of a Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
    */
-  async createRollTable(rollResult, surgeRollTable) {
+  async createRollTable(rollResult: any, surgeRollTable: any) {
     const results = rollResult.results;
     const roll = rollResult.roll;
 
@@ -110,18 +117,16 @@ class Chat {
 
     let chatData = {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
+      // @ts-expect-error TS(2304): Cannot find name 'CONST'.
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      // @ts-expect-error TS(2304): Cannot find name 'game'.
       user: game.user.id,
       rolls: [{ roll: roll }],
       sound: null,
     };
 
-    chatData.content = await this.createTemplate(
-      CONFIG.RollTable.resultTemplate,
-      surgeRollTable,
-      roll,
-      results
-    );
+    // @ts-expect-error TS(2304): Cannot find name 'CONFIG'.
+    (chatData as any).content = await this.createTemplate(CONFIG.RollTable.resultTemplate, surgeRollTable, roll, results);
     return chatData;
   }
 
@@ -133,12 +138,14 @@ class Chat {
    * @param {Roll} roll The result of a Roll.
    * @param {Array} results An Array of results from the roll.
    */
-  async createTemplate(template, surgeRollTable, roll, results) {
+  async createTemplate(template: any, surgeRollTable: any, roll: any, results: any) {
+    // @ts-expect-error TS(2304): Cannot find name 'renderTemplate'.
     return renderTemplate(template, {
+      // @ts-expect-error TS(2304): Cannot find name 'TextEditor'.
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
       }),
-      results: results.map((r) => {
+      results: results.map((r: any) => {
         r.text = r.getChatText();
         return r;
       }),
@@ -152,9 +159,11 @@ class Chat {
    * @return {Promise<null>} The chatData object
    */
   async RunMessageCheck() {
+    // @ts-expect-error TS(2304): Cannot find name 'Hooks'.
     Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
     await this.Send(
       CHAT_TYPE.DEFAULT,
+      // @ts-expect-error TS(2304): Cannot find name 'game'.
       game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
     );
   }
