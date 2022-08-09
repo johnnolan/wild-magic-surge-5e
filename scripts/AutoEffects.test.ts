@@ -44,12 +44,12 @@ describe("AutoEffects", () => {
     describe("Given module is Active", () => {
       beforeEach(() => {
         (global as any).game = {
-    modules: {
-        get: () => {
-            return { active: true };
-        },
-    },
-};
+          modules: {
+            get: () => {
+              return { active: true };
+            },
+          },
+        };
       });
 
       it("It returns true", async () => {
@@ -62,12 +62,12 @@ describe("AutoEffects", () => {
     describe("Given module is Inactive", () => {
       beforeEach(() => {
         (global as any).game = {
-    modules: {
-        get: () => {
-            return { active: false };
-        },
-    },
-};
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+        };
       });
 
       it("It returns true", async () => {
@@ -81,10 +81,10 @@ describe("AutoEffects", () => {
   describe("Given AutoEffects setting is disabled", () => {
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(false),
-    },
-};
+        settings: {
+          get: jest.fn().mockReturnValueOnce(false),
+        },
+      };
     });
 
     it("It returns undefined", async () => {
@@ -97,10 +97,10 @@ describe("AutoEffects", () => {
   describe("Given Effects are enabled", () => {
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockResolvedValueOnce(true),
-    },
-};
+        settings: {
+          get: jest.fn().mockResolvedValueOnce(true),
+        },
+      };
 
       AutoEffects.ModuleActive = jest.fn().mockResolvedValue(true);
     });
@@ -130,15 +130,15 @@ describe("AutoEffects", () => {
     describe("Given Sequencer is not installed or active", () => {
       beforeEach(() => {
         (global as any).ui = {
-    notifications: {
-        info: mockUiInfo,
-    },
-};
+          notifications: {
+            info: mockUiInfo,
+          },
+        };
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockResolvedValueOnce(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockResolvedValueOnce(true),
+          },
+        };
 
         AutoEffects.ModuleActive = jest.fn().mockReturnValue(false);
       });
@@ -169,15 +169,15 @@ describe("AutoEffects", () => {
     describe("Given JB2A_DnD5e is not installed or active", () => {
       beforeEach(() => {
         (global as any).ui = {
-    notifications: {
-        info: mockUiInfo,
-    },
-};
+          notifications: {
+            info: mockUiInfo,
+          },
+        };
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockResolvedValueOnce(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockResolvedValueOnce(true),
+          },
+        };
 
         AutoEffects.ModuleActive = jest
           .fn()

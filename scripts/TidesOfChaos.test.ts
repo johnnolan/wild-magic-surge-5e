@@ -8,10 +8,10 @@ describe("TidesOfChaos", () => {
 
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(false),
-    },
-};
+        settings: {
+          get: jest.fn().mockReturnValueOnce(false),
+        },
+      };
       tidesOfChaos = new TidesOfChaos();
     });
 
@@ -29,10 +29,10 @@ describe("TidesOfChaos", () => {
 
         beforeEach(() => {
           (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+            settings: {
+              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+            },
+          };
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
@@ -66,10 +66,10 @@ describe("TidesOfChaos", () => {
 
         beforeEach(() => {
           (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+            settings: {
+              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+            },
+          };
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: [
@@ -100,10 +100,10 @@ describe("TidesOfChaos", () => {
 
         beforeEach(() => {
           (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+            settings: {
+              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+            },
+          };
           tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
@@ -139,10 +139,10 @@ describe("TidesOfChaos", () => {
 
         beforeEach(() => {
           (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+            settings: {
+              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+            },
+          };
           tidesOfChaos = new TidesOfChaos();
           actor = {
             update: jest.fn(),
@@ -185,10 +185,10 @@ describe("TidesOfChaos", () => {
 
         beforeEach(() => {
           (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+            settings: {
+              get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+            },
+          };
           tidesOfChaos = new TidesOfChaos();
           actor = {
             update: jest.fn(),
@@ -227,10 +227,10 @@ describe("TidesOfChaos", () => {
 
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
-    },
-};
+        settings: {
+          get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
+        },
+      };
       tidesOfChaos = new TidesOfChaos();
       actor = {
         items: {
@@ -253,10 +253,10 @@ describe("TidesOfChaos", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Tides of Chaos"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -290,10 +290,10 @@ describe("TidesOfChaos", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Tides of Chaos"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -339,10 +339,10 @@ describe("TidesOfChaos", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Tides of Chaos"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {
@@ -388,10 +388,10 @@ describe("TidesOfChaos", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Tides of Chaos"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("Tides of Chaos"),
+          },
+        };
         tidesOfChaos = new TidesOfChaos();
         actor = {
           system: {

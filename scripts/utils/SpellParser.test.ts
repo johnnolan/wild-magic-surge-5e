@@ -7,20 +7,20 @@ import "../../__mocks__/index.js";
 describe("SpellParser", () => {
   describe("IsWildMagicFeat", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
     (global as any).game = {
-    settings: {
+      settings: {
         get: jest.fn().mockReturnValueOnce("= 4"),
-    },
-    tables: [
+      },
+      tables: [
         {
-            name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue(true),
-            results: jest.fn().mockResolvedValue([]),
+          name: "Wild Magic Surge",
+          roll: jest.fn().mockResolvedValue(true),
+          results: jest.fn().mockResolvedValue([]),
         },
-    ],
-};
+      ],
+    };
 
     describe("Has Wild Magic Feat", () => {
       let spellParser: any;
@@ -31,10 +31,10 @@ describe("SpellParser", () => {
         jest.resetAllMocks();
         spellParser = new SpellParser(actor);
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Wild Magic Surge"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("Wild Magic Surge"),
+          },
+        };
       });
 
       it("should be true", () => {
@@ -64,8 +64,8 @@ describe("SpellParser", () => {
 
   describe("IsPathOfWildMagicFeat", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
 
     describe("Has Path of Wild Magic Feat", () => {
       let spellParser: any;
@@ -75,10 +75,10 @@ describe("SpellParser", () => {
 
         jest.resetAllMocks();
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("POWM"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue("POWM"),
+          },
+        };
         spellParser = new SpellParser({
           items: [
             {
@@ -123,8 +123,8 @@ describe("SpellParser", () => {
 
   describe("SpellLevel", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
 
     describe("Has a level", () => {
       let spellParser: any;
@@ -163,8 +163,8 @@ describe("SpellParser", () => {
 
   describe("IsSpell", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
 
     describe("Has a level", () => {
       let spellParser: any;
@@ -272,13 +272,13 @@ describe("SpellParser", () => {
 
   describe("IsSorcererSpell", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
     (global as any).game = {
-    settings: {
+      settings: {
         get: jest.fn().mockReturnValueOnce("\\(S\\)"),
-    },
-};
+      },
+    };
 
     describe("Is a Sorcerer Spell", () => {
       let spellParser: any;
@@ -340,8 +340,8 @@ describe("SpellParser", () => {
 
   describe("IsRage", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
 
     describe("Is Rage", () => {
       let spellParser: any;
@@ -401,8 +401,8 @@ describe("SpellParser", () => {
 
   describe("IsNPC", () => {
     (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(true),
-};
+      callAll: jest.fn().mockReturnValue(true),
+    };
 
     describe("Is set to be a NPC", () => {
       let spellParser: any;

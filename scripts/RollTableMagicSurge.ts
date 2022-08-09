@@ -44,11 +44,13 @@ class RollTableMagicSurge {
       return;
     }
 
-    const surgeRollTable = game.tables.find((t: any) => t.name === rollTableName);
+    const surgeRollTable = game.tables.find(
+      (t: any) => t.name === rollTableName
+    );
 
     // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     await surgeRollTable.roll().then((result: any) => {
-      let chat = new Chat();
+      const chat = new Chat();
       // @ts-expect-error TS(2345): Argument of type '{ name: string; roll: Mock<any, ... Remove this comment to see the full error message
       chat.Send(CHAT_TYPE.TABLE, result, surgeRollTable);
     });

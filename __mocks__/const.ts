@@ -1,6 +1,6 @@
 (global as any).CONST = {
-    CHAT_MESSAGE_TYPES: {
-        WHISPER: "WHISPER",
-        ROLL: "ROLL",
-    },
+  CHAT_MESSAGE_TYPES: {
+    WHISPER: "WHISPER",
+    ROLL: "ROLL",
+  },
 };

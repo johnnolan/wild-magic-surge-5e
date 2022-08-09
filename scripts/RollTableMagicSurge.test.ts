@@ -10,29 +10,29 @@ describe("RollTableMagicSurge", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
-    tables: [
-        {
+        tables: [
+          {
             name: "Wild Magic Surge",
             roll: jest.fn().mockResolvedValue({
-                results: [],
-                render: jest.fn().mockResolvedValue(""),
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-                description: "Wild Magic Surge Table Test",
+              description: "Wild Magic Surge Table Test",
             },
-        },
-    ],
-    settings: {
-        get: jest
+          },
+        ],
+        settings: {
+          get: jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValueOnce(undefined),
-    },
-    user: {
-        id: "123",
-    },
-};
+        },
+        user: {
+          id: "123",
+        },
+      };
       rollTableMagicSurge = new RollTableMagicSurge();
     });
 
@@ -49,29 +49,29 @@ describe("RollTableMagicSurge", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
-    tables: [
-        {
+        tables: [
+          {
             name: "Wild Magic Surge",
             roll: jest.fn().mockResolvedValue({
-                results: [],
-                render: jest.fn().mockResolvedValue(""),
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-                description: "Wild Magic Surge Table Test",
+              description: "Wild Magic Surge Table Test",
             },
-        },
-    ],
-    settings: {
-        get: jest
+          },
+        ],
+        settings: {
+          get: jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValueOnce("Wild Magic Surge"),
-    },
-    user: {
-        id: "123",
-    },
-};
+        },
+        user: {
+          id: "123",
+        },
+      };
       rollTableMagicSurge = new RollTableMagicSurge();
     });
 
@@ -90,29 +90,29 @@ describe("RollTableMagicSurge", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
-    tables: [
-        {
+        tables: [
+          {
             name: "Wild Magic Surge",
             roll: jest.fn().mockResolvedValue({
-                results: [],
-                render: jest.fn().mockResolvedValue(""),
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-                description: "Wild Magic Surge Table",
+              description: "Wild Magic Surge Table",
             },
-        },
-    ],
-    settings: {
-        get: jest
+          },
+        ],
+        settings: {
+          get: jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValueOnce("Wild Magic Surge"),
-    },
-    user: {
-        id: "123",
-    },
-};
+        },
+        user: {
+          id: "123",
+        },
+      };
       rollTableMagicSurge = new RollTableMagicSurge();
     });
 
@@ -131,29 +131,29 @@ describe("RollTableMagicSurge", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
-    tables: [
-        {
+        tables: [
+          {
             name: "Path of Wild Magic",
             roll: jest.fn().mockResolvedValue({
-                results: [],
-                render: jest.fn().mockResolvedValue(""),
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-                description: "Path of Wild Magic Surge",
+              description: "Path of Wild Magic Surge",
             },
-        },
-    ],
-    settings: {
-        get: jest
+          },
+        ],
+        settings: {
+          get: jest
             .fn()
             .mockReturnValueOnce(true)
             .mockReturnValueOnce("Path of Wild Magic"),
-    },
-    user: {
-        id: "123",
-    },
-};
+        },
+        user: {
+          id: "123",
+        },
+      };
       rollTableMagicSurge = new RollTableMagicSurge();
     });
 
@@ -172,29 +172,29 @@ describe("RollTableMagicSurge", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
-    tables: [
-        {
+        tables: [
+          {
             name: "Wild Magic Surge",
             roll: jest.fn().mockResolvedValue({
-                results: [],
-                render: jest.fn().mockResolvedValue(""),
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
             }),
             results: jest.fn().mockResolvedValue([]),
             data: {
-                description: "Wild Magic Surge Table",
+              description: "Wild Magic Surge Table",
             },
-        },
-    ],
-    settings: {
-        get: jest
+          },
+        ],
+        settings: {
+          get: jest
             .fn()
             .mockReturnValueOnce(false)
             .mockReturnValueOnce("Wild Magic Surge"),
-    },
-    user: {
-        id: "123",
-    },
-};
+        },
+        user: {
+          id: "123",
+        },
+      };
       rollTableMagicSurge = new RollTableMagicSurge();
     });
 

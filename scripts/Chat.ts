@@ -108,7 +108,7 @@ class Chat {
 
     const nr = results.length > 1 ? `${results.length} results` : "a result";
 
-    let chatData = {
+    const chatData = {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
@@ -116,7 +116,12 @@ class Chat {
       sound: null,
     };
 
-    (chatData as any).content = await this.createTemplate(CONFIG.RollTable.resultTemplate, surgeRollTable, roll, results);
+    (chatData as any).content = await this.createTemplate(
+      CONFIG.RollTable.resultTemplate,
+      surgeRollTable,
+      roll,
+      results
+    );
     return chatData;
   }
 
@@ -128,7 +133,12 @@ class Chat {
    * @param {Roll} roll The result of a Roll.
    * @param {Array} results An Array of results from the roll.
    */
-  async createTemplate(template: any, surgeRollTable: any, roll: any, results: any) {
+  async createTemplate(
+    template: any,
+    surgeRollTable: any,
+    roll: any,
+    results: any
+  ) {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
         // @ts-expect-error TS(2345): Argument of type '{ entities: boolean; }' is not a... Remove this comment to see the full error message

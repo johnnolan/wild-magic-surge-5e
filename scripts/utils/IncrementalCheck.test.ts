@@ -5,7 +5,7 @@ import "../../__mocks__/index.js";
 describe("IncrementalCheck", () => {
   (global as any).Hooks = {
     callAll: jest.fn().mockReturnValue(true),
-};
+  };
 
   describe("If a roll of 1 with no actor", () => {
     let incrementalCheck: any;
@@ -25,7 +25,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: any;
 
     beforeEach(() => {
-      let newActor = {
+      const newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -43,7 +43,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: any;
 
     beforeEach(() => {
-      let newActor = {
+      const newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -61,7 +61,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(newActor, 1);
@@ -78,7 +78,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       incrementalCheck = new IncrementalCheck(actor, 4);
@@ -109,7 +109,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
 
       newActor.getFlag = jest.fn().mockResolvedValue({
         max: 20,

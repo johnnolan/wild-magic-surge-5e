@@ -35,7 +35,12 @@ export default class IncrementalCheck {
     Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
-      this.chat.Send(CHAT_TYPE.DEFAULT, `${(game as any).i18n.format("WildMagicSurge5E.opt_incremental_check_to_chat_text_name")} ${value}`);
+      this.chat.Send(
+        CHAT_TYPE.DEFAULT,
+        `${(game as any).i18n.format(
+          "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
+        )} ${value}`
+      );
     }
   }
 
@@ -58,7 +63,7 @@ export default class IncrementalCheck {
       return this.SetupDefault();
     }
 
-    let incrementLevel = await this.actor.getFlag(
+    const incrementLevel = await this.actor.getFlag(
       this.FLAG_NAME,
       this.FLAG_OPTION
     );

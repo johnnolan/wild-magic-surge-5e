@@ -108,7 +108,7 @@ jest.mock("./RollTableMagicSurge.js", () => {
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
 (global as any).Hooks = {
-    callAll: jest.fn().mockReturnValue(undefined),
+  callAll: jest.fn().mockReturnValue(undefined),
 };
 
 beforeEach(() => {
@@ -143,13 +143,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce("DEFAULT"),
-    },
-};
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce(true)
+              .mockReturnValueOnce("DEFAULT"),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
@@ -178,10 +178,10 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(false),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
@@ -210,10 +210,10 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
@@ -242,17 +242,17 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    actors: {
-        get: jest.fn().mockReturnValue(undefined),
-    },
-    tables: [
-        {
-            name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue(true),
-            results: jest.fn().mockResolvedValue([]),
-        },
-    ],
-};
+          actors: {
+            get: jest.fn().mockReturnValue(undefined),
+          },
+          tables: [
+            {
+              name: "Wild Magic Surge",
+              roll: jest.fn().mockResolvedValue(true),
+              results: jest.fn().mockResolvedValue([]),
+            },
+          ],
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(undefined);
       });
@@ -271,13 +271,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: false,
-    },
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true),
-    },
-};
+          user: {
+            isGM: false,
+          },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -294,14 +294,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: false,
-        id: "12345",
-    },
-    settings: {
-        get: jest.fn().mockReturnValueOnce(false),
-    },
-};
+          user: {
+            isGM: false,
+            id: "12345",
+          },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -322,14 +322,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: true,
-        id: "12345",
-    },
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true),
-    },
-};
+          user: {
+            isGM: true,
+            id: "12345",
+          },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true),
+          },
+        };
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
         mockSpellParserIsRage.mockReturnValue(true);
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
@@ -352,14 +352,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: true,
-        id: "12345",
-    },
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-    },
-};
+          user: {
+            isGM: true,
+            id: "12345",
+          },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+          },
+        };
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(false);
@@ -387,14 +387,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: true,
-        id: "12345",
-    },
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
-    },
-};
+          user: {
+            isGM: true,
+            id: "12345",
+          },
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+          },
+        };
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
@@ -428,18 +428,18 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    user: {
-        isGM: true,
-        id: "12345",
-    },
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce(true)
-            .mockReturnValueOnce(false)
-            .mockReturnValueOnce(true),
-    },
-};
+          user: {
+            isGM: true,
+            id: "12345",
+          },
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce(true)
+              .mockReturnValueOnce(false)
+              .mockReturnValueOnce(true),
+          },
+        };
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
@@ -489,13 +489,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce("DEFAULT")
-            .mockReturnValueOnce("1D20"),
-    },
-};
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce("DEFAULT")
+              .mockReturnValueOnce("1D20"),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -512,13 +512,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce("SPELL_LEVEL_DEPENDENT_ROLL")
-            .mockReturnValueOnce("1D20"),
-    },
-};
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce("SPELL_LEVEL_DEPENDENT_ROLL")
+              .mockReturnValueOnce("1D20"),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -535,13 +535,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce("DIE_DESCENDING")
-            .mockReturnValueOnce("1D20"),
-    },
-};
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce("DIE_DESCENDING")
+              .mockReturnValueOnce("1D20"),
+          },
+        };
 
         actor.getFlag = jest.fn().mockReturnValue({ value: "1D20" });
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
@@ -560,13 +560,13 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest
-            .fn()
-            .mockReturnValueOnce("DIE_DESCENDING")
-            .mockReturnValueOnce("1D20"),
-    },
-};
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValueOnce("DIE_DESCENDING")
+              .mockReturnValueOnce("1D20"),
+          },
+        };
 
         actor.getFlag = jest.fn().mockReturnValue(undefined);
 
@@ -594,18 +594,18 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: any;
       beforeAll(() => {
         (global as any).game = {
-    actors: actor,
-    settings: {
-        get: jest.fn().mockReturnValue("2"),
-    },
-    tables: [
-        {
-            name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue(true),
-            results: jest.fn().mockResolvedValue([]),
-        },
-    ],
-};
+          actors: actor,
+          settings: {
+            get: jest.fn().mockReturnValue("2"),
+          },
+          tables: [
+            {
+              name: "Wild Magic Surge",
+              roll: jest.fn().mockResolvedValue(true),
+              results: jest.fn().mockResolvedValue([]),
+            },
+          ],
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
       });
@@ -665,18 +665,18 @@ describe("MagicSurgeCheck", () => {
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
         magicSurgeCheck = new MagicSurgeCheck();
         (global as any).game = {
-    actors: actor,
-    settings: {
-        get: jest.fn().mockReturnValue("3, 4"),
-    },
-    tables: [
-        {
-            name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue(true),
-            results: jest.fn().mockResolvedValue([]),
-        },
-    ],
-};
+          actors: actor,
+          settings: {
+            get: jest.fn().mockReturnValue("3, 4"),
+          },
+          tables: [
+            {
+              name: "Wild Magic Surge",
+              roll: jest.fn().mockResolvedValue(true),
+              results: jest.fn().mockResolvedValue([]),
+            },
+          ],
+        };
       });
       test("roll of 3 EQ 3", async () => {
         const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
@@ -744,10 +744,10 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValue(true),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
 
@@ -774,37 +774,37 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue(true),
-    },
-    actors: {
-        get: jest.fn().mockReturnValue({
-            data: {
+          settings: {
+            get: jest.fn().mockReturnValue(true),
+          },
+          actors: {
+            get: jest.fn().mockReturnValue({
+              data: {
                 items: [
-                    {
-                        id: "WWb4vAmh18sMAxfY",
-                        data: {
-                            name: "Flame Tongue Greatsword",
-                            data: { actionType: "mwak" },
-                        },
-                        token: {
-                            _id: "5H4YnyD6zf9vcJ3Q",
-                        },
+                  {
+                    id: "WWb4vAmh18sMAxfY",
+                    data: {
+                      name: "Flame Tongue Greatsword",
+                      data: { actionType: "mwak" },
                     },
-                    {
-                        _id: "iGoR4ePl1mTZFAAM",
-                        name: "Wild Magic Surge",
-                        type: "feat",
-                        img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
-                        data: {
-                            source: "Sorcerer : Wild Magic",
-                        },
+                    token: {
+                      _id: "5H4YnyD6zf9vcJ3Q",
                     },
+                  },
+                  {
+                    _id: "iGoR4ePl1mTZFAAM",
+                    name: "Wild Magic Surge",
+                    type: "feat",
+                    img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
+                    data: {
+                      source: "Sorcerer : Wild Magic",
+                    },
+                  },
                 ],
-            },
-        }),
-    },
-};
+              },
+            }),
+          },
+        };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
@@ -928,10 +928,10 @@ describe("MagicSurgeCheck", () => {
 
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue(true),
-    },
-};
+        settings: {
+          get: jest.fn().mockReturnValue(true),
+        },
+      };
       // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       magicSurgeCheck = new MagicSurgeCheck(actor);
     });
@@ -966,10 +966,10 @@ describe("MagicSurgeCheck", () => {
 
     beforeEach(() => {
       (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValue("Auto D20 Message"),
-    },
-};
+        settings: {
+          get: jest.fn().mockReturnValue("Auto D20 Message"),
+        },
+      };
       // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       magicSurgeCheck = new MagicSurgeCheck(actor);
     });

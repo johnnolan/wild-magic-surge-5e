@@ -35,7 +35,7 @@ export default class DieDescending {
       return this.SetupDefault();
     }
 
-    let flagValue = await this._actor.getFlag(
+    const flagValue = await this._actor.getFlag(
       MODULE_FLAG_NAME,
       DIE_DESCENDING_FLAG_OPTION
     );

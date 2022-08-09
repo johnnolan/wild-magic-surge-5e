@@ -248,7 +248,7 @@ class MagicSurgeCheck {
           break;
         case "INCREMENTAL_CHECK":
         case "INCREMENTAL_CHECK_CHAOTIC":
-          let maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
+          const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             this._actor,
             roll.result,

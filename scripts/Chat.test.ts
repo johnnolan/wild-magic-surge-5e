@@ -5,9 +5,9 @@ import "../__mocks__/index.js";
 describe("Chat", () => {
   beforeEach(() => {
     (global as any).game.roll = {
-    get: jest.fn().mockResolvedValue(true),
-    result: jest.fn().mockResolvedValue(20),
-};
+      get: jest.fn().mockResolvedValue(true),
+      result: jest.fn().mockResolvedValue(20),
+    };
   });
 
   describe("createDefaultChat", () => {
@@ -61,10 +61,10 @@ describe("Chat", () => {
 
       beforeEach(() => {
         (global as any).game.settings.get = jest
-    .fn()
-    .mockResolvedValueOnce(false)
-    .mockResolvedValueOnce("Wild Magic Surge")
-    .mockResolvedValueOnce("rollMode");
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         roll = {
           result: 20,
@@ -95,10 +95,10 @@ describe("Chat", () => {
 
       beforeEach(() => {
         (global as any).game.settings.get = jest
-    .fn()
-    .mockResolvedValueOnce(false)
-    .mockResolvedValueOnce("Wild Magic Surge")
-    .mockResolvedValueOnce("rollMode");
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         surgeRollTable = {
           data: {
@@ -137,10 +137,10 @@ describe("Chat", () => {
 
       beforeEach(() => {
         (global as any).game.settings.get = jest
-    .fn()
-    .mockResolvedValueOnce(false)
-    .mockResolvedValueOnce("Wild Magic Surge")
-    .mockResolvedValueOnce("rollMode");
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
         chat = new Chat();
         surgeRollTable = {
           data: {
@@ -185,13 +185,13 @@ describe("Chat", () => {
       beforeEach(() => {
         chat = new Chat();
         (global as any).Hooks = {
-    callAll: jest.fn(),
-};
+          callAll: jest.fn(),
+        };
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce("Surge Message"),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce("Surge Message"),
+          },
+        };
       });
 
       it("It returns the just the content", async () => {

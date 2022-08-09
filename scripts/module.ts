@@ -33,32 +33,37 @@ Hooks.on("updateCombat", async function (roundData: any) {
     if (!actor) {
       return false;
     }
-    let roundCheck = new RoundCheck(actor);
+    const roundCheck = new RoundCheck(actor);
     // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
     roundCheck.Check(roundData);
   }
 });
 
-Hooks.on("wild-magic-surge-5e.ResetIncrementalCheck", async function (actorId: any) {
-  const actor = (game as any).actors.get(actorId);
-  if (!actor) {
-    return false;
-  }
+Hooks.on(
+  "wild-magic-surge-5e.ResetIncrementalCheck",
+  async function (actorId: any) {
+    const actor = (game as any).actors.get(actorId);
+    if (!actor) {
+      return false;
+    }
 
-  // @ts-expect-error TS(2554): Expected 2-3 arguments, but got 1.
-  const incrementalCheck = new IncrementalCheck(actor);
-  await incrementalCheck.Reset();
-});
+    // @ts-expect-error TS(2554): Expected 2-3 arguments, but got 1.
+    const incrementalCheck = new IncrementalCheck(actor);
+    await incrementalCheck.Reset();
+  }
+);
 
 Hooks.on("renderActorSheet", async function (app: any, html: any, data: any) {
-  let openButton = $(
+  const openButton = $(
     `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`
   );
   openButton.on("click", () => {
     // @ts-expect-error TS(2769): No overload matches this call.
-    (new ActorHelperPanel(app.document, { actor: data.actor }) as any).render(true);
+    (new ActorHelperPanel(app.document, { actor: data.actor }) as any).render(
+      true
+    );
   });
   html.closest(".app").find(".open-actor-wms").remove();
-  let titleElement = html.closest(".app").find(".window-title");
+  const titleElement = html.closest(".app").find(".window-title");
   if (!app._minimized) openButton.insertAfter(titleElement);
 });

@@ -55,10 +55,10 @@ describe("RoundCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(false),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
+          },
+        };
         roundCheck = new RoundCheck(actor);
       });
 
@@ -74,10 +74,10 @@ describe("RoundCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+          },
+        };
         roundCheck = new RoundCheck(actor);
         mockSpellParserIsWildMagicFeat.mockReturnValueOnce(false);
       });
@@ -94,10 +94,10 @@ describe("RoundCheck", () => {
     describe("Given Auto D20 setting and enable npcs is true", () => {
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
+          },
+        };
       });
 
       describe("Given IsWildMagicFeat is true", () => {
@@ -121,10 +121,10 @@ describe("RoundCheck", () => {
     describe("Given Auto D20 setting and enable npcs is false", () => {
       beforeEach(() => {
         (global as any).game = {
-    settings: {
-        get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
-    },
-};
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+          },
+        };
       });
 
       describe("Given IsWildMagicFeat is true and not IsNPC", () => {

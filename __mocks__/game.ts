@@ -1,4 +1,4 @@
-let user = {
+const user = {
   name: "",
   id: "",
   active: true,
@@ -24,7 +24,7 @@ let user = {
 };
 
 // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'game'.
-let game = {
+const game = {
   data: null,
   user: user,
   paused: true,

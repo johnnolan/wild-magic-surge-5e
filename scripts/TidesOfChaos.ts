@@ -25,7 +25,7 @@ class TidesOfChaos {
 
     if (tidesItemData === undefined) return false;
 
-    let updates = [];
+    const updates = [];
     updates.push({
       _id: tidesItemData.id,
       "system.uses.value": 1,

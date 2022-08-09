@@ -6,7 +6,7 @@ import "../../__mocks__/index.js";
 describe("DieDescending", () => {
   (global as any).Hooks = {
     callAll: jest.fn().mockReturnValue(true),
-};
+  };
 
   describe("If a roll of 1 with no actor", () => {
     let dieDescending: any;
@@ -26,7 +26,7 @@ describe("DieDescending", () => {
     let dieDescending: any;
 
     beforeEach(() => {
-      let newActor = {
+      const newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -44,7 +44,7 @@ describe("DieDescending", () => {
     let dieDescending: any;
 
     beforeEach(() => {
-      let newActor = {
+      const newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -62,7 +62,7 @@ describe("DieDescending", () => {
     let dieDescending: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(newActor, "1");
@@ -79,7 +79,7 @@ describe("DieDescending", () => {
     let dieDescending: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(actor, "4");
@@ -96,7 +96,7 @@ describe("DieDescending", () => {
     let dieDescending: any;
 
     beforeEach(() => {
-      let newActor = actor;
+      const newActor = actor;
 
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d20",
@@ -113,7 +113,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d20", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -137,7 +137,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d12", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -161,7 +161,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d10", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -185,7 +185,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d8", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -209,7 +209,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d6", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -233,7 +233,7 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d4", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -257,7 +257,7 @@ describe("DieDescending", () => {
 
   describe("If a DIE_DESCENDING_FLAG_OPTION is not set", () => {
     let dieDescending: any;
-    let newActor = actor;
+    const newActor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue(undefined);

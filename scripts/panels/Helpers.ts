@@ -1,7 +1,7 @@
 import { MODULE_ID } from "../Settings.js";
 
 export function SettingsList(settings: any) {
-  let chatSettingsList = [];
+  const chatSettingsList = [];
 
   for (const element of settings) {
     const setting = element;
@@ -10,7 +10,7 @@ export function SettingsList(settings: any) {
       if (key === `${MODULE_ID}.${setting}`) {
         const settingValue = game.settings.get(MODULE_ID, setting);
 
-        let choicesSelect = [];
+        const choicesSelect = [];
         let isArray = false;
         if (value.choices) {
           isArray = true;
@@ -24,18 +24,18 @@ export function SettingsList(settings: any) {
         }
 
         chatSettingsList.push({
-    module: value.namespace ? value.namespace : value.module,
-    key: value.key,
-    type: value.type.name,
-    isBoolean: value.type.name === "Boolean",
-    isString: value.type.name === "String" && !value.choices,
-    isArray: isArray,
-    displayname: (game as any).i18n.format(value.name),
-    hint: value.hint ? (game as any).i18n.format(value.hint) : "",
-    choices: value.choices ? value.choices : [],
-    value: settingValue,
-    choicesSelect: choicesSelect,
-});
+          module: value.namespace ? value.namespace : value.module,
+          key: value.key,
+          type: value.type.name,
+          isBoolean: value.type.name === "Boolean",
+          isString: value.type.name === "String" && !value.choices,
+          isArray: isArray,
+          displayname: (game as any).i18n.format(value.name),
+          hint: value.hint ? (game as any).i18n.format(value.hint) : "",
+          choices: value.choices ? value.choices : [],
+          value: settingValue,
+          choicesSelect: choicesSelect,
+        });
       }
     }
   }
