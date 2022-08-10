@@ -1,4 +1,4 @@
-export const actor = {
+export const actor: Actor = {
   getFlag: jest.fn().mockResolvedValue({
     max: 20,
     min: 1,

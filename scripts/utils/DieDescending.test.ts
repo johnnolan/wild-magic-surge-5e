@@ -8,25 +8,11 @@ describe("DieDescending", () => {
     callAll: jest.fn().mockReturnValue(true),
   };
 
-  describe("If a roll of 1 with no actor", () => {
-    let dieDescending: any;
-
-    beforeEach(() => {
-      dieDescending = new DieDescending(undefined, "1");
-    });
-
-    it("should return false", async () => {
-      const result = await dieDescending.Check();
-
-      expect(result).toBeFalsy();
-    });
-  });
-
   describe("If a roll of 1 with no flag set", () => {
-    let dieDescending: any;
+    let dieDescending: DieDescending;
 
     beforeEach(() => {
-      const newActor = {
+      const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -41,10 +27,10 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 10 with no flag set", () => {
-    let dieDescending: any;
+    let dieDescending: DieDescending;
 
     beforeEach(() => {
-      const newActor = {
+      const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -59,10 +45,10 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 1 with no flag value set", () => {
-    let dieDescending: any;
+    let dieDescending: DieDescending;
 
     beforeEach(() => {
-      const newActor = actor;
+      const newActor: Actor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(newActor, "1");
@@ -76,10 +62,10 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 4 with no flag set", () => {
-    let dieDescending: any;
+    let dieDescending: DieDescending;
 
     beforeEach(() => {
-      const newActor = actor;
+      const newActor: Actor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
       dieDescending = new DieDescending(actor, "4");
@@ -93,10 +79,10 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 1 flag set as 1", () => {
-    let dieDescending: any;
+    let dieDescending: DieDescending;
 
     beforeEach(() => {
-      const newActor = actor;
+      const newActor: Actor = actor;
 
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d20",
@@ -112,8 +98,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d20", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -136,8 +122,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d12", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -160,8 +146,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d10", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -184,8 +170,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d8", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -208,8 +194,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d6", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -232,8 +218,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a roll of 18 flag set as 1d4", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue({
@@ -256,8 +242,8 @@ describe("DieDescending", () => {
   });
 
   describe("If a DIE_DESCENDING_FLAG_OPTION is not set", () => {
-    let dieDescending: any;
-    const newActor = actor;
+    let dieDescending: DieDescending;
+    const newActor: Actor = actor;
 
     beforeEach(() => {
       newActor.getFlag = jest.fn().mockResolvedValue(undefined);
