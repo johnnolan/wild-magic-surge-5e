@@ -37,7 +37,31 @@ jobs:
     runs-on: ubuntu-latest
     needs: ['lint', 'test']
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+    - name: Cache yarn dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install dependencies
+        run: yarn install
+
+    - name: Install dependencies
+        run: yarn run build
 
     - name: Bump version
       id: bump_version
@@ -69,7 +93,7 @@ jobs:
         download: https://github.com/${{github.repository}}/releases/download/${{steps.bump_version.outputs.new_tag}}/module.zip
 
     # Create a zip file with all files required by the module to add to the release
-    - run: zip -r ./module.zip module.json LICENSE scripts/ languages/ templates/
+    - run: zip -r ./module.zip module.json LICENSE dist/ languages/ templates/
 
     # Create a release for this specific version
     - name: Update Release with Files
