@@ -1,7 +1,4 @@
-import {
-  MODULE_FLAG_NAME,
-  OPT_INCREMENTAL_CHECK_TO_CHAT,
-} from "../Settings";
+import { MODULE_FLAG_NAME, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings";
 import { SettingsList, UpdateObject } from "./Helpers";
 
 export class IncrementalSettingsPanel extends FormApplication {

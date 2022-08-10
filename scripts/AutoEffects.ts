@@ -16,7 +16,7 @@ class AutoEffects {
    * @public
    * @return {boolean}
    */
-  static ModuleActive(moduleName: string) {
+  static ModuleActive(moduleName: string): boolean {
     return game.modules.get(moduleName)?.active;
   }
 
@@ -25,7 +25,7 @@ class AutoEffects {
    * @public
    * @return {Promise<void>}
    */
-  static async Run(tokenId: string) {
+  static async Run(tokenId: string): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_EFFECTS_ENABLED}`)) return;
     if (!this.ModuleActive("sequencer")) {
       ui.notifications?.info(
