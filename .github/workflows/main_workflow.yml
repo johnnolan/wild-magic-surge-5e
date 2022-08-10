@@ -58,10 +58,10 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Install dependencies
-        run: yarn install
+      run: yarn install
 
     - name: Build Module
-        run: yarn run build
+      run: yarn run build
 
     - name: Bump version
       id: bump_version
