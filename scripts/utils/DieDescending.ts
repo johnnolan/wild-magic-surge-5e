@@ -1,10 +1,14 @@
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
 
+type FlagValue = {
+  value: string;
+};
+
 export default class DieDescending {
-  _actor: any;
-  defaultValue: any;
-  rollValue: any;
-  constructor(actor: any, rollValue: any) {
+  _actor: Actor;
+  defaultValue: FlagValue;
+  rollValue: string;
+  constructor(actor: Actor, rollValue: string) {
     this._actor = actor;
     this.rollValue = rollValue;
     this.defaultValue = {
@@ -12,7 +16,7 @@ export default class DieDescending {
     };
   }
 
-  async CallChanged(value: any) {
+  async CallChanged(value: FlagValue) {
     Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", value);
   }
 
@@ -35,9 +39,8 @@ export default class DieDescending {
       return this.SetupDefault();
     }
 
-    const flagValue = await this._actor.getFlag(
-      MODULE_FLAG_NAME,
-      DIE_DESCENDING_FLAG_OPTION
+    const flagValue = <FlagValue>(
+      this._actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
     );
 
     if (!flagValue) {
@@ -73,7 +76,7 @@ export default class DieDescending {
         DIE_DESCENDING_FLAG_OPTION,
         flagValue
       );
-      this.CallChanged(flagValue.value);
+      this.CallChanged(flagValue);
     }
 
     return false;
