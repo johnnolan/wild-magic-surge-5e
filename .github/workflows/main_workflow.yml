@@ -60,7 +60,7 @@ jobs:
     - name: Install dependencies
         run: yarn install
 
-    - name: Install dependencies
+    - name: Build Module
         run: yarn run build
 
     - name: Bump version
