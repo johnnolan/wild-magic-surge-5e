@@ -4,8 +4,8 @@ import {
   OPT_POWM_ROLLTABLE_NAME,
   MODULE_ID,
   CHAT_TYPE,
-} from "./Settings.js";
-import Chat from "./Chat.js";
+} from "./Settings";
+import Chat from "./Chat";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings

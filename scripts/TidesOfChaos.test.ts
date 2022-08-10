@@ -1,5 +1,5 @@
-import TidesOfChaos from "./TidesOfChaos.js";
-import "../__mocks__/index.js";
+import TidesOfChaos from "./TidesOfChaos";
+import "../__mocks__/index";
 
 describe("TidesOfChaos", () => {
   describe("If TidesOfChaos is not enabled", () => {

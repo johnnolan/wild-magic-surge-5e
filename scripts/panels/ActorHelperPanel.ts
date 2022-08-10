@@ -1,6 +1,6 @@
-import { MODULE_FLAG_NAME } from "../Settings.js";
-import TidesOfChaos from "../TidesOfChaos.js";
-import SpellParser from "../utils/SpellParser.js";
+import { MODULE_FLAG_NAME } from "../Settings";
+import TidesOfChaos from "../TidesOfChaos";
+import SpellParser from "../utils/SpellParser";
 
 // @ts-expect-error TS(2515): Non-abstract class 'ActorHelperPanel' does not imp... Remove this comment to see the full error message
 export class ActorHelperPanel extends FormApplication {

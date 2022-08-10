@@ -11,8 +11,8 @@ import {
   OPT_TSL_LVL8,
   OPT_TSL_LVL9,
   OPT_TSL_LVL10,
-} from "../Settings.js";
-import { SettingsList, UpdateObject } from "./Helpers.js";
+} from "../Settings";
+import { SettingsList, UpdateObject } from "./Helpers";
 
 export class SpellLevelSettingsPanel extends FormApplication {
   static get defaultOptions() {

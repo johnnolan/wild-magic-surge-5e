@@ -3,8 +3,8 @@ import {
   OPT_CHAT_MSG,
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
-} from "../Settings.js";
-import { SettingsList, UpdateObject } from "./Helpers.js";
+} from "../Settings";
+import { SettingsList, UpdateObject } from "./Helpers";
 
 export class ChatSettingsPanel extends FormApplication {
   static get defaultOptions() {

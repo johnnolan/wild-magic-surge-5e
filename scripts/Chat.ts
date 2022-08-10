@@ -4,7 +4,7 @@ import {
   OPT_WMS_NAME,
   OPT_CHAT_MSG,
   CHAT_TYPE,
-} from "./Settings.js";
+} from "./Settings";
 
 /**
  * Chat class for handling common chat methods

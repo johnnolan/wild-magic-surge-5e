@@ -1,4 +1,4 @@
-import { MODULE_ID } from "../Settings.js";
+import { MODULE_ID } from "../Settings";
 
 export function SettingsList(settings: any) {
   const chatSettingsList = [];

@@ -1,9 +1,9 @@
-import { MODULE_NAME, MODULE_ID, OPT_SURGE_TYPE } from "./Settings.js";
-import MagicSurgeCheck from "./MagicSurgeCheck.js";
-import IncrementalCheck from "./utils/IncrementalCheck.js";
-import RoundCheck from "./RoundCheck.js";
-import ModuleSettings from "./ModuleSettings.js";
-import { ActorHelperPanel } from "./panels/ActorHelperPanel.js";
+import { MODULE_NAME, MODULE_ID, OPT_SURGE_TYPE } from "./Settings";
+import MagicSurgeCheck from "./MagicSurgeCheck";
+import IncrementalCheck from "./utils/IncrementalCheck";
+import RoundCheck from "./RoundCheck";
+import ModuleSettings from "./ModuleSettings";
+import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 
 Hooks.on("init", function () {
   console.info(`Registering ${MODULE_NAME} Settings.`);

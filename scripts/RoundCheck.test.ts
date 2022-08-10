@@ -1,13 +1,13 @@
-import RoundCheck from "./RoundCheck.js";
-import IncrementalCheck from "./utils/IncrementalCheck.js";
-import SpellParser from "./utils/SpellParser.js";
-import Chat from "./Chat.js";
-import { actor } from "../MockData/actor.js";
-import "../__mocks__/index.js";
+import RoundCheck from "./RoundCheck";
+import IncrementalCheck from "./utils/IncrementalCheck";
+import SpellParser from "./utils/SpellParser";
+import Chat from "./Chat";
+import { actor } from "../MockData/actor";
+import "../__mocks__/index";
 
 const mockIncrementalCheckCheck = jest.fn();
 
-jest.mock("./utils/IncrementalCheck.js", () => {
+jest.mock("./utils/IncrementalCheck", () => {
   return jest.fn().mockImplementation(() => {
     return {
       Check: mockIncrementalCheckCheck,
@@ -17,7 +17,7 @@ jest.mock("./utils/IncrementalCheck.js", () => {
 
 const mockChatRunMessageCheck = jest.fn();
 
-jest.mock("./Chat.js", () => {
+jest.mock("./Chat", () => {
   return jest.fn().mockImplementation(() => {
     return {
       RunMessageCheck: mockChatRunMessageCheck,
@@ -29,7 +29,7 @@ const mockSpellParserIsWildMagicFeat = jest.fn();
 
 const mockSpellParserIsNPC = jest.fn();
 
-jest.mock("./utils/SpellParser.js", () => {
+jest.mock("./utils/SpellParser", () => {
   return jest.fn().mockImplementation(() => {
     return {
       IsWildMagicFeat: mockSpellParserIsWildMagicFeat,

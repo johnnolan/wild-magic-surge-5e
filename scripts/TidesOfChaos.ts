@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings.js";
+import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings";
 
 /**
  * Controls the Tides of Chaos feat

@@ -1,8 +1,8 @@
-import SpellParser from "./SpellParser.js";
-import { actor } from "../../MockData/actor.js";
-import { actorRage } from "../../MockData/actorRage.js";
-import { actorNoWildMagic } from "../../MockData/actorNoWildMagic.js";
-import "../../__mocks__/index.js";
+import SpellParser from "./SpellParser";
+import { actor } from "../../MockData/actor";
+import { actorRage } from "../../MockData/actorRage";
+import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
+import "../../__mocks__/index";
 
 describe("SpellParser", () => {
   describe("IsWildMagicFeat", () => {

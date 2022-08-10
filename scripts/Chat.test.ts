@@ -1,6 +1,6 @@
-import { CHAT_TYPE } from "./Settings.js";
-import Chat from "./Chat.js";
-import "../__mocks__/index.js";
+import { CHAT_TYPE } from "./Settings";
+import Chat from "./Chat";
+import "../__mocks__/index";
 
 describe("Chat", () => {
   beforeEach(() => {
@@ -22,8 +22,11 @@ describe("Chat", () => {
         await chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message");
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
+          blind: true,
           content: "<div>My Custom Message</div>",
           speaker: [""],
+          type: "WHISPER",
+          whisper: [""],
         });
       });
     });

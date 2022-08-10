@@ -3,8 +3,8 @@ import {
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
   OPT_CUSTOM_ROLL_RESULT,
-} from "../Settings.js";
-import { SettingsList, UpdateObject } from "./Helpers.js";
+} from "../Settings";
+import { SettingsList, UpdateObject } from "./Helpers";
 
 export class StandardSettingsPanel extends FormApplication {
   static get defaultOptions() {

@@ -2,8 +2,8 @@ import {
   MODULE_FLAG_NAME,
   OPT_SPELL_REGEX,
   OPT_SPELL_REGEX_ENABLED,
-} from "../Settings.js";
-import { SettingsList, UpdateObject } from "./Helpers.js";
+} from "../Settings";
+import { SettingsList, UpdateObject } from "./Helpers";
 
 export class SpellRegexSettingsPanel extends FormApplication {
   static get defaultOptions() {

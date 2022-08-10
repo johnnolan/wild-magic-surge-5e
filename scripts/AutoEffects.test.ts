@@ -1,5 +1,5 @@
-import AutoEffects from "./AutoEffects.js";
-import "../__mocks__/index.js";
+import AutoEffects from "./AutoEffects";
+import "../__mocks__/index.ts";
 
 const mockSequenceEffect = jest.fn().mockReturnThis();
 

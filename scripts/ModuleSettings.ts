@@ -35,14 +35,14 @@ import {
   OPT_POWM_ROLLTABLE_NAME,
   OPT_SURGE_TOC_ENABLED,
   OPT_EFFECTS_ENABLED,
-} from "./Settings.js";
+} from "./Settings";
 import {
   ChatSettingsPanel,
   IncrementalSettingsPanel,
   SpellLevelSettingsPanel,
   StandardSettingsPanel,
   SpellRegexSettingsPanel,
-} from "./panels/index.js";
+} from "./panels/index";
 
 class ModuleSettings {
   constructor() {

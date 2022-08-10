@@ -8,5 +8,6 @@
     },
     "rules": {
         "prettier/prettier": ["error"]
-    }
+    },
+    "ignorePatterns": ["__mocks__/**/*"]
 }

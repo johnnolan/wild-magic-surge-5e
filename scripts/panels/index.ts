@@ -1,8 +1,8 @@
-import { ChatSettingsPanel } from "./ChatSettingsPanel.js";
-import { IncrementalSettingsPanel } from "./IncrementalSettingsPanel.js";
-import { SpellLevelSettingsPanel } from "./SpellLevelSettingsPanel.js";
-import { StandardSettingsPanel } from "./StandardSettingsPanel.js";
-import { SpellRegexSettingsPanel } from "./SpellRegexSettingsPanel.js";
+import { ChatSettingsPanel } from "./ChatSettingsPanel";
+import { IncrementalSettingsPanel } from "./IncrementalSettingsPanel";
+import { SpellLevelSettingsPanel } from "./SpellLevelSettingsPanel";
+import { StandardSettingsPanel } from "./StandardSettingsPanel";
+import { SpellRegexSettingsPanel } from "./SpellRegexSettingsPanel";
 
 export {
   ChatSettingsPanel,

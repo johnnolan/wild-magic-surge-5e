@@ -1,4 +1,4 @@
-import SpellLevelTrigger from "./SpellLevelTrigger.js";
+import SpellLevelTrigger from "./SpellLevelTrigger";
 
 describe("SpellLevelTrigger", () => {
   (global as any).Hooks = {

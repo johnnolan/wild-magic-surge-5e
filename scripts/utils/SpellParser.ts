@@ -4,7 +4,7 @@ import {
   SPELL_LIST_KEY_WORDS,
   OPT_WMS_NAME,
   OPT_POWM_NAME,
-} from "../Settings.js";
+} from "../Settings";
 
 export default class SpellParser {
   _actor: any;

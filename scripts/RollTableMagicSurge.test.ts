@@ -1,7 +1,7 @@
-import RollTableMagicSurge from "./RollTableMagicSurge.js";
-import "../__mocks__/index.js";
+import RollTableMagicSurge from "./RollTableMagicSurge";
+import "../__mocks__/index";
 
-jest.mock("./Chat.js");
+jest.mock("./Chat");
 
 describe("RollTableMagicSurge", () => {
   describe("If no table is found matching", () => {

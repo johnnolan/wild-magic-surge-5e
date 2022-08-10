@@ -1,8 +1,8 @@
 import {
   MODULE_FLAG_NAME,
   OPT_INCREMENTAL_CHECK_TO_CHAT,
-} from "../Settings.js";
-import { SettingsList, UpdateObject } from "./Helpers.js";
+} from "../Settings";
+import { SettingsList, UpdateObject } from "./Helpers";
 
 export class IncrementalSettingsPanel extends FormApplication {
   static get defaultOptions() {

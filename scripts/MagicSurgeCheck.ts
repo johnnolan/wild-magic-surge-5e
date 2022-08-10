@@ -15,15 +15,15 @@ import {
   OPT_ENABLE_NPCS,
   OPT_SURGE_TOC_ENABLED,
   CHAT_TYPE,
-} from "./Settings.js";
-import Chat from "./Chat.js";
-import TidesOfChaos from "./TidesOfChaos.js";
-import RollTableMagicSurge from "./RollTableMagicSurge.js";
-import IncrementalCheck from "./utils/IncrementalCheck.js";
-import SpellParser from "./utils/SpellParser.js";
-import SpellLevelTrigger from "./utils/SpellLevelTrigger.js";
-import DieDescending from "./utils/DieDescending.js";
-import AutoEffects from "./AutoEffects.js";
+} from "./Settings";
+import Chat from "./Chat";
+import TidesOfChaos from "./TidesOfChaos";
+import RollTableMagicSurge from "./RollTableMagicSurge";
+import IncrementalCheck from "./utils/IncrementalCheck";
+import SpellParser from "./utils/SpellParser";
+import SpellLevelTrigger from "./utils/SpellLevelTrigger";
+import DieDescending from "./utils/DieDescending";
+import AutoEffects from "./AutoEffects";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -93,12 +93,12 @@ class MagicSurgeCheck {
     // If whisper is set
     if (whisperToGM) {
       // Make sure it is the GM who sends the message
-      if (!game.user.isGM) return false;
+      if (!game.user?.isGM) return false;
     }
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (messageData.user.id !== game.user.id) return false;
+      if (messageData.user.id !== game.user?.id) return false;
     }
 
     const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
@@ -129,7 +129,7 @@ class MagicSurgeCheck {
    * @private
    * @returns RollResult
    */
-  async WildMagicSurgeRollCheck() {
+  async WildMagicSurgeRollCheck(): Promise<Roll> {
     let diceFormula;
 
     switch (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)) {
@@ -163,7 +163,7 @@ class MagicSurgeCheck {
         break;
     }
 
-    return new Roll(diceFormula).roll({ async: true });
+    return await new Roll(diceFormula).roll({ async: true });
   }
 
   /**
@@ -226,7 +226,7 @@ class MagicSurgeCheck {
    */
   async AutoSurgeCheck(spellLevel: any, gameType: any) {
     let isSurge = false;
-    let roll;
+    let roll: Roll;
 
     let isAutoSurge = false;
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
@@ -259,7 +259,7 @@ class MagicSurgeCheck {
           break;
         case "SPELL_LEVEL_DEPENDENT_ROLL":
           const spellLevelTrigger = new SpellLevelTrigger();
-          isSurge = spellLevelTrigger.Check(roll.result, spellLevel);
+          isSurge = spellLevelTrigger.Check(parseInt(roll.result), spellLevel);
           break;
         case "DIE_DESCENDING":
           const dieDescending = new DieDescending(this._actor, roll.result);

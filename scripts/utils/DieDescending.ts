@@ -1,4 +1,4 @@
-import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings.js";
+import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
 
 export default class DieDescending {
   _actor: any;

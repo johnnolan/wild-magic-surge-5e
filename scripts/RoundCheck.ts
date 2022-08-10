@@ -1,7 +1,7 @@
-import { MODULE_ID, OPT_AUTO_D20, OPT_ENABLE_NPCS } from "./Settings.js";
-import IncrementalCheck from "./utils/IncrementalCheck.js";
-import SpellParser from "./utils/SpellParser.js";
-import Chat from "./Chat.js";
+import { MODULE_ID, OPT_AUTO_D20, OPT_ENABLE_NPCS } from "./Settings";
+import IncrementalCheck from "./utils/IncrementalCheck";
+import SpellParser from "./utils/SpellParser";
+import Chat from "./Chat";
 
 /**
  * Main entry point for Wild Magic Surge Checks

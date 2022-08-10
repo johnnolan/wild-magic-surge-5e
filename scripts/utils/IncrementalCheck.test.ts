@@ -1,6 +1,6 @@
-import IncrementalCheck from "./IncrementalCheck.js";
-import { actor } from "../../MockData/actor.js";
-import "../../__mocks__/index.js";
+import IncrementalCheck from "./IncrementalCheck";
+import { actor } from "../../MockData/actor";
+import "../../__mocks__/index";
 
 describe("IncrementalCheck", () => {
   (global as any).Hooks = {

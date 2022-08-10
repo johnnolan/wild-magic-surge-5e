@@ -2,8 +2,8 @@ import {
   MODULE_ID,
   OPT_INCREMENTAL_CHECK_TO_CHAT,
   CHAT_TYPE,
-} from "../Settings.js";
-import Chat from "../Chat.js";
+} from "../Settings";
+import Chat from "../Chat";
 
 export default class IncrementalCheck {
   FLAG_NAME: any;

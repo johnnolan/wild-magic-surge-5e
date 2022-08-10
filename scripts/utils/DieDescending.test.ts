@@ -1,7 +1,7 @@
-import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings.js";
-import DieDescending from "./DieDescending.js";
-import { actor } from "../../MockData/actor.js";
-import "../../__mocks__/index.js";
+import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
+import DieDescending from "./DieDescending";
+import { actor } from "../../MockData/actor";
+import "../../__mocks__/index";
 
 describe("DieDescending", () => {
   (global as any).Hooks = {

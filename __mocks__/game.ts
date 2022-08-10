@@ -36,7 +36,7 @@ const game = {
     },
   ],
   settings: {
-    get: jest.fn(),
+    get: jest.fn().mockResolvedValue("true"),
     register: jest.fn((_moduleName, _settingName, _data) => {
       // This is intentional
     }),
