@@ -99,9 +99,10 @@ describe("DieDescending", () => {
 
   describe("If a roll of 18 flag set as 1d20", () => {
     let dieDescending: DieDescending;
-    const newActor: Actor = actor;
+    let newActor: Actor;
 
     beforeEach(() => {
+      newActor = actor;
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d20",
       });

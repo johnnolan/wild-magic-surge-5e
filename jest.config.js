@@ -1,6 +1,13 @@
 /* exported config */
 
 export default {
+  globals: {
+    'ts-jest': {
+      diagnostics: {
+        exclude: ['**'],
+      },
+    },
+  },
   transform: { "^.+\\.ts?$": "ts-jest" },
   reporters: ["default", "jest-junit"],
   coverageThreshold: {

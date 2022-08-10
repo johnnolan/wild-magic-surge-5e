@@ -40,7 +40,7 @@ export default class DieDescending {
     }
 
     const flagValue = <FlagValue>(
-      this._actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
+      await this._actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
     );
 
     if (!flagValue) {
@@ -76,7 +76,7 @@ export default class DieDescending {
         DIE_DESCENDING_FLAG_OPTION,
         flagValue
       );
-      this.CallChanged(flagValue);
+      await this.CallChanged(flagValue);
     }
 
     return false;
