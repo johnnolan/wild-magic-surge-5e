@@ -2,9 +2,29 @@ import { MODULE_FLAG_NAME } from "../Settings";
 import TidesOfChaos from "../TidesOfChaos";
 import SpellParser from "../utils/SpellParser";
 
-// @ts-expect-error TS(2515): Non-abstract class 'ActorHelperPanel' does not imp... Remove this comment to see the full error message
+type ModuleSetup = {
+  actor: {
+    name: string;
+  };
+  settings: {
+    isValid: boolean;
+    hasWildMagicFeat: boolean;
+    hasTidesOfChaosResource: boolean;
+    hasTidesOfChaosFeat: boolean;
+  };
+};
+
 export class ActorHelperPanel extends FormApplication {
-  object: any;
+  protected _updateObject(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _event: Event,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _formData?: object | undefined
+  ): Promise<unknown> {
+    throw new Error("Method not implemented.");
+  }
+
+  object!: Actor;
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       title: "Wild Magic Surge 5e Information",
@@ -25,7 +45,7 @@ export class ActorHelperPanel extends FormApplication {
     const hasWildMagicFeat = spellParser.IsWildMagicFeat();
     const hasTidesOfChaos = await tidesOfChaos.IsTidesOfChaosSetup(actor);
 
-    return {
+    return <ModuleSetup>{
       actor: {
         name: actor.name,
       },
