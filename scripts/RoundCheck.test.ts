@@ -1,7 +1,5 @@
 import RoundCheck from "./RoundCheck";
-import IncrementalCheck from "./utils/IncrementalCheck";
 import SpellParser from "./utils/SpellParser";
-import Chat from "./Chat";
 import { actor } from "../MockData/actor";
 import "../__mocks__/index";
 

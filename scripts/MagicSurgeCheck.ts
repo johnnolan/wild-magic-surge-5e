@@ -180,11 +180,7 @@ class MagicSurgeCheck {
    * @returns Array<string>
    */
   SplitRollResult(resultValues: string): Array<string> {
-    if (resultValues) {
-      return resultValues.toString().replace(/\s/g, "").split(",");
-    } else {
-      return [];
-    }
+    return resultValues.toString().replace(/\s/g, "").split(",");
   }
 
   /**
