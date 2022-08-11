@@ -45,13 +45,12 @@ class RollTableMagicSurge {
     }
 
     const surgeRollTable = game.tables.find(
-      (t: any) => t.name === rollTableName
+      (t: RollTable) => t.name === rollTableName
     );
 
     await surgeRollTable?.roll().then((result: Roll) => {
       const chat = new Chat();
-      // @ts-expect-error TS(2345): Argument of type '{ name: string; roll: Mock<any, ... Remove this comment to see the full error message
-      chat.Send(CHAT_TYPE.TABLE, result, surgeRollTable);
+      chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
     });
   }
 }
