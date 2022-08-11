@@ -7,38 +7,38 @@ import {
 } from "../Settings";
 
 export default class SpellParser {
-  _actor: any;
-  constructor(actor: any) {
+  _actor: Actor;
+  constructor(actor: Actor) {
     this._actor = actor;
   }
 
-  IsWildMagicFeat() {
+  IsWildMagicFeat(): boolean {
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
       this._actor.items.find(
-        (a: any) => a.name === surgeName && a.type === "feat"
+        (a: Item) => a.name === surgeName && a.type === "feat"
       ) !== undefined
     );
   }
 
-  IsPathOfWildMagicFeat() {
+  IsPathOfWildMagicFeat(): boolean {
     return (
       this._actor.items.find(
-        (a: any) =>
+        (a: Item) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
           a.type === "subclass"
       ) !== undefined
     );
   }
 
-  async RollContent(content: any) {
+  async RollContent(content: string): Promise<Item | undefined> {
     const rollContent = $(content);
     const itemId = rollContent.data("item-id");
     if (!this._actor || !itemId) return undefined;
-    return this._actor.items.find((i: any) => i.id === itemId);
+    return this._actor.items.find((i: Item) => i.id === itemId);
   }
 
-  async SpellDetails(content: any): Promise<string> {
+  async SpellDetails(content: string): Promise<string> {
     let spellString;
 
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
@@ -76,16 +76,16 @@ export default class SpellParser {
     return spellString;
   }
 
-  async SpellLevel(content: any): Promise<string> {
+  async SpellLevel(content: string): Promise<string> {
     return this.SpellDetails(content);
   }
 
-  async IsSpell(content: any) {
+  async IsSpell(content: string): Promise<boolean> {
     const result = await this.SpellDetails(content);
     return result !== undefined;
   }
 
-  async IsSorcererSpell(content: any) {
+  async IsSorcererSpell(content: string): Promise<boolean | null> {
     const getItem = await this.RollContent(content);
 
     if (!getItem) return false;
@@ -94,10 +94,10 @@ export default class SpellParser {
 
     const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
 
-    return !!spellName.match(spellRegex);
+    return !!spellName?.match(spellRegex);
   }
 
-  async IsRage(content: any) {
+  async IsRage(content: string): Promise<boolean> {
     const getItem = await this.RollContent(content);
 
     if (!getItem) return false;
@@ -107,7 +107,7 @@ export default class SpellParser {
     return spellName === "Rage";
   }
 
-  IsNPC() {
+  IsNPC(): boolean {
     return this._actor ? this._actor.type === "npc" : false;
   }
 }
