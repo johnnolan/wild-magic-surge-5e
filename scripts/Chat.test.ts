@@ -125,7 +125,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.TABLE, rollResult, surgeRollTable);
+        await chat.Send(CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 

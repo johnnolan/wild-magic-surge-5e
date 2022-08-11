@@ -36,10 +36,10 @@ import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string;
-  chat: any;
-  rollTableMagicSurge: any;
-  tidesOfChaos: any;
-  constructor(actor: any, tokenId: string) {
+  chat: Chat;
+  rollTableMagicSurge: RollTableMagicSurge;
+  tidesOfChaos: TidesOfChaos;
+  constructor(actor: Actor, tokenId: string) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
@@ -258,7 +258,7 @@ class MagicSurgeCheck {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             this._actor,
-            roll.result,
+            parseInt(roll.result),
             maxValue
           );
           isSurge = await incrementalCheck.Check();
@@ -287,10 +287,10 @@ class MagicSurgeCheck {
    * @param {boolean} isSurge
    * @param {RollResult} rollResult
    */
-  async _callIsSurgeHook(isSurge: boolean, rollResult = null): Promise<void> {
+  async _callIsSurgeHook(isSurge: boolean, rollResult?: Roll): Promise<void> {
     Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
       surge: isSurge,
-      result: rollResult,
+      result: rollResult?.result,
       tokenId: this._tokenId,
     });
   }
@@ -298,10 +298,10 @@ class MagicSurgeCheck {
   /**
    * Calls a standard Wild Magic Surge.
    * @private
-   * @param {boolean} isSurge
-   * @param {Roll} roll
+   * @param isSurge -
+   * @param roll -
    */
-  async SurgeWildMagic(isSurge: boolean, roll: any): Promise<void> {
+  async SurgeWildMagic(isSurge: boolean, roll: Roll): Promise<void> {
     if (isSurge) {
       this.chat.Send(
         CHAT_TYPE.ROLL,
@@ -310,7 +310,7 @@ class MagicSurgeCheck {
       );
       this.tidesOfChaos.Check(this._actor);
       this.rollTableMagicSurge.Check();
-      this._callIsSurgeHook(true, roll.result);
+      this._callIsSurgeHook(true, roll);
       AutoEffects.Run(this._tokenId);
     } else {
       this.chat.Send(
@@ -318,7 +318,7 @@ class MagicSurgeCheck {
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
         roll
       );
-      this._callIsSurgeHook(false, roll.result);
+      this._callIsSurgeHook(false, roll);
     }
   }
 
