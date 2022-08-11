@@ -226,7 +226,7 @@ class MagicSurgeCheck {
    * @returns Promise<void>
    */
   async AutoSurgeCheck(spellLevel: string, gameType: string): Promise<void> {
-    let isSurge: boolean = false;
+    let isSurge = false;
     let roll: Roll;
 
     let isAutoSurge = false;

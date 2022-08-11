@@ -2,9 +2,9 @@
 
 export default {
   globals: {
-    'ts-jest': {
+    "ts-jest": {
       diagnostics: {
-        exclude: ['**'],
+        exclude: ["**"],
       },
     },
   },
