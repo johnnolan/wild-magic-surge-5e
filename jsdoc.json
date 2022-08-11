@@ -1,9 +1,0 @@
-{
-    "source": {
-        "include": ["scripts"]
-    },
-    "opts": {
-        "destination": "./docs/",
-        "private": "all"
-    }
-}
