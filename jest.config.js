@@ -1,6 +1,14 @@
 /* exported config */
 
-const config = {
+export default {
+  globals: {
+    'ts-jest': {
+      diagnostics: {
+        exclude: ['**'],
+      },
+    },
+  },
+  transform: { "^.+\\.ts?$": "ts-jest" },
   reporters: ["default", "jest-junit"],
   coverageThreshold: {
     global: {
@@ -10,12 +18,10 @@ const config = {
   collectCoverage: true,
   collectCoverageFrom: [
     "!**/node_modules/**",
-    "scripts/**/*.js",
-    "!scripts/panels/*.js",
-    "!scripts/**/*.test.js",
-    "!scripts/ModuleSettings.js",
-    "!scripts/module.js",
+    "scripts/**/*.ts",
+    "!scripts/panels/*.ts",
+    "!scripts/**/*.test.ts",
+    "!scripts/ModuleSettings.ts",
+    "!scripts/module.ts",
   ],
 };
-
-module.exports = config;
