@@ -7,25 +7,11 @@ describe("IncrementalCheck", () => {
     callAll: jest.fn().mockReturnValue(true),
   };
 
-  describe("If a roll of 1 with no actor", () => {
-    let incrementalCheck: any;
-
-    beforeEach(() => {
-      incrementalCheck = new IncrementalCheck(undefined, 1);
-    });
-
-    it("should return false", async () => {
-      const result = await incrementalCheck.Check();
-
-      expect(result).toBeFalsy();
-    });
-  });
-
   describe("If a roll of 1 with no flag set", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
-      const newActor = {
+      const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -40,10 +26,10 @@ describe("IncrementalCheck", () => {
   });
 
   describe("If a roll of 10 with no flag set", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
-      const newActor = {
+      const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
@@ -58,7 +44,7 @@ describe("IncrementalCheck", () => {
   });
 
   describe("If a roll of 1 with no flag value set", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
       const newActor = actor;
@@ -75,7 +61,7 @@ describe("IncrementalCheck", () => {
   });
 
   describe("If a roll of 4 with no flag set", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
       const newActor = actor;
@@ -92,7 +78,7 @@ describe("IncrementalCheck", () => {
   });
 
   describe("If a roll of 1 flag set as 1", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
       incrementalCheck = new IncrementalCheck(actor, 1);
@@ -106,7 +92,7 @@ describe("IncrementalCheck", () => {
   });
 
   describe("If a roll of 4 flag set as 2", () => {
-    let incrementalCheck: any;
+    let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
       const newActor = actor;

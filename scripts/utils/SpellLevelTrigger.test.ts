@@ -6,7 +6,7 @@ describe("SpellLevelTrigger", () => {
   };
 
   describe("Roll 4 < 5", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -35,7 +35,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 14 > 6", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -64,7 +64,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 4 === 4", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -93,7 +93,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 5 !== 3", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -122,7 +122,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 1 === 1", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -144,7 +144,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 2 === 2", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -166,7 +166,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 3 === 3", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -188,7 +188,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 7 === 7", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -210,7 +210,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 8 === 8", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -232,7 +232,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 9 === 9", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -254,7 +254,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 10 === 10", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -276,7 +276,7 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll return value is invalid", () => {
-    let spellLevelTrigger: any;
+    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();

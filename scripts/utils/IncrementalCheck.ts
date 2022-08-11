@@ -61,10 +61,6 @@ export default class IncrementalCheck {
   }
 
   async Check(): Promise<boolean> {
-    if (!this.actor) {
-      return false;
-    }
-
     if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {
       return this.SetupDefault();
     }

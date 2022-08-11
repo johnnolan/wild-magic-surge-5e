@@ -12,7 +12,7 @@ describe("Chat", () => {
 
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
-      let chat: any;
+      let chat: Chat;
 
       beforeEach(() => {
         chat = new Chat();
@@ -34,7 +34,7 @@ describe("Chat", () => {
 
   describe("createRollChat", () => {
     describe("Given I pass it a message and roll but is whisper to GM", () => {
-      let chat: any;
+      let chat: Chat;
       let roll: any;
 
       beforeEach(() => {
@@ -59,7 +59,7 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll but its a public message", () => {
-      let chat: any;
+      let chat: Chat;
       let roll: any;
 
       beforeEach(() => {
@@ -92,7 +92,7 @@ describe("Chat", () => {
 
   describe("createRollTable", () => {
     describe("Given I pass it a message and roll table with one result", () => {
-      let chat: any;
+      let chat: Chat;
       let rollResult: any;
       let surgeRollTable: any;
 
@@ -134,7 +134,7 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll table with two results", () => {
-      let chat: any;
+      let chat: Chat;
       let rollResultTwoResults: any;
       let surgeRollTable: any;
 
@@ -183,7 +183,7 @@ describe("Chat", () => {
 
   describe("RunMessageCheck", () => {
     describe("Given I call RunMessageCheck to send a message to chat", () => {
-      let chat: any;
+      let chat: Chat;
 
       beforeEach(() => {
         chat = new Chat();

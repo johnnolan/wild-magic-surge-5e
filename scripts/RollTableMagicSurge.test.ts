@@ -5,7 +5,7 @@ jest.mock("./Chat");
 
 describe("RollTableMagicSurge", () => {
   describe("If no table is found matching", () => {
-    let rollTableMagicSurge: any;
+    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -44,7 +44,7 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the table type is not passed", () => {
-    let rollTableMagicSurge: any;
+    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -85,7 +85,7 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the table type is Wild Magic Surge", () => {
-    let rollTableMagicSurge: any;
+    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -126,7 +126,7 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the table type is Path of Wild Magic", () => {
-    let rollTableMagicSurge: any;
+    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -167,7 +167,7 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the roll table setting is false", () => {
-    let rollTableMagicSurge: any;
+    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");

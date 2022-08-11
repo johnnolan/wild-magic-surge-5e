@@ -134,18 +134,13 @@ beforeEach(() => {
   mockSpellParserIsSpell.mockClear();
   mockSpellParserIsNPC.mockClear();
   mockSpellParserIsWildMagicFeat.mockClear();
-  (RollTableMagicSurge as any).mockClear();
-  (Chat as any).mockClear();
-  (TidesOfChaos as any).mockClear();
-  (IncrementalCheck as any).mockClear();
-  (SpellLevelTrigger as any).mockClear();
   (global as any).Hooks.callAll.mockClear();
 });
 
 describe("MagicSurgeCheck", () => {
   describe("CheckChatMessage", () => {
     describe("Is Wild Magic Surge Auto Check", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -180,7 +175,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is Wild Magic Surge Message Only Check", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -212,7 +207,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is Path of Wild Magic Surge", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -244,7 +239,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Has no actor", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -273,7 +268,7 @@ describe("MagicSurgeCheck", () => {
 
   describe("isValidChatMessage", () => {
     describe("Is whisper to GM but not the GM", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -296,7 +291,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is not whisper to GM and the game user is not the same as the message user", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -324,7 +319,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is a Path of Wild Magic and Rage", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -354,7 +349,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is not a sorcerer spell", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -389,7 +384,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is a valid message", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -430,7 +425,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is a valid message with NPCs enabled", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -473,7 +468,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Has no actor", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
@@ -490,7 +485,7 @@ describe("MagicSurgeCheck", () => {
 
   describe("WildMagicSurgeRollCheck", () => {
     describe("On a Default Surge Type", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -513,7 +508,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("On a SPELL_LEVEL_DEPENDENT_ROLL Surge Type", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -536,7 +531,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("On a DIE_DESCENDING Surge Type with set flag", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -561,7 +556,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("On a DIE_DESCENDING Surge Type with no set flag", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -596,7 +591,7 @@ describe("MagicSurgeCheck", () => {
 
   describe("resultCheck", () => {
     describe("has 1 value in the result check", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
         (global as any).game = {
           actors: actor,
@@ -665,7 +660,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("has 2 values in the result check", () => {
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
         magicSurgeCheck = new MagicSurgeCheck();
@@ -745,7 +740,7 @@ describe("MagicSurgeCheck", () => {
   describe("AutoSurgeCheck", () => {
     describe("Is Tides of Chaos Auto Surge", () => {
       let defaultSurgeTidesOfChaosSpy: any;
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -775,7 +770,7 @@ describe("MagicSurgeCheck", () => {
 
     describe("Is Auto Surge Check", () => {
       let defaultMagicSurgeRollResultSpy: any;
-      let magicSurgeCheck: any;
+      let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -929,7 +924,7 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("SurgeWildMagic", () => {
-    let magicSurgeCheck: any;
+    let magicSurgeCheck: MagicSurgeCheck;
 
     beforeEach(() => {
       (global as any).game = {
@@ -967,7 +962,7 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("SurgeTidesOfChaos", () => {
-    let magicSurgeCheck: any;
+    let magicSurgeCheck: MagicSurgeCheck;
 
     beforeEach(() => {
       (global as any).game = {
@@ -995,7 +990,7 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("SplitRollResult", () => {
-    let magicSurgeCheck: any;
+    let magicSurgeCheck: MagicSurgeCheck;
 
     beforeEach(() => {
       // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
