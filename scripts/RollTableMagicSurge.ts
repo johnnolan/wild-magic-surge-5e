@@ -22,13 +22,13 @@ class RollTableMagicSurge {
    * Checks and rolls on the correct table
    * @public
    * @return {Promise<void>}
-   * @param {string} type The type of RollTable to use (WMS or POWM).
+   * @param type - The type of RollTable to use (WMS or POWM).
    */
-  async Check(type = "WMS") {
+  async Check(type = "WMS"): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
       return;
     }
-    let rollTableName: any;
+    let rollTableName: string;
     if (type === "POWM") {
       rollTableName = game.settings.get(
         `${MODULE_ID}`,
@@ -48,8 +48,7 @@ class RollTableMagicSurge {
       (t: any) => t.name === rollTableName
     );
 
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-    await surgeRollTable.roll().then((result: any) => {
+    await surgeRollTable?.roll().then((result: Roll) => {
       const chat = new Chat();
       // @ts-expect-error TS(2345): Argument of type '{ name: string; roll: Mock<any, ... Remove this comment to see the full error message
       chat.Send(CHAT_TYPE.TABLE, result, surgeRollTable);
