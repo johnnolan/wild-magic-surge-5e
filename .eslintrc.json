@@ -8,7 +8,7 @@
     },
     "rules": {
         "prettier/prettier": ["error"],
-        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-explicit-any": "on",
         "no-prototype-builtins": "off"
     },
     "ignorePatterns": ["__mocks__/**/*"]

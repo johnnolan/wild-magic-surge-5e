@@ -54,9 +54,9 @@ export default class IncrementalCheck {
     return this.rollValue === 1;
   }
 
-  async Check() {
+  async Check(): Promise<boolean> {
     if (!this.actor) {
-      return;
+      return false;
     }
 
     if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {

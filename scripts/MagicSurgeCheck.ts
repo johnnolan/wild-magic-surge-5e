@@ -24,6 +24,7 @@ import SpellParser from "./utils/SpellParser";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
+import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -35,11 +36,11 @@ import AutoEffects from "./AutoEffects";
 class MagicSurgeCheck {
   _actor: any;
   _spellParser: any;
-  _tokenId: any;
+  _tokenId: string;
   chat: any;
   rollTableMagicSurge: any;
   tidesOfChaos: any;
-  constructor(actor: any, tokenId: any) {
+  constructor(actor: any, tokenId: string) {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
@@ -50,22 +51,22 @@ class MagicSurgeCheck {
 
   /**
    * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
-   * @param {ChatMessage} chatMessage
+   * @param {ChatMessageData} chatMessageData
    * @returns Promise<void>
    */
-  async CheckChatMessage(chatMessage: any) {
+  async CheckChatMessage(chatMessageData: ChatMessageData): Promise<void> {
     if (!this._actor) {
-      return false;
+      return;
     }
 
-    if (await this.isValidChatMessage(chatMessage)) {
+    if (await this.isValidChatMessage(chatMessageData)) {
       const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
       if (hasPathOfWildMagicFeat) {
         this.rollTableMagicSurge.Check("POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const spellLevel = await this._spellParser.SpellLevel(
-            chatMessage.content
+          const spellLevel: string = await this._spellParser.SpellLevel(
+            chatMessageData.content
           );
           const gameType = game.settings.get(
             `${MODULE_ID}`,
@@ -81,11 +82,11 @@ class MagicSurgeCheck {
 
   /**
    * @private
-   * @param {ChatMessage} messageData
+   * @param {ChatMessageData} chatMessageData
    * @returns boolean
    */
-  async isValidChatMessage(messageData: any) {
-    if (!messageData.speaker || !messageData.speaker.actor) {
+  async isValidChatMessage(chatMessageData: ChatMessageData): Promise<boolean> {
+    if (!chatMessageData.speaker || !chatMessageData.speaker.actor) {
       return false;
     }
 
@@ -98,19 +99,19 @@ class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (messageData.user.id !== game.user?.id) return false;
+      if (chatMessageData.user !== game.user?.id) return false;
     }
 
     const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
     if (hasPathOfWildMagicFeat) {
-      return !!(await this._spellParser.IsRage(messageData.content));
+      return !!(await this._spellParser.IsRage(chatMessageData.content));
     }
 
-    const isASpell = await this._spellParser.IsSpell(messageData.content);
+    const isASpell = await this._spellParser.IsSpell(chatMessageData.content);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
       const isASorcererSpell = await this._spellParser.IsSorcererSpell(
-        messageData.content
+        chatMessageData.content
       );
       if (!isASorcererSpell) return false;
     }
@@ -170,9 +171,9 @@ class MagicSurgeCheck {
    * If there are more than 1 Surge numbers to check against, split them into an array.
    * @private
    * @param {string} resultValues
-   * @returns Array
+   * @returns Array<string>
    */
-  SplitRollResult(resultValues: any) {
+  SplitRollResult(resultValues: string): Array<string> {
     if (resultValues) {
       return resultValues.toString().replace(/\s/g, "").split(",");
     } else {
@@ -183,11 +184,11 @@ class MagicSurgeCheck {
   /**
    * On a Default Wild Magic Surge, check the result of the roll against the specified roll targe.
    * @private
-   * @param {integer} result
+   * @param {string} result
    * @param {string} comparison
    * @returns boolean
    */
-  DefaultMagicSurgeRollResult(result: any, comparison: any) {
+  DefaultMagicSurgeRollResult(result: string, comparison: string): boolean {
     const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(`${MODULE_ID}`, `${OPT_CUSTOM_ROLL_RESULT}`)
@@ -220,12 +221,12 @@ class MagicSurgeCheck {
 
   /**
    * Automatically checks for a surge against the spell level and game type.
-   * @param {integer} spellLevel
+   * @param {string} spellLevel
    * @param {string} gameType
    * @returns Promise<void>
    */
-  async AutoSurgeCheck(spellLevel: any, gameType: any) {
-    let isSurge = false;
+  async AutoSurgeCheck(spellLevel: string, gameType: string): Promise<void> {
+    let isSurge: boolean = false;
     let roll: Roll;
 
     let isAutoSurge = false;
@@ -253,7 +254,6 @@ class MagicSurgeCheck {
             roll.result,
             maxValue
           );
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isSurge = await incrementalCheck.Check();
           break;
         }
@@ -264,7 +264,6 @@ class MagicSurgeCheck {
         }
         case "DIE_DESCENDING": {
           const dieDescending = new DieDescending(this._actor, roll.result);
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isSurge = await dieDescending.Check();
           break;
         }
@@ -281,7 +280,7 @@ class MagicSurgeCheck {
    * @param {boolean} isSurge
    * @param {RollResult} rollResult
    */
-  async _callIsSurgeHook(isSurge: any, rollResult = null) {
+  async _callIsSurgeHook(isSurge: boolean, rollResult = null): Promise<void> {
     Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult,
@@ -295,7 +294,7 @@ class MagicSurgeCheck {
    * @param {boolean} isSurge
    * @param {Roll} roll
    */
-  async SurgeWildMagic(isSurge: any, roll: any) {
+  async SurgeWildMagic(isSurge: boolean, roll: any): Promise<void> {
     if (isSurge) {
       this.chat.Send(
         CHAT_TYPE.ROLL,
@@ -320,7 +319,7 @@ class MagicSurgeCheck {
    * Calls the Surge for the Tides of Chaos auto surge.
    * @private
    */
-  async SurgeTidesOfChaos() {
+  async SurgeTidesOfChaos(): Promise<void> {
     this.rollTableMagicSurge.Check("TOCSURGE");
     this.chat.Send(
       CHAT_TYPE.DEFAULT,

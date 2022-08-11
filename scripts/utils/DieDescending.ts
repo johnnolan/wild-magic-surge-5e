@@ -32,7 +32,7 @@ export default class DieDescending {
 
   async Check() {
     if (!this._actor) {
-      return;
+      return false;
     }
 
     if (!this._actor.flags.hasOwnProperty(MODULE_FLAG_NAME)) {

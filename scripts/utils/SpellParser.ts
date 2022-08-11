@@ -38,7 +38,7 @@ export default class SpellParser {
     return this._actor.items.find((i: any) => i.id === itemId);
   }
 
-  async SpellDetails(content: any) {
+  async SpellDetails(content: any): Promise<string> {
     let spellString;
 
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
@@ -76,7 +76,7 @@ export default class SpellParser {
     return spellString;
   }
 
-  async SpellLevel(content: any) {
+  async SpellLevel(content: any): Promise<string> {
     return this.SpellDetails(content);
   }
 
