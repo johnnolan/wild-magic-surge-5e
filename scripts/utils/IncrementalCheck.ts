@@ -5,15 +5,21 @@ import {
 } from "../Settings";
 import Chat from "../Chat";
 
+type FlagValue = {
+  max: number;
+  min: number;
+  value: number;
+};
+
 export default class IncrementalCheck {
-  FLAG_NAME: any;
-  FLAG_OPTION: any;
-  actor: any;
-  chat: any;
-  defaultValue: any;
-  maxValue: any;
-  rollValue: any;
-  constructor(actor: any, rollValue: any, maxValue = 20) {
+  FLAG_NAME: string;
+  FLAG_OPTION: string;
+  actor: Actor;
+  chat: Chat;
+  defaultValue: FlagValue;
+  maxValue: number;
+  rollValue: number;
+  constructor(actor: Actor, rollValue: number, maxValue = 20) {
     this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
@@ -31,7 +37,7 @@ export default class IncrementalCheck {
     this.SetupDefault();
   }
 
-  async CallChanged(value: any) {
+  async CallChanged(value: number) {
     Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
@@ -63,7 +69,7 @@ export default class IncrementalCheck {
       return this.SetupDefault();
     }
 
-    const incrementLevel = await this.actor.getFlag(
+    const incrementLevel: FlagValue = await this.actor.getFlag(
       this.FLAG_NAME,
       this.FLAG_OPTION
     );
