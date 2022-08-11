@@ -10,15 +10,15 @@ import Chat from "./Chat";
  * let roundCheck = new RoundCheck(actor);
  */
 class RoundCheck {
-  _actor: any;
-  chat: any;
-  spellParser: any;
+  _actor: Actor;
+  chat: Chat;
+  spellParser: SpellParser;
   /**
    * Check for Incrementmenal Check
-   * @param {Actor} actor - The Actor to check against.
+   * @param actor - The Actor to check against.
    * @constructs RoundCheck
    */
-  constructor(actor: any) {
+  constructor(actor: Actor) {
     this.spellParser = new SpellParser(actor);
     this.chat = new Chat();
     this._actor = actor;
@@ -26,10 +26,9 @@ class RoundCheck {
 
   /**
    * Checks for and does an incremental check for a surge on a new combat round
-   * @public
    * @return {Promise<void>}
    */
-  async Check() {
+  async Check(): Promise<void> {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       if (this.spellParser.IsWildMagicFeat()) {
         const incrementalCheck = new IncrementalCheck(this._actor, null, 10);
