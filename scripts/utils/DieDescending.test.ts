@@ -12,6 +12,7 @@ describe("DieDescending", () => {
     let dieDescending: DieDescending;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
       const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
@@ -30,6 +31,7 @@ describe("DieDescending", () => {
     let dieDescending: DieDescending;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
       const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
@@ -102,6 +104,7 @@ describe("DieDescending", () => {
     let newActor: Actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor = actor;
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d20",
@@ -127,6 +130,7 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d12",
       });
@@ -151,6 +155,7 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d10",
       });
@@ -175,6 +180,7 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d8",
       });
@@ -199,6 +205,7 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d6",
       });
@@ -223,6 +230,7 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
         value: "1d4",
       });

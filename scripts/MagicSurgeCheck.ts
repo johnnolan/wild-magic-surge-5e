@@ -24,7 +24,6 @@ import SpellParser from "./utils/SpellParser";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
-import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/module.mjs";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -49,15 +48,15 @@ class MagicSurgeCheck {
 
   /**
    * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
-   * @param {ChatMessageData} chatMessageData
+   * @param chatMessage -
    * @returns Promise<void>
    */
-  async CheckChatMessage(chatMessageData: ChatMessageData): Promise<void> {
+  async CheckChatMessage(chatMessage: ChatMessage): Promise<void> {
     if (!this._actor) {
       return;
     }
 
-    if (await this.isValidChatMessage(chatMessageData)) {
+    if (await this.isValidChatMessage(chatMessage)) {
       const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
         this._actor
       );
@@ -66,7 +65,7 @@ class MagicSurgeCheck {
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
           const spellLevel: string = await SpellParser.SpellLevel(
-            chatMessageData.content,
+            chatMessage.content,
             this._actor
           );
           const gameType = game.settings.get(
@@ -83,11 +82,11 @@ class MagicSurgeCheck {
 
   /**
    * @private
-   * @param {ChatMessageData} chatMessageData
+   * @param chatMessage -
    * @returns boolean
    */
-  async isValidChatMessage(chatMessageData: ChatMessageData): Promise<boolean> {
-    if (!chatMessageData.speaker || !chatMessageData.speaker.actor) {
+  async isValidChatMessage(chatMessage: ChatMessage): Promise<boolean> {
+    if (!chatMessage.speaker || !chatMessage.speaker.actor) {
       return false;
     }
 
@@ -100,24 +99,24 @@ class MagicSurgeCheck {
     // If its just a public message
     else {
       // Make sure the player who rolled sends the message
-      if (chatMessageData.user?.id !== game.user?.id) return false;
+      if (chatMessage.user?.id !== game.user?.id) return false;
     }
 
     const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
       this._actor
     );
     if (hasPathOfWildMagicFeat) {
-      return !!(await SpellParser.IsRage(chatMessageData.content, this._actor));
+      return !!(await SpellParser.IsRage(chatMessage.content, this._actor));
     }
 
     const isASpell = await SpellParser.IsSpell(
-      chatMessageData.content,
+      chatMessage.content,
       this._actor
     );
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
       const isASorcererSpell = await SpellParser.IsSorcererSpell(
-        chatMessageData.content,
+        chatMessage.content,
         this._actor
       );
       if (!isASorcererSpell) return false;
