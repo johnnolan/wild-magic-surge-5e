@@ -11,6 +11,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
       const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
@@ -29,6 +30,7 @@ describe("IncrementalCheck", () => {
     let incrementalCheck: IncrementalCheck;
 
     beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
       const newActor: Actor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],

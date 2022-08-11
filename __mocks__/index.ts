@@ -6,3 +6,4 @@ import "./const";
 import "./renderTemplate";
 import "./textEditor";
 import "./config";
+import "./hasProperty";

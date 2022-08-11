@@ -21,9 +21,10 @@ class Chat {
    * Sends the correct ChatMessage to the Chat window
    * @public
    * @return {Promise<void>}
-   * @param {CHAT_TYPE} type The type of roll to be sent.
-   * @param {string} message The chat message to send.
-   * @param {object} rollObject Optional RollTable or Roll to send.
+   * @param type - The type of roll to be sent.
+   * @param message - The chat message to send.
+   * @param rollObject - Roll to send.
+   * @param rollTable - Optional RollTable to send.
    */
   async Send(
     type: string,
@@ -37,15 +38,12 @@ class Chat {
     );
 
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
-      (u: any) => u._id
+      (u: User) => u.id
     );
 
-    let chatData = {};
+    let chatData: ChatMessage;
 
     switch (type) {
-      case CHAT_TYPE.DEFAULT:
-        chatData = await this.createDefaultChat(message);
-        break;
       case CHAT_TYPE.ROLL:
         if (!rollObject) return;
         chatData = await this.createRollChat(message, rollObject, isWhisperGM);
@@ -54,32 +52,35 @@ class Chat {
         if (!rollObject || !rollTable) return;
         chatData = await this.createRollTable(rollObject, rollTable);
         break;
+      default:
+        chatData = await this.createDefaultChat(message);
+        break;
     }
 
     if (isWhisperGM) {
-      (chatData as any).whisper = gmsToWhisper;
-      (chatData as any).type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
-      (chatData as any).blind = true;
+      chatData.whisper = gmsToWhisper;
+      chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
+      chatData.blind = true;
     }
-    (chatData as any).speaker = gmsToWhisper;
+    chatData.speaker = gmsToWhisper;
 
     ChatMessage.create(chatData);
   }
 
   /**
    * Creates a basic HTML string message
-   * @return {Promise<object>} The chatData object
+   * @return {Promise<ChatMessage>} The chatData object
    * @param message - The chat message to send.
    */
-  async createDefaultChat(message: string): Promise<object> {
-    return {
+  async createDefaultChat(message: string): Promise<ChatMessage> {
+    return <ChatMessage>{
       content: `<div>${message}</div>`,
     };
   }
 
   /**
    * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
-   * @return {Promise<object>} The chatData object
+   * @return {Promise<ChatMessage>} The chatData object
    * @param message - The chat message to send.
    * @param roll - The Roll to parse for the message.
    * @param isWhisperGM - Should the roll only whisper the GM.
@@ -88,9 +89,9 @@ class Chat {
     message: string,
     roll: Roll,
     isWhisperGM: boolean
-  ): Promise<object> {
+  ): Promise<ChatMessage> {
     if (isWhisperGM) {
-      return {
+      return <ChatMessage>{
         content: `<div>${message} ${roll.result}</div>`,
       };
     } else {
@@ -98,7 +99,7 @@ class Chat {
         `${MODULE_ID}`,
         `${OPT_WMS_NAME}`
       );
-      return {
+      return <ChatMessage>{
         flavor: `${wildMagicSurgeName} Check - ${message}`,
         type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         roll: roll,
@@ -109,20 +110,20 @@ class Chat {
 
   /**
    * Creates a HTML string message based on a RollTable
-   * @return {Promise<object>} The chatData object
+   * @return {Promise<ChatMessage>} The chatData object
    * @param {RollResult} rollResult The result of a Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
    */
   async createRollTable(
     rollResult: Roll,
     surgeRollTable: RollTable
-  ): Promise<object> {
+  ): Promise<ChatMessage> {
     const results = rollResult.results;
     const roll = rollResult.roll;
 
     const nr = results.length > 1 ? `${results.length} results` : "a result";
 
-    const chatData = {
+    const chatData = <ChatMessage>{
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
@@ -130,7 +131,7 @@ class Chat {
       sound: null,
     };
 
-    (chatData as any).content = await this.createTemplate(
+    chatData.content = await this.createTemplate(
       CONFIG.RollTable.resultTemplate,
       surgeRollTable,
       roll,
@@ -151,14 +152,13 @@ class Chat {
     template: string,
     surgeRollTable: RollTable,
     roll: Roll,
-    results: any
+    results: string[]
   ): Promise<string> {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
-        // @ts-expect-error TS(2345): Argument of type '{ entities: boolean; }' is not a... Remove this comment to see the full error message
         entities: true,
       }),
-      results: results.map((r: any) => {
+      results: results.map((r: TableResult) => {
         r.text = r.getChatText();
         return r;
       }),

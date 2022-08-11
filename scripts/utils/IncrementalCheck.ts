@@ -61,7 +61,7 @@ export default class IncrementalCheck {
   }
 
   async Check(): Promise<boolean> {
-    if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {
+    if (!hasProperty(this.actor, `flags.${this.FLAG_NAME}`)) {
       return this.SetupDefault();
     }
 

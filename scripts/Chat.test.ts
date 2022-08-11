@@ -19,14 +19,14 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message");
+        await chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message", null);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           blind: true,
           content: "<div>My Custom Message</div>",
-          speaker: [""],
+          speaker: [undefined],
           type: "WHISPER",
-          whisper: [""],
+          whisper: [undefined],
         });
       });
     });
@@ -50,8 +50,8 @@ describe("Chat", () => {
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: `<div>My Custom Message ${roll.result}</div>`,
-          speaker: [""],
-          whisper: [""],
+          speaker: [undefined],
+          whisper: [undefined],
           blind: true,
           type: "WHISPER",
         });
@@ -84,7 +84,7 @@ describe("Chat", () => {
           },
           rollMode: "rollMode",
           type: "ROLL",
-          speaker: [""],
+          speaker: [undefined],
         });
       });
     });
