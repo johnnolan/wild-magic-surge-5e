@@ -34,8 +34,7 @@ import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types
  * let magicSurgeCheck = new MagicSurgeCheck(actor);
  */
 class MagicSurgeCheck {
-  _actor: any;
-  _spellParser: any;
+  _actor: Actor;
   _tokenId: string;
   chat: any;
   rollTableMagicSurge: any;
@@ -44,7 +43,6 @@ class MagicSurgeCheck {
     this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
-    this._spellParser = new SpellParser(actor);
     this._actor = actor;
     this._tokenId = tokenId;
   }
@@ -60,13 +58,16 @@ class MagicSurgeCheck {
     }
 
     if (await this.isValidChatMessage(chatMessageData)) {
-      const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
+      const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
+        this._actor
+      );
       if (hasPathOfWildMagicFeat) {
         this.rollTableMagicSurge.Check("POWM");
       } else {
         if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const spellLevel: string = await this._spellParser.SpellLevel(
-            chatMessageData.content
+          const spellLevel: string = await SpellParser.SpellLevel(
+            chatMessageData.content,
+            this._actor
           );
           const gameType = game.settings.get(
             `${MODULE_ID}`,
@@ -102,27 +103,30 @@ class MagicSurgeCheck {
       if (chatMessageData.user?.id !== game.user?.id) return false;
     }
 
-    const hasPathOfWildMagicFeat = this._spellParser.IsPathOfWildMagicFeat();
+    const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
+      this._actor
+    );
     if (hasPathOfWildMagicFeat) {
-      return !!(await this._spellParser.IsRage(chatMessageData.content));
+      return !!(await SpellParser.IsRage(chatMessageData.content, this._actor));
     }
 
-    const isASpell = await this._spellParser.IsSpell(chatMessageData.content);
+    const isASpell = await SpellParser.IsSpell(chatMessageData.content, this._actor);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
-      const isASorcererSpell = await this._spellParser.IsSorcererSpell(
-        chatMessageData.content
+      const isASorcererSpell = await SpellParser.IsSorcererSpell(
+        chatMessageData.content,
+        this._actor
       );
       if (!isASorcererSpell) return false;
     }
 
-    const hasWildMagicFeat = this._spellParser.IsWildMagicFeat();
+    const hasWildMagicFeat = SpellParser.IsWildMagicFeat(this._actor);
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
       return isASpell && hasWildMagicFeat;
     }
 
-    const isNpc = this._spellParser.IsNPC();
+    const isNpc = SpellParser.IsNPC(this._actor);
     return isASpell && !isNpc && hasWildMagicFeat;
   }
 

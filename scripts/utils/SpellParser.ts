@@ -7,23 +7,28 @@ import {
 } from "../Settings";
 
 export default class SpellParser {
-  _actor: Actor;
-  constructor(actor: Actor) {
-    this._actor = actor;
-  }
-
-  IsWildMagicFeat(): boolean {
+  /**
+   * Returns whether the actor has the Wild Magic Feat in their items
+   * @param actor - Foundry Actor
+   * @return {boolean}
+   */
+  static IsWildMagicFeat(actor: Actor): boolean {
     const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
     return (
-      this._actor.items.find(
+      actor.items.find(
         (a: Item) => a.name === surgeName && a.type === "feat"
       ) !== undefined
     );
   }
 
-  IsPathOfWildMagicFeat(): boolean {
+  /**
+   * Returns whether the actor has the Path of Wild Magic Subclass in their items
+   * @param actor - Foundry Actor
+   * @return {boolean}
+   */
+  static IsPathOfWildMagicFeat(actor: Actor): boolean {
     return (
-      this._actor.items.find(
+      actor.items.find(
         (a: Item) =>
           a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
           a.type === "subclass"
@@ -31,20 +36,39 @@ export default class SpellParser {
     );
   }
 
-  async RollContent(content: string): Promise<Item | undefined> {
+  /**
+   * Gets the Foundry item id from the ChatMessage HTML Data Attribute
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<Item | undefined>}
+   */
+  private static async RollContent(
+    content: string,
+    actor: Actor
+  ): Promise<Item | undefined> {
     const rollContent = $(content);
     const itemId = rollContent.data("item-id");
-    if (!this._actor || !itemId) return undefined;
-    return this._actor.items.find((i: Item) => i.id === itemId);
+    if (!actor || !itemId) return undefined;
+    return actor.items.find((i: Item) => i.id === itemId);
   }
 
-  async SpellDetails(content: string): Promise<string> {
+  /**
+   * Gets the Foundry Spell Level from the ChatMessage HTML Description
+   * @private
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<string>}
+   */
+  private static async SpellDetails(
+    content: string,
+    actor: Actor
+  ): Promise<string> {
     let spellString;
 
     spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
 
     if (!spellString) {
-      const getItem = await this.RollContent(content);
+      const getItem = await SpellParser.RollContent(content, actor);
       if (getItem) {
         const spellLevel = getItem.level;
         if (spellLevel > 0) {
@@ -76,17 +100,38 @@ export default class SpellParser {
     return spellString;
   }
 
-  async SpellLevel(content: string): Promise<string> {
-    return this.SpellDetails(content);
+  /**
+   * Gets the Foundry Spell Level from the ChatMessage HTML Description
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<string>}
+   */
+  static async SpellLevel(content: string, actor: Actor): Promise<string> {
+    return SpellParser.SpellDetails(content, actor);
   }
 
-  async IsSpell(content: string): Promise<boolean> {
-    const result = await this.SpellDetails(content);
+  /**
+   * Checks the Chat Message HTML for whether it is a Spell being cast
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<boolean>}
+   */
+  static async IsSpell(content: string, actor: Actor): Promise<boolean> {
+    const result = await SpellParser.SpellDetails(content, actor);
     return result !== undefined;
   }
 
-  async IsSorcererSpell(content: string): Promise<boolean | null> {
-    const getItem = await this.RollContent(content);
+  /**
+   * Custom regex check for multiclass PCs. Returns if the spell cast was a Sorcerer spell.
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<boolean | null>}
+   */
+  static async IsSorcererSpell(
+    content: string,
+    actor: Actor
+  ): Promise<boolean | null> {
+    const getItem = await SpellParser.RollContent(content, actor);
 
     if (!getItem) return false;
 
@@ -97,8 +142,14 @@ export default class SpellParser {
     return !!spellName?.match(spellRegex);
   }
 
-  async IsRage(content: string): Promise<boolean> {
-    const getItem = await this.RollContent(content);
+  /**
+   * Checks whether the Rage spell has been cast
+   * @param content - Chat Message HTML
+   * @param actor - Foundry Actor
+   * @return {Promise<boolean>}
+   */
+  static async IsRage(content: string, actor: Actor): Promise<boolean> {
+    const getItem = await SpellParser.RollContent(content, actor);
 
     if (!getItem) return false;
 
@@ -107,7 +158,12 @@ export default class SpellParser {
     return spellName === "Rage";
   }
 
-  IsNPC(): boolean {
-    return this._actor ? this._actor.type === "npc" : false;
+  /**
+   * Checks whether the current actor is an NPC
+   * @param actor - Foundry Actor
+   * @return {Promise<boolean>}
+   */
+  static IsNPC(actor: Actor): boolean {
+    return actor ? actor.type === "npc" : false;
   }
 }

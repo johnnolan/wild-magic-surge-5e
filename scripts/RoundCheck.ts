@@ -4,7 +4,7 @@ import SpellParser from "./utils/SpellParser";
 import Chat from "./Chat";
 
 /**
- * Main entry point for Wild Magic Surge Checks
+ * Checks for Incremental surge on each round
  * @class RoundCheck
  * @example
  * let roundCheck = new RoundCheck(actor);
@@ -12,14 +12,12 @@ import Chat from "./Chat";
 class RoundCheck {
   _actor: Actor;
   chat: Chat;
-  spellParser: SpellParser;
   /**
    * Check for Incrementmenal Check
    * @param actor - The Actor to check against.
    * @constructs RoundCheck
    */
   constructor(actor: Actor) {
-    this.spellParser = new SpellParser(actor);
     this.chat = new Chat();
     this._actor = actor;
   }
@@ -30,12 +28,12 @@ class RoundCheck {
    */
   async Check(): Promise<void> {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-      if (this.spellParser.IsWildMagicFeat()) {
+      if (SpellParser.IsWildMagicFeat(this._actor)) {
         const incrementalCheck = new IncrementalCheck(this._actor, null, 10);
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
           await incrementalCheck.Check();
         } else {
-          if (!this.spellParser.IsNPC()) {
+          if (!SpellParser.IsNPC(this._actor)) {
             await incrementalCheck.Check();
           }
         }

@@ -40,9 +40,8 @@ export class ActorHelperPanel extends FormApplication {
   async getData() {
     const actor = this.object;
     const tidesOfChaos = new TidesOfChaos();
-    const spellParser = new SpellParser(actor);
 
-    const hasWildMagicFeat = spellParser.IsWildMagicFeat();
+    const hasWildMagicFeat = SpellParser.IsWildMagicFeat(actor);
     const hasTidesOfChaos = await tidesOfChaos.IsTidesOfChaosSetup(actor);
 
     return <ModuleSetup>{

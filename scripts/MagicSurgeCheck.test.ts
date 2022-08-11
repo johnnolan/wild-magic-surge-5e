@@ -11,33 +11,40 @@ import "../__mocks__/index";
 import TidesOfChaos from "./TidesOfChaos";
 import AutoEffects from "./AutoEffects";
 
-const mockSpellParserIsPathOfWildMagicFeat = jest.fn();
+const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
+  SpellParser,
+  "IsPathOfWildMagicFeat"
+);
 
-const mockSpellParserSpellLevel = jest.fn();
+const mockSpellParserSpellLevel = jest.spyOn(
+  SpellParser,
+  "SpellLevel"
+);
 
-const mockSpellParserIsRage = jest.fn();
+const mockSpellParserIsRage = jest.spyOn(
+  SpellParser,
+  "IsRage"
+);
 
-const mockSpellParserIsSpell = jest.fn();
+const mockSpellParserIsSpell = jest.spyOn(
+  SpellParser,
+  "IsSpell"
+);
 
-const mockSpellParserIsSorcererSpell = jest.fn();
+const mockSpellParserIsSorcererSpell = jest.spyOn(
+  SpellParser,
+  "IsSorcererSpell"
+);
 
-const mockSpellParserIsNPC = jest.fn();
+const mockSpellParserIsNPC = jest.spyOn(
+  SpellParser,
+  "IsNPC"
+);
 
-const mockSpellParserIsWildMagicFeat = jest.fn();
-
-jest.mock("./utils/SpellParser", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      IsPathOfWildMagicFeat: mockSpellParserIsPathOfWildMagicFeat,
-      SpellLevel: mockSpellParserSpellLevel,
-      IsRage: mockSpellParserIsRage,
-      IsSpell: mockSpellParserIsSpell,
-      IsSorcererSpell: mockSpellParserIsSorcererSpell,
-      IsNPC: mockSpellParserIsNPC,
-      IsWildMagicFeat: mockSpellParserIsWildMagicFeat,
-    };
-  });
-});
+const mockSpellParserIsWildMagicFeat = jest.spyOn(
+  SpellParser,
+  "IsWildMagicFeat"
+);
 
 const mockDieDescendingCheck = jest.fn();
 
@@ -132,7 +139,6 @@ beforeEach(() => {
   (TidesOfChaos as any).mockClear();
   (IncrementalCheck as any).mockClear();
   (SpellLevelTrigger as any).mockClear();
-  (SpellParser as any).mockClear();
   (global as any).Hooks.callAll.mockClear();
 });
 
@@ -440,12 +446,11 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce(true),
           },
         };
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
-        mockSpellParserIsSpell.mockReturnValue(true);
-        mockSpellParserIsSorcererSpell.mockReturnValue(true);
-        mockSpellParserIsWildMagicFeat.mockReturnValue(true);
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        mockSpellParserIsPathOfWildMagicFeat.mockImplementation(() => false);
+        mockSpellParserIsSpell.mockImplementation(() => true);
+        mockSpellParserIsSorcererSpell.mockImplementation(() => true);
+        mockSpellParserIsWildMagicFeat.mockImplementation(() => true);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "");
       });
 
       it("It returns true", async () => {
