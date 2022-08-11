@@ -35,6 +35,9 @@ const game = {
       results: jest.fn().mockResolvedValue([]),
     },
   ],
+  i18n: {
+    format: jest.fn().mockResolvedValue("test language string"),
+  },
   settings: {
     get: jest.fn().mockResolvedValue("true"),
     register: jest.fn((_moduleName, _settingName, _data) => {
