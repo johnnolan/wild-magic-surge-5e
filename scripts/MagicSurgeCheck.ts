@@ -163,7 +163,7 @@ class MagicSurgeCheck {
         break;
     }
 
-    return await new Roll(diceFormula).roll({ async: true });
+    return new Roll(diceFormula).roll({ async: true });
   }
 
   /**
@@ -237,8 +237,7 @@ class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
-      // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-      roll = await this.WildMagicSurgeRollCheck(gameType);
+      roll = await this.WildMagicSurgeRollCheck();
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
@@ -247,7 +246,7 @@ class MagicSurgeCheck {
           );
           break;
         case "INCREMENTAL_CHECK":
-        case "INCREMENTAL_CHECK_CHAOTIC":
+        case "INCREMENTAL_CHECK_CHAOTIC": {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           const incrementalCheck = new IncrementalCheck(
             this._actor,
@@ -257,15 +256,18 @@ class MagicSurgeCheck {
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isSurge = await incrementalCheck.Check();
           break;
-        case "SPELL_LEVEL_DEPENDENT_ROLL":
+        }
+        case "SPELL_LEVEL_DEPENDENT_ROLL": {
           const spellLevelTrigger = new SpellLevelTrigger();
           isSurge = spellLevelTrigger.Check(parseInt(roll.result), spellLevel);
           break;
-        case "DIE_DESCENDING":
+        }
+        case "DIE_DESCENDING": {
           const dieDescending = new DieDescending(this._actor, roll.result);
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isSurge = await dieDescending.Check();
           break;
+        }
         default:
           return;
       }
