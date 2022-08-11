@@ -25,18 +25,15 @@ jest.mock("./Chat", () => {
   });
 });
 
-const mockSpellParserIsWildMagicFeat = jest.fn();
+const mockSpellParserIsNPC = jest.spyOn(
+  SpellParser,
+  "IsNPC"
+);
 
-const mockSpellParserIsNPC = jest.fn();
-
-jest.mock("./utils/SpellParser", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      IsWildMagicFeat: mockSpellParserIsWildMagicFeat,
-      IsNPC: mockSpellParserIsNPC,
-    };
-  });
-});
+const mockSpellParserIsWildMagicFeat = jest.spyOn(
+  SpellParser,
+  "IsWildMagicFeat"
+);
 
 beforeEach(() => {
   mockChatRunMessageCheck.mockClear();
@@ -44,7 +41,6 @@ beforeEach(() => {
   mockSpellParserIsNPC.mockClear();
   mockIncrementalCheckCheck.mockClear();
   (Chat as any).mockClear();
-  (SpellParser as any).mockClear();
   (IncrementalCheck as any).mockClear();
 });
 

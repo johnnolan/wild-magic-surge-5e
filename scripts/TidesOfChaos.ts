@@ -1,5 +1,11 @@
 import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings";
 
+type TidesItemData = {
+  hasTidesOfChaosResource: boolean;
+  hasTidesOfChaosFeat: boolean;
+  isValid: boolean;
+};
+
 /**
  * Controls the Tides of Chaos feat
  * @class TidesOfChaos
@@ -13,17 +19,16 @@ class TidesOfChaos {
 
   /**
    * Checks to see if Tides of Chaos has been used and if so recharge it
-   * @public
    * @return {Promise<void>}
-   * @param {Actor} actor The Foundry Actor.
+   * @param actor - The Foundry Actor.
    */
-  async Check(actor: any) {
+  async Check(actor: Actor): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
       return;
     }
     const tidesItemData = await this.getTidesOfChaosResource(actor);
 
-    if (tidesItemData === undefined) return false;
+    if (tidesItemData === undefined) return;
 
     const updates = [];
     updates.push({
@@ -40,9 +45,9 @@ class TidesOfChaos {
    * Checks to see if Tides of Chaos has been used
    * @public
    * @return {Promise<boolean>}
-   * @param {Actor} actor The Foundry Actor.
+   * @param actor - The Foundry Actor.
    */
-  async IsTidesOfChaosUsed(actor: any) {
+  async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
     const tidesItemData = await this.getTidesOfChaosResource(actor);
 
     if (tidesItemData === undefined) return false;
@@ -53,9 +58,9 @@ class TidesOfChaos {
   /**
    * Returns whether Tides of Chaos is setup correctly.
    * @return {Promise<TidesItemData>}
-   * @param {Actor} actor The Foundry Actor.
+   * @param actor - The Foundry Actor.
    */
-  async IsTidesOfChaosSetup(actor: any) {
+  async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
     let tidesItem = false;
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
@@ -70,7 +75,7 @@ class TidesOfChaos {
       }
     }
 
-    return {
+    return <TidesItemData>{
       hasTidesOfChaosResource: tidesItem,
       hasTidesOfChaosFeat: hasTidesOfChaosResource,
       isValid: hasTidesOfChaosResource && tidesItem,
@@ -82,26 +87,26 @@ class TidesOfChaos {
    * @return {Promise<TidesItemData>}
    * @param {Actor} actor The Foundry Actor.
    */
-  async getTidesOfChaosResource(actor: any) {
+  async getTidesOfChaosResource(actor: Actor) {
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
-    const tidesItem = actor.items.find(
-      (a: any) => a.name === featName && a.type === "feat"
+    const item = actor.items.find(
+      (a: Item) => a.name === featName && a.type === "feat"
     );
 
-    if (tidesItem === undefined) {
+    if (item === undefined) {
       // If not enabled or exists then return false indicating not used.
       return undefined;
     }
 
-    if (!tidesItem?.system?.consume?.target) {
+    if (!item?.system?.consume?.target) {
       // If not enabled or exists then return false indicating not used.
       return undefined;
     }
 
     return {
-      usesLeft: tidesItem.system.uses.value,
-      id: tidesItem.id,
-      resourceName: tidesItem?.system?.consume?.target,
+      usesLeft: item.system.uses.value,
+      id: item.id,
+      resourceName: item?.system?.consume?.target,
     };
   }
 }
