@@ -25,7 +25,12 @@ class Chat {
    * @param {string} message The chat message to send.
    * @param {object} rollObject Optional RollTable or Roll to send.
    */
-  async Send(type: any, message: any, rollObject = null) {
+  async Send(
+    type: string,
+    message: string,
+    rollObject: Roll,
+    rollTable?: RollTable
+  ): Promise<void> {
     const isWhisperGM = await game.settings.get(
       `${MODULE_ID}`,
       `${OPT_WHISPER_GM}`
@@ -42,10 +47,12 @@ class Chat {
         chatData = await this.createDefaultChat(message);
         break;
       case CHAT_TYPE.ROLL:
+        if (!rollObject) return;
         chatData = await this.createRollChat(message, rollObject, isWhisperGM);
         break;
       case CHAT_TYPE.TABLE:
-        chatData = await this.createRollTable(message, rollObject);
+        if (!rollObject || !rollTable) return;
+        chatData = await this.createRollTable(rollObject, rollTable);
         break;
     }
 
@@ -56,15 +63,15 @@ class Chat {
     }
     (chatData as any).speaker = gmsToWhisper;
 
-    return ChatMessage.create(chatData);
+    ChatMessage.create(chatData);
   }
 
   /**
    * Creates a basic HTML string message
    * @return {Promise<object>} The chatData object
-   * @param {string} message The chat message to send.
+   * @param message - The chat message to send.
    */
-  async createDefaultChat(message: any) {
+  async createDefaultChat(message: string): Promise<object> {
     return {
       content: `<div>${message}</div>`,
     };
@@ -73,11 +80,15 @@ class Chat {
   /**
    * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
    * @return {Promise<object>} The chatData object
-   * @param {string} message The chat message to send.
-   * @param {Roll} roll The Roll to parse for the message.
-   * @param {boolean} isWhisperGM Should the roll only whisper the GM.
+   * @param message - The chat message to send.
+   * @param roll - The Roll to parse for the message.
+   * @param isWhisperGM - Should the roll only whisper the GM.
    */
-  async createRollChat(message: any, roll: any, isWhisperGM: any) {
+  async createRollChat(
+    message: string,
+    roll: Roll,
+    isWhisperGM: boolean
+  ): Promise<object> {
     if (isWhisperGM) {
       return {
         content: `<div>${message} ${roll.result}</div>`,
@@ -102,7 +113,10 @@ class Chat {
    * @param {RollResult} rollResult The result of a Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
    */
-  async createRollTable(rollResult: any, surgeRollTable: any) {
+  async createRollTable(
+    rollResult: Roll,
+    surgeRollTable: RollTable
+  ): Promise<object> {
     const results = rollResult.results;
     const roll = rollResult.roll;
 
@@ -134,11 +148,11 @@ class Chat {
    * @param {Array} results An Array of results from the roll.
    */
   async createTemplate(
-    template: any,
-    surgeRollTable: any,
-    roll: any,
+    template: string,
+    surgeRollTable: RollTable,
+    roll: Roll,
     results: any
-  ) {
+  ): Promise<string> {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
         // @ts-expect-error TS(2345): Argument of type '{ entities: boolean; }' is not a... Remove this comment to see the full error message
@@ -155,9 +169,9 @@ class Chat {
 
   /**
    * Sends the default Wild Magic Surge Check chat message
-   * @return {Promise<null>} The chatData object
+   * @return {Promise<void>} The chatData object
    */
-  async RunMessageCheck() {
+  async RunMessageCheck(): Promise<void> {
     Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
     await this.Send(
       CHAT_TYPE.DEFAULT,
