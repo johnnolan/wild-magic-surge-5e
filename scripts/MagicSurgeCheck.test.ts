@@ -1,14 +1,9 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
-import RollTableMagicSurge from "./RollTableMagicSurge";
-import IncrementalCheck from "./utils/IncrementalCheck";
 import SpellParser from "./utils/SpellParser";
-import SpellLevelTrigger from "./utils/SpellLevelTrigger";
-import Chat from "./Chat";
 import { actor } from "../MockData/actor";
 import { actorRage } from "../MockData/actorRage";
 import { chatMessage } from "../MockData/chatMessage";
 import "../__mocks__/index";
-import TidesOfChaos from "./TidesOfChaos";
 import AutoEffects from "./AutoEffects";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
@@ -998,21 +993,15 @@ describe("MagicSurgeCheck", () => {
     });
 
     it("It splits one value into an array", async () => {
-      const result = await magicSurgeCheck.SplitRollResult("1");
+      const result = magicSurgeCheck.SplitRollResult("1");
 
       expect(result).toStrictEqual(["1"]);
     });
 
     it("It splits more than one value into an array", async () => {
-      const result = await magicSurgeCheck.SplitRollResult("1, 2, 3");
+      const result = magicSurgeCheck.SplitRollResult("1, 2, 3");
 
       expect(result).toStrictEqual(["1", "2", "3"]);
-    });
-
-    it("It return an empty array if no value passed", async () => {
-      const result = await magicSurgeCheck.SplitRollResult();
-
-      expect(result).toStrictEqual([]);
     });
   });
 });
