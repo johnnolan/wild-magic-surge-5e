@@ -43,7 +43,7 @@ export default class IncrementalCheck {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
       this.chat.Send(
         CHAT_TYPE.DEFAULT,
-        `${(game as any).i18n.format(
+        `${game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
         )} ${value}`
       );
@@ -61,10 +61,6 @@ export default class IncrementalCheck {
   }
 
   async Check(): Promise<boolean> {
-    if (!this.actor) {
-      return false;
-    }
-
     if (!this.actor.flags.hasOwnProperty(this.FLAG_NAME)) {
       return this.SetupDefault();
     }

@@ -40,14 +40,12 @@ beforeEach(() => {
   mockSpellParserIsWildMagicFeat.mockClear();
   mockSpellParserIsNPC.mockClear();
   mockIncrementalCheckCheck.mockClear();
-  (Chat as any).mockClear();
-  (IncrementalCheck as any).mockClear();
 });
 
 describe("RoundCheck", () => {
   describe("Check", () => {
     describe("Given Auto D20 setting is false", () => {
-      let roundCheck: any;
+      let roundCheck: RoundCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -66,7 +64,7 @@ describe("RoundCheck", () => {
     });
 
     describe("Given Auto D20 setting is true and IsWildMagicFeat is false", () => {
-      let roundCheck: any;
+      let roundCheck: RoundCheck;
 
       beforeEach(() => {
         (global as any).game = {
@@ -97,7 +95,7 @@ describe("RoundCheck", () => {
       });
 
       describe("Given IsWildMagicFeat is true", () => {
-        let roundCheck: any;
+        let roundCheck: RoundCheck;
 
         beforeEach(() => {
           roundCheck = new RoundCheck(actor);
@@ -124,7 +122,7 @@ describe("RoundCheck", () => {
       });
 
       describe("Given IsWildMagicFeat is true and not IsNPC", () => {
-        let roundCheck: any;
+        let roundCheck: RoundCheck;
 
         beforeEach(() => {
           roundCheck = new RoundCheck(actor);
@@ -144,7 +142,7 @@ describe("RoundCheck", () => {
       });
 
       describe("Given IsWildMagicFeat is true and  IsNPC", () => {
-        let roundCheck: any;
+        let roundCheck: RoundCheck;
 
         beforeEach(() => {
           roundCheck = new RoundCheck(actor);

@@ -16,7 +16,7 @@ Hooks.on("init", function () {
 
 Hooks.on("createChatMessage", (chatMessage: any) => {
   if (chatMessage.flags?.hasOwnProperty("damage-log")) return;
-  const actor = (game as any).actors.get(chatMessage.speaker.actor);
+  const actor = game.actors.get(chatMessage.speaker.actor);
   if (!actor) {
     return false;
   }
@@ -29,7 +29,7 @@ Hooks.on("updateCombat", async function (roundData: any) {
     game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
-    const actor = (game as any).actors.get(roundData.combatant.actor.id);
+    const actor = game.actors.get(roundData.combatant.actor.id);
     if (!actor) {
       return false;
     }
@@ -42,7 +42,7 @@ Hooks.on("updateCombat", async function (roundData: any) {
 Hooks.on(
   "wild-magic-surge-5e.ResetIncrementalCheck",
   async function (actorId: any) {
-    const actor = (game as any).actors.get(actorId);
+    const actor = game.actors.get(actorId);
     if (!actor) {
       return false;
     }

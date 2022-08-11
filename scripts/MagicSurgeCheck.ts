@@ -110,7 +110,10 @@ class MagicSurgeCheck {
       return !!(await SpellParser.IsRage(chatMessageData.content, this._actor));
     }
 
-    const isASpell = await SpellParser.IsSpell(chatMessageData.content, this._actor);
+    const isASpell = await SpellParser.IsSpell(
+      chatMessageData.content,
+      this._actor
+    );
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
       const isASorcererSpell = await SpellParser.IsSorcererSpell(

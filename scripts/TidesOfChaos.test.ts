@@ -3,8 +3,8 @@ import "../__mocks__/index";
 
 describe("TidesOfChaos", () => {
   describe("If TidesOfChaos is not enabled", () => {
-    let tidesOfChaos: any;
-    let actor: any;
+    let tidesOfChaos: TidesOfChaos;
+    let actor: Actor;
 
     beforeEach(() => {
       (global as any).game = {
@@ -24,8 +24,8 @@ describe("TidesOfChaos", () => {
   describe("If TidesOfChaos exists on the Actor", () => {
     describe("And I want to check whether it is charged or not", () => {
       describe("And it is not charged", () => {
-        let tidesOfChaos: any;
-        let actor: any;
+        let tidesOfChaos: TidesOfChaos;
+        let actor: Actor;
 
         beforeEach(() => {
           (global as any).game = {
@@ -61,8 +61,8 @@ describe("TidesOfChaos", () => {
       });
 
       describe("And there is no target to consume", () => {
-        let tidesOfChaos: any;
-        let actor: any;
+        let tidesOfChaos: TidesOfChaos;
+        let actor: Actor;
 
         beforeEach(() => {
           (global as any).game = {
@@ -95,8 +95,8 @@ describe("TidesOfChaos", () => {
       });
 
       describe("And it is charged", () => {
-        let tidesOfChaos: any;
-        let actor: any;
+        let tidesOfChaos: TidesOfChaos;
+        let actor: Actor;
 
         beforeEach(() => {
           (global as any).game = {
@@ -134,8 +134,8 @@ describe("TidesOfChaos", () => {
 
     describe("And I want to check and reset if its not charged", () => {
       describe("And it is not charged", () => {
-        let tidesOfChaos: any;
-        let actor: any;
+        let tidesOfChaos: TidesOfChaos;
+        let actor: Actor;
 
         beforeEach(() => {
           (global as any).game = {
@@ -180,8 +180,8 @@ describe("TidesOfChaos", () => {
       });
 
       describe("And it is not an item", () => {
-        let tidesOfChaos: any;
-        let actor: any;
+        let tidesOfChaos: TidesOfChaos;
+        let actor: Actor;
 
         beforeEach(() => {
           (global as any).game = {
@@ -222,8 +222,8 @@ describe("TidesOfChaos", () => {
   });
 
   describe("If TidesOfChaos does not exist on the Actor", () => {
-    let tidesOfChaos: any;
-    let actor: any;
+    let tidesOfChaos: TidesOfChaos;
+    let actor: Actor;
 
     beforeEach(() => {
       (global as any).game = {
@@ -248,8 +248,8 @@ describe("TidesOfChaos", () => {
 
   describe("I want to check whether Tides of Chaos is setup correctly", () => {
     describe("And there is no Feat available", () => {
-      let tidesOfChaos: any;
-      let actor: any;
+      let tidesOfChaos: TidesOfChaos;
+      let actor: Actor;
 
       beforeEach(() => {
         (global as any).game = {
@@ -285,8 +285,8 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and no resource", () => {
-      let tidesOfChaos: any;
-      let actor: any;
+      let tidesOfChaos: TidesOfChaos;
+      let actor: Actor;
 
       beforeEach(() => {
         (global as any).game = {
@@ -334,8 +334,8 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and resource setup to wrong resource", () => {
-      let tidesOfChaos: any;
-      let actor: any;
+      let tidesOfChaos: TidesOfChaos;
+      let actor: Actor;
 
       beforeEach(() => {
         (global as any).game = {
@@ -383,8 +383,8 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and resource setup", () => {
-      let tidesOfChaos: any;
-      let actor: any;
+      let tidesOfChaos: TidesOfChaos;
+      let actor: Actor;
 
       beforeEach(() => {
         (global as any).game = {
