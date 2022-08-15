@@ -5,6 +5,7 @@ import {
   OPT_CHAT_MSG,
   CHAT_TYPE,
 } from "./Settings";
+import CallHooks from "./utils/CallHooks";
 
 /**
  * Chat class for handling common chat methods
@@ -29,7 +30,7 @@ class Chat {
   async Send(
     type: string,
     message: string,
-    rollObject: Roll,
+    rollObject?: Roll,
     rollTable?: RollTable
   ): Promise<void> {
     const isWhisperGM = await game.settings.get(
@@ -172,7 +173,7 @@ class Chat {
    * @return {Promise<void>} The chatData object
    */
   async RunMessageCheck(): Promise<void> {
-    Hooks.callAll("wild-magic-surge-5e.CheckForSurge", true);
+    CallHooks.Call("CheckForSurge", { value: true });
     await this.Send(
       CHAT_TYPE.DEFAULT,
       game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)

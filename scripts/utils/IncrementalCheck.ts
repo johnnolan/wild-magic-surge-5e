@@ -4,6 +4,7 @@ import {
   CHAT_TYPE,
 } from "../Settings";
 import Chat from "../Chat";
+import CallHooks from "./CallHooks";
 
 type FlagValue = {
   max: number;
@@ -38,7 +39,7 @@ export default class IncrementalCheck {
   }
 
   async CallChanged(value: number) {
-    Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", value);
+    CallHooks.Call("IncrementalCheckChanged", { value: value });
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
       this.chat.Send(
