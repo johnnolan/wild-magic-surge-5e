@@ -2,7 +2,9 @@ import { actor } from "./actor";
 
 export const chatMessage = {
   content: "1st Level",
-  user: "123",
+  user: {
+    id: "123",
+  },
   speaker: {
     actor: actor,
   },

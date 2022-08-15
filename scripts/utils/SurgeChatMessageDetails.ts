@@ -66,7 +66,7 @@ export default class SurgeChatMessageDetails {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
       return this._isSorcererSpell;
     }
-    return false;
+    return undefined;
   }
 
   get isUserOnMessageValid(): boolean {
@@ -88,8 +88,8 @@ export default class SurgeChatMessageDetails {
 
     let isValid = this._isASpell && this._hasWildMagicFeat;
 
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-      isValid = isValid && this._isNpc;
+    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
+      isValid = isValid && !this._isNpc;
     }
 
     return isValid;
