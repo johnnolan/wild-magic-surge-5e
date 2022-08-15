@@ -205,8 +205,7 @@ class MagicSurgeCheck {
           break;
         }
         case "SPELL_LEVEL_DEPENDENT_ROLL": {
-          const spellLevelTrigger = new SpellLevelTrigger();
-          isSurge = spellLevelTrigger.Check(parseInt(roll.result), spellLevel);
+          isSurge = SpellLevelTrigger.Check(parseInt(roll.result), spellLevel);
           break;
         }
         case "DIE_DESCENDING": {

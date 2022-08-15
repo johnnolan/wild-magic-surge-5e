@@ -6,7 +6,6 @@ describe("SpellLevelTrigger", () => {
   };
 
   describe("Roll 4 < 5", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -24,19 +23,16 @@ describe("SpellLevelTrigger", () => {
           },
         ],
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(4, "5th Level");
+      const result = SpellLevelTrigger.Check(4, "5th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 14 > 6", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -53,19 +49,16 @@ describe("SpellLevelTrigger", () => {
           },
         ],
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(14, "6th Level");
+      const result = SpellLevelTrigger.Check(14, "6th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 4 === 4", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -82,19 +75,16 @@ describe("SpellLevelTrigger", () => {
           },
         ],
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(4, "4th Level");
+      const result = SpellLevelTrigger.Check(4, "4th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 5 !== 3", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -111,19 +101,16 @@ describe("SpellLevelTrigger", () => {
           },
         ],
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(5, "3rd Level");
+      const result = SpellLevelTrigger.Check(5, "3rd Level");
 
       expect(result).toBeFalsy();
     });
   });
 
   describe("Roll 1 === 1", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -133,19 +120,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 1"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(1, "1st Level");
+      const result = SpellLevelTrigger.Check(1, "1st Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 2 === 2", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -155,19 +139,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 2"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(2, "2nd Level");
+      const result = SpellLevelTrigger.Check(2, "2nd Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 3 === 3", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -177,19 +158,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 3"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(3, "3rd Level");
+      const result = SpellLevelTrigger.Check(3, "3rd Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 7 === 7", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -199,19 +177,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 7"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(7, "7th Level");
+      const result = SpellLevelTrigger.Check(7, "7th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 8 === 8", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -221,19 +196,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 8"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(8, "8th Level");
+      const result = SpellLevelTrigger.Check(8, "8th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 9 === 9", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -243,19 +215,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 9"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(9, "9th Level");
+      const result = SpellLevelTrigger.Check(9, "9th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll 10 === 10", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -265,19 +234,16 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("= 10"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(10, "10th Level");
+      const result = SpellLevelTrigger.Check(10, "10th Level");
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("Roll return value is invalid", () => {
-    let spellLevelTrigger: SpellLevelTrigger;
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -287,11 +253,10 @@ describe("SpellLevelTrigger", () => {
           get: jest.fn().mockReturnValueOnce("11"),
         },
       };
-      spellLevelTrigger = new SpellLevelTrigger();
     });
 
     it("should be true", () => {
-      const result = spellLevelTrigger.Check(10, "10th Level");
+      const result = SpellLevelTrigger.Check(10, "10th Level");
 
       expect(result).toBeFalsy();
     });

@@ -1,5 +1,6 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
+import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 import { actor } from "../MockData/actor";
 import { chatMessage } from "../MockData/chatMessage";
@@ -35,16 +36,6 @@ jest.mock("./utils/DieDescending", () => {
   return jest.fn().mockImplementation(() => {
     return {
       Check: mockDieDescendingCheck,
-    };
-  });
-});
-
-const mockSpellLevelTriggerCheck = jest.fn();
-
-jest.mock("./utils/SpellLevelTrigger", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockSpellLevelTriggerCheck,
     };
   });
 });
@@ -108,6 +99,8 @@ const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
   "spellLevel", "get"
 );
 
+const mockSpellLevelTriggerCheck = jest.fn();
+SpellLevelTrigger.Check = mockSpellLevelTriggerCheck;
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
 (global as any).Hooks = {

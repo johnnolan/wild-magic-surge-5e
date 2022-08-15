@@ -17,7 +17,7 @@ export default class SpellLevelTrigger {
     // This is intentional
   }
 
-  Check(result: number, spellLevel: string): boolean {
+  static Check(result: number, spellLevel: string): boolean {
     let spellString = "";
     switch (spellLevel) {
       case "1st Level":
