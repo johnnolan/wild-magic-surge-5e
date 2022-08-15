@@ -24,6 +24,7 @@ import SpellParser from "./utils/SpellParser";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
+import CallHooks from "./utils/CallHooks";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -283,7 +284,7 @@ class MagicSurgeCheck {
    * @param {RollResult} rollResult
    */
   async _callIsSurgeHook(isSurge: boolean, rollResult?: Roll): Promise<void> {
-    Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", {
+    CallHooks.Call("IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult?.result,
       tokenId: this._tokenId,

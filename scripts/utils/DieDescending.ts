@@ -1,9 +1,5 @@
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
-
-type FlagValue = {
-  value: string;
-};
-
+import CallHooks from "./CallHooks";
 export default class DieDescending {
   _actor: Actor;
   defaultValue: FlagValue;
@@ -16,8 +12,8 @@ export default class DieDescending {
     };
   }
 
-  async CallChanged(value: FlagValue) {
-    Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", value);
+  async CallChanged(value: string) {
+    CallHooks.Call("DieDescendingChanged", { value: value })
   }
 
   async SetupDefault() {
