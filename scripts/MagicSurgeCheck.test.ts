@@ -2,7 +2,6 @@ import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 import { actor } from "../MockData/actor";
-import { actorRage } from "../MockData/actorRage";
 import { chatMessage } from "../MockData/chatMessage";
 import "../__mocks__/index";
 import AutoEffects from "./AutoEffects";

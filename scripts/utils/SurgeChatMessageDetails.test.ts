@@ -2,8 +2,6 @@ import SurgeChatMessageDetails from "./SurgeChatMessageDetails";
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
 import { chatMessage } from "../../MockData/chatMessage";
-import { actorRage } from "../../MockData/actorRage";
-import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
 import "../../__mocks__/index";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
