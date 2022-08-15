@@ -3,7 +3,6 @@ import "../__mocks__/index";
 
 describe("TidesOfChaos", () => {
   describe("If TidesOfChaos is not enabled", () => {
-    let tidesOfChaos: TidesOfChaos;
     let actor: Actor;
 
     beforeEach(() => {
@@ -12,11 +11,10 @@ describe("TidesOfChaos", () => {
           get: jest.fn().mockReturnValueOnce(false),
         },
       };
-      tidesOfChaos = new TidesOfChaos();
     });
 
     it("should return undefined", async () => {
-      const result = await tidesOfChaos.Check(actor);
+      const result = await TidesOfChaos.Check(actor);
       expect(result).toBeUndefined();
     });
   });
@@ -24,7 +22,6 @@ describe("TidesOfChaos", () => {
   describe("If TidesOfChaos exists on the Actor", () => {
     describe("And I want to check whether it is charged or not", () => {
       describe("And it is not charged", () => {
-        let tidesOfChaos: TidesOfChaos;
         let actor: Actor;
 
         beforeEach(() => {
@@ -33,7 +30,6 @@ describe("TidesOfChaos", () => {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
           };
-          tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
               find: jest.fn().mockReturnValueOnce({
@@ -54,14 +50,13 @@ describe("TidesOfChaos", () => {
         });
 
         it("should return true", async () => {
-          const result = await tidesOfChaos.IsTidesOfChaosUsed(actor);
+          const result = await TidesOfChaos.IsTidesOfChaosUsed(actor);
 
           expect(result).toBeTruthy();
         });
       });
 
       describe("And there is no target to consume", () => {
-        let tidesOfChaos: TidesOfChaos;
         let actor: Actor;
 
         beforeEach(() => {
@@ -70,7 +65,6 @@ describe("TidesOfChaos", () => {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
           };
-          tidesOfChaos = new TidesOfChaos();
           actor = {
             items: [
               {
@@ -88,14 +82,13 @@ describe("TidesOfChaos", () => {
         });
 
         it("should return false", async () => {
-          const result = await tidesOfChaos.IsTidesOfChaosUsed(actor);
+          const result = await TidesOfChaos.IsTidesOfChaosUsed(actor);
 
           expect(result).toBeFalsy();
         });
       });
 
       describe("And it is charged", () => {
-        let tidesOfChaos: TidesOfChaos;
         let actor: Actor;
 
         beforeEach(() => {
@@ -104,7 +97,6 @@ describe("TidesOfChaos", () => {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
           };
-          tidesOfChaos = new TidesOfChaos();
           actor = {
             items: {
               find: jest.fn().mockReturnValueOnce({
@@ -125,7 +117,7 @@ describe("TidesOfChaos", () => {
         });
 
         it("should return false", async () => {
-          const result = await tidesOfChaos.IsTidesOfChaosUsed(actor);
+          const result = await TidesOfChaos.IsTidesOfChaosUsed(actor);
 
           expect(result).toBeFalsy();
         });
@@ -134,7 +126,7 @@ describe("TidesOfChaos", () => {
 
     describe("And I want to check and reset if its not charged", () => {
       describe("And it is not charged", () => {
-        let tidesOfChaos: TidesOfChaos;
+        
         let actor: Actor;
 
         beforeEach(() => {
@@ -143,7 +135,7 @@ describe("TidesOfChaos", () => {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
           };
-          tidesOfChaos = new TidesOfChaos();
+          
           actor = {
             update: jest.fn(),
 
@@ -167,7 +159,7 @@ describe("TidesOfChaos", () => {
         });
 
         it("should return true", async () => {
-          await tidesOfChaos.Check(actor);
+          await TidesOfChaos.Check(actor);
 
           expect(actor.update).toBeCalled();
 
@@ -180,7 +172,7 @@ describe("TidesOfChaos", () => {
       });
 
       describe("And it is not an item", () => {
-        let tidesOfChaos: TidesOfChaos;
+        
         let actor: Actor;
 
         beforeEach(() => {
@@ -189,7 +181,7 @@ describe("TidesOfChaos", () => {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
           };
-          tidesOfChaos = new TidesOfChaos();
+          
           actor = {
             update: jest.fn(),
 
@@ -213,7 +205,7 @@ describe("TidesOfChaos", () => {
         });
 
         it("should return false", async () => {
-          const result = await tidesOfChaos.Check(actor);
+          const result = await TidesOfChaos.Check(actor);
 
           expect(result).toBeFalsy();
         });
@@ -222,7 +214,7 @@ describe("TidesOfChaos", () => {
   });
 
   describe("If TidesOfChaos does not exist on the Actor", () => {
-    let tidesOfChaos: TidesOfChaos;
+    
     let actor: Actor;
 
     beforeEach(() => {
@@ -231,7 +223,7 @@ describe("TidesOfChaos", () => {
           get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
         },
       };
-      tidesOfChaos = new TidesOfChaos();
+      
       actor = {
         items: {
           find: jest.fn().mockReturnValueOnce(undefined),
@@ -240,7 +232,7 @@ describe("TidesOfChaos", () => {
     });
 
     it("should return true", async () => {
-      const result = await tidesOfChaos.IsTidesOfChaosUsed(actor);
+      const result = await TidesOfChaos.IsTidesOfChaosUsed(actor);
 
       expect(result).toBeFalsy();
     });
@@ -248,7 +240,7 @@ describe("TidesOfChaos", () => {
 
   describe("I want to check whether Tides of Chaos is setup correctly", () => {
     describe("And there is no Feat available", () => {
-      let tidesOfChaos: TidesOfChaos;
+      
       let actor: Actor;
 
       beforeEach(() => {
@@ -257,7 +249,7 @@ describe("TidesOfChaos", () => {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
         };
-        tidesOfChaos = new TidesOfChaos();
+        
         actor = {
           system: {
             resources: {
@@ -274,7 +266,7 @@ describe("TidesOfChaos", () => {
       });
 
       it("should return false", async () => {
-        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        const result = await TidesOfChaos.IsTidesOfChaosSetup(actor);
 
         expect(result).toEqual({
           hasTidesOfChaosFeat: false,
@@ -285,7 +277,7 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and no resource", () => {
-      let tidesOfChaos: TidesOfChaos;
+      
       let actor: Actor;
 
       beforeEach(() => {
@@ -294,7 +286,7 @@ describe("TidesOfChaos", () => {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
         };
-        tidesOfChaos = new TidesOfChaos();
+        
         actor = {
           system: {
             resources: {
@@ -323,7 +315,7 @@ describe("TidesOfChaos", () => {
       });
 
       it("should return false for resource check", async () => {
-        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        const result = await TidesOfChaos.IsTidesOfChaosSetup(actor);
 
         expect(result).toEqual({
           hasTidesOfChaosFeat: true,
@@ -334,7 +326,7 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and resource setup to wrong resource", () => {
-      let tidesOfChaos: TidesOfChaos;
+      
       let actor: Actor;
 
       beforeEach(() => {
@@ -343,7 +335,7 @@ describe("TidesOfChaos", () => {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
         };
-        tidesOfChaos = new TidesOfChaos();
+        
         actor = {
           system: {
             resources: {
@@ -372,7 +364,7 @@ describe("TidesOfChaos", () => {
       });
 
       it("should return false", async () => {
-        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        const result = await TidesOfChaos.IsTidesOfChaosSetup(actor);
 
         expect(result).toEqual({
           hasTidesOfChaosFeat: true,
@@ -383,7 +375,7 @@ describe("TidesOfChaos", () => {
     });
 
     describe("And there is a Feat available and resource setup", () => {
-      let tidesOfChaos: TidesOfChaos;
+      
       let actor: Actor;
 
       beforeEach(() => {
@@ -392,7 +384,7 @@ describe("TidesOfChaos", () => {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
         };
-        tidesOfChaos = new TidesOfChaos();
+        
         actor = {
           system: {
             resources: {
@@ -421,7 +413,7 @@ describe("TidesOfChaos", () => {
       });
 
       it("should return false", async () => {
-        const result = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+        const result = await TidesOfChaos.IsTidesOfChaosSetup(actor);
 
         expect(result).toEqual({
           hasTidesOfChaosFeat: true,

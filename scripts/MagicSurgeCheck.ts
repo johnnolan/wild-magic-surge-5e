@@ -26,16 +26,14 @@ import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 /**
  * Main entry point for Wild Magic Surge Checks
  * @class MagicSurgeCheck
- * @param {Actor} actor
+ * @param actor - Foundry Actor
  * @example
  * let magicSurgeCheck = new MagicSurgeCheck(actor);
  */
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string;
-  tidesOfChaos: TidesOfChaos;
   constructor(actor: Actor, tokenId: string) {
-    this.tidesOfChaos = new TidesOfChaos();
     this._actor = actor;
     this._tokenId = tokenId;
   }
@@ -174,7 +172,7 @@ class MagicSurgeCheck {
 
     let isAutoSurge = false;
     if (game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TOC_ENABLED}`)) {
-      if (await this.tidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
+      if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
         this.SurgeTidesOfChaos();
       }
@@ -243,7 +241,7 @@ class MagicSurgeCheck {
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
         roll
       );
-      this.tidesOfChaos.Check(this._actor);
+      TidesOfChaos.Check(this._actor);
       RollTableMagicSurge.Check();
       this._callIsSurgeHook(true, roll);
       AutoEffects.Run(this._tokenId);
@@ -267,7 +265,7 @@ class MagicSurgeCheck {
       CHAT_TYPE.DEFAULT,
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
     );
-    this.tidesOfChaos.Check(this._actor);
+    TidesOfChaos.Check(this._actor);
     this._callIsSurgeHook(true);
     AutoEffects.Run(this._tokenId);
   }
