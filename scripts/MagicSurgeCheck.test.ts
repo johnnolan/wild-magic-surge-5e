@@ -1,5 +1,6 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
+import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 import { actor } from "../MockData/actor";
 import { actorRage } from "../MockData/actorRage";
 import { chatMessage } from "../MockData/chatMessage";
@@ -11,30 +12,18 @@ const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   "IsPathOfWildMagicFeat"
 );
 
-const mockSpellParserSpellLevel = jest.spyOn(
-  SpellParser,
-  "SpellLevel"
-);
+const mockSpellParserSpellLevel = jest.spyOn(SpellParser, "SpellLevel");
 
-const mockSpellParserIsRage = jest.spyOn(
-  SpellParser,
-  "IsRage"
-);
+const mockSpellParserIsRage = jest.spyOn(SpellParser, "IsRage");
 
-const mockSpellParserIsSpell = jest.spyOn(
-  SpellParser,
-  "IsSpell"
-);
+const mockSpellParserIsSpell = jest.spyOn(SpellParser, "IsSpell");
 
 const mockSpellParserIsSorcererSpell = jest.spyOn(
   SpellParser,
   "IsSorcererSpell"
 );
 
-const mockSpellParserIsNPC = jest.spyOn(
-  SpellParser,
-  "IsNPC"
-);
+const mockSpellParserIsNPC = jest.spyOn(SpellParser, "IsNPC");
 
 const mockSpellParserIsWildMagicFeat = jest.spyOn(
   SpellParser,
@@ -107,6 +96,19 @@ jest.mock("./RollTableMagicSurge", () => {
   });
 });
 
+const mockSurgeChatMessageDetailsValid = jest.spyOn(
+  SurgeChatMessageDetails.prototype,
+  "valid", "get"
+);
+const mockSurgeChatMessageDetailsHasPathOfWildMagicFeat = jest.spyOn(
+  SurgeChatMessageDetails.prototype,
+  "hasPathOfWildMagicFeat", "get"
+);
+const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
+  SurgeChatMessageDetails.prototype,
+  "spellLevel", "get"
+);
+
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
 (global as any).Hooks = {
@@ -122,6 +124,9 @@ beforeEach(() => {
   mockSpellLevelTriggerCheck.mockClear();
   mockIncrementalCheckCheck.mockClear();
   mockAutoEffect.mockClear();
+  mockSurgeChatMessageDetailsValid.mockClear();
+  mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockClear();
+  mockSurgeChatMessageDetailsSpellLevel.mockClear();
   mockSpellParserIsPathOfWildMagicFeat.mockClear();
   mockSpellParserIsSorcererSpell.mockClear();
   mockSpellParserSpellLevel.mockClear();
@@ -142,16 +147,16 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest
               .fn()
-              .mockReturnValueOnce(true)
-              .mockReturnValueOnce("DEFAULT"),
+              .mockReturnValue(true)
           },
         };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
-        mockSpellParserSpellLevel.mockReturnValue("1st Level");
 
-        jest.spyOn(magicSurgeCheck, "isValidChatMessage").mockReturnValue(true);
+        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
+        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
+          false
+        );
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
@@ -159,9 +164,9 @@ describe("MagicSurgeCheck", () => {
       it("It runs correctly", async () => {
         await magicSurgeCheck.CheckChatMessage(chatMessage);
 
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
+        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockSpellParserSpellLevel).toHaveBeenCalledTimes(1);
+        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
 
         expect(magicSurgeCheck.AutoSurgeCheck).toHaveBeenCalledTimes(1);
 
@@ -180,10 +185,11 @@ describe("MagicSurgeCheck", () => {
         };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
-        mockSpellParserSpellLevel.mockReturnValue("1st Level");
 
-        jest.spyOn(magicSurgeCheck, "isValidChatMessage").mockReturnValue(true);
+        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
+        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
+          false
+        );
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
@@ -191,9 +197,9 @@ describe("MagicSurgeCheck", () => {
       it("It runs correctly", async () => {
         await magicSurgeCheck.CheckChatMessage(chatMessage);
 
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
+        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockSpellParserSpellLevel).not.toHaveBeenCalled();
+        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
 
@@ -212,10 +218,11 @@ describe("MagicSurgeCheck", () => {
         };
         // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
         magicSurgeCheck = new MagicSurgeCheck(actor);
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
-        mockSpellParserSpellLevel.mockReturnValue("1st Level");
 
-        jest.spyOn(magicSurgeCheck, "isValidChatMessage").mockReturnValue(true);
+        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
+        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
+          true
+        );
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
@@ -226,8 +233,6 @@ describe("MagicSurgeCheck", () => {
         expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
         expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM");
-
-        expect(mockSpellParserSpellLevel).not.toHaveBeenCalled();
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
       });
@@ -255,223 +260,6 @@ describe("MagicSurgeCheck", () => {
 
       it("It returns from module", async () => {
         const result = await magicSurgeCheck.CheckChatMessage(chatMessage);
-
-        expect(result).toBeFalsy();
-      });
-    });
-  });
-
-  describe("isValidChatMessage", () => {
-    describe("Is whisper to GM but not the GM", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: false,
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true),
-          },
-        };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
-      });
-
-      it("It returns false", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage(chatMessage);
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe("Is not whisper to GM and the game user is not the same as the message user", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: false,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(false),
-          },
-        };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
-      });
-
-      it("It returns false", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage({
-          user: {
-            id: "123",
-          },
-        });
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe("Is a Path of Wild Magic and Rage", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true),
-          },
-        };
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
-        mockSpellParserIsRage.mockReturnValue(true);
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actorRage);
-      });
-
-      it("It returns true", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage(chatMessage);
-
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsRage).toHaveBeenCalledTimes(1);
-
-        expect(result).toBeTruthy();
-      });
-    });
-
-    describe("Is not a sorcerer spell", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
-          },
-        };
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
-        mockSpellParserIsSpell.mockReturnValue(true);
-        mockSpellParserIsSorcererSpell.mockReturnValue(false);
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
-      });
-
-      it("It returns true", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage(chatMessage);
-
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSpell).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSorcererSpell).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsRage).not.toHaveBeenCalled();
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe("Is a valid message", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
-          },
-        };
-        mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
-        mockSpellParserIsSpell.mockReturnValue(true);
-        mockSpellParserIsSorcererSpell.mockReturnValue(true);
-        mockSpellParserIsNPC.mockReturnValue(false);
-        mockSpellParserIsWildMagicFeat.mockReturnValue(true);
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
-      });
-
-      it("It returns true", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage(chatMessage);
-
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSpell).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsNPC).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSorcererSpell).not.toHaveBeenCalled();
-
-        expect(mockSpellParserIsRage).not.toHaveBeenCalled();
-
-        expect(result).toBeTruthy();
-      });
-    });
-
-    describe("Is a valid message with NPCs enabled", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          user: {
-            isGM: true,
-            id: "12345",
-          },
-          settings: {
-            get: jest
-              .fn()
-              .mockReturnValueOnce(true)
-              .mockReturnValueOnce(false)
-              .mockReturnValueOnce(true),
-          },
-        };
-        mockSpellParserIsPathOfWildMagicFeat.mockImplementation(() => false);
-        mockSpellParserIsSpell.mockImplementation(() => true);
-        mockSpellParserIsSorcererSpell.mockImplementation(() => true);
-        mockSpellParserIsWildMagicFeat.mockImplementation(() => true);
-        magicSurgeCheck = new MagicSurgeCheck(actor, "");
-      });
-
-      it("It returns true", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage(chatMessage);
-
-        expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSpell).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsNPC).not.toHaveBeenCalled();
-
-        expect(mockSpellParserIsWildMagicFeat).toHaveBeenCalledTimes(1);
-
-        expect(mockSpellParserIsSorcererSpell).not.toHaveBeenCalled();
-
-        expect(mockSpellParserIsRage).not.toHaveBeenCalled();
-
-        expect(result).toBeTruthy();
-      });
-    });
-
-    describe("Has no actor", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(undefined);
-      });
-
-      it("It returns from module", async () => {
-        const result = await magicSurgeCheck.isValidChatMessage({});
 
         expect(result).toBeFalsy();
       });

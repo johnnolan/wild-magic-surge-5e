@@ -1,10 +1,8 @@
 import {
   MODULE_ID,
-  OPT_SPELL_REGEX_ENABLED,
   OPT_AUTO_D20,
   OPT_AUTO_D20_MSG,
   OPT_AUTO_D20_MSG_NO_SURGE,
-  OPT_WHISPER_GM,
   OPT_CUSTOM_ROLL_DICE_FORMULA,
   OPT_CUSTOM_ROLL_RESULT,
   OPT_CUSTOM_ROLL_RESULT_CHECK,
@@ -12,7 +10,6 @@ import {
   OPT_SURGE_TYPE,
   MODULE_FLAG_NAME,
   DIE_DESCENDING_FLAG_OPTION,
-  OPT_ENABLE_NPCS,
   OPT_SURGE_TOC_ENABLED,
   CHAT_TYPE,
 } from "./Settings";
@@ -20,11 +17,11 @@ import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import IncrementalCheck from "./utils/IncrementalCheck";
-import SpellParser from "./utils/SpellParser";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
 import CallHooks from "./utils/CallHooks";
+import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -57,80 +54,27 @@ class MagicSurgeCheck {
       return;
     }
 
-    if (await this.isValidChatMessage(chatMessage)) {
-      const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
-        this._actor
-      );
-      if (hasPathOfWildMagicFeat) {
-        this.rollTableMagicSurge.Check("POWM");
+    const surgeChatMessageDetails = new SurgeChatMessageDetails(
+      chatMessage,
+      this._actor,
+      game.user?.id,
+      game.user?.isGM
+    );
+
+    if (!surgeChatMessageDetails.valid) return;
+
+    if (surgeChatMessageDetails.hasPathOfWildMagicFeat) {
+      this.rollTableMagicSurge.Check("POWM");
+    } else {
+      if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
+        await this.AutoSurgeCheck(
+          surgeChatMessageDetails.spellLevel,
+          game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)
+        );
       } else {
-        if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
-          const spellLevel: string = await SpellParser.SpellLevel(
-            chatMessage.content,
-            this._actor
-          );
-          const gameType = game.settings.get(
-            `${MODULE_ID}`,
-            `${OPT_SURGE_TYPE}`
-          );
-          await this.AutoSurgeCheck(spellLevel, gameType);
-        } else {
-          this.chat.RunMessageCheck();
-        }
+        this.chat.RunMessageCheck();
       }
     }
-  }
-
-  /**
-   * @private
-   * @param chatMessage -
-   * @returns boolean
-   */
-  async isValidChatMessage(chatMessage: ChatMessage): Promise<boolean> {
-    if (!chatMessage.speaker || !chatMessage.speaker.actor) {
-      return false;
-    }
-
-    const whisperToGM = game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`);
-    // If whisper is set
-    if (whisperToGM) {
-      // Make sure it is the GM who sends the message
-      if (!game.user?.isGM) return false;
-    }
-    // If its just a public message
-    else {
-      // Make sure the player who rolled sends the message
-      if (chatMessage.user?.id !== game.user?.id) return false;
-    }
-
-    const hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
-      this._actor
-    );
-    if (hasPathOfWildMagicFeat) {
-      return !!(await SpellParser.IsRage(chatMessage.content, this._actor));
-    }
-
-    const isASpell = await SpellParser.IsSpell(
-      chatMessage.content,
-      this._actor
-    );
-
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
-      const isASorcererSpell = await SpellParser.IsSorcererSpell(
-        chatMessage.content,
-        this._actor
-      );
-      if (!isASorcererSpell) return false;
-    }
-
-    const hasWildMagicFeat = SpellParser.IsWildMagicFeat(this._actor);
-
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-      return isASpell && hasWildMagicFeat;
-    }
-
-    const isNpc = SpellParser.IsNPC(this._actor);
-    return isASpell && !isNpc && hasWildMagicFeat;
   }
 
   /**
