@@ -1,6 +1,7 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
+import Chat from "./Chat";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 import { actor } from "../MockData/actor";
 import { chatMessage } from "../MockData/chatMessage";
@@ -50,19 +51,6 @@ jest.mock("./utils/IncrementalCheck", () => {
   });
 });
 
-const mockChatSend = jest.fn();
-
-const mockChatRunMessageCheck = jest.fn();
-
-jest.mock("./Chat", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Send: mockChatSend,
-      RunMessageCheck: mockChatRunMessageCheck,
-    };
-  });
-});
-
 const mockTidesOfChaosCheck = jest.fn();
 
 const mockTidesOfChaosIsTidesOfChaosUsed = jest.fn();
@@ -99,6 +87,10 @@ const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
   "spellLevel", "get"
 );
 
+const mockChatSend = jest.fn();
+const mockChatRunMessageCheck = jest.fn();
+Chat.RunMessageCheck = mockChatRunMessageCheck;
+Chat.Send = mockChatSend;
 const mockSpellLevelTriggerCheck = jest.fn();
 SpellLevelTrigger.Check = mockSpellLevelTriggerCheck;
 const mockAutoEffect = jest.fn();

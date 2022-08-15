@@ -49,8 +49,7 @@ class RollTableMagicSurge {
     );
 
     await surgeRollTable?.roll().then((result: Roll) => {
-      const chat = new Chat();
-      chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
+      Chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
     });
   }
 }

@@ -10,14 +10,8 @@ import CallHooks from "./utils/CallHooks";
 /**
  * Chat class for handling common chat methods
  * @class Chat
- * @example
- * let chat = new Chat();
  */
-class Chat {
-  constructor() {
-    // This is intentional
-  }
-
+export default class Chat {
   /**
    * Sends the correct ChatMessage to the Chat window
    * @public
@@ -27,7 +21,7 @@ class Chat {
    * @param rollObject - Roll to send.
    * @param rollTable - Optional RollTable to send.
    */
-  async Send(
+  static async Send(
     type: string,
     message: string,
     rollObject?: Roll,
@@ -73,7 +67,7 @@ class Chat {
    * @return {Promise<ChatMessage>} The chatData object
    * @param message - The chat message to send.
    */
-  async createDefaultChat(message: string): Promise<ChatMessage> {
+  static async createDefaultChat(message: string): Promise<ChatMessage> {
     return <ChatMessage>{
       content: `<div>${message}</div>`,
     };
@@ -86,7 +80,7 @@ class Chat {
    * @param roll - The Roll to parse for the message.
    * @param isWhisperGM - Should the roll only whisper the GM.
    */
-  async createRollChat(
+  static async createRollChat(
     message: string,
     roll: Roll,
     isWhisperGM: boolean
@@ -115,7 +109,7 @@ class Chat {
    * @param {RollResult} rollResult The result of a Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
    */
-  async createRollTable(
+  static async createRollTable(
     rollResult: Roll,
     surgeRollTable: RollTable
   ): Promise<ChatMessage> {
@@ -149,7 +143,7 @@ class Chat {
    * @param {Roll} roll The result of a Roll.
    * @param {Array} results An Array of results from the roll.
    */
-  async createTemplate(
+  static async createTemplate(
     template: string,
     surgeRollTable: RollTable,
     roll: Roll,
@@ -172,7 +166,7 @@ class Chat {
    * Sends the default Wild Magic Surge Check chat message
    * @return {Promise<void>} The chatData object
    */
-  async RunMessageCheck(): Promise<void> {
+  static async RunMessageCheck(): Promise<void> {
     CallHooks.Call("CheckForSurge", { value: true });
     await this.Send(
       CHAT_TYPE.DEFAULT,
@@ -180,5 +174,3 @@ class Chat {
     );
   }
 }
-
-export default Chat;

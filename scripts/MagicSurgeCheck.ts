@@ -33,11 +33,9 @@ import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string;
-  chat: Chat;
   rollTableMagicSurge: RollTableMagicSurge;
   tidesOfChaos: TidesOfChaos;
   constructor(actor: Actor, tokenId: string) {
-    this.chat = new Chat();
     this.rollTableMagicSurge = new RollTableMagicSurge();
     this.tidesOfChaos = new TidesOfChaos();
     this._actor = actor;
@@ -72,7 +70,7 @@ class MagicSurgeCheck {
           game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`)
         );
       } else {
-        this.chat.RunMessageCheck();
+        Chat.RunMessageCheck();
       }
     }
   }
@@ -242,7 +240,7 @@ class MagicSurgeCheck {
    */
   async SurgeWildMagic(isSurge: boolean, roll: Roll): Promise<void> {
     if (isSurge) {
-      this.chat.Send(
+      Chat.Send(
         CHAT_TYPE.ROLL,
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
         roll
@@ -252,7 +250,7 @@ class MagicSurgeCheck {
       this._callIsSurgeHook(true, roll);
       AutoEffects.Run(this._tokenId);
     } else {
-      this.chat.Send(
+      Chat.Send(
         CHAT_TYPE.ROLL,
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
         roll
@@ -267,7 +265,7 @@ class MagicSurgeCheck {
    */
   async SurgeTidesOfChaos(): Promise<void> {
     this.rollTableMagicSurge.Check("TOCSURGE");
-    this.chat.Send(
+    Chat.Send(
       CHAT_TYPE.DEFAULT,
       game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`)
     );

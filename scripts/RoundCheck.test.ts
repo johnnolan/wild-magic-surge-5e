@@ -1,5 +1,6 @@
 import RoundCheck from "./RoundCheck";
 import SpellParser from "./utils/SpellParser";
+import Chat from "./Chat";
 import { actor } from "../MockData/actor";
 import "../__mocks__/index";
 
@@ -14,14 +15,7 @@ jest.mock("./utils/IncrementalCheck", () => {
 });
 
 const mockChatRunMessageCheck = jest.fn();
-
-jest.mock("./Chat", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      RunMessageCheck: mockChatRunMessageCheck,
-    };
-  });
-});
+Chat.RunMessageCheck = mockChatRunMessageCheck;
 
 const mockSpellParserIsNPC = jest.spyOn(
   SpellParser,

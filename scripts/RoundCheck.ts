@@ -11,14 +11,12 @@ import Chat from "./Chat";
  */
 class RoundCheck {
   _actor: Actor;
-  chat: Chat;
   /**
    * Check for Incrementmenal Check
    * @param actor - The Actor to check against.
    * @constructs RoundCheck
    */
   constructor(actor: Actor) {
-    this.chat = new Chat();
     this._actor = actor;
   }
 
@@ -39,7 +37,7 @@ class RoundCheck {
         }
       }
     } else {
-      await this.chat.RunMessageCheck();
+      await Chat.RunMessageCheck();
     }
   }
 }

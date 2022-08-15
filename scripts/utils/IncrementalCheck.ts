@@ -16,12 +16,10 @@ export default class IncrementalCheck {
   FLAG_NAME: string;
   FLAG_OPTION: string;
   actor: Actor;
-  chat: Chat;
   defaultValue: FlagValue;
   maxValue: number;
   rollValue: number;
   constructor(actor: Actor, rollValue: number, maxValue = 20) {
-    this.chat = new Chat();
     this.actor = actor;
     this.rollValue = rollValue;
     this.maxValue = maxValue;
@@ -42,7 +40,7 @@ export default class IncrementalCheck {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
-      this.chat.Send(
+      Chat.Send(
         CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
