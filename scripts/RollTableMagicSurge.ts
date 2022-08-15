@@ -24,7 +24,7 @@ class RollTableMagicSurge {
    * @return {Promise<void>}
    * @param type - The type of RollTable to use (WMS or POWM).
    */
-  async Check(type = "WMS"): Promise<void> {
+  static async Check(type = "WMS"): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
       return;
     }

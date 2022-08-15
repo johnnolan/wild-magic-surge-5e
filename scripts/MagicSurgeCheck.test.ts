@@ -1,5 +1,6 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
+import RollTableMagicSurge from "./RollTableMagicSurge";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import Chat from "./Chat";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
@@ -64,16 +65,6 @@ jest.mock("./TidesOfChaos", () => {
   });
 });
 
-const mockRollTableMagicSurgeCheck = jest.fn();
-
-jest.mock("./RollTableMagicSurge", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockRollTableMagicSurgeCheck,
-    };
-  });
-});
-
 const mockSurgeChatMessageDetailsValid = jest.spyOn(
   SurgeChatMessageDetails.prototype,
   "valid", "get"
@@ -87,6 +78,9 @@ const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
   "spellLevel", "get"
 );
 
+
+const mockRollTableMagicSurgeCheck = jest.fn();
+RollTableMagicSurge.Check = mockRollTableMagicSurgeCheck;
 const mockChatSend = jest.fn();
 const mockChatRunMessageCheck = jest.fn();
 Chat.RunMessageCheck = mockChatRunMessageCheck;
