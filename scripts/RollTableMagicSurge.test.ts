@@ -5,8 +5,6 @@ jest.mock("./Chat");
 
 describe("RollTableMagicSurge", () => {
   describe("If no table is found matching", () => {
-    let rollTableMagicSurge: RollTableMagicSurge;
-
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
@@ -33,19 +31,16 @@ describe("RollTableMagicSurge", () => {
           id: "123",
         },
       };
-      rollTableMagicSurge = new RollTableMagicSurge();
     });
 
     it("should not call the table", async () => {
-      await rollTableMagicSurge.Check();
+      await RollTableMagicSurge.Check();
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
     });
   });
 
   describe("If the table type is not passed", () => {
-    let rollTableMagicSurge: RollTableMagicSurge;
-
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
@@ -72,11 +67,10 @@ describe("RollTableMagicSurge", () => {
           id: "123",
         },
       };
-      rollTableMagicSurge = new RollTableMagicSurge();
     });
 
     it("should call the draw function once", async () => {
-      await rollTableMagicSurge.Check();
+      await RollTableMagicSurge.Check();
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -85,7 +79,6 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the table type is Wild Magic Surge", () => {
-    let rollTableMagicSurge: RollTableMagicSurge;
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -113,11 +106,10 @@ describe("RollTableMagicSurge", () => {
           id: "123",
         },
       };
-      rollTableMagicSurge = new RollTableMagicSurge();
     });
 
     it("should call the draw function once", async () => {
-      await rollTableMagicSurge.Check("WMS");
+      await RollTableMagicSurge.Check("WMS");
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -126,8 +118,6 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the table type is Path of Wild Magic", () => {
-    let rollTableMagicSurge: RollTableMagicSurge;
-
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
@@ -154,11 +144,10 @@ describe("RollTableMagicSurge", () => {
           id: "123",
         },
       };
-      rollTableMagicSurge = new RollTableMagicSurge();
     });
 
     it("should call the draw function once", async () => {
-      await rollTableMagicSurge.Check("POWM");
+      await RollTableMagicSurge.Check("POWM");
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -167,8 +156,6 @@ describe("RollTableMagicSurge", () => {
   });
 
   describe("If the roll table setting is false", () => {
-    let rollTableMagicSurge: RollTableMagicSurge;
-
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
       (global as any).game = {
@@ -195,11 +182,10 @@ describe("RollTableMagicSurge", () => {
           id: "123",
         },
       };
-      rollTableMagicSurge = new RollTableMagicSurge();
     });
 
     it("should not call the draw function", async () => {
-      await rollTableMagicSurge.Check("WMS");
+      await RollTableMagicSurge.Check("WMS");
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
 

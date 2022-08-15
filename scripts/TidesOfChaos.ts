@@ -13,16 +13,12 @@ type TidesItemData = {
  * let tidesOfChaos = new TidesOfChaos();
  */
 class TidesOfChaos {
-  constructor() {
-    // This is intentional
-  }
-
   /**
    * Checks to see if Tides of Chaos has been used and if so recharge it
    * @return {Promise<void>}
    * @param actor - The Foundry Actor.
    */
-  async Check(actor: Actor): Promise<void> {
+  static async Check(actor: Actor): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
       return;
     }
@@ -47,7 +43,7 @@ class TidesOfChaos {
    * @return {Promise<boolean>}
    * @param actor - The Foundry Actor.
    */
-  async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
+  static async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
     const tidesItemData = await this.getTidesOfChaosResource(actor);
 
     if (tidesItemData === undefined) return false;
@@ -60,7 +56,7 @@ class TidesOfChaos {
    * @return {Promise<TidesItemData>}
    * @param actor - The Foundry Actor.
    */
-  async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
+  static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
     let tidesItem = false;
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
@@ -85,9 +81,9 @@ class TidesOfChaos {
   /**
    * Fetches the actors Tides of Chaos data. If not available, returns undefined.
    * @return {Promise<TidesItemData>}
-   * @param {Actor} actor The Foundry Actor.
+   * @param actor - The Foundry Actor.
    */
-  async getTidesOfChaosResource(actor: Actor) {
+  static async getTidesOfChaosResource(actor: Actor) {
     const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
     const item = actor.items.find(
       (a: Item) => a.name === featName && a.type === "feat"

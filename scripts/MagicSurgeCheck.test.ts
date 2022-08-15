@@ -1,5 +1,9 @@
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
+import RollTableMagicSurge from "./RollTableMagicSurge";
+import TidesOfChaos from "./TidesOfChaos";
+import SpellLevelTrigger from "./utils/SpellLevelTrigger";
+import Chat from "./Chat";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
 import { actor } from "../MockData/actor";
 import { chatMessage } from "../MockData/chatMessage";
@@ -10,27 +14,19 @@ const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   SpellParser,
   "IsPathOfWildMagicFeat"
 );
-
 const mockSpellParserSpellLevel = jest.spyOn(SpellParser, "SpellLevel");
-
 const mockSpellParserIsRage = jest.spyOn(SpellParser, "IsRage");
-
 const mockSpellParserIsSpell = jest.spyOn(SpellParser, "IsSpell");
-
 const mockSpellParserIsSorcererSpell = jest.spyOn(
   SpellParser,
   "IsSorcererSpell"
 );
-
-const mockSpellParserIsNPC = jest.spyOn(SpellParser, "IsNPC");
-
 const mockSpellParserIsWildMagicFeat = jest.spyOn(
   SpellParser,
   "IsWildMagicFeat"
 );
 
 const mockDieDescendingCheck = jest.fn();
-
 jest.mock("./utils/DieDescending", () => {
   return jest.fn().mockImplementation(() => {
     return {
@@ -39,58 +35,11 @@ jest.mock("./utils/DieDescending", () => {
   });
 });
 
-const mockSpellLevelTriggerCheck = jest.fn();
-
-jest.mock("./utils/SpellLevelTrigger", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockSpellLevelTriggerCheck,
-    };
-  });
-});
-
 const mockIncrementalCheckCheck = jest.fn();
-
 jest.mock("./utils/IncrementalCheck", () => {
   return jest.fn().mockImplementation(() => {
     return {
       Check: mockIncrementalCheckCheck,
-    };
-  });
-});
-
-const mockChatSend = jest.fn();
-
-const mockChatRunMessageCheck = jest.fn();
-
-jest.mock("./Chat", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Send: mockChatSend,
-      RunMessageCheck: mockChatRunMessageCheck,
-    };
-  });
-});
-
-const mockTidesOfChaosCheck = jest.fn();
-
-const mockTidesOfChaosIsTidesOfChaosUsed = jest.fn();
-
-jest.mock("./TidesOfChaos", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockTidesOfChaosCheck,
-      IsTidesOfChaosUsed: mockTidesOfChaosIsTidesOfChaosUsed,
-    };
-  });
-});
-
-const mockRollTableMagicSurgeCheck = jest.fn();
-
-jest.mock("./RollTableMagicSurge", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockRollTableMagicSurgeCheck,
     };
   });
 });
@@ -108,8 +57,26 @@ const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
   "spellLevel", "get"
 );
 
+
+const mockTidesOfChaosCheck = jest.fn();
+const mockTidesOfChaosIsTidesOfChaosUsed = jest.fn();
+TidesOfChaos.Check = mockTidesOfChaosCheck;
+TidesOfChaos.IsTidesOfChaosUsed = mockTidesOfChaosIsTidesOfChaosUsed;
+
+const mockRollTableMagicSurgeCheck = jest.fn();
+RollTableMagicSurge.Check = mockRollTableMagicSurgeCheck;
+
+const mockChatSend = jest.fn();
+const mockChatRunMessageCheck = jest.fn();
+Chat.RunMessageCheck = mockChatRunMessageCheck;
+Chat.Send = mockChatSend;
+
+const mockSpellLevelTriggerCheck = jest.fn();
+SpellLevelTrigger.Check = mockSpellLevelTriggerCheck;
+
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
+
 (global as any).Hooks = {
   callAll: jest.fn().mockReturnValue(undefined),
 };
@@ -131,7 +98,6 @@ beforeEach(() => {
   mockSpellParserSpellLevel.mockClear();
   mockSpellParserIsRage.mockClear();
   mockSpellParserIsSpell.mockClear();
-  mockSpellParserIsNPC.mockClear();
   mockSpellParserIsWildMagicFeat.mockClear();
   (global as any).Hooks.callAll.mockClear();
 });

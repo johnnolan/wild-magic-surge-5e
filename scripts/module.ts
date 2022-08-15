@@ -34,9 +34,7 @@ Hooks.on("updateCombat", async function (roundData: RoundData) {
     if (!actor) {
       return false;
     }
-    const roundCheck = new RoundCheck(actor);
-    // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
-    roundCheck.Check(roundData);
+    RoundCheck.Check(actor);
   }
 });
 

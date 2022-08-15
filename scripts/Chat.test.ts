@@ -12,14 +12,9 @@ describe("Chat", () => {
 
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
-      let chat: Chat;
-
-      beforeEach(() => {
-        chat = new Chat();
-      });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message", null);
+        await Chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message", null);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           blind: true,
@@ -34,19 +29,17 @@ describe("Chat", () => {
 
   describe("createRollChat", () => {
     describe("Given I pass it a message and roll but is whisper to GM", () => {
-      let chat: Chat;
       let roll: any;
 
       beforeEach(() => {
         (global as any).game.settings.get = jest.fn().mockResolvedValue(true);
-        chat = new Chat();
         roll = {
           result: 20,
         };
       });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        await Chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: `<div>My Custom Message ${roll.result}</div>`,
@@ -59,7 +52,6 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll but its a public message", () => {
-      let chat: Chat;
       let roll: any;
 
       beforeEach(() => {
@@ -68,14 +60,13 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        chat = new Chat();
         roll = {
           result: 20,
         };
       });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        await Chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           flavor: "Wild Magic Surge Check - My Custom Message",
@@ -92,7 +83,6 @@ describe("Chat", () => {
 
   describe("createRollTable", () => {
     describe("Given I pass it a message and roll table with one result", () => {
-      let chat: Chat;
       let rollResult: any;
       let surgeRollTable: any;
 
@@ -102,7 +92,6 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        chat = new Chat();
         surgeRollTable = {
           data: {
             description: "Wild Magic Surge Table",
@@ -125,7 +114,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await chat.Send(CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 
@@ -134,7 +123,6 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll table with two results", () => {
-      let chat: Chat;
       let rollResultTwoResults: any;
       let surgeRollTable: any;
 
@@ -144,7 +132,6 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        chat = new Chat();
         surgeRollTable = {
           data: {
             description: "Wild Magic Surge Table",
@@ -172,7 +159,7 @@ describe("Chat", () => {
       });
 
       it("It calls the correct methods", async () => {
-        await chat.Send(CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
+        await Chat.Send(CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 
@@ -183,10 +170,8 @@ describe("Chat", () => {
 
   describe("RunMessageCheck", () => {
     describe("Given I call RunMessageCheck to send a message to chat", () => {
-      let chat: Chat;
 
       beforeEach(() => {
-        chat = new Chat();
         (global as any).Hooks = {
           callAll: jest.fn(),
         };
@@ -198,7 +183,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await chat.RunMessageCheck();
+        await Chat.RunMessageCheck();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalled();
 

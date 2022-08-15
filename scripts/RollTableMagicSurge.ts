@@ -24,7 +24,7 @@ class RollTableMagicSurge {
    * @return {Promise<void>}
    * @param type - The type of RollTable to use (WMS or POWM).
    */
-  async Check(type = "WMS"): Promise<void> {
+  static async Check(type = "WMS"): Promise<void> {
     if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
       return;
     }
@@ -49,8 +49,7 @@ class RollTableMagicSurge {
     );
 
     await surgeRollTable?.roll().then((result: Roll) => {
-      const chat = new Chat();
-      chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
+      Chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
     });
   }
 }

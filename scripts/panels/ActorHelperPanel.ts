@@ -39,10 +39,9 @@ export class ActorHelperPanel extends FormApplication {
   // @ts-expect-error TS(2416): Property 'getData' in type 'ActorHelperPanel' is n... Remove this comment to see the full error message
   async getData() {
     const actor = this.object;
-    const tidesOfChaos = new TidesOfChaos();
 
     const hasWildMagicFeat = SpellParser.IsWildMagicFeat(actor);
-    const hasTidesOfChaos = await tidesOfChaos.IsTidesOfChaosSetup(actor);
+    const hasTidesOfChaos = await TidesOfChaos.IsTidesOfChaosSetup(actor);
 
     return <ModuleSetup>{
       actor: {
