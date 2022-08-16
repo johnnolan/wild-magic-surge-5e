@@ -2,6 +2,7 @@ import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import IncrementalCheck from "./utils/IncrementalCheck";
+import DieDescending from "./utils/DieDescending";
 import TidesOfChaos from "./TidesOfChaos";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import Chat from "./Chat";
@@ -27,15 +28,6 @@ const mockSpellParserIsWildMagicFeat = jest.spyOn(
   "IsWildMagicFeat"
 );
 
-const mockDieDescendingCheck = jest.fn();
-jest.mock("./utils/DieDescending", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockDieDescendingCheck,
-    };
-  });
-});
-
 const mockSurgeChatMessageDetailsValid = jest.spyOn(
   SurgeChatMessageDetails.prototype,
   "valid", "get"
@@ -48,6 +40,9 @@ const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
   SurgeChatMessageDetails.prototype,
   "spellLevel", "get"
 );
+
+const mockDieDescendingCheck = jest.fn();
+DieDescending.Check = mockDieDescendingCheck;
 
 const mockIncrementalCheckCheck = jest.fn();
 IncrementalCheck.Check = mockIncrementalCheckCheck;

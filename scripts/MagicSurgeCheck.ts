@@ -202,8 +202,7 @@ class MagicSurgeCheck {
           break;
         }
         case "DIE_DESCENDING": {
-          const dieDescending = new DieDescending(this._actor, roll.result);
-          isSurge = await dieDescending.Check();
+          isSurge = await DieDescending.Check(this._actor, roll.result);
           break;
         }
         default:
