@@ -170,10 +170,57 @@ describe("SpellParser", () => {
   });
 
   describe("SpellDetails", () => {
+    describe("Is a Cantrip and cantrip surge is disabled", () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+        (global as any).game = {
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
+          },
+        };
+      });
+
+      it("should be 1st Level if in description", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAVV">Cantrip</div>`,
+          actor
+        );
+
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe("Is a Cantrip and cantrip surge is enabled", () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+        (global as any).game = {
+          settings: {
+            get: jest.fn().mockReturnValueOnce(true),
+          },
+        };
+      });
+
+      it("should be 1st Level if in description", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAVV">Cantrip</div>`,
+          actor
+        );
+
+        expect(result).toBe("Cantrip");
+      });
+    });
+
     describe("Is a Level 1 Spell", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
+        (global as any).game = {
+          settings: {
+            get: jest.fn().mockReturnValueOnce(false),
+          },
+        };
       });
 
       it("should be 1st Level if in description", async () => {

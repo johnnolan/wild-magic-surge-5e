@@ -79,5 +79,8 @@
   "WildMagicSurge5E.opt_enable_surge_toc_hint": "When Tides of Chaos is used, any 1st level spell and higher will trigger a surge and restore your Tides of Chaos.",
 
   "WildMagicSurge5E.opt_enable_effects_name": "Play animation on Surge",
-  "WildMagicSurge5E.opt_enable_effects_hint": "Play an animation when a Surge happens on the token. Requires JB2A and Sequencer."
+  "WildMagicSurge5E.opt_enable_effects_hint": "Play an animation when a Surge happens on the token. Requires JB2A and Sequencer.",
+
+  "WildMagicSurge5E.opt_cantrip_surge_enabled_name": "Roll for surge on Cantrips",
+  "WildMagicSurge5E.opt_cantrip_surge_enabled_hint": "Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips."
 }

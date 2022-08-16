@@ -63,6 +63,7 @@ export const WMSCONST = {
   },
 
   SPELL_LIST_KEY_WORDS: [
+    "Cantrip",
     "1st Level",
     "2nd Level",
     "3rd Level",
@@ -80,4 +81,5 @@ export const WMSCONST = {
 
   OPT_SURGE_TOC_ENABLED: "surgeTocEnabled",
   OPT_EFFECTS_ENABLED: "wildMagicSurgeEffectsEnabled",
+  OPT_CANTRIP_SURGE_ENABLED: "cantripTriggerSurgeCheckEnabled",
 } as const;

@@ -521,6 +521,23 @@ class ModuleSettings {
         type: Boolean,
       }
     );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_cantrip_surge_enabled_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_cantrip_surge_enabled_hint"
+        ),
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean,
+      }
+    );
   }
 }
 
