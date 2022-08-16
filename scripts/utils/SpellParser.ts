@@ -1,10 +1,4 @@
-import {
-  MODULE_ID,
-  OPT_SPELL_REGEX,
-  SPELL_LIST_KEY_WORDS,
-  OPT_WMS_NAME,
-  OPT_POWM_NAME,
-} from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 
 export default class SpellParser {
   /**
@@ -13,7 +7,10 @@ export default class SpellParser {
    * @return {boolean}
    */
   static IsWildMagicFeat(actor: Actor): boolean {
-    const surgeName = game.settings.get(`${MODULE_ID}`, `${OPT_WMS_NAME}`);
+    const surgeName = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_WMS_NAME}`
+    );
     return (
       actor.items.find(
         (a: Item) => a.name === surgeName && a.type === "feat"
@@ -30,8 +27,11 @@ export default class SpellParser {
     return (
       actor.items.find(
         (a: Item) =>
-          a.name === game.settings.get(`${MODULE_ID}`, `${OPT_POWM_NAME}`) &&
-          a.type === "subclass"
+          a.name ===
+            game.settings.get(
+              `${WMSCONST.MODULE_ID}`,
+              `${WMSCONST.OPT_POWM_NAME}`
+            ) && a.type === "subclass"
       ) !== undefined
     );
   }
@@ -59,7 +59,9 @@ export default class SpellParser {
   private static SpellDetails(content: string, actor: Actor): string {
     let spellString;
 
-    spellString = SPELL_LIST_KEY_WORDS.filter((f) => content.includes(f))[0];
+    spellString = WMSCONST.SPELL_LIST_KEY_WORDS.filter((f) =>
+      content.includes(f)
+    )[0];
 
     if (!spellString) {
       const getItem = SpellParser.RollContent(content, actor);
@@ -128,7 +130,10 @@ export default class SpellParser {
 
     const spellName = getItem.name;
 
-    const spellRegex = game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX}`);
+    const spellRegex = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_SPELL_REGEX}`
+    );
 
     return !!spellName?.match(spellRegex);
   }

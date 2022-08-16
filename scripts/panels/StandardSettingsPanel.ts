@@ -1,9 +1,4 @@
-import {
-  MODULE_FLAG_NAME,
-  OPT_CUSTOM_ROLL_DICE_FORMULA,
-  OPT_CUSTOM_ROLL_RESULT_CHECK,
-  OPT_CUSTOM_ROLL_RESULT,
-} from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
 
 export class StandardSettingsPanel extends FormApplication {
@@ -11,7 +6,7 @@ export class StandardSettingsPanel extends FormApplication {
     return mergeObject(super.defaultOptions, {
       title: "Standard Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
-      id: `${MODULE_FLAG_NAME}-chat-settings`,
+      id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,
       height: "500",
       closeOnSubmit: true,
@@ -25,9 +20,9 @@ export class StandardSettingsPanel extends FormApplication {
   // @ts-expect-error TS(2416): Property 'getData' in type 'StandardSettingsPanel'... Remove this comment to see the full error message
   getData() {
     const settings = [
-      OPT_CUSTOM_ROLL_DICE_FORMULA,
-      OPT_CUSTOM_ROLL_RESULT_CHECK,
-      OPT_CUSTOM_ROLL_RESULT,
+      WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA,
+      WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK,
+      WMSCONST.OPT_CUSTOM_ROLL_RESULT,
     ];
 
     return {

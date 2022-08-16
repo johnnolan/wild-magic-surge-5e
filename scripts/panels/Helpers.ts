@@ -1,4 +1,4 @@
-import { MODULE_ID } from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 
 export function SettingsList(settings: any) {
   const chatSettingsList = [];
@@ -7,8 +7,8 @@ export function SettingsList(settings: any) {
     const setting = element;
 
     for (const [key, value] of (game.settings as any).settings.entries()) {
-      if (key === `${MODULE_ID}.${setting}`) {
-        const settingValue = game.settings.get(MODULE_ID, setting);
+      if (key === `${WMSCONST.MODULE_ID}.${setting}`) {
+        const settingValue = game.settings.get(WMSCONST.MODULE_ID, setting);
 
         const choicesSelect = [];
         let isArray = false;

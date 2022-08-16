@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_AUTO_D20, OPT_ENABLE_NPCS } from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 import IncrementalCheck from "./utils/IncrementalCheck";
 import SpellParser from "./utils/SpellParser";
 import Chat from "./Chat";
@@ -13,9 +13,16 @@ class RoundCheck {
    * @return {Promise<void>}
    */
   static async Check(actor: Actor): Promise<void> {
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
+    if (
+      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
+    ) {
       if (SpellParser.IsWildMagicFeat(actor)) {
-        if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
+        if (
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_ENABLE_NPCS}`
+          )
+        ) {
           await IncrementalCheck.Check(actor, undefined, 10);
         } else {
           if (!SpellParser.IsNPC(actor)) {

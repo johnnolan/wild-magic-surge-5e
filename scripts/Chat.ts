@@ -1,10 +1,4 @@
-import {
-  MODULE_ID,
-  OPT_WHISPER_GM,
-  OPT_WMS_NAME,
-  OPT_CHAT_MSG,
-  CHAT_TYPE,
-} from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 import CallHooks from "./utils/CallHooks";
 
 /**
@@ -28,8 +22,8 @@ export default class Chat {
     rollTable?: RollTable
   ): Promise<void> {
     const isWhisperGM = await game.settings.get(
-      `${MODULE_ID}`,
-      `${OPT_WHISPER_GM}`
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_WHISPER_GM}`
     );
 
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
@@ -39,11 +33,11 @@ export default class Chat {
     let chatData: ChatMessage;
 
     switch (type) {
-      case CHAT_TYPE.ROLL:
+      case WMSCONST.CHAT_TYPE.ROLL:
         if (!rollObject) return;
         chatData = await this.createRollChat(message, rollObject, isWhisperGM);
         break;
-      case CHAT_TYPE.TABLE:
+      case WMSCONST.CHAT_TYPE.TABLE:
         if (!rollObject || !rollTable) return;
         chatData = await this.createRollTable(rollObject, rollTable);
         break;
@@ -91,8 +85,8 @@ export default class Chat {
       };
     } else {
       const wildMagicSurgeName = await game.settings.get(
-        `${MODULE_ID}`,
-        `${OPT_WMS_NAME}`
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_WMS_NAME}`
       );
       return <ChatMessage>{
         flavor: `${wildMagicSurgeName} Check - ${message}`,
@@ -169,8 +163,8 @@ export default class Chat {
   static async RunMessageCheck(): Promise<void> {
     CallHooks.Call("CheckForSurge", { value: true });
     await this.Send(
-      CHAT_TYPE.DEFAULT,
-      game.settings.get(`${MODULE_ID}`, `${OPT_CHAT_MSG}`)
+      WMSCONST.CHAT_TYPE.DEFAULT,
+      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`)
     );
   }
 }

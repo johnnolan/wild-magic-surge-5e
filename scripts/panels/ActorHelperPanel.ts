@@ -1,4 +1,4 @@
-import { MODULE_FLAG_NAME } from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import TidesOfChaos from "../TidesOfChaos";
 import SpellParser from "../utils/SpellParser";
 
@@ -29,7 +29,7 @@ export class ActorHelperPanel extends FormApplication {
     return mergeObject(super.defaultOptions, {
       title: "Wild Magic Surge 5e Information",
       template: "modules/wild-magic-surge-5e/templates/ActorHelperPanel.html",
-      id: `${MODULE_FLAG_NAME}-actor-help`,
+      id: `${WMSCONST.MODULE_FLAG_NAME}-actor-help`,
       width: 480,
       height: "300",
       closeOnSubmit: true,

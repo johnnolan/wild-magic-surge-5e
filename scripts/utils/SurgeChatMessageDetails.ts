@@ -1,9 +1,4 @@
-import {
-  MODULE_ID,
-  OPT_SPELL_REGEX_ENABLED,
-  OPT_WHISPER_GM,
-  OPT_ENABLE_NPCS,
-} from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import SpellParser from "./SpellParser";
 
 export default class SurgeChatMessageDetails {
@@ -36,7 +31,10 @@ export default class SurgeChatMessageDetails {
 
     this._valid = false;
 
-    this._whisperToGM = game.settings.get(`${MODULE_ID}`, `${OPT_WHISPER_GM}`);
+    this._whisperToGM = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_WHISPER_GM}`
+    );
     this._isMessageFromPlayerWhoRolled =
       this._chatMessage.user?.id === this._userId;
 
@@ -63,7 +61,12 @@ export default class SurgeChatMessageDetails {
   }
 
   get isSorcererSpellRegexMatch(): boolean | undefined {
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_SPELL_REGEX_ENABLED}`)) {
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_SPELL_REGEX_ENABLED}`
+      )
+    ) {
       return this._isSorcererSpell;
     }
     return undefined;
@@ -88,7 +91,9 @@ export default class SurgeChatMessageDetails {
 
     let isValid = this._isASpell && this._hasWildMagicFeat;
 
-    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
+    if (
+      !game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_NPCS}`)
+    ) {
       isValid = isValid && !this._isNpc;
     }
 

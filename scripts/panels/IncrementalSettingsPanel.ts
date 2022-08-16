@@ -1,4 +1,4 @@
-import { MODULE_FLAG_NAME, OPT_INCREMENTAL_CHECK_TO_CHAT } from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
 
 export class IncrementalSettingsPanel extends FormApplication {
@@ -6,7 +6,7 @@ export class IncrementalSettingsPanel extends FormApplication {
     return mergeObject(super.defaultOptions, {
       title: "Incremental Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
-      id: `${MODULE_FLAG_NAME}-chat-settings`,
+      id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,
       height: "500",
       closeOnSubmit: true,
@@ -19,7 +19,7 @@ export class IncrementalSettingsPanel extends FormApplication {
 
   // @ts-expect-error TS(2416): Property 'getData' in type 'IncrementalSettingsPan... Remove this comment to see the full error message
   getData() {
-    const settings = [OPT_INCREMENTAL_CHECK_TO_CHAT];
+    const settings = [WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT];
 
     return {
       modules: this.settingsList(settings),

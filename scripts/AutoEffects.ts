@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_EFFECTS_ENABLED } from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 
 /**
  * AutoEffects class for handling sequencer animations
@@ -26,7 +26,13 @@ class AutoEffects {
    * @return {Promise<void>}
    */
   static async Run(tokenId: string): Promise<void> {
-    if (!game.settings.get(`${MODULE_ID}`, `${OPT_EFFECTS_ENABLED}`)) return;
+    if (
+      !game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_EFFECTS_ENABLED}`
+      )
+    )
+      return;
     if (!this.ModuleActive("sequencer")) {
       ui.notifications?.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`
@@ -41,7 +47,7 @@ class AutoEffects {
     }
 
     // @ts-expect-error TS(2304): Cannot find name 'Sequence'.
-    const wildMagicSurgeEffect = new Sequence(MODULE_ID)
+    const wildMagicSurgeEffect = new Sequence(WMSCONST.MODULE_ID)
       .effect()
       .file(
         "modules/JB2A_DnD5e/Library/Generic/Nature/SwirlingLeavesComplete01_02_Regular_Green_400x400.webm"
