@@ -1,10 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 
 export default class SpellLevelTrigger {
-  constructor() {
-    // This is intentional
-  }
-
   static Check(result: number, spellLevel: string): boolean {
     let spellString = "";
     switch (spellLevel) {

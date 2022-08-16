@@ -4,14 +4,8 @@ import Chat from "./Chat";
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
  * @class RollTableMagicSurge
- * @example
- * let rollTableMagicSurge = new RollTableMagicSurge();
  */
 class RollTableMagicSurge {
-  constructor() {
-    // This is intentional
-  }
-
   /**
    * Checks and rolls on the correct table
    * @public

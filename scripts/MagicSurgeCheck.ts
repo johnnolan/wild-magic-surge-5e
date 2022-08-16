@@ -30,10 +30,6 @@ class MagicSurgeCheck {
    * @returns Promise<void>
    */
   async CheckChatMessage(chatMessage: ChatMessage): Promise<void> {
-    if (!this._actor) {
-      return;
-    }
-
     const surgeChatMessageDetails = new SurgeChatMessageDetails(
       chatMessage,
       this._actor,

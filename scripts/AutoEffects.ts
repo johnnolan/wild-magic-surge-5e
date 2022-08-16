@@ -3,14 +3,8 @@ import { WMSCONST } from "./WMSCONST";
 /**
  * AutoEffects class for handling sequencer animations
  * @class AutoEffects
- * @example
- * let autoEffects = new AutoEffects(tokenId);
  */
 class AutoEffects {
-  constructor() {
-    // This is intentional
-  }
-
   /**
    * Checks to see if module is active
    * @public
