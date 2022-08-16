@@ -1,5 +1,12 @@
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
 import CallHooks from "./CallHooks";
+
+type FlagValue = {
+  max?: number;
+  min?: number;
+  value: string;
+};
+
 export default class DieDescending {
   _actor: Actor;
   defaultValue: FlagValue;
@@ -12,8 +19,8 @@ export default class DieDescending {
     };
   }
 
-  async CallChanged(value: string) {
-    CallHooks.Call("DieDescendingChanged", { value: value })
+  async CallChanged(value: FlagValue) {
+    CallHooks.Call("DieDescendingChanged", value);
   }
 
   async SetupDefault() {

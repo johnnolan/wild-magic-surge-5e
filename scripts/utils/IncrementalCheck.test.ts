@@ -8,107 +8,91 @@ describe("IncrementalCheck", () => {
   };
 
   describe("If a roll of 1 with no flag set", () => {
-    let incrementalCheck: IncrementalCheck;
-
+    let newActor: Actor;
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(false);
-      const newActor: Actor = {
+      newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
-      incrementalCheck = new IncrementalCheck(newActor, 1);
     });
 
     it("should return true", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("If a roll of 10 with no flag set", () => {
-    let incrementalCheck: IncrementalCheck;
-
+    let newActor: Actor;
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(false);
-      const newActor: Actor = {
+      newActor = {
         setFlag: jest.fn().mockResolvedValue(true),
         flags: [],
       };
-      incrementalCheck = new IncrementalCheck(newActor, 10);
     });
 
     it("should return false", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(newActor, 10);
 
       expect(result).toBeFalsy();
     });
   });
 
   describe("If a roll of 1 with no flag value set", () => {
-    let incrementalCheck: IncrementalCheck;
-
+    let newActor: Actor;
     beforeEach(() => {
-      const newActor = actor;
+      newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
-      incrementalCheck = new IncrementalCheck(newActor, 1);
     });
 
     it("should return true", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("If a roll of 4 with no flag set", () => {
-    let incrementalCheck: IncrementalCheck;
-
+    let newActor: Actor;
     beforeEach(() => {
-      const newActor = actor;
+      newActor = actor;
       // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
       newActor.flags["wild-magic-surge-5e"] = {};
-      incrementalCheck = new IncrementalCheck(actor, 4);
     });
 
     it("should return false", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(actor, 4);
 
       expect(result).toBeFalsy();
     });
   });
 
   describe("If a roll of 1 flag set as 1", () => {
-    let incrementalCheck: IncrementalCheck;
-
-    beforeEach(() => {
-      incrementalCheck = new IncrementalCheck(actor, 1);
-    });
-
     it("should return true", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(actor, 1);
 
       expect(result).toBeTruthy();
     });
   });
 
   describe("If a roll of 4 flag set as 2", () => {
-    let incrementalCheck: IncrementalCheck;
-
+    let newActor: Actor;
     beforeEach(() => {
-      const newActor = actor;
+      newActor = actor;
 
       newActor.getFlag = jest.fn().mockResolvedValue({
         max: 20,
         min: 1,
         value: 2,
       });
-      incrementalCheck = new IncrementalCheck(actor, 4);
     });
 
     it("should return false", async () => {
-      const result = await incrementalCheck.Check();
+      const result = await IncrementalCheck.Check(newActor, 4);
 
       expect(result).toBeFalsy();
     });

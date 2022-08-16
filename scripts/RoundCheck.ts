@@ -15,12 +15,11 @@ class RoundCheck {
   static async Check(actor: Actor): Promise<void> {
     if (game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20}`)) {
       if (SpellParser.IsWildMagicFeat(actor)) {
-        const incrementalCheck = new IncrementalCheck(actor, null, 10);
         if (game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_NPCS}`)) {
-          await incrementalCheck.Check();
+          await IncrementalCheck.Check(actor, undefined, 10);
         } else {
           if (!SpellParser.IsNPC(actor)) {
-            await incrementalCheck.Check();
+            await IncrementalCheck.Check(actor, undefined, 10);
           }
         }
       }

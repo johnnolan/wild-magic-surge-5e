@@ -190,12 +190,11 @@ class MagicSurgeCheck {
         case "INCREMENTAL_CHECK":
         case "INCREMENTAL_CHECK_CHAOTIC": {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
-          const incrementalCheck = new IncrementalCheck(
+          isSurge = await IncrementalCheck.Check(
             this._actor,
             parseInt(roll.result),
             maxValue
           );
-          isSurge = await incrementalCheck.Check();
           break;
         }
         case "SPELL_LEVEL_DEPENDENT_ROLL": {

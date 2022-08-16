@@ -45,16 +45,12 @@ import {
 } from "./panels/index";
 
 class ModuleSettings {
-  constructor() {
-    // This is intentional
-  }
-
   /**
    * Register all module settings
    * @public
-   * @return {Promise<void>}
+   * @return {void}
    */
-  Register() {
+  static Register(): void {
     game.settings.register(`${MODULE_ID}`, `${OPT_WMS_NAME}`, {
       name: game.i18n.format("WildMagicSurge5E.opt_wms_feat_name_name"),
       hint: game.i18n.format("WildMagicSurge5E.opt_wms_feat_name_hint"),
