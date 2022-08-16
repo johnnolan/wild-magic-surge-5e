@@ -191,33 +191,6 @@ describe("MagicSurgeCheck", () => {
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
       });
     });
-
-    describe("Has no actor", () => {
-      let magicSurgeCheck: MagicSurgeCheck;
-
-      beforeEach(() => {
-        (global as any).game = {
-          actors: {
-            get: jest.fn().mockReturnValue(undefined),
-          },
-          tables: [
-            {
-              name: "Wild Magic Surge",
-              roll: jest.fn().mockResolvedValue(true),
-              results: jest.fn().mockResolvedValue([]),
-            },
-          ],
-        };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(undefined);
-      });
-
-      it("It returns from module", async () => {
-        const result = await magicSurgeCheck.CheckChatMessage(chatMessage);
-
-        expect(result).toBeFalsy();
-      });
-    });
   });
 
   describe("WildMagicSurgeRollCheck", () => {
