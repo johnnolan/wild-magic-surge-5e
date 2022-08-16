@@ -56,12 +56,26 @@ export default class SpellParser {
    * @param actor - Foundry Actor
    * @return {Promise<string>}
    */
-  private static SpellDetails(content: string, actor: Actor): string {
-    let spellString;
-
-    spellString = WMSCONST.SPELL_LIST_KEY_WORDS.filter((f) =>
-      content.includes(f)
+  private static SpellDetails(
+    content: string,
+    actor: Actor
+  ): string | undefined {
+    let spellString: string | undefined = WMSCONST.SPELL_LIST_KEY_WORDS.filter(
+      (f) => content.includes(f)
     )[0];
+
+    if (spellString === "Cantrip") {
+      if (
+        !game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`
+        )
+      ) {
+        return undefined;
+      } else {
+        return spellString;
+      }
+    }
 
     if (!spellString) {
       const getItem = SpellParser.RollContent(content, actor);
@@ -103,7 +117,9 @@ export default class SpellParser {
    * @return {string}
    */
   static SpellLevel(content: string, actor: Actor): string {
-    return SpellParser.SpellDetails(content, actor);
+    const result = SpellParser.SpellDetails(content, actor);
+    if (result === undefined) return "";
+    return result;
   }
 
   /**

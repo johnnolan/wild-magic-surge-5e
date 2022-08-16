@@ -45,6 +45,7 @@ Also
 - Discern between sorcerer spells and other spells when multiclassing
 - Auto surge when Tides of Chaos is used
 - Auto play animation effect on a Wild Magic Surge
+- Optionally Surge Check on Cantrips, not just 1st Level or higher
 
 ## Setting up your Player Character to work with this module
 
@@ -281,6 +282,11 @@ On a Wild Magic Surge, the token that triggered the Surge will get an animation 
 
 [![Play animation on Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)
 
+### Roll for surge on Cantrips
+
+Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.
+
+[![Roll for surge on Cantrips](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)
 
 ## Installation
 
