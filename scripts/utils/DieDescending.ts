@@ -1,4 +1,4 @@
-import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 
 type FlagValue = {
@@ -21,8 +21,8 @@ export default class DieDescending {
     rollValue: string
   ): Promise<boolean> {
     await actor.setFlag(
-      MODULE_FLAG_NAME,
-      DIE_DESCENDING_FLAG_OPTION,
+      WMSCONST.MODULE_FLAG_NAME,
+      WMSCONST.DIE_DESCENDING_FLAG_OPTION,
       this.defaultValue
     );
     this.CallChanged(this.defaultValue);
@@ -34,12 +34,15 @@ export default class DieDescending {
       return false;
     }
 
-    if (!hasProperty(actor, `flags.${MODULE_FLAG_NAME}`)) {
+    if (!hasProperty(actor, `flags.${WMSCONST.MODULE_FLAG_NAME}`)) {
       return this.SetupDefault(actor, rollValue);
     }
 
     const flagValue = <FlagValue>(
-      await actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
+      await actor.getFlag(
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION
+      )
     );
 
     if (!flagValue) {
@@ -71,8 +74,8 @@ export default class DieDescending {
       }
 
       await actor.setFlag(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         flagValue
       );
       await this.CallChanged(flagValue);

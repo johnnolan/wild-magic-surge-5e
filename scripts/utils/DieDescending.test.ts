@@ -1,4 +1,4 @@
-import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import DieDescending from "./DieDescending";
 import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
@@ -100,8 +100,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d12" }
       );
     });
@@ -123,8 +123,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d10" }
       );
     });
@@ -146,8 +146,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d8" }
       );
     });
@@ -169,8 +169,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d6" }
       );
     });
@@ -192,8 +192,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d4" }
       );
     });
@@ -215,8 +215,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d4" }
       );
     });
@@ -235,8 +235,8 @@ describe("DieDescending", () => {
       expect(result).toBeFalsy();
 
       expect(newActor.setFlag).toBeCalledWith(
-        MODULE_FLAG_NAME,
-        DIE_DESCENDING_FLAG_OPTION,
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
         { value: "1d20" }
       );
     });

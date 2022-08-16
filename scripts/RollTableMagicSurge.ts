@@ -1,23 +1,11 @@
-import {
-  OPT_ROLLTABLE_ENABLE,
-  OPT_ROLLTABLE_NAME,
-  OPT_POWM_ROLLTABLE_NAME,
-  MODULE_ID,
-  CHAT_TYPE,
-} from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
  * @class RollTableMagicSurge
- * @example
- * let rollTableMagicSurge = new RollTableMagicSurge();
  */
 class RollTableMagicSurge {
-  constructor() {
-    // This is intentional
-  }
-
   /**
    * Checks and rolls on the correct table
    * @public
@@ -25,19 +13,24 @@ class RollTableMagicSurge {
    * @param type - The type of RollTable to use (WMS or POWM).
    */
   static async Check(type = "WMS"): Promise<void> {
-    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ROLLTABLE_ENABLE}`)) {
+    if (
+      !game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+      )
+    ) {
       return;
     }
     let rollTableName: string;
     if (type === "POWM") {
       rollTableName = game.settings.get(
-        `${MODULE_ID}`,
-        `${OPT_POWM_ROLLTABLE_NAME}`
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`
       );
     } else {
       rollTableName = game.settings.get(
-        `${MODULE_ID}`,
-        `${OPT_ROLLTABLE_NAME}`
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_ROLLTABLE_NAME}`
       );
     }
     if (rollTableName === undefined) {
@@ -49,7 +42,7 @@ class RollTableMagicSurge {
     );
 
     await surgeRollTable?.roll().then((result: Roll) => {
-      Chat.Send(CHAT_TYPE.TABLE, "", result, surgeRollTable);
+      Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
     });
   }
 }

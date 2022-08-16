@@ -1,8 +1,4 @@
-import {
-  MODULE_ID,
-  OPT_INCREMENTAL_CHECK_TO_CHAT,
-  CHAT_TYPE,
-} from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import Chat from "../Chat";
 import CallHooks from "./CallHooks";
 
@@ -28,9 +24,14 @@ export default class IncrementalCheck {
   static async CallChanged(value: number) {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
-    if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`
+      )
+    ) {
       Chat.Send(
-        CHAT_TYPE.DEFAULT,
+        WMSCONST.CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
         )} ${value}`

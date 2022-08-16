@@ -1,9 +1,4 @@
-import {
-  MODULE_FLAG_NAME,
-  OPT_CHAT_MSG,
-  OPT_AUTO_D20_MSG,
-  OPT_AUTO_D20_MSG_NO_SURGE,
-} from "../Settings";
+import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
 
 export class ChatSettingsPanel extends FormApplication {
@@ -11,7 +6,7 @@ export class ChatSettingsPanel extends FormApplication {
     return mergeObject(super.defaultOptions, {
       title: "Chat Settings",
       template: "modules/wild-magic-surge-5e/templates/settings.html",
-      id: `${MODULE_FLAG_NAME}-chat-settings`,
+      id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,
       height: "500",
       closeOnSubmit: true,
@@ -25,9 +20,9 @@ export class ChatSettingsPanel extends FormApplication {
   // @ts-expect-error TS(2416): Property 'getData' in type 'ChatSettingsPanel' is ... Remove this comment to see the full error message
   getData() {
     const settings = [
-      OPT_CHAT_MSG,
-      OPT_AUTO_D20_MSG,
-      OPT_AUTO_D20_MSG_NO_SURGE,
+      WMSCONST.OPT_CHAT_MSG,
+      WMSCONST.OPT_AUTO_D20_MSG,
+      WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE,
     ];
 
     return {

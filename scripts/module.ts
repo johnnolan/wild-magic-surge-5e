@@ -1,4 +1,4 @@
-import { MODULE_NAME, MODULE_ID, OPT_SURGE_TYPE } from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import IncrementalCheck from "./utils/IncrementalCheck";
 import RoundCheck from "./RoundCheck";
@@ -7,11 +7,11 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 
 Hooks.on("init", function () {
-  console.info(`Registering ${MODULE_NAME} Settings.`);
+  console.info(`Registering ${WMSCONST.MODULE_NAME} Settings.`);
 
   ModuleSettings.Register();
 
-  console.info(`Settings for ${MODULE_NAME} registered successfully.`);
+  console.info(`Settings for ${WMSCONST.MODULE_NAME} registered successfully.`);
 });
 
 Hooks.on("createChatMessage", (chatMessage: ChatMessage) => {
@@ -26,7 +26,7 @@ Hooks.on("createChatMessage", (chatMessage: ChatMessage) => {
 
 Hooks.on("updateCombat", async function (roundData: RoundData) {
   if (
-    game.settings.get(`${MODULE_ID}`, `${OPT_SURGE_TYPE}`) ===
+    game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`) ===
     `INCREMENTAL_CHECK_CHAOTIC`
   ) {
     const actor = game.actors.get(roundData.combatant.actor.id);

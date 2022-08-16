@@ -1,4 +1,4 @@
-import { CHAT_TYPE } from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import "../__mocks__/index";
 
@@ -14,7 +14,7 @@ describe("Chat", () => {
     describe("Given I pass it a message", () => {
 
       it("It returns the just the content", async () => {
-        await Chat.Send(CHAT_TYPE.DEFAULT, "My Custom Message", null);
+        await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message", null);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           blind: true,
@@ -39,7 +39,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: `<div>My Custom Message ${roll.result}</div>`,
@@ -66,7 +66,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(CHAT_TYPE.ROLL, "My Custom Message", roll);
+        await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           flavor: "Wild Magic Surge Check - My Custom Message",
@@ -114,7 +114,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 
@@ -159,7 +159,7 @@ describe("Chat", () => {
       });
 
       it("It calls the correct methods", async () => {
-        await Chat.Send(CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 

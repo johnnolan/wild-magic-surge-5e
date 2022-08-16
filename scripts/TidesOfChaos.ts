@@ -1,4 +1,4 @@
-import { MODULE_ID, OPT_ENABLE_TOC, OPT_TOC_NAME } from "./Settings";
+import { WMSCONST } from "./WMSCONST";
 
 type TidesItemData = {
   hasTidesOfChaosResource: boolean;
@@ -19,7 +19,9 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async Check(actor: Actor): Promise<void> {
-    if (!game.settings.get(`${MODULE_ID}`, `${OPT_ENABLE_TOC}`)) {
+    if (
+      !game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_TOC}`)
+    ) {
       return;
     }
     const tidesItemData = await this.getTidesOfChaosResource(actor);
@@ -58,7 +60,10 @@ class TidesOfChaos {
    */
   static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
     let tidesItem = false;
-    const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
+    const featName = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_TOC_NAME}`
+    );
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
     const hasTidesOfChaosResource =
       tidesOfChaosResourceSetup === undefined ? false : true;
@@ -84,7 +89,10 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async getTidesOfChaosResource(actor: Actor) {
-    const featName = game.settings.get(`${MODULE_ID}`, `${OPT_TOC_NAME}`);
+    const featName = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_TOC_NAME}`
+    );
     const item = actor.items.find(
       (a: Item) => a.name === featName && a.type === "feat"
     );
