@@ -9,8 +9,7 @@ import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 Hooks.on("init", function () {
   console.info(`Registering ${MODULE_NAME} Settings.`);
 
-  const moduleSettings = new ModuleSettings();
-  moduleSettings.Register();
+  ModuleSettings.Register();
 
   console.info(`Settings for ${MODULE_NAME} registered successfully.`);
 });
@@ -45,10 +44,7 @@ Hooks.on(
     if (!actor) {
       return false;
     }
-
-    // @ts-expect-error TS(2554): Expected 2-3 arguments, but got 1.
-    const incrementalCheck = new IncrementalCheck(actor);
-    await incrementalCheck.Reset();
+    await IncrementalCheck.Reset(actor);
   }
 );
 

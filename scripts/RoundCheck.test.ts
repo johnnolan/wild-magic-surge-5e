@@ -1,18 +1,12 @@
 import RoundCheck from "./RoundCheck";
 import SpellParser from "./utils/SpellParser";
+import IncrementalCheck from "./utils/IncrementalCheck";
 import Chat from "./Chat";
 import { actor } from "../MockData/actor";
 import "../__mocks__/index";
 
 const mockIncrementalCheckCheck = jest.fn();
-
-jest.mock("./utils/IncrementalCheck", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      Check: mockIncrementalCheckCheck,
-    };
-  });
-});
+IncrementalCheck.Check = mockIncrementalCheckCheck;
 
 const mockChatRunMessageCheck = jest.fn();
 Chat.RunMessageCheck = mockChatRunMessageCheck;

@@ -1,50 +1,53 @@
 import { MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION } from "../Settings";
 import CallHooks from "./CallHooks";
+
+type FlagValue = {
+  max?: number;
+  min?: number;
+  value: string;
+};
+
 export default class DieDescending {
-  _actor: Actor;
-  defaultValue: FlagValue;
-  rollValue: string;
-  constructor(actor: Actor, rollValue: string) {
-    this._actor = actor;
-    this.rollValue = rollValue;
-    this.defaultValue = {
-      value: "1d20",
-    };
+  static defaultValue: FlagValue = {
+    value: "1d20",
+  };
+
+  private static async CallChanged(value: FlagValue): Promise<void> {
+    CallHooks.Call("DieDescendingChanged", value);
   }
 
-  async CallChanged(value: string) {
-    CallHooks.Call("DieDescendingChanged", { value: value })
-  }
-
-  async SetupDefault() {
-    await this._actor.setFlag(
+  private static async SetupDefault(
+    actor: Actor,
+    rollValue: string
+  ): Promise<boolean> {
+    await actor.setFlag(
       MODULE_FLAG_NAME,
       DIE_DESCENDING_FLAG_OPTION,
       this.defaultValue
     );
     this.CallChanged(this.defaultValue);
-    return this.rollValue === "1";
+    return rollValue === "1";
   }
 
-  async Check() {
-    if (!this._actor) {
+  static async Check(actor: Actor, rollValue: string): Promise<boolean> {
+    if (!actor) {
       return false;
     }
 
-    if (!hasProperty(this._actor, `flags.${MODULE_FLAG_NAME}`)) {
-      return this.SetupDefault();
+    if (!hasProperty(actor, `flags.${MODULE_FLAG_NAME}`)) {
+      return this.SetupDefault(actor, rollValue);
     }
 
     const flagValue = <FlagValue>(
-      await this._actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
+      await actor.getFlag(MODULE_FLAG_NAME, DIE_DESCENDING_FLAG_OPTION)
     );
 
     if (!flagValue) {
-      return this.SetupDefault();
+      return this.SetupDefault(actor, rollValue);
     }
 
-    if (this.rollValue === "1") {
-      return this.SetupDefault();
+    if (rollValue === "1") {
+      return this.SetupDefault(actor, rollValue);
     } else {
       switch (flagValue.value) {
         case "1d20":
@@ -67,7 +70,7 @@ export default class DieDescending {
           break;
       }
 
-      await this._actor.setFlag(
+      await actor.setFlag(
         MODULE_FLAG_NAME,
         DIE_DESCENDING_FLAG_OPTION,
         flagValue

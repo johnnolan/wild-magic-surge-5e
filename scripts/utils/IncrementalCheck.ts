@@ -13,30 +13,19 @@ type FlagValue = {
 };
 
 export default class IncrementalCheck {
-  FLAG_NAME: string;
-  FLAG_OPTION: string;
-  actor: Actor;
-  defaultValue: FlagValue;
-  maxValue: number;
-  rollValue: number;
-  constructor(actor: Actor, rollValue: number, maxValue = 20) {
-    this.actor = actor;
-    this.rollValue = rollValue;
-    this.maxValue = maxValue;
-    this.defaultValue = {
-      max: 20,
-      min: 1,
-      value: 1,
-    };
-    this.FLAG_NAME = "wild-magic-surge-5e";
-    this.FLAG_OPTION = "surge_increment_resource";
+  static FLAG_NAME = "wild-magic-surge-5e";
+  static FLAG_OPTION = "surge_increment_resource";
+  static defaultValue: FlagValue = {
+    max: 20,
+    min: 1,
+    value: 1,
+  };
+
+  static async Reset(actor: Actor) {
+    this.SetupDefault(actor);
   }
 
-  async Reset() {
-    this.SetupDefault();
-  }
-
-  async CallChanged(value: number) {
+  static async CallChanged(value: number) {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
     if (game.settings.get(`${MODULE_ID}`, `${OPT_INCREMENTAL_CHECK_TO_CHAT}`)) {
@@ -49,46 +38,37 @@ export default class IncrementalCheck {
     }
   }
 
-  async SetupDefault() {
-    await this.actor.setFlag(
-      this.FLAG_NAME,
-      this.FLAG_OPTION,
-      this.defaultValue
-    );
+  static async SetupDefault(actor: Actor): Promise<boolean> {
+    await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, this.defaultValue);
     this.CallChanged(1);
-    return this.rollValue === 1;
+    return true;
   }
 
-  async Check(): Promise<boolean> {
-    if (!hasProperty(this.actor, `flags.${this.FLAG_NAME}`)) {
-      return this.SetupDefault();
+  static async Check(
+    actor: Actor,
+    rollValue?: number,
+    maxValue = 20
+  ): Promise<boolean> {
+    if (!hasProperty(actor, `flags.${this.FLAG_NAME}`)) {
+      this.SetupDefault(actor);
+      return rollValue === 1;
     }
 
-    const incrementLevel: FlagValue = await this.actor.getFlag(
+    const incrementLevel: FlagValue = await actor.getFlag(
       this.FLAG_NAME,
       this.FLAG_OPTION
     );
 
     if (!incrementLevel) {
-      return this.SetupDefault();
+      return this.SetupDefault(actor);
     }
 
-    if (this.rollValue !== null && this.rollValue <= incrementLevel.value) {
-      await this.actor.setFlag(
-        this.FLAG_NAME,
-        this.FLAG_OPTION,
-        this.defaultValue
-      );
-      this.CallChanged(1);
-      return true;
+    if (rollValue !== undefined && rollValue <= incrementLevel.value) {
+      return this.SetupDefault(actor);
     } else {
-      if (incrementLevel.value !== this.maxValue) {
+      if (incrementLevel.value !== maxValue) {
         incrementLevel.value = incrementLevel.value + 1;
-        await this.actor.setFlag(
-          this.FLAG_NAME,
-          this.FLAG_OPTION,
-          incrementLevel
-        );
+        await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, incrementLevel);
         this.CallChanged(incrementLevel.value);
       }
     }
