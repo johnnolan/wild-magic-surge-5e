@@ -287,13 +287,6 @@ describe("MagicSurgeCheck", () => {
 
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
-
-        expect(actor.setFlag).toHaveBeenCalledWith(
-          "wild-magic-surge-5e",
-          "die_type",
-          { value: "1d20" }
-        );
-
         expect((global as any).Roll).toHaveBeenCalledWith("1d20");
       });
     });

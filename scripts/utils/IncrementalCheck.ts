@@ -39,11 +39,15 @@ export default class IncrementalCheck {
     }
   }
 
-  static async SetupDefault(actor: Actor): Promise<boolean> {
-    await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, this.defaultValue);
+  static async SetFlagResource(actor: Actor, value: FlagValue) {
+    await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, value);
     await actor.update({
-      "data.resources.wmsurgeincrement": this.defaultValue,
+      "data.resources.wmsurgeincrement": value,
     });
+  }
+
+  static async SetupDefault(actor: Actor): Promise<boolean> {
+    await this.SetFlagResource(actor, this.defaultValue);
     this.CallChanged(1);
     return true;
   }
@@ -72,10 +76,7 @@ export default class IncrementalCheck {
     } else {
       if (incrementLevel.value !== maxValue) {
         incrementLevel.value = incrementLevel.value + 1;
-        await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, incrementLevel);
-        await actor.update({
-          "data.resources.wmsurgeincrement": incrementLevel,
-        });
+        await this.SetFlagResource(actor, incrementLevel);
         this.CallChanged(incrementLevel.value);
       }
     }

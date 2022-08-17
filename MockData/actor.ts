@@ -30,6 +30,7 @@ export const actor: Actor = {
     },
   }),
   setFlag: jest.fn().mockResolvedValue(2),
+  update: jest.fn().mockResolvedValue(true),
   _id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",
   type: "character",
