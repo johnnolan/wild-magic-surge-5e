@@ -1,13 +1,3 @@
-type HookValue = {
-  value: string | boolean | number;
-};
-
-type HookSurgeValue = {
-  surge: boolean;
-  result: string | undefined;
-  tokenId: string;
-};
-
 export default class CallHooks {
   /**
    * @param hookName - The name of the hook to trigger

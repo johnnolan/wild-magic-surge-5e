@@ -2,18 +2,6 @@ import { WMSCONST } from "../WMSCONST";
 import TidesOfChaos from "../TidesOfChaos";
 import SpellParser from "../utils/SpellParser";
 
-type ModuleSetup = {
-  actor: {
-    name: string;
-  };
-  settings: {
-    isValid: boolean;
-    hasWildMagicFeat: boolean;
-    hasTidesOfChaosResource: boolean;
-    hasTidesOfChaosFeat: boolean;
-  };
-};
-
 export class ActorHelperPanel extends FormApplication {
   protected _updateObject(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,13 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 
-type FlagValue = {
-  max?: number;
-  min?: number;
-  value: number;
-  dieValue: string;
-};
-
 export default class DieDescending {
   static defaultValue: FlagValue = {
     value: 1,

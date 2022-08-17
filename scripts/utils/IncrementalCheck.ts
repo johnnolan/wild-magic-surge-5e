@@ -2,12 +2,6 @@ import { WMSCONST } from "../WMSCONST";
 import Chat from "../Chat";
 import CallHooks from "./CallHooks";
 
-type FlagValue = {
-  max: number;
-  min: number;
-  value: number;
-};
-
 export default class IncrementalCheck {
   static FLAG_NAME = "wild-magic-surge-5e";
   static FLAG_OPTION = "surge_increment_resource";

@@ -1,11 +1,5 @@
 import { WMSCONST } from "./WMSCONST";
 
-type TidesItemData = {
-  hasTidesOfChaosResource: boolean;
-  hasTidesOfChaosFeat: boolean;
-  isValid: boolean;
-};
-
 /**
  * Controls the Tides of Chaos feat
  * @class TidesOfChaos
