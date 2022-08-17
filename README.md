@@ -170,7 +170,7 @@ In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the 
 
 ### Track incremental wild magic surge count on token
 
-To view your count on your token, set the following flag `flags.wild-magic-surge-5e.surge_increment_resource` to be tracked.
+To view your count on your token, set the following resource `resources.wmsurgeincrement` to be tracked.
 
 [![Track incremental wild magic surge count on token](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute.jpg)
 
