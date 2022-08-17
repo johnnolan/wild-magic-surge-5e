@@ -62,7 +62,7 @@ class MagicSurgeCheck {
    * @private
    * @returns RollResult
    */
-  async WildMagicSurgeRollCheck(): Promise<Roll> {
+  async WildMagicSurgeRollCheck(): Promise<Roll | undefined> {
     let diceFormula: DieValue = undefined;
 
     switch (
@@ -91,6 +91,10 @@ class MagicSurgeCheck {
           `${WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA}`
         );
         break;
+    }
+
+    if (!diceFormula) {
+      return;
     }
 
     return new Roll(diceFormula).roll({ async: true });
@@ -155,7 +159,7 @@ class MagicSurgeCheck {
    */
   async AutoSurgeCheck(spellLevel: string, gameType: string): Promise<void> {
     let isSurge = false;
-    let roll: Roll;
+    let roll: Roll | undefined;
 
     let isAutoSurge = false;
     if (
@@ -172,6 +176,7 @@ class MagicSurgeCheck {
 
     if (!isAutoSurge) {
       roll = await this.WildMagicSurgeRollCheck();
+      if (!roll) return;
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
