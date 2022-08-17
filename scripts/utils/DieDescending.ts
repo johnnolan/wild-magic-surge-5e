@@ -85,9 +85,6 @@ export default class DieDescending {
           flagValue.dieValue = "1d6";
           break;
         case "1d6":
-          flagValue.value = 6;
-          flagValue.dieValue = "1d4";
-          break;
         case "1d4":
           flagValue.value = 6;
           flagValue.dieValue = "1d4";
