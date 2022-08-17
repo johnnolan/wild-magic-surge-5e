@@ -11,6 +11,7 @@ describe("DieDescending", () => {
   describe("If a roll of 1 with no flag set", () => {
     const newActor: Actor = {
       setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
     beforeEach(() => {
@@ -27,6 +28,7 @@ describe("DieDescending", () => {
   describe("If a roll of 10 with no flag set", () => {
     const newActor: Actor = {
       setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
     beforeEach(() => {
@@ -90,7 +92,7 @@ describe("DieDescending", () => {
       global.hasProperty = jest.fn().mockReturnValue(true);
       newActor = actor;
       newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d20",
+        dieValue: "1d20", value: 1, max: 6, min: 1,
       });
     });
 
@@ -102,7 +104,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d12" }
+        { dieValue: "1d12", value: 2, max: 6, min: 1 }
       );
     });
   });
@@ -113,7 +115,7 @@ describe("DieDescending", () => {
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d12",
+        dieValue: "1d12", value: 2, max: 6, min: 1,
       });
     });
 
@@ -125,7 +127,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d10" }
+        { dieValue: "1d10", value: 3, max: 6, min: 1 }
       );
     });
   });
@@ -135,9 +137,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d10",
-      });
+      newActor.getFlag = jest.fn().mockResolvedValue(
+        { dieValue: "1d10", value: 3, max: 6, min: 1 }
+      );
     });
 
     it("should change to D8", async () => {
@@ -148,7 +150,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d8" }
+        { dieValue: "1d8", value: 4, max: 6, min: 1 }
       );
     });
   });
@@ -158,9 +160,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d8",
-      });
+      newActor.getFlag = jest.fn().mockResolvedValue(
+        { dieValue: "1d8", value: 4, max: 6, min: 1 }
+      );
     });
 
     it("should change to D6", async () => {
@@ -171,7 +173,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d6" }
+        { dieValue: "1d6", value: 5, max: 6, min: 1 }
       );
     });
   });
@@ -181,9 +183,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d6",
-      });
+      newActor.getFlag = jest.fn().mockResolvedValue(
+        { dieValue: "1d4", value: 6, max: 6, min: 1 }
+      );
     });
 
     it("should change to D4", async () => {
@@ -194,7 +196,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d4" }
+        { dieValue: "1d4", value: 6, max: 6, min: 1 }
       );
     });
   });
@@ -204,9 +206,8 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d4",
-      });
+      newActor.getFlag = jest.fn().mockResolvedValue(
+        { dieValue: "1d4", value: 6, max: 6, min: 1 });
     });
 
     it("should stay as D4", async () => {
@@ -217,7 +218,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d4" }
+        { dieValue: "1d4", value: 6, max: 6, min: 1 }
       );
     });
   });
@@ -237,7 +238,7 @@ describe("DieDescending", () => {
       expect(newActor.setFlag).toBeCalledWith(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { value: "1d20" }
+        { dieValue: "1d20", value: 1, max: 6, min: 1 }
       );
     });
   });

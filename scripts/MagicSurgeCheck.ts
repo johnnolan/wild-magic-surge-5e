@@ -69,22 +69,12 @@ class MagicSurgeCheck {
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
     ) {
       case "DIE_DESCENDING":
-        diceFormula = await this._actor.getFlag(
-          WMSCONST.MODULE_FLAG_NAME,
-          WMSCONST.DIE_DESCENDING_FLAG_OPTION
-        );
+        diceFormula = await DieDescending.GetFlagResource(this._actor);
 
         if (!diceFormula) {
           diceFormula = "1d20";
-          await this._actor.setFlag(
-            WMSCONST.MODULE_FLAG_NAME,
-            WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-            {
-              value: "1d20",
-            }
-          );
         } else {
-          diceFormula = diceFormula.value;
+          diceFormula = diceFormula.dieValue;
         }
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
