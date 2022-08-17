@@ -62,19 +62,21 @@ class MagicSurgeCheck {
    * @private
    * @returns RollResult
    */
-  async WildMagicSurgeRollCheck(): Promise<Roll> {
-    let diceFormula;
+  async WildMagicSurgeRollCheck(): Promise<Roll | undefined> {
+    let diceFormula: DieValue = undefined;
 
     switch (
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
     ) {
       case "DIE_DESCENDING":
-        diceFormula = await DieDescending.GetFlagResource(this._actor);
+        {
+          const flagResource = await DieDescending.GetFlagResource(this._actor);
 
-        if (!diceFormula) {
-          diceFormula = "1d20";
-        } else {
-          diceFormula = diceFormula.dieValue;
+          if (!flagResource) {
+            diceFormula = "1d20";
+          } else {
+            diceFormula = flagResource.dieValue;
+          }
         }
         break;
       case "SPELL_LEVEL_DEPENDENT_ROLL":
@@ -89,6 +91,10 @@ class MagicSurgeCheck {
           `${WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA}`
         );
         break;
+    }
+
+    if (!diceFormula) {
+      return;
     }
 
     return new Roll(diceFormula).roll({ async: true });
@@ -108,10 +114,10 @@ class MagicSurgeCheck {
    * On a Default Wild Magic Surge, check the result of the roll against the specified roll targe.
    * @private
    * @param {string} result
-   * @param {string} comparison
+   * @param {Comparison} comparison
    * @returns boolean
    */
-  DefaultMagicSurgeRollResult(result: string, comparison: string): boolean {
+  DefaultMagicSurgeRollResult(result: string, comparison: Comparison): boolean {
     const rollResult = parseInt(result);
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(
@@ -153,7 +159,7 @@ class MagicSurgeCheck {
    */
   async AutoSurgeCheck(spellLevel: string, gameType: string): Promise<void> {
     let isSurge = false;
-    let roll: Roll;
+    let roll: Roll | undefined;
 
     let isAutoSurge = false;
     if (
@@ -170,6 +176,7 @@ class MagicSurgeCheck {
 
     if (!isAutoSurge) {
       roll = await this.WildMagicSurgeRollCheck();
+      if (!roll) return;
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
