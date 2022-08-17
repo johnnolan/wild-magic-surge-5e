@@ -11,6 +11,7 @@ describe("DieDescending", () => {
   describe("If a roll of 1 with no flag set", () => {
     const newActor: Actor = {
       setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
     beforeEach(() => {
@@ -27,6 +28,7 @@ describe("DieDescending", () => {
   describe("If a roll of 10 with no flag set", () => {
     const newActor: Actor = {
       setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
     beforeEach(() => {
