@@ -1348,10 +1348,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@league-of-foundry-developers/foundry-vtt-types@^9.269.0":
-  version "9.269.0"
-  resolved "https://registry.yarnpkg.com/@league-of-foundry-developers/foundry-vtt-types/-/foundry-vtt-types-9.269.0.tgz#ab2ba8ed3e51f084bf65024c6848f42440a54cce"
-  integrity sha512-M/rz86decPLXet9e6+bi0dm8WSGrT/5MM1QXUMEC7Z8vfKB9Y5D61B1J5laaqb3DdjVDS1kZtQEW3/sPg3EALw==
+"@league-of-foundry-developers/foundry-vtt-types@^9.269.1":
+  version "9.269.1"
+  resolved "https://registry.yarnpkg.com/@league-of-foundry-developers/foundry-vtt-types/-/foundry-vtt-types-9.269.1.tgz#ea2878f112d041874226ec6f700bbf127da40911"
+  integrity sha512-lkpJuyeCE2Ys/7T673mJyMw+ZWMzjs+GVyQMD18qO6lppGjTK3sKmc/uyXNonLsDyUSAvMTlnwOqX+ksAY+xUg==
   dependencies:
     "@pixi/graphics-smooth" "0.0.22"
     "@types/jquery" "~3.5.9"
