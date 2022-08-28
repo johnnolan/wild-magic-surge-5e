@@ -40,7 +40,7 @@ class MagicSurgeCheck {
     if (!surgeChatMessageDetails.valid) return;
 
     if (surgeChatMessageDetails.hasPathOfWildMagicFeat) {
-      RollTableMagicSurge.Check("POWM");
+      RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic);
     } else {
       if (
         game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
@@ -68,18 +68,18 @@ class MagicSurgeCheck {
     switch (
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
     ) {
-      case "DIE_DESCENDING":
+      case WMSCONST.ROLL_CHECK_TYPE.DIE_DESCENDING:
         {
           const flagResource = await DieDescending.GetFlagResource(this._actor);
 
           if (!flagResource) {
-            diceFormula = "1d20";
+            diceFormula = WMSCONST.DIE_VALUE.D20;
           } else {
             diceFormula = flagResource.dieValue;
           }
         }
         break;
-      case "SPELL_LEVEL_DEPENDENT_ROLL":
+      case WMSCONST.ROLL_CHECK_TYPE.SPELL_LEVEL_DEPENDENT_ROLL:
         diceFormula = game.settings.get(
           `${WMSCONST.MODULE_ID}`,
           `${WMSCONST.OPT_TSL_DIE}`
@@ -130,17 +130,17 @@ class MagicSurgeCheck {
       const rollResultTarget = parseInt(resultTarget);
 
       switch (comparison) {
-        case "EQ":
+        case WMSCONST.COMPARISON.EQ:
           if (rollResult === rollResultTarget) {
             return true;
           }
           break;
-        case "GT":
+        case WMSCONST.COMPARISON.GT:
           if (rollResult > rollResultTarget) {
             return true;
           }
           break;
-        case "LT":
+        case WMSCONST.COMPARISON.LT:
           if (rollResult < rollResultTarget) {
             return true;
           }
@@ -264,7 +264,7 @@ class MagicSurgeCheck {
    * @private
    */
   async SurgeTidesOfChaos(): Promise<void> {
-    RollTableMagicSurge.Check("TOCSURGE");
+    RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.TIdesOfChaosSurge);
     Chat.Send(
       WMSCONST.CHAT_TYPE.DEFAULT,
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20_MSG}`)

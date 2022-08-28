@@ -12,7 +12,9 @@ class RollTableMagicSurge {
    * @return {Promise<void>}
    * @param type - The type of RollTable to use (WMS or POWM).
    */
-  static async Check(type: SurgeType = "WMS"): Promise<void> {
+  static async Check(
+    type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge
+  ): Promise<void> {
     if (
       !game.settings.get(
         `${WMSCONST.MODULE_ID}`,
@@ -22,7 +24,7 @@ class RollTableMagicSurge {
       return;
     }
     let rollTableName: string;
-    if (type === "POWM") {
+    if (type === WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic) {
       rollTableName = game.settings.get(
         `${WMSCONST.MODULE_ID}`,
         `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`

@@ -317,7 +317,7 @@ class ModuleSettings {
         ),
         scope: "world",
         config: false,
-        default: "1d20",
+        default: WMSCONST.DIE_VALUE.D20,
         type: String,
       }
     );
@@ -335,7 +335,7 @@ class ModuleSettings {
         scope: "world",
         config: false,
         choices: WMSCONST.ROLL_COMPARISON,
-        default: "EQ",
+        default: WMSCONST.COMPARISON.EQ,
         type: String,
       }
     );
@@ -358,7 +358,7 @@ class ModuleSettings {
       hint: game.i18n.format("WildMagicSurge5E.opt_tsl_die_hint"),
       scope: "world",
       config: false,
-      default: "1d20",
+      default: WMSCONST.DIE_VALUE.D20,
       type: String,
     });
 

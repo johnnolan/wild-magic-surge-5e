@@ -6,7 +6,7 @@ export default class DieDescending {
     value: 1,
     min: 1,
     max: 6,
-    dieValue: "1d20",
+    dieValue: WMSCONST.DIE_VALUE.D20,
   };
 
   private static async CallChanged(value: FlagValue): Promise<void> {
@@ -61,26 +61,26 @@ export default class DieDescending {
       return this.SetupDefault(actor, rollValue);
     } else {
       switch (flagValue.dieValue) {
-        case "1d20":
+        case WMSCONST.DIE_VALUE.D20:
           flagValue.value = 2;
-          flagValue.dieValue = "1d12";
+          flagValue.dieValue = WMSCONST.DIE_VALUE.D12;
           break;
-        case "1d12":
+        case WMSCONST.DIE_VALUE.D12:
           flagValue.value = 3;
-          flagValue.dieValue = "1d10";
+          flagValue.dieValue = WMSCONST.DIE_VALUE.D10;
           break;
-        case "1d10":
+        case WMSCONST.DIE_VALUE.D10:
           flagValue.value = 4;
-          flagValue.dieValue = "1d8";
+          flagValue.dieValue = WMSCONST.DIE_VALUE.D8;
           break;
-        case "1d8":
+        case WMSCONST.DIE_VALUE.D8:
           flagValue.value = 5;
-          flagValue.dieValue = "1d6";
+          flagValue.dieValue = WMSCONST.DIE_VALUE.D6;
           break;
-        case "1d6":
-        case "1d4":
+        case WMSCONST.DIE_VALUE.D6:
+        case WMSCONST.DIE_VALUE.D4:
           flagValue.value = 6;
-          flagValue.dieValue = "1d4";
+          flagValue.dieValue = WMSCONST.DIE_VALUE.D4;
           break;
       }
 

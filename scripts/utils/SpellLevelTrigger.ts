@@ -4,52 +4,52 @@ export default class SpellLevelTrigger {
   static Check(result: number, spellLevel: string): boolean {
     let spellString = "";
     switch (spellLevel) {
-      case "1st Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_1:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL1}`)
         );
         break;
-      case "2nd Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_2:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL2}`)
         );
         break;
-      case "3rd Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_3:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL3}`)
         );
         break;
-      case "4th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_4:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL4}`)
         );
         break;
-      case "5th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_5:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL5}`)
         );
         break;
-      case "6th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_6:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL6}`)
         );
         break;
-      case "7th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_7:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL7}`)
         );
         break;
-      case "8th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_8:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL8}`)
         );
         break;
-      case "9th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_9:
         spellString = <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL9}`)
         );
         break;
-      case "10th Level":
+      case WMSCONST.SPELL_LEVELS.LEVEL_10:
         spellString = <string>(
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
