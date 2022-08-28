@@ -64,7 +64,7 @@ export default class SpellParser {
       (f) => content.includes(f)
     )[0];
 
-    if (spellString === "Cantrip") {
+    if (spellString === WMSCONST.SPELL_LEVELS.Cantrip) {
       if (
         !game.settings.get(
           `${WMSCONST.MODULE_ID}`,
@@ -84,13 +84,13 @@ export default class SpellParser {
         if (spellLevel > 0) {
           switch (spellLevel) {
             case 1:
-              spellString = "1st Level";
+              spellString = WMSCONST.SPELL_LEVELS.LEVEL_1;
               break;
             case 2:
-              spellString = "2nd Level";
+              spellString = WMSCONST.SPELL_LEVELS.LEVEL_2;
               break;
             case 3:
-              spellString = "3rd Level";
+              spellString = WMSCONST.SPELL_LEVELS.LEVEL_3;
               break;
             case 4:
             case 5:
