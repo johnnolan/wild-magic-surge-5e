@@ -11,7 +11,7 @@
     "build:dev": "node ./build.js && node ./build-copy.js",
     "jshint": "jshint scripts/",
     "test": "jest --maxWorkers=1",
-    "test:coverage": "jest --ci --runInBand --maxWorkers=1",
+    "test:coverage": "jest --ci --runInBand",
     "test:watch": "jest --watch --maxWorkers=1",
     "test:watchcov": "jest --watch --coverage --maxWorkers=1",
     "lint:check": "eslint --ignore-path .gitignore .",
