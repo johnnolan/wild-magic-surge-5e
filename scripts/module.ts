@@ -5,13 +5,17 @@ import RoundCheck from "./RoundCheck";
 import ModuleSettings from "./ModuleSettings";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
+import Logger from "./Logger";
 
 Hooks.on("init", function () {
-  console.info(`Registering ${WMSCONST.MODULE_NAME} Settings.`);
+  Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
 
   ModuleSettings.Register();
 
-  console.info(`Settings for ${WMSCONST.MODULE_NAME} registered successfully.`);
+  Logger.log(
+    `Settings for ${WMSCONST.MODULE_NAME} registered successfully.`,
+    "module.init"
+  );
 });
 
 Hooks.on("createChatMessage", (chatMessage: ChatMessage) => {

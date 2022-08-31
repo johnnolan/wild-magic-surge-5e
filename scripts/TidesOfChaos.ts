@@ -62,8 +62,7 @@ class TidesOfChaos {
     const hasTidesOfChaosResource =
       tidesOfChaosResourceSetup === undefined ? false : true;
 
-    if (hasTidesOfChaosResource) {
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+    if (hasTidesOfChaosResource && tidesOfChaosResourceSetup) {
       const resourceName = tidesOfChaosResourceSetup.resourceName.split(".");
       if (resourceName.length === 3) {
         tidesItem = actor.system.resources[resourceName[1]].label === featName;
