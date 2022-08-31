@@ -16,7 +16,7 @@ Hooks.on("init", function () {
 
 Hooks.on("createChatMessage", (chatMessage: ChatMessage) => {
   if (hasProperty(chatMessage, "flags.damage-log")) return;
-  const actor = game.actors.get(chatMessage.speaker.actor);
+  const actor = game.actors?.get(chatMessage.speaker.actor);
   if (!actor) {
     return false;
   }

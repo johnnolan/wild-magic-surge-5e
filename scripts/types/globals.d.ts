@@ -1,40 +1,51 @@
-type SurgeType = "WMS" | "POWM" | "TOCSURGE";
+declare global {
+  interface LenientGlobalVariableTypes {
+    game: never; // the type doesn't matter
+  }
+  interface Window {
+    Hooks: typeof Hooks;
+  }
 
-type Comparison = "EQ" | "GT" | "LT";
+  type SurgeType = "WMS" | "POWM" | "TOCSURGE";
 
-type DieValue = undefined | "1d20" | "1d12" | "1d10" | "1d8" | "1d6" | "1d4";
+  type Comparison = "EQ" | "GT" | "LT";
 
-type TidesItemData = {
-  hasTidesOfChaosResource: boolean;
-  hasTidesOfChaosFeat: boolean;
-  isValid: boolean;
-};
+  type DieValue = undefined | "1d20" | "1d12" | "1d10" | "1d8" | "1d6" | "1d4";
 
-type ModuleSetup = {
-  actor: {
-    name: string;
-  };
-  settings: {
-    isValid: boolean;
-    hasWildMagicFeat: boolean;
+  type TidesItemData = {
     hasTidesOfChaosResource: boolean;
     hasTidesOfChaosFeat: boolean;
+    isValid: boolean;
   };
-};
 
-type HookValue = {
-  value: string | boolean | number;
-};
+  type ModuleSetup = {
+    actor: {
+      name: string;
+    };
+    settings: {
+      isValid: boolean;
+      hasWildMagicFeat: boolean;
+      hasTidesOfChaosResource: boolean;
+      hasTidesOfChaosFeat: boolean;
+    };
+  };
 
-type HookSurgeValue = {
-  surge: boolean;
-  result: string | undefined;
-  tokenId: string;
-};
+  type HookValue = {
+    value: string | boolean | number;
+  };
 
-type FlagValue = {
-  max?: number;
-  min?: number;
-  value: number;
-  dieValue?: DieValue;
-};
+  type HookSurgeValue = {
+    surge: boolean;
+    result: string | undefined;
+    tokenId: string;
+  };
+
+  type FlagValue = {
+    max?: number;
+    min?: number;
+    value: number;
+    dieValue?: DieValue;
+  };
+}
+
+export {};
