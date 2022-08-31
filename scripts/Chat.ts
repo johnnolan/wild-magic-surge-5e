@@ -146,6 +146,7 @@ export default class Chat {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
+        async: true,
       }),
       results: results.map((r: TableResult) => {
         r.text = r.getChatText();
