@@ -116,7 +116,7 @@ export default class Chat {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
-      rolls: [{ roll: roll }],
+      rolls: [roll],
       sound: null,
     };
 
@@ -146,6 +146,7 @@ export default class Chat {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
         entities: true,
+        async: true,
       }),
       results: results.map((r: TableResult) => {
         r.text = r.getChatText();
