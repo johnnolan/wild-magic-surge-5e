@@ -1,5 +1,6 @@
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
+import Logger from "./Logger";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
@@ -36,12 +37,24 @@ class RollTableMagicSurge {
       );
     }
     if (rollTableName === undefined) {
+      Logger.error(
+        `No roll table name set in settings`,
+        "rolltablemagicsurge.Check"
+      );
       return;
     }
 
     const surgeRollTable = game.tables.find(
       (t: RollTable) => t.name === rollTableName
     );
+
+    if (!surgeRollTable) {
+      Logger.error(
+        `No roll table called ${rollTableName} found`,
+        "rolltablemagicsurge.Check",
+        game.tables
+      );
+    }
 
     await surgeRollTable?.roll().then((result: Roll) => {
       Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);

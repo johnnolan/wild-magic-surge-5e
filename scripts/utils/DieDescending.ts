@@ -1,3 +1,4 @@
+import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 
@@ -44,6 +45,10 @@ export default class DieDescending {
 
   static async Check(actor: Actor, rollValue: string): Promise<boolean> {
     if (!actor) {
+      Logger.warn(
+        `Missing actor for Die Descending Check`,
+        "diedescending.SetupDefault"
+      );
       return false;
     }
 

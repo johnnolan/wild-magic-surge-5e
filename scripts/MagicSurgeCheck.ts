@@ -8,6 +8,7 @@ import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
 import CallHooks from "./utils/CallHooks";
 import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
+import Logger from "./Logger";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -94,6 +95,10 @@ class MagicSurgeCheck {
     }
 
     if (!diceFormula) {
+      Logger.error(
+        `Cannot find dice formula`,
+        "magicsurgecheck.WildMagicSurgeRollCheck"
+      );
       return;
     }
 
@@ -206,6 +211,11 @@ class MagicSurgeCheck {
           break;
         }
         default:
+          Logger.error(
+            `Cannot find gameType ${gameType}`,
+            "magicsurgecheck.AutoSurgeCheck",
+            gameType
+          );
           return;
       }
       this.SurgeWildMagic(isSurge, roll);

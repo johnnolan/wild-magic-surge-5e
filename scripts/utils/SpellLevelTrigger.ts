@@ -1,3 +1,4 @@
+import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
 
 export default class SpellLevelTrigger {
@@ -72,6 +73,11 @@ export default class SpellLevelTrigger {
       case "<":
         return result < rollResultTarget;
       default:
+        Logger.warn(
+          `Cannot parse custom Spell Level trigger setting.`,
+          "spellleveltrigger.Check",
+          { spellString, spellLevel }
+        );
         return false;
     }
   }
