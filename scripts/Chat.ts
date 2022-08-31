@@ -116,7 +116,7 @@ export default class Chat {
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
-      rolls: [{ roll: roll }],
+      rolls: [roll],
       sound: null,
     };
 
