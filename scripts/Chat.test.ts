@@ -8,6 +8,9 @@ describe("Chat", () => {
       get: jest.fn().mockResolvedValue(true),
       result: jest.fn().mockResolvedValue(20),
     };
+    jest.clearAllMocks();
+
+    jest.resetAllMocks();
   });
 
   describe("createDefaultChat", () => {
@@ -17,11 +20,8 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message", null);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
-          blind: true,
           content: "<div>My Custom Message</div>",
           speaker: [undefined],
-          type: "WHISPER",
-          whisper: [undefined],
         });
       });
     });
@@ -79,9 +79,70 @@ describe("Chat", () => {
         });
       });
     });
+
+    describe("Given I pass it a message but no roll object", () => {
+      let roll: any;
+
+      beforeEach(() => {
+        (global as any).game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        roll = {
+          result: 20,
+        };
+      });
+
+      it("It returns undefined", async () => {
+        await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", undefined);
+
+        expect(ChatMessage.create).not.toBeCalled();
+      });
+    });
   });
 
   describe("createRollTable", () => {
+    describe("Given I pass it a message and not roll table", () => {
+      let rollResult: any;
+      let surgeRollTable: any;
+
+      beforeEach(() => {
+        (global as any).game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        surgeRollTable = {
+          data: {
+            description: "Wild Magic Surge Table",
+          },
+        };
+        rollResult = {
+          results: [
+            {
+              text: "test text",
+
+              getChatText: jest.fn(),
+            },
+          ],
+          roll: {
+            result: 20,
+
+            render: jest.fn().mockResolvedValue(null),
+          },
+        };
+      });
+
+      it("It just returns", async () => {
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", undefined, surgeRollTable);
+
+        expect(ChatMessage.create).not.toHaveBeenCalled();
+
+        expect(global.renderTemplate).not.toHaveBeenCalled();
+      });
+    });
+
     describe("Given I pass it a message and roll table with one result", () => {
       let rollResult: any;
       let surgeRollTable: any;
@@ -159,7 +220,7 @@ describe("Chat", () => {
       });
 
       it("It calls the correct methods", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, rollResultTwoResults, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResultTwoResults, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 

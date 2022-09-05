@@ -54,6 +54,7 @@ class RollTableMagicSurge {
         "rolltablemagicsurge.Check",
         game.tables
       );
+      return;
     }
 
     await surgeRollTable?.roll().then((result: Roll) => {

@@ -1,9 +1,49 @@
 import RollTableMagicSurge from "./RollTableMagicSurge";
+import Logger from "./Logger";
 import "../__mocks__/index";
 
 jest.mock("./Chat");
+const mockLoggerError = jest.fn();
+Logger.error = mockLoggerError;
 
 describe("RollTableMagicSurge", () => {
+  describe("If no table is found matching", () => {
+    beforeEach(() => {
+      global.renderTemplate = jest.fn().mockResolvedValue("Content");
+      (global as any).game = {
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue({
+              results: [],
+              render: jest.fn().mockResolvedValue(""),
+            }),
+            results: jest.fn().mockResolvedValue([]),
+            data: {
+              description: "Wild Magic Surge Table Test",
+            },
+          },
+        ],
+        settings: {
+          get: jest
+            .fn()
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("undefined"),
+        },
+        user: {
+          id: "123",
+        },
+      };
+    });
+
+    it("should not call the table", async () => {
+      await RollTableMagicSurge.Check();
+
+      expect((global as any).game.tables[0].roll).not.toBeCalled();
+      expect(mockLoggerError).toBeCalled();
+    });
+  });
+
   describe("If no table is found matching", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");

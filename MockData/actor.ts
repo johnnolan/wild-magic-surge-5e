@@ -329,6 +329,12 @@ export const actor: Actor = {
       },
     },
     {
+      id: "iGoR4ePl1mTZFAA1",
+      name: "Example Spell 0",
+      type: "spell",
+      level: 0,
+    },
+    {
       id: "iGoR4ePl1mTZFAAV",
       name: "Example Spell 1",
       type: "spell",
@@ -345,6 +351,30 @@ export const actor: Actor = {
       name: "Example Spell 3",
       type: "spell",
       level: 3,
+    },
+    {
+      id: "iGoR4ePl1mTZFAA4",
+      name: "Example Spell 4",
+      type: "spell",
+      level: 4,
+    },
+    {
+      id: "iGoR4ePl1mTZFAA5",
+      name: "Example Spell 5",
+      type: "spell",
+      level: 5,
+    },
+    {
+      id: "iGoR4ePl1mTZFAA6",
+      name: "Example Spell 6",
+      type: "spell",
+      level: 6,
+    },
+    {
+      id: "iGoR4ePl1mTZFAA7",
+      name: "Example Spell 7",
+      type: "spell",
+      level: 7,
     },
     {
       id: "iGoR4ePl1mTZFAAR",

@@ -93,6 +93,37 @@ beforeEach(() => {
 
 describe("MagicSurgeCheck", () => {
   describe("CheckChatMessage", () => {
+    describe("Is Wild Magic Surge Auto Check but not valid message", () => {
+      let magicSurgeCheck: MagicSurgeCheck;
+
+      beforeEach(() => {
+        (global as any).game = {
+          settings: {
+            get: jest
+              .fn()
+              .mockReturnValue(true)
+          },
+        };
+        magicSurgeCheck = new MagicSurgeCheck(actor, "");
+
+        mockSurgeChatMessageDetailsValid.mockReturnValue(false);
+
+        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
+      });
+
+      it("It returns as invalid", async () => {
+        await magicSurgeCheck.CheckChatMessage(chatMessage);
+
+        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).not.toHaveBeenCalled();
+
+        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
+
+        expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
+
+        expect(mockChatRunMessageCheck).not.toHaveBeenCalled();
+      });
+    });
+
     describe("Is Wild Magic Surge Auto Check", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
@@ -104,8 +135,7 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValue(true)
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "");
 
         mockSurgeChatMessageDetailsValid.mockReturnValue(true);
         mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
@@ -622,6 +652,67 @@ describe("MagicSurgeCheck", () => {
         expect((global as any).Hooks.callAll).toBeCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe("Is Auto Surge Check but no roll", () => {
+      let defaultMagicSurgeRollResultSpy: any;
+      let magicSurgeCheck: MagicSurgeCheck;
+
+      beforeEach(() => {
+        (global as any).game = {
+          settings: {
+            get: jest.fn().mockReturnValue(true),
+          },
+          actors: {
+            get: jest.fn().mockReturnValue({
+              data: {
+                items: [
+                  {
+                    id: "WWb4vAmh18sMAxfY",
+                    data: {
+                      name: "Flame Tongue Greatsword",
+                      data: { actionType: "mwak" },
+                    },
+                    token: {
+                      _id: "5H4YnyD6zf9vcJ3Q",
+                    },
+                  },
+                  {
+                    _id: "iGoR4ePl1mTZFAAM",
+                    name: "Wild Magic Surge",
+                    type: "feat",
+                    img: "systems/dnd5e/icons/spells/lightning-magenta-3.jpg",
+                    data: {
+                      source: "Sorcerer : Wild Magic",
+                    },
+                  },
+                ],
+              },
+            }),
+          },
+        };
+        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+        magicSurgeCheck = new MagicSurgeCheck(actor);
+        mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
+
+        defaultMagicSurgeRollResultSpy = jest.spyOn(
+          magicSurgeCheck,
+          "DefaultMagicSurgeRollResult"
+        );
+
+        jest
+          .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
+          .mockReturnValue(undefined);
+      });
+      test("It should return", async () => {
+        await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
+
+        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+
+        expect(mockIncrementalCheckCheck).not.toBeCalled();
+
+        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
       });
     });
   });

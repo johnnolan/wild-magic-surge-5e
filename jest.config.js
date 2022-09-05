@@ -23,7 +23,9 @@ export default {
     "scripts/**/*.ts",
     "!scripts/panels/*.ts",
     "!scripts/**/*.test.ts",
+    "!scripts/**/*.d.ts",
     "!scripts/ModuleSettings.ts",
     "!scripts/module.ts",
+    "!scripts/Logger.ts",
   ],
 };
