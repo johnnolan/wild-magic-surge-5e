@@ -7,6 +7,71 @@ describe("IncrementalCheck", () => {
     callAll: jest.fn().mockReturnValue(true),
   };
 
+  describe("If the actor has no flag set", () => {
+    let newActor: Actor = actor;
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
+      newActor = {
+        update: jest.fn().mockResolvedValue(true),
+        setFlag: jest.fn().mockResolvedValue(true),
+        flags: [],
+        getFlag: jest.fn().mockResolvedValue(undefined),
+      };
+    });
+
+    it("should return true", async () => {
+      const result = await IncrementalCheck.Check(newActor, 1);
+
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe("If the roll value is less than the incrementLevel value", () => {
+    let newActor: Actor = actor;
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
+      newActor = {
+        update: jest.fn().mockResolvedValue(true),
+        setFlag: jest.fn().mockResolvedValue(true),
+        flags: [],
+        getFlag: jest.fn().mockResolvedValue({
+          max: 20,
+          min: 1,
+          value: 2,
+        }),
+      };
+    });
+
+    it("should return true", async () => {
+      const result = await IncrementalCheck.Check(newActor, 1);
+
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe("If the roll value is greater than the incrementLevel value", () => {
+    let newActor: Actor = actor;
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
+      newActor = {
+        update: jest.fn().mockResolvedValue(true),
+        setFlag: jest.fn().mockResolvedValue(true),
+        flags: [],
+        getFlag: jest.fn().mockResolvedValue({
+          max: 20,
+          min: 1,
+          value: 2,
+        }),
+      };
+    });
+
+    it("should return true", async () => {
+      const result = await IncrementalCheck.Check(newActor, 3);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
   describe("If a roll of 1 with no flag set", () => {
     let newActor: Actor;
     beforeEach(() => {
@@ -97,6 +162,24 @@ describe("IncrementalCheck", () => {
       const result = await IncrementalCheck.Check(newActor, 4);
 
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe("If you call Reset", () => {
+    let newActor: Actor;
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
+      newActor = {
+        update: jest.fn().mockResolvedValue(true),
+        setFlag: jest.fn().mockResolvedValue(true),
+        flags: [],
+      };
+    });
+
+    it("should return true", async () => {
+      const result = await IncrementalCheck.Reset(newActor);
+
+      expect(result).toBeUndefined();
     });
   });
 });

@@ -255,8 +255,27 @@ describe("SpellLevelTrigger", () => {
       };
     });
 
-    it("should be true", () => {
+    it("should be false", () => {
       const result = SpellLevelTrigger.Check(10, "10th Level");
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe("Spell string is not set", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+
+      jest.resetAllMocks();
+      (global as any).game = {
+        settings: {
+          get: jest.fn().mockReturnValueOnce("11"),
+        },
+      };
+    });
+
+    it("should be false", () => {
+      const result = SpellLevelTrigger.Check(10, "11th Level");
 
       expect(result).toBeFalsy();
     });

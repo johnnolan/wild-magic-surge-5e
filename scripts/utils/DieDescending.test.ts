@@ -8,6 +8,46 @@ describe("DieDescending", () => {
     callAll: jest.fn().mockReturnValue(true),
   };
 
+  describe("If no actor is passed", () => {
+    const newActor: Actor = {
+      setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
+      flags: [],
+    };
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(false);
+    });
+
+    it("should return false", async () => {
+      const result = await DieDescending.Check(undefined, "1");
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe("If a roll of 1 with flag set", () => {
+    const newActor: Actor = {
+      setFlag: jest.fn().mockResolvedValue(true),
+      update: jest.fn().mockResolvedValue(true),
+      flags: [],
+      getFlag: jest.fn().mockResolvedValue({
+        dieValue: "1d20",
+        value: 1,
+        max: 6,
+        min: 1,
+      }),
+    };
+    beforeEach(() => {
+      global.hasProperty = jest.fn().mockReturnValue(true);
+    });
+
+    it("should return true", async () => {
+      const result = await DieDescending.Check(newActor, "1");
+
+      expect(result).toBeTruthy();
+    });
+  });
+
   describe("If a roll of 1 with no flag set", () => {
     const newActor: Actor = {
       setFlag: jest.fn().mockResolvedValue(true),
@@ -92,7 +132,10 @@ describe("DieDescending", () => {
       global.hasProperty = jest.fn().mockReturnValue(true);
       newActor = actor;
       newActor.getFlag = jest.fn().mockResolvedValue({
-        dieValue: "1d20", value: 1, max: 6, min: 1,
+        dieValue: "1d20",
+        value: 1,
+        max: 6,
+        min: 1,
       });
     });
 
@@ -115,7 +158,10 @@ describe("DieDescending", () => {
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
       newActor.getFlag = jest.fn().mockResolvedValue({
-        dieValue: "1d12", value: 2, max: 6, min: 1,
+        dieValue: "1d12",
+        value: 2,
+        max: 6,
+        min: 1,
       });
     });
 
@@ -137,9 +183,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue(
-        { dieValue: "1d10", value: 3, max: 6, min: 1 }
-      );
+      newActor.getFlag = jest
+        .fn()
+        .mockResolvedValue({ dieValue: "1d10", value: 3, max: 6, min: 1 });
     });
 
     it("should change to D8", async () => {
@@ -160,9 +206,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue(
-        { dieValue: "1d8", value: 4, max: 6, min: 1 }
-      );
+      newActor.getFlag = jest
+        .fn()
+        .mockResolvedValue({ dieValue: "1d8", value: 4, max: 6, min: 1 });
     });
 
     it("should change to D6", async () => {
@@ -183,9 +229,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue(
-        { dieValue: "1d4", value: 6, max: 6, min: 1 }
-      );
+      newActor.getFlag = jest
+        .fn()
+        .mockResolvedValue({ dieValue: "1d6", value: 6, max: 6, min: 1 });
     });
 
     it("should change to D4", async () => {
@@ -206,8 +252,9 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue(
-        { dieValue: "1d4", value: 6, max: 6, min: 1 });
+      newActor.getFlag = jest
+        .fn()
+        .mockResolvedValue({ dieValue: "1d4", value: 6, max: 6, min: 1 });
     });
 
     it("should stay as D4", async () => {

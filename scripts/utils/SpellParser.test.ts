@@ -223,6 +223,15 @@ describe("SpellParser", () => {
         };
       });
 
+      it("should be undefined if spell level is 0", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAA1"></div>`,
+          actor
+        );
+
+        expect(result).toBeUndefined();
+      });
+
       it("should be 1st Level if in description", async () => {
         const result = await SpellParser.SpellDetails(
           `<div data-item-id="iGoR4ePl1mTZFAAV">1st Level</div>`,
@@ -257,6 +266,42 @@ describe("SpellParser", () => {
         );
 
         expect(result).toBe("3rd Level");
+      });
+
+      it("should be 4th Level if in item data", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAA4"></div>`,
+          actor
+        );
+
+        expect(result).toBe("4th Level");
+      });
+
+      it("should be 5th Level if in item data", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAA5"></div>`,
+          actor
+        );
+
+        expect(result).toBe("5th Level");
+      });
+
+      it("should be 6th Level if in item data", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAA6"></div>`,
+          actor
+        );
+
+        expect(result).toBe("6th Level");
+      });
+
+      it("should be 7th Level if in item data", async () => {
+        const result = await SpellParser.SpellDetails(
+          `<div data-item-id="iGoR4ePl1mTZFAA7"></div>`,
+          actor
+        );
+
+        expect(result).toBe("7th Level");
       });
 
       it("should be 8th Level if in item data", async () => {
@@ -431,6 +476,20 @@ describe("SpellParser", () => {
         const result = SpellParser.IsNPC({
           type: "pc",
         });
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe("Is not a valid Actor", () => {
+
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+      });
+
+      it("should be false", () => {
+        const result = SpellParser.IsNPC(undefined);
 
         expect(result).toBeFalsy();
       });

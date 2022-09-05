@@ -12,7 +12,7 @@ export default class IncrementalCheck {
   };
 
   static async Reset(actor: Actor) {
-    this.SetupDefault(actor);
+    await this.SetupDefault(actor);
   }
 
   static async CallChanged(value: number) {
