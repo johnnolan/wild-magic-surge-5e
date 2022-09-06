@@ -18,14 +18,12 @@ Hooks.on("init", function () {
   );
 });
 
-Hooks.on("createChatMessage", (chatMessage: ChatMessage) => {
-  if (hasProperty(chatMessage, "flags.damage-log")) return;
-  const actor = game.actors?.get(chatMessage.speaker.actor);
-  if (!actor) {
-    return false;
-  }
-  const magicSurgeCheck = new MagicSurgeCheck(actor, chatMessage.speaker.token);
-  magicSurgeCheck.CheckChatMessage(chatMessage);
+Hooks.on("dnd5e.useItem", (item: Item) => {
+  const magicSurgeCheck = new MagicSurgeCheck(
+    item.actor,
+    item.actor.sheet.token.id
+  );
+  magicSurgeCheck.CheckItem(item);
 });
 
 Hooks.on("updateCombat", async function (roundData: RoundData) {

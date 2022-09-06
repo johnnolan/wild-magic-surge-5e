@@ -37,114 +37,72 @@ export default class SpellParser {
   }
 
   /**
-   * Gets the Foundry item id from the ChatMessage HTML Data Attribute
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
-   * @return {Promise<Item | undefined>}
-   */
-  private static RollContent(content: string, actor: Actor): Item | undefined {
-    const rollContent = $(content);
-    const itemId = rollContent.data("item-id");
-    if (!actor || !itemId) return undefined;
-    return actor.items.find((i: Item) => i.id === itemId);
-  }
-
-  /**
-   * Gets the Foundry Spell Level from the ChatMessage HTML Description
+   * Gets the Foundry Spell Level Name from the Item
    * @private
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
+   * @param item - Item5e object
    * @return {Promise<string>}
    */
-  private static SpellDetails(
-    content: string,
-    actor: Actor
-  ): string | undefined {
-    let spellString: string | undefined = WMSCONST.SPELL_LIST_KEY_WORDS.filter(
-      (f) => content.includes(f)
-    )[0];
-
-    if (spellString === WMSCONST.SPELL_LEVELS.Cantrip) {
-      if (
-        !game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`
-        )
-      ) {
-        return undefined;
-      } else {
-        return spellString;
-      }
-    }
-
-    if (!spellString) {
-      const getItem = SpellParser.RollContent(content, actor);
-      if (getItem) {
-        const spellLevel = getItem.level;
-        if (spellLevel > 0) {
-          switch (spellLevel) {
-            case 1:
-              spellString = WMSCONST.SPELL_LEVELS.LEVEL_1;
-              break;
-            case 2:
-              spellString = WMSCONST.SPELL_LEVELS.LEVEL_2;
-              break;
-            case 3:
-              spellString = WMSCONST.SPELL_LEVELS.LEVEL_3;
-              break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-              spellString = `${spellLevel}th Level`;
-              break;
-            default:
-              break;
-          }
+  private static SpellDetails(item: Item): string | undefined {
+    if (item?.system?.level === undefined) return;
+    switch (item.system.level) {
+      case 0: {
+        if (
+          !game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`
+          )
+        ) {
+          return undefined;
+        } else {
+          return `Cantrip`;
         }
       }
+      case 1:
+        return `${item.system.level}st Level`;
+      case 2:
+        return `${item.system.level}nd Level`;
+      case 3:
+        return `${item.system.level}rd Level`;
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+        return `${item.system.level}th Level`;
+      default:
+        return undefined;
     }
-
-    return spellString;
   }
 
   /**
-   * Gets the Foundry Spell Level from the ChatMessage HTML Description
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
+   * Gets the Foundry Spell Level from the Item
+   * @param item - Item5e object
    * @return {string}
    */
-  static SpellLevel(content: string, actor: Actor): string {
-    const result = SpellParser.SpellDetails(content, actor);
+  static SpellLevel(item: Item): string {
+    const result = SpellParser.SpellDetails(item);
     if (result === undefined) return "";
     return result;
   }
 
   /**
-   * Checks the Chat Message HTML for whether it is a Spell being cast
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
+   * Checks the Item for whether it is a Spell being cast
+   * @param item - Item5e object
    * @return {boolean}
    */
-  static IsSpell(content: string, actor: Actor): boolean {
-    const result = SpellParser.SpellDetails(content, actor);
-    return result !== undefined;
+  static IsSpell(item: Item): boolean {
+    const result = SpellParser.SpellDetails(item);
+    return result !== undefined && item.type === "spell";
   }
 
   /**
    * Custom regex check for multiclass PCs. Returns if the spell cast was a Sorcerer spell.
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
+   * @param item - Item5e object
    * @return {Promise<boolean>}
    */
-  static IsSorcererSpell(content: string, actor: Actor): boolean {
-    const getItem = SpellParser.RollContent(content, actor);
-
-    if (!getItem) return false;
-
-    const spellName = getItem.name;
+  static IsSorcererSpell(item: Item): boolean {
+    const spellName = item.name;
 
     const spellRegex = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
@@ -156,16 +114,11 @@ export default class SpellParser {
 
   /**
    * Checks whether the Rage spell has been cast
-   * @param content - Chat Message HTML
-   * @param actor - Foundry Actor
+   * @param item - Item5e object
    * @return {boolean}
    */
-  static IsRage(content: string, actor: Actor): boolean {
-    const getItem = SpellParser.RollContent(content, actor);
-
-    if (!getItem) return false;
-
-    const spellName = getItem.name;
+  static IsRage(item: Item): boolean {
+    const spellName = item.name;
 
     return spellName === "Rage";
   }

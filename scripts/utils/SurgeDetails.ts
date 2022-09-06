@@ -1,13 +1,12 @@
 import { WMSCONST } from "../WMSCONST";
 import SpellParser from "./SpellParser";
 
-export default class SurgeChatMessageDetails {
+export default class SurgeDetails {
   _actor: Actor;
+  _item: Item;
   _userId?: string;
   _isWhisperToGM = false;
   _whisperToGM: boolean;
-  _isMessageFromGameMaster: boolean;
-  _isMessageFromPlayerWhoRolled: boolean;
   _hasPathOfWildMagicFeat: boolean;
   _raging: boolean;
   _isASpell: boolean;
@@ -16,18 +15,10 @@ export default class SurgeChatMessageDetails {
   _hasWildMagicFeat: boolean;
   _isNpc: boolean;
   _valid: boolean;
-  _chatMessage: ChatMessage;
 
-  constructor(
-    chatMessage: ChatMessage,
-    actor: Actor,
-    userId: string,
-    userIsGm: boolean
-  ) {
-    this._chatMessage = chatMessage;
+  constructor(actor: Actor, item: Item) {
     this._actor = actor;
-    this._isMessageFromGameMaster = userIsGm;
-    this._userId = userId;
+    this._item = item;
 
     this._valid = false;
 
@@ -35,19 +26,14 @@ export default class SurgeChatMessageDetails {
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_WHISPER_GM}`
     );
-    this._isMessageFromPlayerWhoRolled =
-      this._chatMessage.user?.id === this._userId;
 
     this._hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
       this._actor
     );
-    this._raging = SpellParser.IsRage(chatMessage.content, this._actor);
-    this._isASpell = SpellParser.IsSpell(chatMessage.content, this._actor);
-    this._spellLevel = SpellParser.SpellLevel(chatMessage.content, this._actor);
-    this._isSorcererSpell = SpellParser.IsSorcererSpell(
-      chatMessage.content,
-      this._actor
-    );
+    this._raging = SpellParser.IsRage(this._item);
+    this._isASpell = SpellParser.IsSpell(this._item);
+    this._spellLevel = SpellParser.SpellLevel(this._item);
+    this._isSorcererSpell = SpellParser.IsSorcererSpell(this._item);
     this._hasWildMagicFeat = SpellParser.IsWildMagicFeat(this._actor);
     this._isNpc = SpellParser.IsNPC(this._actor);
   }
@@ -72,15 +58,7 @@ export default class SurgeChatMessageDetails {
     return undefined;
   }
 
-  get isUserOnMessageValid(): boolean {
-    if (this._whisperToGM && this._isMessageFromGameMaster) return true;
-    if (!this._whisperToGM && this._isMessageFromPlayerWhoRolled) return true;
-    return false;
-  }
-
   get valid(): boolean {
-    if (!this.isUserOnMessageValid) return false;
-
     if (this._hasPathOfWildMagicFeat) {
       return this._raging;
     }

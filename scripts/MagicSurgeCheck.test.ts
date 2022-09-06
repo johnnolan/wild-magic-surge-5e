@@ -6,11 +6,11 @@ import DieDescending from "./utils/DieDescending";
 import TidesOfChaos from "./TidesOfChaos";
 import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import Chat from "./Chat";
-import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
+import SurgeDetails from "./utils/SurgeDetails";
 import { actor } from "../MockData/actor";
-import { chatMessage } from "../MockData/chatMessage";
 import "../__mocks__/index";
 import AutoEffects from "./AutoEffects";
+import { firstLevel, melee } from "../MockData/items";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   SpellParser,
@@ -28,17 +28,20 @@ const mockSpellParserIsWildMagicFeat = jest.spyOn(
   "IsWildMagicFeat"
 );
 
-const mockSurgeChatMessageDetailsValid = jest.spyOn(
-  SurgeChatMessageDetails.prototype,
-  "valid", "get"
+const mockSurgeDetailsValid = jest.spyOn(
+  SurgeDetails.prototype,
+  "valid",
+  "get"
 );
-const mockSurgeChatMessageDetailsHasPathOfWildMagicFeat = jest.spyOn(
-  SurgeChatMessageDetails.prototype,
-  "hasPathOfWildMagicFeat", "get"
+const mockSurgeDetailsHasPathOfWildMagicFeat = jest.spyOn(
+  SurgeDetails.prototype,
+  "hasPathOfWildMagicFeat",
+  "get"
 );
-const mockSurgeChatMessageDetailsSpellLevel = jest.spyOn(
-  SurgeChatMessageDetails.prototype,
-  "spellLevel", "get"
+const mockSurgeDetailsSpellLevel = jest.spyOn(
+  SurgeDetails.prototype,
+  "spellLevel",
+  "get"
 );
 
 const mockDieDescendingCheck = jest.fn();
@@ -79,9 +82,9 @@ beforeEach(() => {
   mockSpellLevelTriggerCheck.mockClear();
   mockIncrementalCheckCheck.mockClear();
   mockAutoEffect.mockClear();
-  mockSurgeChatMessageDetailsValid.mockClear();
-  mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockClear();
-  mockSurgeChatMessageDetailsSpellLevel.mockClear();
+  mockSurgeDetailsValid.mockClear();
+  mockSurgeDetailsHasPathOfWildMagicFeat.mockClear();
+  mockSurgeDetailsSpellLevel.mockClear();
   mockSpellParserIsPathOfWildMagicFeat.mockClear();
   mockSpellParserIsSorcererSpell.mockClear();
   mockSpellParserSpellLevel.mockClear();
@@ -92,31 +95,29 @@ beforeEach(() => {
 });
 
 describe("MagicSurgeCheck", () => {
-  describe("CheckChatMessage", () => {
-    describe("Is Wild Magic Surge Auto Check but not valid message", () => {
+  describe("CheckItem", () => {
+    describe("Is Wild Magic Surge Auto Check but not valid item", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
         (global as any).game = {
           settings: {
-            get: jest
-              .fn()
-              .mockReturnValue(true)
+            get: jest.fn().mockReturnValue(true),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
-        mockSurgeChatMessageDetailsValid.mockReturnValue(false);
+        mockSurgeDetailsValid.mockReturnValue(false);
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
 
       it("It returns as invalid", async () => {
-        await magicSurgeCheck.CheckChatMessage(chatMessage);
+        await magicSurgeCheck.CheckItem(melee);
 
-        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).not.toHaveBeenCalled();
+        expect(mockSurgeDetailsHasPathOfWildMagicFeat).not.toHaveBeenCalled();
 
-        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
+        expect(mockSurgeDetailsValid).toHaveBeenCalledTimes(1);
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
 
@@ -130,27 +131,23 @@ describe("MagicSurgeCheck", () => {
       beforeEach(() => {
         (global as any).game = {
           settings: {
-            get: jest
-              .fn()
-              .mockReturnValue(true)
+            get: jest.fn().mockReturnValue(true),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
-        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
-        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
-          false
-        );
+        mockSurgeDetailsValid.mockReturnValue(true);
+        mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
 
       it("It runs correctly", async () => {
-        await magicSurgeCheck.CheckChatMessage(chatMessage);
+        await magicSurgeCheck.CheckItem(firstLevel);
 
-        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
+        expect(mockSurgeDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
+        expect(mockSurgeDetailsValid).toHaveBeenCalledTimes(1);
 
         expect(magicSurgeCheck.AutoSurgeCheck).toHaveBeenCalledTimes(1);
 
@@ -167,23 +164,21 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValueOnce(false),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
 
-        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
-        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
-          false
-        );
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+
+        mockSurgeDetailsValid.mockReturnValue(true);
+        mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
 
       it("It runs correctly", async () => {
-        await magicSurgeCheck.CheckChatMessage(chatMessage);
+        await magicSurgeCheck.CheckItem(firstLevel);
 
-        expect(mockSurgeChatMessageDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
+        expect(mockSurgeDetailsHasPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockSurgeChatMessageDetailsValid).toHaveBeenCalledTimes(1);
+        expect(mockSurgeDetailsValid).toHaveBeenCalledTimes(1);
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
 
@@ -200,19 +195,17 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValueOnce(true),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
 
-        mockSurgeChatMessageDetailsValid.mockReturnValue(true);
-        mockSurgeChatMessageDetailsHasPathOfWildMagicFeat.mockReturnValue(
-          true
-        );
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+
+        mockSurgeDetailsValid.mockReturnValue(true);
+        mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(true);
 
         jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
       });
 
       it("It runs correctly", async () => {
-        await magicSurgeCheck.CheckChatMessage(chatMessage);
+        await magicSurgeCheck.CheckItem(firstLevel);
 
         expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
@@ -236,8 +229,8 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("1D20"),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -259,8 +252,8 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("1D20"),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -284,8 +277,7 @@ describe("MagicSurgeCheck", () => {
         };
 
         actor.getFlag = jest.fn().mockReturnValue({ value: "1D20" });
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -311,8 +303,7 @@ describe("MagicSurgeCheck", () => {
         actor.getFlag = jest.fn().mockReturnValue(undefined);
 
         actor.setFlag = jest.fn();
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -339,11 +330,10 @@ describe("MagicSurgeCheck", () => {
             },
           ],
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
       test("roll of 2 EQ 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
           "EQ"
         );
@@ -351,7 +341,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not EQ 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           1,
           "EQ"
         );
@@ -359,7 +349,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeFalsy();
       });
       test("roll of 2 Not GT 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
           "GT"
         );
@@ -367,7 +357,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeFalsy();
       });
       test("roll of 3 GT 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
           "GT"
         );
@@ -375,7 +365,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not LT 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
           "LT"
         );
@@ -383,7 +373,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeFalsy();
       });
       test("roll of 1 LT 2", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           1,
           "LT"
         );
@@ -395,8 +385,7 @@ describe("MagicSurgeCheck", () => {
     describe("has 2 values in the result check", () => {
       let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
-        magicSurgeCheck = new MagicSurgeCheck();
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         (global as any).game = {
           actors: actor,
           settings: {
@@ -412,7 +401,7 @@ describe("MagicSurgeCheck", () => {
         };
       });
       test("roll of 3 EQ 3", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
           "EQ"
         );
@@ -420,7 +409,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 4 EQ 4", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           4,
           "EQ"
         );
@@ -428,7 +417,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 1 Not EQ 3", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           5,
           "EQ"
         );
@@ -436,7 +425,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeFalsy();
       });
       test("roll of 3 Not GT 3", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
           "GT"
         );
@@ -444,7 +433,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeFalsy();
       });
       test("roll of 4 GT 3", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           4,
           "GT"
         );
@@ -452,7 +441,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not LT 3", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           2,
           "LT"
         );
@@ -460,7 +449,7 @@ describe("MagicSurgeCheck", () => {
         expect(result).toBeTruthy();
       });
       test("roll of 1 LT 4", async () => {
-        const result = await magicSurgeCheck.DefaultMagicSurgeRollResult(
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
           3,
           "LT"
         );
@@ -481,8 +470,7 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValue(true),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         defaultSurgeTidesOfChaosSpy = jest.spyOn(
           magicSurgeCheck,
@@ -493,7 +481,7 @@ describe("MagicSurgeCheck", () => {
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(true);
       });
       test("Calls Tides of Chaos surge", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "INVALID_OPTION");
+        await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
 
         expect(defaultSurgeTidesOfChaosSpy).toBeCalled();
 
@@ -538,8 +526,7 @@ describe("MagicSurgeCheck", () => {
             }),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
         defaultMagicSurgeRollResultSpy = jest.spyOn(
@@ -552,7 +539,7 @@ describe("MagicSurgeCheck", () => {
           .mockReturnValue(true);
       });
       test("INVALID_OPTION", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "INVALID_OPTION");
+        await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
 
         expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
 
@@ -567,7 +554,7 @@ describe("MagicSurgeCheck", () => {
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
       });
       test("DEFAULT", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "DEFAULT");
+        await magicSurgeCheck.AutoSurgeCheck("1", "DEFAULT");
 
         expect(defaultMagicSurgeRollResultSpy).toBeCalled();
 
@@ -586,7 +573,7 @@ describe("MagicSurgeCheck", () => {
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "INCREMENTAL_CHECK");
+        await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK");
 
         expect(mockIncrementalCheckCheck).toBeCalled();
 
@@ -605,7 +592,7 @@ describe("MagicSurgeCheck", () => {
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK_CHAOTIC", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "INCREMENTAL_CHECK_CHAOTIC");
+        await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK_CHAOTIC");
 
         expect(mockIncrementalCheckCheck).toBeCalled();
 
@@ -624,7 +611,7 @@ describe("MagicSurgeCheck", () => {
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("SPELL_LEVEL_DEPENDENT_ROLL", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "SPELL_LEVEL_DEPENDENT_ROLL");
+        await magicSurgeCheck.AutoSurgeCheck("1", "SPELL_LEVEL_DEPENDENT_ROLL");
 
         expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
 
@@ -639,7 +626,7 @@ describe("MagicSurgeCheck", () => {
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("DIE_DESCENDING", async () => {
-        await magicSurgeCheck.AutoSurgeCheck(1, "DIE_DESCENDING");
+        await magicSurgeCheck.AutoSurgeCheck("1", "DIE_DESCENDING");
 
         expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
 
@@ -692,8 +679,7 @@ describe("MagicSurgeCheck", () => {
             }),
           },
         };
-        // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-        magicSurgeCheck = new MagicSurgeCheck(actor);
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
         defaultMagicSurgeRollResultSpy = jest.spyOn(
@@ -726,8 +712,7 @@ describe("MagicSurgeCheck", () => {
           get: jest.fn().mockReturnValue(true),
         },
       };
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-      magicSurgeCheck = new MagicSurgeCheck(actor);
+      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
     });
 
     it("It runs correctly on true", async () => {
@@ -764,8 +749,7 @@ describe("MagicSurgeCheck", () => {
           get: jest.fn().mockReturnValue("Auto D20 Message"),
         },
       };
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-      magicSurgeCheck = new MagicSurgeCheck(actor);
+      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
     });
 
     it("It runs the correct functions", async () => {
@@ -787,8 +771,7 @@ describe("MagicSurgeCheck", () => {
     let magicSurgeCheck: MagicSurgeCheck;
 
     beforeEach(() => {
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
-      magicSurgeCheck = new MagicSurgeCheck(actor);
+      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
     });
 
     it("It splits one value into an array", async () => {
