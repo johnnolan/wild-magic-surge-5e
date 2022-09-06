@@ -1,7 +1,7 @@
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
-import { actorRage } from "../../MockData/actorRage";
 import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
+import { cantrip, eighthLevel, fifthLevel, firstLevel, fourthLevel, melee, ninthLevel, rage, secondLevel, seventhLevel, sixthLevel, sorcererSpecificSpell, tenthLevel, thirdLevel } from "../../MockData/items";
 import "../../__mocks__/index";
 
 describe("SpellParser", () => {
@@ -116,10 +116,10 @@ describe("SpellParser", () => {
         jest.resetAllMocks();
       });
 
-      it("should be true", () => {
-        const result = SpellParser.SpellLevel("1st Level", actor);
+      it("should be Level 1", () => {
+        const result = SpellParser.SpellLevel(firstLevel);
 
-        expect(result).toBeTruthy();
+        expect(result).toBe("1st Level");
       });
     });
 
@@ -130,9 +130,9 @@ describe("SpellParser", () => {
       });
 
       it("should be false", async () => {
-        const result = await SpellParser.SpellLevel("Big Sword", actor);
+        const result = SpellParser.SpellLevel(melee);
 
-        expect(result).toBeFalsy();
+        expect(result).toBe("");
       });
     });
   });
@@ -149,7 +149,7 @@ describe("SpellParser", () => {
       });
 
       it("should be true", () => {
-        const result = SpellParser.IsSpell("1st Level", actor);
+        const result = SpellParser.IsSpell(firstLevel);
 
         expect(result).toBeTruthy();
       });
@@ -162,7 +162,7 @@ describe("SpellParser", () => {
       });
 
       it("should be false", async () => {
-        const result = await SpellParser.IsSpell("Big Sword", actor);
+        const result = SpellParser.IsSpell(melee);
 
         expect(result).toBeFalsy();
       });
@@ -182,10 +182,7 @@ describe("SpellParser", () => {
       });
 
       it("should be 1st Level if in description", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAVV">Cantrip</div>`,
-          actor
-        );
+        const result = SpellParser.SpellDetails(cantrip);
 
         expect(result).toBeUndefined();
       });
@@ -202,11 +199,8 @@ describe("SpellParser", () => {
         };
       });
 
-      it("should be 1st Level if in description", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAVV">Cantrip</div>`,
-          actor
-        );
+      it("should be a cantrip", async () => {
+        const result = SpellParser.SpellDetails(cantrip);
 
         expect(result).toBe("Cantrip");
       });
@@ -224,109 +218,67 @@ describe("SpellParser", () => {
       });
 
       it("should be undefined if spell level is 0", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAA1"></div>`,
-          actor
-        );
+        const result = SpellParser.SpellDetails(cantrip);
 
         expect(result).toBeUndefined();
       });
 
-      it("should be 1st Level if in description", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAAV">1st Level</div>`,
-          actor
-        );
+      it("should be 1st Level", async () => {
+        const result = SpellParser.SpellDetails(firstLevel);
 
         expect(result).toBe("1st Level");
       });
 
-      it("should be 1st Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAAV"></div>`,
-          actor
-        );
-
-        expect(result).toBe("1st Level");
-      });
-
-      it("should be 2nd Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAAQ"></div>`,
-          actor
-        );
+      it("should be 2nd Level", async () => {
+        const result = SpellParser.SpellDetails(secondLevel);
 
         expect(result).toBe("2nd Level");
       });
 
-      it("should be 3rd Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAAE"></div>`,
-          actor
-        );
+      it("should be 3rd Level", async () => {
+        const result = SpellParser.SpellDetails(thirdLevel);
 
         expect(result).toBe("3rd Level");
       });
 
-      it("should be 4th Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAA4"></div>`,
-          actor
-        );
+      it("should be 4th Level", async () => {
+        const result = SpellParser.SpellDetails(fourthLevel);
 
         expect(result).toBe("4th Level");
       });
 
-      it("should be 5th Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAA5"></div>`,
-          actor
-        );
+      it("should be 5th Level", async () => {
+        const result = SpellParser.SpellDetails(fifthLevel);
 
         expect(result).toBe("5th Level");
       });
 
-      it("should be 6th Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAA6"></div>`,
-          actor
-        );
+      it("should be 6th Level", async () => {
+        const result = SpellParser.SpellDetails(sixthLevel);
 
         expect(result).toBe("6th Level");
       });
 
-      it("should be 7th Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAA7"></div>`,
-          actor
-        );
+      it("should be 7th Level", async () => {
+        const result = SpellParser.SpellDetails(seventhLevel);
 
         expect(result).toBe("7th Level");
       });
 
-      it("should be 8th Level if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAAR"></div>`,
-          actor
-        );
+      it("should be 8th Level", async () => {
+        const result = SpellParser.SpellDetails(eighthLevel);
 
         expect(result).toBe("8th Level");
       });
 
-      it("should be undefined if not less than 10", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAVR"></div>`,
-          actor
-        );
+      it("should be 9th Level", async () => {
+        const result = SpellParser.SpellDetails(ninthLevel);
 
-        expect(result).toBeUndefined();
+        expect(result).toBe("9th Level");
       });
 
-      it("should be cantrip if in item data", async () => {
-        const result = await SpellParser.SpellDetails(
-          `<div data-item-id="iGoR4ePl1mTZFAQR"></div>`,
-          actor
-        );
+      it("should be undefined if not less than 10", async () => {
+        const result = SpellParser.SpellDetails(tenthLevel);
 
         expect(result).toBeUndefined();
       });
@@ -334,58 +286,28 @@ describe("SpellParser", () => {
   });
 
   describe("IsSorcererSpell", () => {
-    (global as any).Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
-    (global as any).game = {
-      settings: {
-        get: jest.fn().mockReturnValueOnce("\\(S\\)"),
-      },
-    };
+    beforeEach(() => {
+      (global as any).Hooks = {
+        callAll: jest.fn().mockReturnValue(true),
+      };
+      (global as any).game = {
+        settings: {
+          get: jest.fn().mockReturnValue("\\(S\\)"),
+        },
+      };
+    });
 
     describe("Is a Sorcerer Spell", () => {
-      beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-      });
-
       it("should be true", async () => {
-        const result = await SpellParser.IsSorcererSpell(
-          `<div data-item-id="pT9SKQEbTwje9ado"></div>`,
-          actor
-        );
+        const result = SpellParser.IsSorcererSpell(sorcererSpecificSpell);
 
         expect(result).toBeTruthy();
       });
     });
 
     describe("Is not a Sorcerer Spell", () => {
-      beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-      });
-
       it("should be false", async () => {
-        const result = await SpellParser.IsSorcererSpell(
-          `<div data-item-id="PkEkb6E3XgG0oPDB"></div>`,
-          actorRage
-        );
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe("No item id passed", () => {
-
-      beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-      });
-
-      it("should be false", async () => {
-        const result = await SpellParser.IsSorcererSpell(
-          `<div item-id=""></div>`, actor
-        );
+        const result = SpellParser.IsSorcererSpell(firstLevel);
 
         expect(result).toBeFalsy();
       });
@@ -398,46 +320,26 @@ describe("SpellParser", () => {
     };
 
     describe("Is Rage", () => {
-
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
       });
 
       it("should be true", async () => {
-        const result = await SpellParser.IsRage(
-          `<div data-item-id="RC9RDy8n0m0UDqk7"></div>`, actorRage
-        );
+        const result = SpellParser.IsRage(rage);
 
         expect(result).toBeTruthy();
       });
     });
 
     describe("Is not Rage", () => {
-
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
       });
 
       it("should be false", async () => {
-        const result = await SpellParser.IsRage(
-          `<div data-item-id="PkEkb6E3XgG0oPDB"></div>`, actorRage
-        );
-
-        expect(result).toBeFalsy();
-      });
-    });
-
-    describe("No item id passed", () => {
-
-      beforeEach(() => {
-        jest.clearAllMocks();
-        jest.resetAllMocks();
-      });
-
-      it("should be false", async () => {
-        const result = await SpellParser.IsRage(`<div item-id=""></div>`, actor);
+        const result = SpellParser.IsRage(melee);
 
         expect(result).toBeFalsy();
       });
@@ -450,7 +352,6 @@ describe("SpellParser", () => {
     };
 
     describe("Is set to be a NPC", () => {
-
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
@@ -466,7 +367,6 @@ describe("SpellParser", () => {
     });
 
     describe("Is not a NPC", () => {
-
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
@@ -482,7 +382,6 @@ describe("SpellParser", () => {
     });
 
     describe("Is not a valid Actor", () => {
-
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();

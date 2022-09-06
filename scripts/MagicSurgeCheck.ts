@@ -7,7 +7,7 @@ import SpellLevelTrigger from "./utils/SpellLevelTrigger";
 import DieDescending from "./utils/DieDescending";
 import AutoEffects from "./AutoEffects";
 import CallHooks from "./utils/CallHooks";
-import SurgeChatMessageDetails from "./utils/SurgeChatMessageDetails";
+import SurgeDetails from "./utils/SurgeDetails";
 import Logger from "./Logger";
 
 /**
@@ -27,27 +27,22 @@ class MagicSurgeCheck {
 
   /**
    * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
-   * @param chatMessage -
+   * @param item - Item5e object
    * @returns Promise<void>
    */
-  async CheckChatMessage(chatMessage: ChatMessage): Promise<void> {
-    const surgeChatMessageDetails = new SurgeChatMessageDetails(
-      chatMessage,
-      this._actor,
-      game.user?.id,
-      game.user?.isGM
-    );
+  async CheckItem(item: Item): Promise<void> {
+    const itemSurgeDetails = new SurgeDetails(this._actor, item);
 
-    if (!surgeChatMessageDetails.valid) return;
+    if (!itemSurgeDetails.valid) return;
 
-    if (surgeChatMessageDetails.hasPathOfWildMagicFeat) {
+    if (itemSurgeDetails.hasPathOfWildMagicFeat) {
       RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic);
     } else {
       if (
         game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
       ) {
         await this.AutoSurgeCheck(
-          surgeChatMessageDetails.spellLevel,
+          itemSurgeDetails.spellLevel,
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
             `${WMSCONST.OPT_SURGE_TYPE}`
