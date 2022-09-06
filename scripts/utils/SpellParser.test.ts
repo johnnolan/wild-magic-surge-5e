@@ -1,6 +1,5 @@
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
-import { actorRage } from "../../MockData/actorRage";
 import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
 import { cantrip, eighthLevel, fifthLevel, firstLevel, fourthLevel, melee, ninthLevel, rage, secondLevel, seventhLevel, sixthLevel, sorcererSpecificSpell, tenthLevel, thirdLevel } from "../../MockData/items";
 import "../../__mocks__/index";
