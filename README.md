@@ -5,6 +5,8 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=coverage)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![CodeFactor](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e/badge)](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e)
 
+[![Translation status](https://weblate.foundryvtt-hub.com/widgets/wild-magic-surge-5e/-/main/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/)
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X354DCG)
 
 # Wild Magic Surge 5e
@@ -57,6 +59,12 @@ Below is a list of links to help you setup the module and your Player Characters
 The contributing guidelines can be found in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 Our Code of Conduct can also be found in the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) file.
+
+### Translations
+
+This project is setup to use Weblate to make it easier to create translations by the community.
+
+If you are amazing and want to contribute then you can visit this projects Weblate page at [https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/) and add translations yourself to be shared with the community.
 
 ## License
 
