@@ -46,11 +46,6 @@
 			"path": "languages/fr.json"
 		},
 		{
-			"lang": "fr",
-			"name": "Français",
-			"path": "languages/fr.json"
-		},
-		{
 			"lang": "es",
 			"name": "Español",
 			"path": "languages/es.json"
