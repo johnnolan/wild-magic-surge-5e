@@ -49,6 +49,11 @@
 			"lang": "es",
 			"name": "Español",
 			"path": "languages/es.json"
+		},
+		{
+			"lang": "de",
+			"name": "Deutsch",
+			"path": "languages/de.json"
 		}
 	],
 	"url": "This is auto replaced",
