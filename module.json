@@ -1,47 +1,62 @@
 {
-  "id": "wild-magic-surge-5e",
-  "name": "wild-magic-surge-5e",
-  "title": "Wild Magic Surge 5e",
-  "description": "A module to remind you whenever a player with the Wild Magic Surge Feat casts a spell and to roll a d20.",
-  "version": "This is auto replaced",
-  "library": "false",
-  "manifestPlusVersion": "1.0.0",
-  "minimumCoreVersion": "10",
-  "compatibleCoreVersion": "10",
-  "compatibility": {
-    "minimum": "10.275",
-    "verified": "10"
-  },
-  "authors": [
-    {
-      "name": "John Nolan",
-      "url": "https://github.com/johnnolan"
-    }
-  ],
-  "dependencies": [
-    {
-      "name": "dnd5e",
-      "type": "system"
-    }
-  ],
-  "system": [
-    "dnd5e"
-  ],
-  "packs": [],
-  "conflicts": [],
-  "esmodules": [
-    "/dist/module.js"
-  ],
-  "scripts": [],
-  "styles": [],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    }
-  ],
-  "url": "This is auto replaced",
-  "manifest": "This is auto replaced",
-  "download": "This is auto replaced"
+	"id": "wild-magic-surge-5e",
+	"name": "wild-magic-surge-5e",
+	"title": "Wild Magic Surge 5e",
+	"description": "A module to remind you whenever a player with the Wild Magic Surge Feat casts a spell and to roll a d20.",
+	"version": "This is auto replaced",
+	"library": "false",
+	"manifestPlusVersion": "1.0.0",
+	"minimumCoreVersion": "10",
+	"compatibleCoreVersion": "10",
+	"compatibility": {
+		"minimum": "10.275",
+		"verified": "10"
+	},
+	"authors": [
+		{
+			"name": "John Nolan",
+			"url": "https://github.com/johnnolan"
+		}
+	],
+	"dependencies": [
+		{
+			"name": "dnd5e",
+			"type": "system"
+		}
+	],
+	"system": [
+		"dnd5e"
+	],
+	"packs": [],
+	"conflicts": [],
+	"esmodules": [
+		"/dist/module.js"
+	],
+	"scripts": [],
+	"styles": [],
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "languages/en.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français",
+			"path": "languages/fr.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français",
+			"path": "languages/fr.json"
+		},
+		{
+			"lang": "es",
+			"name": "Español",
+			"path": "languages/es.json"
+		}
+	],
+	"url": "This is auto replaced",
+	"manifest": "This is auto replaced",
+	"download": "This is auto replaced"
 }
