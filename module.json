@@ -44,6 +44,11 @@
 			"lang": "fr",
 			"name": "Français",
 			"path": "languages/fr.json"
+		},
+		{
+			"lang": "fr",
+			"name": "Français",
+			"path": "languages/fr.json"
 		}
 	],
 	"url": "This is auto replaced",
