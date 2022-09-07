@@ -1,10 +1,11 @@
 ![](https://img.shields.io/badge/Foundry-v0.10.0-informational)
-[![Translation status](https://weblate.foundryvtt-hub.com/widgets/wild-magic-surge-5e/-/multi-auto.svg)](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/johnnolan/wild-magic-surge-5e/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=coverage)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![CodeFactor](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e/badge)](https://www.codefactor.io/repository/github/johnnolan/wild-magic-surge-5e)
+
+[![Translation status](https://weblate.foundryvtt-hub.com/widgets/wild-magic-surge-5e/-/main/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X354DCG)
 
@@ -58,6 +59,12 @@ Below is a list of links to help you setup the module and your Player Characters
 The contributing guidelines can be found in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 Our Code of Conduct can also be found in the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) file.
+
+### Translations
+
+This project is setup to use Weblate to make it easier to create translations by the community.
+
+If you are amazing and want to contribute then you can visit this projects Weblate page at [https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/) and add translations yourself to be shared with the community.
 
 ## License
 
