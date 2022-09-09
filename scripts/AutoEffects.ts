@@ -19,7 +19,8 @@ class AutoEffects {
    * @public
    * @return {Promise<void>}
    */
-  static async Run(tokenId: string): Promise<void> {
+  static async Run(tokenId: string | undefined): Promise<void> {
+    if (!tokenId) return;
     if (
       !game.settings.get(
         `${WMSCONST.MODULE_ID}`,

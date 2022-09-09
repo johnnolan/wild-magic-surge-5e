@@ -3,7 +3,7 @@ import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 
 export default class DieDescending {
-  static defaultValue: FlagValue = {
+  static readonly defaultValue: FlagValue = {
     value: 1,
     min: 1,
     max: 6,
@@ -26,20 +26,32 @@ export default class DieDescending {
   }
 
   static async GetFlagResource(actor: Actor): Promise<FlagValue | undefined> {
-    return <FlagValue>(
+    const flagResource = <FlagValue>(
       await actor.getFlag(
         WMSCONST.MODULE_FLAG_NAME,
         WMSCONST.DIE_DESCENDING_FLAG_OPTION
       )
     );
+
+    if (
+      !flagResource?.dieValue ||
+      !flagResource?.max ||
+      !flagResource?.min ||
+      !flagResource?.value
+    ) {
+      await this.SetFlagResource(actor, this.defaultValue);
+      return this.defaultValue;
+    } else {
+      return flagResource;
+    }
   }
 
   private static async SetupDefault(
     actor: Actor,
     rollValue: string
   ): Promise<boolean> {
-    this.SetFlagResource(actor, this.defaultValue);
-    this.CallChanged(this.defaultValue);
+    await this.SetFlagResource(actor, this.defaultValue);
+    await this.CallChanged(this.defaultValue);
     return rollValue === "1";
   }
 
@@ -53,17 +65,17 @@ export default class DieDescending {
     }
 
     if (!hasProperty(actor, `flags.${WMSCONST.MODULE_FLAG_NAME}`)) {
-      return this.SetupDefault(actor, rollValue);
+      return await this.SetupDefault(actor, rollValue);
     }
 
     const flagValue = await this.GetFlagResource(actor);
 
     if (!flagValue || !flagValue.dieValue) {
-      return this.SetupDefault(actor, rollValue);
+      return await this.SetupDefault(actor, rollValue);
     }
 
     if (rollValue === "1") {
-      return this.SetupDefault(actor, rollValue);
+      return await this.SetupDefault(actor, rollValue);
     } else {
       switch (flagValue.dieValue) {
         case WMSCONST.DIE_VALUE.D20:
