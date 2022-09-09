@@ -19,8 +19,8 @@ import Logger from "./Logger";
  */
 class MagicSurgeCheck {
   _actor: Actor;
-  _tokenId: string;
-  constructor(actor: Actor, tokenId: string) {
+  _tokenId: string | undefined;
+  constructor(actor: Actor, tokenId: string | undefined) {
     this._actor = actor;
     this._tokenId = tokenId;
   }

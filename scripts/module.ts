@@ -18,12 +18,18 @@ Hooks.on("init", function () {
   );
 });
 
+function getTokenIdByActorId(actorId: string) {
+  return canvas.tokens.placeables.find((f) => f.actor.id === actorId)?.id;
+}
+
 Hooks.on("dnd5e.useItem", (item: Item) => {
-  const magicSurgeCheck = new MagicSurgeCheck(
-    item.actor,
-    item.actor.sheet.token.id
-  );
-  magicSurgeCheck.CheckItem(item);
+  if (item.actor) {
+    const tokenId = getTokenIdByActorId(item?.actor.id);
+    if (tokenId) {
+      const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
+      magicSurgeCheck.CheckItem(item);
+    }
+  }
 });
 
 Hooks.on("updateCombat", async function (roundData: RoundData) {
