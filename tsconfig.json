@@ -108,5 +108,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "includes": ["scripts/**/*.ts"],
-  "exclude": ["__mocks__/**/*.ts", "MockData/**/*.ts"]
+  "exclude": ["__mocks__/**/*.ts", "MockData/**/*.ts", "scripts/macros/**/*.*"]
 }

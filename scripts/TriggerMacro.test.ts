@@ -9,6 +9,22 @@ Logger.error = mockLoggerError;
 describe("TriggerMacro", () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    (global as any).game = {
+      actors: {
+        get: jest.fn().mockReturnValue({
+          actorId: "actorId",
+          name: "Actor Name",
+        }),
+      },
+    };
+    (global as any).canvas = {
+      tokens: {
+        get: jest.fn().mockReturnValue({
+          actorId: "tokenId",
+          name: "Token Name",
+        }),
+      },
+    };
   });
   describe("given module is disabled", () => {
     beforeEach(() => {
@@ -28,7 +44,7 @@ describe("TriggerMacro", () => {
     });
 
     it("should not call the macro", async () => {
-      await TriggerMacro.Run();
+      await TriggerMacro.Run("actorId", "tokenId");
 
       expect((global as any).game.macros.find).not.toBeCalled();
       expect(mockLoggerError).not.toBeCalled();
@@ -51,7 +67,7 @@ describe("TriggerMacro", () => {
     });
 
     it("should not call the macro", async () => {
-      await TriggerMacro.Run();
+      await TriggerMacro.Run("actorId", "tokenId");
 
       expect((global as any).game.macros.find).toBeCalled();
       expect(mockLoggerError).toBeCalled();
@@ -79,7 +95,7 @@ describe("TriggerMacro", () => {
     });
 
     it("should call the macro", async () => {
-      await TriggerMacro.Run();
+      await TriggerMacro.Run("actorId", "tokenId");
 
       expect(mockLoggerError).not.toBeCalled();
       expect(mockMacroExecute).toBeCalled();
@@ -106,7 +122,7 @@ describe("TriggerMacro", () => {
     });
 
     it("should not call the macro", async () => {
-      await TriggerMacro.Run();
+      await TriggerMacro.Run("actorId", "tokenId");
 
       expect(mockLoggerError).toBeCalled();
       expect(mockMacroExecute).not.toBeCalled();

@@ -27,7 +27,15 @@
 	"system": [
 		"dnd5e"
 	],
-	"packs": [],
+	"packs": [
+		{
+			"name": "wild-magic-surge-5e",
+			"label": "Wild Magic Surge 5e Example Macros",
+			"path": "packs/wild-magic-surge-5e.db",
+			"module": "wild-magic-surge-5e",
+			"entity": "Macro"
+		}
+	],
 	"conflicts": [],
 	"esmodules": [
 		"/dist/module.js"
