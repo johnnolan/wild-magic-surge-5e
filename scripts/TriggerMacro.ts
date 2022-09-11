@@ -21,7 +21,7 @@ class TriggerMacro {
       return;
     }
 
-    const macro = game.macros.find((f) => f.name === macroName);
+    const macro = game.macros.find((f) => f.name === macroName && f.isOwner);
     if (!macro) {
       Logger.error(
         `Trigger Macro ${macroName} does not exist.`,

@@ -27,7 +27,7 @@ describe("TriggerMacro", () => {
       };
     });
 
-    it("should not call the table", async () => {
+    it("should not call the macro", async () => {
       await TriggerMacro.Run();
 
       expect((global as any).game.macros.find).not.toBeCalled();
@@ -50,7 +50,7 @@ describe("TriggerMacro", () => {
       };
     });
 
-    it("should not call the table", async () => {
+    it("should not call the macro", async () => {
       await TriggerMacro.Run();
 
       expect((global as any).game.macros.find).toBeCalled();
@@ -65,6 +65,7 @@ describe("TriggerMacro", () => {
         macros: [
           {
             name: "WMSMacro",
+            isOwner: true,
             execute: mockMacroExecute,
           },
         ],
@@ -77,11 +78,38 @@ describe("TriggerMacro", () => {
       };
     });
 
-    it("should not call the table", async () => {
+    it("should call the macro", async () => {
       await TriggerMacro.Run();
 
       expect(mockLoggerError).not.toBeCalled();
       expect(mockMacroExecute).toBeCalled();
+    });
+  });
+
+  describe("given the macro to call is not owned by the GM", () => {
+    beforeEach(() => {
+      (global as any).game = {
+        macros: [
+          {
+            name: "WMSMacro",
+            isOwner: false,
+            execute: mockMacroExecute,
+          },
+        ],
+        settings: {
+          get: jest
+            .fn()
+            .mockReturnValueOnce("WMSMacro")
+            .mockReturnValueOnce(true),
+        },
+      };
+    });
+
+    it("should not call the macro", async () => {
+      await TriggerMacro.Run();
+
+      expect(mockLoggerError).toBeCalled();
+      expect(mockMacroExecute).not.toBeCalled();
     });
   });
 });
