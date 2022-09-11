@@ -7,6 +7,8 @@ export const WMSCONST = {
 
   OPT_WHISPER_GM: "whisperToGM",
 
+  OPT_TRIGGERMACRO_ENABLE: "enableTriggerMacro",
+  OPT_TRIGGERMACRO_NAME: "triggerMacroName",
   OPT_ROLLTABLE_ENABLE: "enableRollTable",
   OPT_ROLLTABLE_NAME: "rollTableName",
   OPT_POWM_ROLLTABLE_NAME: "powmRollTableName",
