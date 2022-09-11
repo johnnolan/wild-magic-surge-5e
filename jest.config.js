@@ -27,5 +27,6 @@ export default {
     "!scripts/ModuleSettings.ts",
     "!scripts/module.ts",
     "!scripts/Logger.ts",
+    "!scripts/macros/**/*.*",
   ],
 };

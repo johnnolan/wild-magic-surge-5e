@@ -45,6 +45,8 @@ You can configure a Custom Roll Table by replacing the default name in the setti
 
 When a surge happens you can specify your own macro to run. Note this will only trigger a macro setup on the GM user.
 
+Included is a compendium containing examples and the javascript for them are in [/scripts/macros](../scripts/macros/).
+
 [![Execute a GM Macro on a Wild Magic Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)
 
 ## Tides of Chaos Recharge

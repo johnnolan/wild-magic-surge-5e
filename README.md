@@ -23,7 +23,7 @@ This module provide various bits of functionality to help automate the `Wild Mag
 
 - **Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything**: When you enter a Rage as a Wild Magic Barbarian, the module will auto roll on a table. **Must enable `Enable Auto Roll on a Wild Magic Surge Table` to work**. Specify a custom table (TCOE table not included).
 
-Additional options include
+Additional options include (See [Module Options and Settings](./docs/OPTIONS.md) for a breakdown of each)
 
 - Prompt to roll on a `1st level` or higher spell slot used with the `Wild Magic Surge` feat
   - Optionally Surge Check on `Cantrips`, not just `1st Level` or higher
@@ -42,7 +42,8 @@ Additional options include
 - Discern between sorcerer spells and other spells when multiclassing
 - Auto surge when Tides of Chaos is used
 - Auto play animation effect on a Wild Magic Surge
-- Execute a GM Macro on a Wild Magic Surge
+- Execute a Macro on a Wild Magic Surge
+  - Includes a set of example macros on how you can use this feature. Can be found in the compendium.
 
 For a full overview of settings available, see the [Module Settings](./docs/OPTIONS.md) page.
 
@@ -53,7 +54,7 @@ Below is a list of links to help you setup the module and your Player Characters
 * [Prerequisites and setting up your Player Character to work with this module](./docs/SETTING_UP_PLAYER.md)
 * [Using built in Hooks](./docs/HOOKS.md)
 * [Track Incremental and Descending Die Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
-* [Module Settings](./docs/OPTIONS.md)
+* [Module Options and Settings](./docs/OPTIONS.md)
 
 ## Contributing
 
