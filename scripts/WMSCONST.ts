@@ -57,7 +57,7 @@ export const WMSCONST = {
   SURGE_FEAT_TYPE: {
     WildMagicSurge: "WMS",
     PathOfWildMagic: "POWM",
-    TIdesOfChaosSurge: "TOCSURGE",
+    TidesOfChaosSurge: "TOCSURGE",
   },
 
   SURGE_TYPE: {
@@ -71,6 +71,7 @@ export const WMSCONST = {
 
   MODULE_FLAG_NAME: "wild-magic-surge-5e",
   DIE_DESCENDING_FLAG_OPTION: "die_type",
+  HAS_SURGED_FLAG_OPTION: "hassurged",
 
   ROLL_COMPARISON: {
     EQ: "=",

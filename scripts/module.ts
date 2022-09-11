@@ -29,9 +29,7 @@ Hooks.once("ready", async function () {
       "module.wild-magic-surge-5e",
       async function (payload: unknown) {
         if (payload.event === "IsWildMagicSurge") {
-          if (payload.data.surge) {
-            TriggerMacro.Run();
-          }
+          TriggerMacro.Run(payload.data.actorId, payload.data.tokenId);
         }
       }
     );

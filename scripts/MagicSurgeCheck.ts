@@ -228,6 +228,7 @@ class MagicSurgeCheck {
       surge: isSurge,
       result: rollResult?.result,
       tokenId: this._tokenId,
+      actorId: this._actor.id,
     });
 
     game.socket?.emit("module.wild-magic-surge-5e", {
@@ -236,6 +237,7 @@ class MagicSurgeCheck {
         surge: isSurge,
         result: rollResult?.result,
         tokenId: this._tokenId,
+        actorId: this._actor.id,
       },
     });
   }
@@ -248,6 +250,11 @@ class MagicSurgeCheck {
    */
   async SurgeWildMagic(isSurge: boolean, roll: Roll): Promise<void> {
     if (isSurge) {
+      await this._actor.setFlag(
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.HAS_SURGED_FLAG_OPTION,
+        true
+      );
       Chat.Send(
         WMSCONST.CHAT_TYPE.ROLL,
         game.settings.get(
@@ -261,6 +268,11 @@ class MagicSurgeCheck {
       this._callIsSurgeHook(true, roll);
       AutoEffects.Run(this._tokenId);
     } else {
+      await this._actor.setFlag(
+        WMSCONST.MODULE_FLAG_NAME,
+        WMSCONST.HAS_SURGED_FLAG_OPTION,
+        false
+      );
       Chat.Send(
         WMSCONST.CHAT_TYPE.ROLL,
         game.settings.get(
@@ -278,7 +290,12 @@ class MagicSurgeCheck {
    * @private
    */
   async SurgeTidesOfChaos(): Promise<void> {
-    RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.TIdesOfChaosSurge);
+    await this._actor.setFlag(
+      WMSCONST.MODULE_FLAG_NAME,
+      WMSCONST.HAS_SURGED_FLAG_OPTION,
+      true
+    );
+    RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.TidesOfChaosSurge);
     Chat.Send(
       WMSCONST.CHAT_TYPE.DEFAULT,
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20_MSG}`)
