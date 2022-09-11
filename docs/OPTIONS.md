@@ -41,6 +41,12 @@ You can configure a Custom Roll Table by replacing the default name in the setti
 
 [![Enable Auto Roll on a Wild Magic Surge Table](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table.jpg)
 
+## Execute a GM Macro on a Wild Magic Surge
+
+When a surge happens you can specify your own macro to run. Note this will only trigger a macro setup on the GM user.
+
+[![Execute a GM Macro on a Wild Magic Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)
+
 ## Tides of Chaos Recharge
 
 Another option allows you to recharge `Tides of Chaos` automatically on a `Wild Magic Surge`.
