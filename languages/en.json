@@ -82,5 +82,11 @@
   "WildMagicSurge5E.opt_enable_effects_hint": "Play an animation when a Surge happens on the token. Requires JB2A and Sequencer.",
 
   "WildMagicSurge5E.opt_cantrip_surge_enabled_name": "Roll for surge on Cantrips",
-  "WildMagicSurge5E.opt_cantrip_surge_enabled_hint": "Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips."
+  "WildMagicSurge5E.opt_cantrip_surge_enabled_hint": "Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.",
+
+  "WildMagicSurge5E.opt_triggermacro_enabled_name": "Execute macro on a Surge",
+  "WildMagicSurge5E.opt_triggermacro_enabled_hint": "Execute a macro when a Wild Magic Surge happens.",
+
+  "WildMagicSurge5E.opt_triggermacro_name_name": "Macro name to trigger",
+  "WildMagicSurge5E.opt_triggermacro_name_hint": "Name of the macro to execute on a surge."
 }

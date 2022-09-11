@@ -229,6 +229,15 @@ class MagicSurgeCheck {
       result: rollResult?.result,
       tokenId: this._tokenId,
     });
+
+    game.socket?.emit("module.wild-magic-surge-5e", {
+      event: "IsWildMagicSurge",
+      data: {
+        surge: isSurge,
+        result: rollResult?.result,
+        tokenId: this._tokenId,
+      },
+    });
   }
 
   /**

@@ -42,6 +42,7 @@ Additional options include
 - Discern between sorcerer spells and other spells when multiclassing
 - Auto surge when Tides of Chaos is used
 - Auto play animation effect on a Wild Magic Surge
+- Execute a GM Macro on a Wild Magic Surge
 
 For a full overview of settings available, see the [Module Settings](./docs/OPTIONS.md) page.
 
