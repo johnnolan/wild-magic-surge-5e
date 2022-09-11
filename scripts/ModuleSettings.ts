@@ -255,10 +255,14 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      `${WMSCONST.OPT_TRIGGERMACRO_ENABLE}`,
       {
-        name: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_name"),
-        hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_hint"),
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_triggermacro_enabled_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_triggermacro_enabled_hint"
+        ),
         scope: "world",
         config: true,
         default: false,
@@ -268,14 +272,27 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ROLLTABLE_NAME}`,
+      `${WMSCONST.OPT_TRIGGERMACRO_NAME}`,
       {
-        name: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_name"),
-        hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_name_hint"),
+        name: game.i18n.format("WildMagicSurge5E.opt_triggermacro_name_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_triggermacro_name_hint"),
         scope: "world",
         config: true,
-        default: "Wild Magic Surge 5e (PHB)",
+        default: "WMSMacro",
         type: String,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      {
+        name: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_hint"),
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean,
       }
     );
 
