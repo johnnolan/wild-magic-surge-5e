@@ -276,6 +276,15 @@ class MagicSurgeCheck {
       result: rollResult,
       tokenId: this._tokenId,
     });
+
+    game.socket?.emit("module.wild-magic-surge-5e", {
+      event: "IsWildMagicSurge",
+      data: {
+        surge: isSurge,
+        result: rollResult,
+        tokenId: this._tokenId,
+      },
+    });
   }
 
   /**
@@ -286,6 +295,7 @@ class MagicSurgeCheck {
    */
   async SurgeWildMagic(isSurge, roll) {
     if (isSurge) {
+      await this._actor.setFlag("wild-magic-surge-5e", "hassurged", true);
       this.chat.Send(
         CHAT_TYPE.ROLL,
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG}`),
@@ -296,6 +306,7 @@ class MagicSurgeCheck {
       this._callIsSurgeHook(true, roll.result);
       AutoEffects.Run(this._tokenId);
     } else {
+      await this._actor.setFlag("wild-magic-surge-5e", "hassurged", false);
       this.chat.Send(
         CHAT_TYPE.ROLL,
         game.settings.get(`${MODULE_ID}`, `${OPT_AUTO_D20_MSG_NO_SURGE}`),
@@ -310,6 +321,7 @@ class MagicSurgeCheck {
    * @private
    */
   async SurgeTidesOfChaos() {
+    await this._actor.setFlag("wild-magic-surge-5e", "hassurged", true);
     this.rollTableMagicSurge.Check("TOCSURGE");
     this.chat.Send(
       CHAT_TYPE.DEFAULT,

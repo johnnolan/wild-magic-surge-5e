@@ -4,6 +4,7 @@ import IncrementalCheck from "./utils/IncrementalCheck.js";
 import RoundCheck from "./RoundCheck.js";
 import ModuleSettings from "./ModuleSettings.js";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel.js";
+import TriggerMacro from "./TriggerMacro.js";
 
 Hooks.on("init", function () {
   console.info(`Registering ${MODULE_NAME} Settings.`);
@@ -12,6 +13,18 @@ Hooks.on("init", function () {
   moduleSettings.Register();
 
   console.info(`Settings for ${MODULE_NAME} registered successfully.`);
+});
+
+Hooks.once("ready", async function () {
+  if (game.user?.isGM) {
+    game.socket?.on("module.wild-magic-surge-5e", async function (payload) {
+      if (payload.event === "IsWildMagicSurge") {
+        if (payload.data.surge) {
+          TriggerMacro.Run();
+        }
+      }
+    });
+  }
 });
 
 Hooks.on("createChatMessage", (chatMessage) => {
