@@ -1,16 +1,14 @@
 {
 	"id": "wild-magic-surge-5e",
-	"name": "wild-magic-surge-5e",
 	"title": "Wild Magic Surge 5e",
 	"description": "A module to remind you whenever a player with the Wild Magic Surge Feat casts a spell and to roll a d20.",
 	"version": "This is auto replaced",
 	"library": "false",
 	"manifestPlusVersion": "1.0.0",
-	"minimumCoreVersion": "10",
-	"compatibleCoreVersion": "10",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "10"
+		"verified": "10.285",
+		"maximum": "10"
 	},
 	"authors": [
 		{
@@ -20,15 +18,19 @@
 			"website": "https://www.johnnolan.dev"
 		}
 	],
-	"dependencies": [
-		{
-			"name": "dnd5e",
-			"type": "system"
-		}
-	],
-	"system": [
-		"dnd5e"
-	],
+	"relationships": {
+		"systems": [
+			{
+				"id": "dnd5e",
+				"type": "system",
+				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
+				"compatibility": {
+					"minimum": "2.0.2",
+					"verified": "2.0.2"
+				}
+			}
+		]
+	},
 	"packs": [
 		{
 			"name": "wild-magic-surge-5e",
