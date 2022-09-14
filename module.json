@@ -9,13 +9,15 @@
 	"minimumCoreVersion": "10",
 	"compatibleCoreVersion": "10",
 	"compatibility": {
-		"minimum": "10.275",
+		"minimum": "10",
 		"verified": "10"
 	},
 	"authors": [
 		{
 			"name": "John Nolan",
-			"url": "https://github.com/johnnolan"
+			"url": "https://github.com/johnnolan",
+			"discord": "JB#2780",
+			"website": "https://www.johnnolan.dev"
 		}
 	],
 	"dependencies": [
@@ -64,6 +66,10 @@
 			"path": "languages/de.json"
 		}
 	],
+	"readme": "https://github.com/johnnolan/wild-magic-surge-5e/blob/main/README.md",
+	"license": "https://github.com/johnnolan/wild-magic-surge-5e/blob/main/LICENSE",
+	"bugs": "https://github.com/johnnolan/wild-magic-surge-5e/issues/new/choose",
+	"changelog": "https://github.com/johnnolan/wild-magic-surge-5e/releases",
 	"socket": true,
 	"url": "This is auto replaced",
 	"manifest": "This is auto replaced",
