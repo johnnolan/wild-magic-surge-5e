@@ -2,5 +2,6 @@ node_modules/
 coverage/
 dist/
 eslint_report.json
+.vscode/
 test-results/junit
 build-copy.js
