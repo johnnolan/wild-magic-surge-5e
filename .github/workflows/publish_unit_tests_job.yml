@@ -1,8 +1,5 @@
 on:
   workflow_call:
-    secrets:
-      SONARCLOUD_SECRET:
-        required: true
 
 jobs:
   publish_unit_tests:
