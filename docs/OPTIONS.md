@@ -120,3 +120,9 @@ On a Wild Magic Surge, the token that triggered the Surge will get an animation 
 Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.
 
 [![Roll for surge on Cantrips](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)
+
+## Encounter Statistics Module Integration
+
+Optionally send Wild Magic Surge event to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
+
+[![Encounter Statistics Module Integration option](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/encounter-statistics.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/encounter-statistics.jpg)

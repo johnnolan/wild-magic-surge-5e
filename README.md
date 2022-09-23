@@ -43,6 +43,7 @@ Additional options include (See [Module Options and Settings](./docs/OPTIONS.md)
 - Auto play animation effect on a Wild Magic Surge
 - Execute a Macro on a Wild Magic Surge
   - Includes a set of example macros on how you can use this feature. Can be found in the compendium.
+- Optionally send Wild Magic Surge event to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
 
 For a full overview of settings available, see the [Module Settings](./docs/OPTIONS.md) page.
 
