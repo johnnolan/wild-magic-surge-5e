@@ -45,8 +45,6 @@ Additional options include
   - Includes a set of example macros on how you can use this feature. Can be found in the compendium.
 - [Optionally send Wild Magic Surge event](#encounter-statistics-module-integration) to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
 
-For a full overview of settings available, see the [Module Settings](./docs/OPTIONS.md) page.
-
 ## Contents
 
 Below is a list of links to help you setup the module and your Player Characters.
