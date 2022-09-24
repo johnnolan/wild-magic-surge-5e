@@ -332,11 +332,24 @@ class MagicSurgeCheck {
   async _callEncounterStatistic(
     encounterStatisticsEvent: EncounterStatisticsEvent
   ) {
-    Hooks.callAll(`encounter-stats.customEvent`, {
-      EventName: encounterStatisticsEvent.EventName,
-      actorId: encounterStatisticsEvent.actorId,
-      FlavorText: encounterStatisticsEvent.FlavorText,
-    });
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_ENCOUNTER_STATS_ENABLED}`
+      )
+    ) {
+      if (game.modules.get("encounter-stats")?.active) {
+        Hooks.callAll(`encounter-stats.customEvent`, {
+          EventName: encounterStatisticsEvent.EventName,
+          actorId: encounterStatisticsEvent.actorId,
+          FlavorText: encounterStatisticsEvent.FlavorText,
+        });
+      } else {
+        ui.notifications?.info(
+          `Wild Magic Surge 5e: Encounter Statistics module is not installed or enabled in settings. Disable sending events in settings or install/enable the Encounter Statistics module.`
+        );
+      }
+    }
   }
 }
 
