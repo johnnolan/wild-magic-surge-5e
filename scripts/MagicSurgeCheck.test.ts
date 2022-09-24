@@ -73,6 +73,12 @@ AutoEffects.Run = mockAutoEffect;
   callAll: jest.fn().mockReturnValue(undefined),
 };
 
+(global as any).ui = {
+  notifications: {
+    info: jest.fn(),
+  },
+};
+
 beforeEach(() => {
   mockChatRunMessageCheck.mockClear();
   mockChatSend.mockClear();
@@ -101,6 +107,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
@@ -130,6 +144,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
@@ -160,6 +182,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValueOnce(false),
           },
@@ -191,6 +221,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValueOnce(true),
           },
@@ -222,6 +260,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest
               .fn()
@@ -245,6 +291,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest
               .fn()
@@ -268,6 +322,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest
               .fn()
@@ -292,6 +354,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest
               .fn()
@@ -318,6 +388,14 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           actors: actor,
           settings: {
             get: jest.fn().mockReturnValue("2"),
@@ -369,6 +447,14 @@ describe("MagicSurgeCheck", () => {
       beforeAll(() => {
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           actors: actor,
           settings: {
             get: jest.fn().mockReturnValue("3, 4"),
@@ -427,6 +513,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
@@ -456,6 +550,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
@@ -609,6 +711,14 @@ describe("MagicSurgeCheck", () => {
 
       beforeEach(() => {
         (global as any).game = {
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
@@ -768,6 +878,11 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValue("Auto D20 Message"),
           },
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
         };
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockRollTableMagicSurgeCheck.mockResolvedValueOnce("test result");
@@ -798,6 +913,11 @@ describe("MagicSurgeCheck", () => {
           },
           settings: {
             get: jest.fn().mockReturnValue("Auto D20 Message"),
+          },
+          modules: {
+            get: () => {
+              return { active: false };
+            },
           },
         };
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
