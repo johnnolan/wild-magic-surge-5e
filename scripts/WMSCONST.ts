@@ -99,6 +99,7 @@ export const WMSCONST = {
   OPT_SURGE_TOC_ENABLED: "surgeTocEnabled",
   OPT_EFFECTS_ENABLED: "wildMagicSurgeEffectsEnabled",
   OPT_CANTRIP_SURGE_ENABLED: "cantripTriggerSurgeCheckEnabled",
+  OPT_ENCOUNTER_STATS_ENABLED: "encounterStatsEnabled",
 
   COMPARISON: {
     EQ: "EQ",

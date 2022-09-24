@@ -6,6 +6,12 @@ declare global {
     Hooks: typeof Hooks;
   }
 
+  interface EncounterStatisticsEvent {
+    EventName: string;
+    actorId: string;
+    FlavorText: string;
+  }
+
   type SurgeType = "WMS" | "POWM" | "TOCSURGE";
 
   type Comparison = "EQ" | "GT" | "LT";
