@@ -333,50 +333,32 @@ describe("MagicSurgeCheck", () => {
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
       test("roll of 2 EQ 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          2,
-          "EQ"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(2, "EQ");
 
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not EQ 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          1,
-          "EQ"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(1, "EQ");
 
         expect(result).toBeFalsy();
       });
       test("roll of 2 Not GT 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          2,
-          "GT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(2, "GT");
 
         expect(result).toBeFalsy();
       });
       test("roll of 3 GT 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          3,
-          "GT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(3, "GT");
 
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not LT 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          2,
-          "LT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(2, "LT");
 
         expect(result).toBeFalsy();
       });
       test("roll of 1 LT 2", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          1,
-          "LT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(1, "LT");
 
         expect(result).toBeTruthy();
       });
@@ -401,58 +383,37 @@ describe("MagicSurgeCheck", () => {
         };
       });
       test("roll of 3 EQ 3", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          3,
-          "EQ"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(3, "EQ");
 
         expect(result).toBeTruthy();
       });
       test("roll of 4 EQ 4", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          4,
-          "EQ"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(4, "EQ");
 
         expect(result).toBeTruthy();
       });
       test("roll of 1 Not EQ 3", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          5,
-          "EQ"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(5, "EQ");
 
         expect(result).toBeFalsy();
       });
       test("roll of 3 Not GT 3", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          3,
-          "GT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(3, "GT");
 
         expect(result).toBeFalsy();
       });
       test("roll of 4 GT 3", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          4,
-          "GT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(4, "GT");
 
         expect(result).toBeTruthy();
       });
       test("roll of 2 Not LT 3", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          2,
-          "LT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(2, "LT");
 
         expect(result).toBeTruthy();
       });
       test("roll of 1 LT 4", async () => {
-        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(
-          3,
-          "LT"
-        );
+        const result = magicSurgeCheck.DefaultMagicSurgeRollResult(3, "LT");
 
         expect(result).toBeTruthy();
       });
@@ -704,42 +665,93 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("SurgeWildMagic", () => {
-    let magicSurgeCheck: MagicSurgeCheck;
+    describe("Encounter Stats Not Active", () => {
+      let magicSurgeCheck: MagicSurgeCheck;
 
-    beforeEach(() => {
-      (global as any).game = {
-        i18n: {
-          format: jest.fn().mockReturnValue("TestKeyValue"),
-        },
-        settings: {
-          get: jest.fn().mockReturnValue(true),
-        },
-      };
-      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      beforeEach(() => {
+        (global as any).game = {
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
+          settings: {
+            get: jest.fn().mockReturnValue(true),
+          },
+          modules: {
+            get: () => {
+              return { active: false };
+            },
+          },
+        };
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      });
+
+      it("It runs correctly on true", async () => {
+        await magicSurgeCheck.SurgeWildMagic(true, { result: 1 });
+
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
+
+        expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
+
+      it("It runs correctly on false", async () => {
+        await magicSurgeCheck.SurgeWildMagic(false, { result: 1 });
+
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
+
+        expect(mockTidesOfChaosCheck).not.toHaveBeenCalled();
+
+        expect(mockRollTableMagicSurgeCheck).not.toHaveBeenCalled();
+
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
     });
+    describe("Encounter Stats Active", () => {
+      let magicSurgeCheck: MagicSurgeCheck;
 
-    it("It runs correctly on true", async () => {
-      await magicSurgeCheck.SurgeWildMagic(true, { result: 1 });
+      beforeEach(() => {
+        (global as any).game = {
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
+          settings: {
+            get: jest.fn().mockReturnValue(true),
+          },
+          modules: {
+            get: () => {
+              return { active: true };
+            },
+          },
+        };
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      });
 
-      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      it("It runs correctly on true", async () => {
+        await magicSurgeCheck.SurgeWildMagic(true, { result: 1 });
 
-      expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
 
-      expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+        expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
 
-      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
-    });
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
 
-    it("It runs correctly on false", async () => {
-      await magicSurgeCheck.SurgeWildMagic(false, { result: 1 });
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(2);
+      });
 
-      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      it("It runs correctly on false", async () => {
+        await magicSurgeCheck.SurgeWildMagic(false, { result: 1 });
 
-      expect(mockTidesOfChaosCheck).not.toHaveBeenCalled();
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
 
-      expect(mockRollTableMagicSurgeCheck).not.toHaveBeenCalled();
+        expect(mockTidesOfChaosCheck).not.toHaveBeenCalled();
 
-      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(mockRollTableMagicSurgeCheck).not.toHaveBeenCalled();
+
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
     });
   });
 

@@ -118,7 +118,7 @@ describe("RollTableMagicSurge", () => {
     });
   });
 
-  describe("If the table type is Wild Magic Surge", () => {
+  describe("If the table type is Wild Magic Surge but no results passed back", () => {
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
@@ -154,6 +154,49 @@ describe("RollTableMagicSurge", () => {
       expect((global as any).game.tables[0].roll).toBeCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("If the table type is Wild Magic Surge", () => {
+
+    beforeEach(() => {
+      global.renderTemplate = jest.fn().mockResolvedValue("Content");
+      (global as any).game = {
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue({
+              results: [{
+                text: "test"
+              }],
+              render: jest.fn().mockResolvedValue(""),
+            }),
+            results: jest.fn().mockResolvedValue([]),
+            data: {
+              description: "Wild Magic Surge Table",
+            },
+          },
+        ],
+        settings: {
+          get: jest
+            .fn()
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Wild Magic Surge"),
+        },
+        user: {
+          id: "123",
+        },
+      };
+    });
+
+    it("should call the draw function once", async () => {
+      const result = await RollTableMagicSurge.Check("WMS");
+
+      expect((global as any).game.tables[0].roll).toBeCalled();
+
+      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+
+      expect(result).toBe("test");
     });
   });
 
