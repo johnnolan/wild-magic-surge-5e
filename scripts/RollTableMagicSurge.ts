@@ -15,7 +15,7 @@ class RollTableMagicSurge {
    */
   static async Check(
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge
-  ): Promise<void> {
+  ): Promise<string | undefined> {
     if (
       !game.settings.get(
         `${WMSCONST.MODULE_ID}`,
@@ -57,9 +57,16 @@ class RollTableMagicSurge {
       return;
     }
 
-    await surgeRollTable?.roll().then((result: Roll) => {
+    const result = await surgeRollTable?.roll().then((result: Roll) => {
       Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
+      return result;
     });
+
+    if (result.results.length > 0) {
+      return result.results[0].text;
+    } else {
+      return;
+    }
   }
 }
 
