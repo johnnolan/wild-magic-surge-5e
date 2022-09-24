@@ -727,6 +727,7 @@ describe("MagicSurgeCheck", () => {
           },
         };
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        mockRollTableMagicSurgeCheck.mockResolvedValueOnce("test result");
       });
 
       it("It runs correctly on true", async () => {
@@ -756,32 +757,65 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("SurgeTidesOfChaos", () => {
-    let magicSurgeCheck: MagicSurgeCheck;
+    describe("If table result is returned", () => {
+      let magicSurgeCheck: MagicSurgeCheck;
 
-    beforeEach(() => {
-      (global as any).game = {
-        i18n: {
-          format: jest.fn().mockReturnValue("TestKeyValue"),
-        },
-        settings: {
-          get: jest.fn().mockReturnValue("Auto D20 Message"),
-        },
-      };
-      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      beforeEach(() => {
+        (global as any).game = {
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
+          settings: {
+            get: jest.fn().mockReturnValue("Auto D20 Message"),
+          },
+        };
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        mockRollTableMagicSurgeCheck.mockResolvedValueOnce("test result");
+      });
+
+      it("It runs the correct functions", async () => {
+        await magicSurgeCheck.SurgeTidesOfChaos();
+
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
+
+        expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+
+        expect((global as any).Hooks.callAll).toBeCalled();
+
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it("It runs the correct functions", async () => {
-      await magicSurgeCheck.SurgeTidesOfChaos();
+    describe("If no table result is returned", () => {
+      let magicSurgeCheck: MagicSurgeCheck;
 
-      expect(mockChatSend).toHaveBeenCalledTimes(1);
+      beforeEach(() => {
+        (global as any).game = {
+          i18n: {
+            format: jest.fn().mockReturnValue("TestKeyValue"),
+          },
+          settings: {
+            get: jest.fn().mockReturnValue("Auto D20 Message"),
+          },
+        };
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      });
 
-      expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
+      it("It runs the correct functions", async () => {
+        await magicSurgeCheck.SurgeTidesOfChaos();
 
-      expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+        expect(mockChatSend).toHaveBeenCalledTimes(1);
 
-      expect((global as any).Hooks.callAll).toBeCalled();
+        expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
 
-      expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+
+        expect((global as any).Hooks.callAll).toBeCalled();
+
+        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
