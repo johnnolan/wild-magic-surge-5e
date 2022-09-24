@@ -708,6 +708,9 @@ describe("MagicSurgeCheck", () => {
 
     beforeEach(() => {
       (global as any).game = {
+        i18n: {
+          format: jest.fn().mockReturnValue("TestKeyValue"),
+        },
         settings: {
           get: jest.fn().mockReturnValue(true),
         },
@@ -745,6 +748,9 @@ describe("MagicSurgeCheck", () => {
 
     beforeEach(() => {
       (global as any).game = {
+        i18n: {
+          format: jest.fn().mockReturnValue("TestKeyValue"),
+        },
         settings: {
           get: jest.fn().mockReturnValue("Auto D20 Message"),
         },
