@@ -100,6 +100,7 @@ export const WMSCONST = {
   OPT_EFFECTS_ENABLED: "wildMagicSurgeEffectsEnabled",
   OPT_CANTRIP_SURGE_ENABLED: "cantripTriggerSurgeCheckEnabled",
   OPT_ENCOUNTER_STATS_ENABLED: "encounterStatsEnabled",
+  OPT_SHOW_WMS_DEBUG_OPTION: "showWMSDebugOption",
 
   COMPARISON: {
     EQ: "EQ",
