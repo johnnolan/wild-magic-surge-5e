@@ -7,6 +7,7 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import TriggerMacro from "./TriggerMacro";
+import Flags from "./utils/Flags";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -24,6 +25,13 @@ function getTokenIdByActorId(actorId: string) {
 }
 
 Hooks.once("ready", async function () {
+  if (game.user?.isGM) {
+    const actors = game.actors.filter((f) => f.type === "character");
+    for (const actor of actors) {
+      await Flags.Setup(actor);
+    }
+  }
+
   if (game.user?.isGM) {
     game.socket?.on(
       "module.wild-magic-surge-5e",
