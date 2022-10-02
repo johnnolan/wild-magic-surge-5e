@@ -67,5 +67,7 @@
 	"WildMagicSurge5E.opt_encounter_stats_enabled_name": "Intégration des statistiques des rencontres",
 	"WildMagicSurge5E.es_tides_of_chaos": "Marées du Chaos surcharge de la magie sauvage",
 	"WildMagicSurge5E.es_wild_magic_surge": "Surcharge de la magie sauvage",
-	"WildMagicSurge5E.es_wild_magic_surge_with_roll": "Surcharge de la magie sauvage avec jet de dés de"
+	"WildMagicSurge5E.es_wild_magic_surge_with_roll": "Surcharge de la magie sauvage avec jet de dés de",
+	"WildMagicSurge5E.opt_show_wms_debug_option_name": "Afficher l'option Debug dans la feuille de personnage",
+	"WildMagicSurge5E.opt_show_wms_debug_option_hint": "Désactiver le bouton Debug WMS dans l'en-tête des feuilles de personnage. Cette option peut généralement être désactivée une fois que votre personnage est configuré et fonctionne. (Nécessite un rechargement)."
 }
