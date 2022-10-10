@@ -29,7 +29,7 @@
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
     "babel-jest": "^29.1.2",
     "esbuild": "^0.15.10",
-    "eslint": "^8.24.0",
+    "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "handlebars": "^4.7.7",
