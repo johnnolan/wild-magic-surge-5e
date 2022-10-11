@@ -21,7 +21,7 @@ Hooks.on("init", function () {
 });
 
 function getTokenIdByActorId(actorId: string) {
-  return canvas.tokens.placeables.find((f) => f.actor.id === actorId)?.id;
+  return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
 }
 
 Hooks.once("ready", async function () {
