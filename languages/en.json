@@ -13,8 +13,11 @@
 
   "WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Wild Magic Surge Charge Count",
 
-  "WildMagicSurge5E.opt_whisper_gm_name": "Whisper chat results to GM",
-  "WildMagicSurge5E.opt_whisper_gm_hint": "When enabled, all messages are sent as Blind GM messages instead of from the player.",
+  "WildMagicSurge5E.opt_whisper_gm_name": "Whisper Wild Magic Surge Roll Check to GM",
+  "WildMagicSurge5E.opt_whisper_gm_hint": "The surge check roll message is only sent to the GM instead of all players.",
+  
+  "WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Whisper Auto Roll Table result to GM",
+  "WildMagicSurge5E.opt_whisper_gm_roll_chat_hint": "Auto Roll Table results are only sent to the GM instead of all players.",
 
   "WildMagicSurge5E.opt_chat_msg_name": "Message to check for surge",
   "WildMagicSurge5E.opt_chat_msg_hint": "When automation is disabled, this message will show in chat to remind you when a spell is cast.",

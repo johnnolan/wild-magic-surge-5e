@@ -107,6 +107,23 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_whisper_gm_roll_chat_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_whisper_gm_roll_chat_hint"
+        ),
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_SURGE_TYPE}`,
       {
         name: game.i18n.format("WildMagicSurge5E.opt_surge_type_name"),

@@ -6,6 +6,7 @@ export const WMSCONST = {
   OPT_POWM_NAME: "powmName",
 
   OPT_WHISPER_GM: "whisperToGM",
+  OPT_WHISPER_GM_ROLL_CHAT: "whisperToGMRollChat",
 
   OPT_TRIGGERMACRO_ENABLE: "enableTriggerMacro",
   OPT_TRIGGERMACRO_NAME: "triggerMacroName",
