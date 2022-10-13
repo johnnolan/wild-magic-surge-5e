@@ -21,9 +21,13 @@ export default class Chat {
     rollObject?: Roll,
     rollTable?: RollTable
   ): Promise<void> {
-    const isWhisperGM = await game.settings.get(
+    const isWhisperRollResultGM = await game.settings.get(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_WHISPER_GM}`
+    );
+    const isWhisperAutoRollTableGM = await game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`
     );
 
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
@@ -35,7 +39,11 @@ export default class Chat {
     switch (type) {
       case WMSCONST.CHAT_TYPE.ROLL:
         if (!rollObject) return;
-        chatData = await this.createRollChat(message, rollObject, isWhisperGM);
+        chatData = await this.createRollChat(
+          message,
+          rollObject,
+          isWhisperRollResultGM
+        );
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
         if (!rollObject || !rollTable) return;
@@ -46,14 +54,26 @@ export default class Chat {
         break;
     }
 
-    if (isWhisperGM) {
-      chatData.whisper = gmsToWhisper;
-      chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
-      chatData.blind = true;
+    if (
+      (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.ROLL) ||
+      (isWhisperAutoRollTableGM && type === WMSCONST.CHAT_TYPE.TABLE)
+    ) {
+      chatData = this.setChatToWhisper(chatData, gmsToWhisper);
     }
     chatData.speaker = gmsToWhisper;
 
     ChatMessage.create(chatData);
+  }
+
+  static setChatToWhisper(
+    chatData: ChatMessage,
+    gmsToWhisper: Array<string | null>
+  ) {
+    chatData.whisper = gmsToWhisper;
+    chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
+    chatData.blind = true;
+
+    return chatData;
   }
 
   /**

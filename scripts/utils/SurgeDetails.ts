@@ -5,8 +5,6 @@ export default class SurgeDetails {
   _actor: Actor;
   _item: Item;
   _userId?: string;
-  _isWhisperToGM = false;
-  _whisperToGM: boolean;
   _hasPathOfWildMagicFeat: boolean;
   _raging: boolean;
   _isASpell: boolean;
@@ -21,11 +19,6 @@ export default class SurgeDetails {
     this._item = item;
 
     this._valid = false;
-
-    this._whisperToGM = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM}`
-    );
 
     this._hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
       this._actor

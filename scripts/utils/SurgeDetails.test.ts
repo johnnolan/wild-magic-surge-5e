@@ -134,9 +134,8 @@ describe("SurgeDetails", () => {
           settings: {
             get: jest
               .fn()
-              .mockReturnValueOnce(true)
               .mockReturnValueOnce(false)
-              .mockReturnValueOnce(false),
+              .mockReturnValueOnce(true),
           },
         };
 
