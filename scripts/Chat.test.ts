@@ -58,6 +58,7 @@ describe("Chat", () => {
         (global as any).game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
         roll = {
@@ -143,6 +144,47 @@ describe("Chat", () => {
       });
     });
 
+    describe("Given I set whisper gm for roll table", () => {
+      let rollResult: any;
+      let surgeRollTable: any;
+
+      beforeEach(() => {
+        (global as any).game.settings.get = jest
+          .fn()
+          .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce(true)
+          .mockResolvedValueOnce("Wild Magic Surge")
+          .mockResolvedValueOnce("rollMode");
+        surgeRollTable = {
+          data: {
+            description: "Wild Magic Surge Table",
+          },
+        };
+        rollResult = {
+          results: [
+            {
+              text: "test text",
+
+              getChatText: jest.fn(),
+            },
+          ],
+          roll: {
+            result: 20,
+
+            render: jest.fn().mockResolvedValue(null),
+          },
+        };
+      });
+
+      it("It returns the just the content", async () => {
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+
+        expect(ChatMessage.create).toHaveBeenCalled();
+
+        expect(global.renderTemplate).toHaveBeenCalled();
+      });
+    });
+
     describe("Given I pass it a message and roll table with one result", () => {
       let rollResult: any;
       let surgeRollTable: any;
@@ -150,6 +192,7 @@ describe("Chat", () => {
       beforeEach(() => {
         (global as any).game.settings.get = jest
           .fn()
+          .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
@@ -190,6 +233,7 @@ describe("Chat", () => {
       beforeEach(() => {
         (global as any).game.settings.get = jest
           .fn()
+          .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
