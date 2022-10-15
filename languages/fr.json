@@ -4,8 +4,8 @@
 	"WildMagicSurge5E.opt_incremental_check_to_chat_name": "Envoyer au Tchat",
 	"WildMagicSurge5E.opt_toc_feat_name_name": "Nom de l'exploit \"Marée du chaos\"",
 	"WildMagicSurge5E.opt_powm_feat_name_name": "Nom de l'exploit \"Voie de la magie sauvage\"",
-	"WildMagicSurge5E.opt_whisper_gm_name": "Chuchoter les résultats du Tchat au GM",
-	"WildMagicSurge5E.opt_whisper_gm_hint": "Lorsqu'il est activé, tous les messages sont envoyés en tant que messages du GM aveugle au lieu d'être envoyés par le joueur.",
+	"WildMagicSurge5E.opt_whisper_gm_name": "Chuchoter les résultats du Tchat au MJ",
+	"WildMagicSurge5E.opt_whisper_gm_hint": "Le message concernant le jet de vérification de la surcharge n'est envoyé qu'au MJ et non à tous les joueurs.",
 	"WildMagicSurge5E.opt_chat_msg_name": "Message à vérifier en cas de \"Surcharge\"",
 	"WildMagicSurge5E.opt_wms_feat_name_name": "Nom de l'exploit \"Surcharge de magie sauvage\"",
 	"WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Compteur de charge de la \"Surcharge de la magie sauvage\"",
@@ -69,5 +69,7 @@
 	"WildMagicSurge5E.es_wild_magic_surge": "Surcharge de la magie sauvage",
 	"WildMagicSurge5E.es_wild_magic_surge_with_roll": "Surcharge de la magie sauvage avec jet de dés de",
 	"WildMagicSurge5E.opt_show_wms_debug_option_name": "Afficher l'option Debug dans la feuille de personnage",
-	"WildMagicSurge5E.opt_show_wms_debug_option_hint": "Désactiver le bouton Debug WMS dans l'en-tête des feuilles de personnage. Cette option peut généralement être désactivée une fois que votre personnage est configuré et fonctionne. (Nécessite un rechargement)."
+	"WildMagicSurge5E.opt_show_wms_debug_option_hint": "Désactiver le bouton Debug WMS dans l'en-tête des feuilles de personnage. Cette option peut généralement être désactivée une fois que votre personnage est configuré et fonctionne. (Nécessite un rechargement).",
+	"WildMagicSurge5E.opt_whisper_gm_roll_chat_hint": "Les résultats de la table des jets automatiques ne sont envoyés qu'au MJ et non à tous les joueurs.",
+	"WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Chuchoter le résultat de la table des jets automatiques au MJ"
 }
