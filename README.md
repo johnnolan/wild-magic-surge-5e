@@ -12,6 +12,8 @@
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat within the `dnd5e` game system.
 
+[![Watch the overview and how to guide of Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/GCouaXNVrUY/0.jpg)](https://www.youtube.com/watch?v=GCouaXNVrUY)
+
 ## Top Level Features
 
 - **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
@@ -166,7 +168,7 @@ Special thanks to [Jakob Huber](https://github.com/gh7531) for this suggestion a
 
 ### Play animation on Surge
 
-On a Wild Magic Surge, the token that triggered the Surge will get an animation play. This requires the awesome [https://github.com/fantasycalendar/FoundryVTT-Sequencer](Sequencer) and [https://github.com/Jules-Bens-Aa/JB2A_DnD5e](JB2A) modules to be installed and active.
+On a Wild Magic Surge, the token that triggered the Surge will get an animation play. This requires the awesome [Sequencer](https://github.com/fantasycalendar/FoundryVTT-Sequencer) and [JB2A](https://github.com/Jules-Bens-Aa/JB2A_DnD5e) modules to be installed and active.
 
 [![Play animation on Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/play-animation.jpg)
 
