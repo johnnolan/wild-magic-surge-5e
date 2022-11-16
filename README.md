@@ -12,6 +12,12 @@
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat within the `dnd5e` game system.
 
+## Quickstart guide to setting up Wild Magic Surge 5e on YouTube
+
+[![Quickstart guide to setting up Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/OPlUbe1Wfbs/0.jpg)](https://www.youtube.com/watch?v=OPlUbe1Wfbs)
+
+## Advanced feature overview of Wild Magic Surge 5e on YouTube
+
 [![Watch the overview and how to guide of Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/GCouaXNVrUY/0.jpg)](https://www.youtube.com/watch?v=GCouaXNVrUY)
 
 ## Top Level Features
