@@ -36,6 +36,9 @@
 
   "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Surge Chat Message Fail",
   "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint": "On a failed auto Wild Magic Surge roll, show this message.",
+  
+  "WildMagicSurge5E.opt_auto_d20_msg_enabled_name": "Show Message",
+  "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "Optionally enable this message to show.",
 
   "WildMagicSurge5E.opt_enable_toc_name": "Tides of Chaos auto recharge",
   "WildMagicSurge5E.opt_enable_toc_hint": "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs.",

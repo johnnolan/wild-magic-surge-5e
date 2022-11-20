@@ -21,8 +21,11 @@ export class ChatSettingsPanel extends FormApplication {
   getData() {
     const settings = [
       WMSCONST.OPT_CHAT_MSG,
+      WMSCONST.OPT_CHAT_MSG_ENABLED,
       WMSCONST.OPT_AUTO_D20_MSG,
+      WMSCONST.OPT_AUTO_D20_MSG_ENABLED,
       WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE,
+      WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED,
     ];
 
     return {
