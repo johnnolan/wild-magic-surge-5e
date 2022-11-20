@@ -16,10 +16,13 @@ export const WMSCONST = {
 
   OPT_ENABLE_TOC: "enableTidesOfChaosRecharge",
 
-  OPT_CHAT_MSG: "magicSurgeChatMessage",
   OPT_AUTO_D20: "autoRollD20",
+  OPT_CHAT_MSG: "magicSurgeChatMessage",
+  OPT_CHAT_MSG_ENABLED: "magicSurgeChatMessageEnabled",
   OPT_AUTO_D20_MSG: "autoRollD20Message",
+  OPT_AUTO_D20_MSG_ENABLED: "autoRollD20MessageEnabled",
   OPT_AUTO_D20_MSG_NO_SURGE: "autoRollD20MessageNoSurge",
+  OPT_AUTO_D20_MSG_NO_SURGE_ENABLED: "autoRollD20MessageNoSurgeEnabled",
 
   OPT_CUSTOM_ROLL_DICE_FORMULA: "customRollDiceFormula",
   OPT_CUSTOM_ROLL_RESULT: "customRollResult",

@@ -203,6 +203,23 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_CHAT_MSG_ENABLED}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_AUTO_D20_MSG}`,
       {
         name: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_name"),
@@ -211,6 +228,23 @@ class ModuleSettings {
         config: false,
         default: "Wild Magic Surge! Roll a [[/r d100]]!",
         type: String,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
       }
     );
 
@@ -228,6 +262,23 @@ class ModuleSettings {
         config: false,
         default: "No wild magic surge",
         type: String,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
       }
     );
 
