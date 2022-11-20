@@ -183,9 +183,16 @@ export default class Chat {
    */
   static async RunMessageCheck(): Promise<void> {
     CallHooks.Call("CheckForSurge", { value: true });
-    await this.Send(
-      WMSCONST.CHAT_TYPE.DEFAULT,
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`)
-    );
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_CHAT_MSG_ENABLED}`
+      )
+    ) {
+      await this.Send(
+        WMSCONST.CHAT_TYPE.DEFAULT,
+        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`)
+      );
+    }
   }
 }

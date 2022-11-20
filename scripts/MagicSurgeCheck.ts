@@ -255,14 +255,21 @@ class MagicSurgeCheck {
         WMSCONST.HAS_SURGED_FLAG_OPTION,
         true
       );
-      Chat.Send(
-        WMSCONST.CHAT_TYPE.ROLL,
+      if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_AUTO_D20_MSG}`
-        ),
-        roll
-      );
+          `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
+        )
+      ) {
+        Chat.Send(
+          WMSCONST.CHAT_TYPE.ROLL,
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_AUTO_D20_MSG}`
+          ),
+          roll
+        );
+      }
       TidesOfChaos.Check(this._actor);
       const tableResult = await RollTableMagicSurge.Check();
       let flavorText = `${game.i18n.format(
@@ -284,14 +291,21 @@ class MagicSurgeCheck {
         WMSCONST.HAS_SURGED_FLAG_OPTION,
         false
       );
-      Chat.Send(
-        WMSCONST.CHAT_TYPE.ROLL,
+      if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE}`
-        ),
-        roll
-      );
+          `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED}`
+        )
+      ) {
+        Chat.Send(
+          WMSCONST.CHAT_TYPE.ROLL,
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE}`
+          ),
+          roll
+        );
+      }
       this._callIsSurgeHook(false, roll);
     }
   }
@@ -315,10 +329,20 @@ class MagicSurgeCheck {
     if (tableResult) {
       flavorText = tableResult;
     }
-    Chat.Send(
-      WMSCONST.CHAT_TYPE.DEFAULT,
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20_MSG}`)
-    );
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
+      )
+    ) {
+      Chat.Send(
+        WMSCONST.CHAT_TYPE.DEFAULT,
+        game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_AUTO_D20_MSG}`
+        )
+      );
+    }
     TidesOfChaos.Check(this._actor);
     this._callIsSurgeHook(true);
     AutoEffects.Run(this._tokenId);
