@@ -71,5 +71,7 @@
 	"WildMagicSurge5E.opt_show_wms_debug_option_name": "Afficher l'option Debug dans la feuille de personnage",
 	"WildMagicSurge5E.opt_show_wms_debug_option_hint": "Désactiver le bouton Debug WMS dans l'en-tête des feuilles de personnage. Cette option peut généralement être désactivée une fois que votre personnage est configuré et fonctionne. (Nécessite un rechargement).",
 	"WildMagicSurge5E.opt_whisper_gm_roll_chat_hint": "Les résultats de la table des jets automatiques ne sont envoyés qu'au MJ et non à tous les joueurs.",
-	"WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Chuchoter le résultat de la table des jets automatiques au MJ"
+	"WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Chuchoter le résultat de la table des jets automatiques au MJ",
+	"WildMagicSurge5E.opt_auto_d20_msg_enabled_name": "Afficher le message",
+	"WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "En option, vous pouvez activer l'affichage de ce message."
 }
