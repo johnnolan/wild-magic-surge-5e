@@ -1,6 +1,12 @@
-![](https://img.shields.io/badge/Foundry-v0.10.0-informational)
+![](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fversion%3Fstyle%3Dflat%26url%3Dhttps%3A%2F%2Fgithub.com%2Fjohnnolan%2Fwild-magic-surge-5e%2Freleases%2Fdownload%2F3.9.3%2Fmodule.json)
+![](https://img.shields.io/endpoint?url=https%3A%2F%2Ffoundryshields.com%2Fsystem%3FnameType%3Dfull%26showVersion%3D1%26style%3Dflat%26url%3Dhttps%3A%2F%2Fgithub.com%2Fjohnnolan%2Fwild-magic-surge-5e%2Freleases%2Fdownload%2F3.9.3%2Fmodule.json)
+
 ![Latest Release Download Count](https://img.shields.io/github/downloads/johnnolan/wild-magic-surge-5e/latest/module.zip)
+![GitHub package.json version](https://img.shields.io/github/release/johnnolan/wild-magic-surge-5e)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/johnnolan/wild-magic-surge-5e/%5BWorkflow%5D%20Main)
+[![license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/LICENSE)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=coverage)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 
