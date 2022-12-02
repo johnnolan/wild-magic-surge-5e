@@ -4,4 +4,4 @@ dist/
 eslint_report.json
 .vscode/
 test-results/junit
-build-copy.js
+build-copy*
