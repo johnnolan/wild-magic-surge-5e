@@ -39,6 +39,12 @@ Hooks.once("ready", async function () {
         if (payload.event === "IsWildMagicSurge") {
           TriggerMacro.Run(payload.data.actorId, payload.data.tokenId);
         }
+        if (payload.event === "SurgeCheck") {
+          const surgeCheckData = payload.data;
+          const actor = game.actors.get(surgeCheckData.actorId); 
+          const magicSurgeCheck = new MagicSurgeCheck(actor, surgeCheckData.tokenId);
+          magicSurgeCheck.CheckItem(surgeCheckData.item);
+        }
       }
     );
   }
@@ -47,8 +53,20 @@ Hooks.once("ready", async function () {
     if (item.actor) {
       const tokenId = getTokenIdByActorId(item?.actor.id);
       if (tokenId) {
-        const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
-        magicSurgeCheck.CheckItem(item);
+        if (game.user?.isGM) {
+          const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
+          magicSurgeCheck.CheckItem(item);
+        } else {
+          game.socket?.emit("module.wild-magic-surge-5e", {
+            event: "SurgeCheck",
+            data: {
+              itemId: item?.id,
+              actorId: item?.actor.id,
+              tokenId: tokenId,
+              item: item,
+            },
+          });
+        }
       }
     }
   });
