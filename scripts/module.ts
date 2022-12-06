@@ -63,7 +63,6 @@ Hooks.once("ready", async function () {
           game.socket?.emit("module.wild-magic-surge-5e", {
             event: "SurgeCheck",
             data: {
-              itemId: item?.id,
               actorId: item?.actor.id,
               tokenId: tokenId,
               item: item,
