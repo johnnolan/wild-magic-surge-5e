@@ -41,8 +41,11 @@ Hooks.once("ready", async function () {
         }
         if (payload.event === "SurgeCheck") {
           const surgeCheckData = payload.data;
-          const actor = game.actors.get(surgeCheckData.actorId); 
-          const magicSurgeCheck = new MagicSurgeCheck(actor, surgeCheckData.tokenId);
+          const actor = game.actors.get(surgeCheckData.actorId);
+          const magicSurgeCheck = new MagicSurgeCheck(
+            actor,
+            surgeCheckData.tokenId
+          );
           magicSurgeCheck.CheckItem(surgeCheckData.item);
         }
       }
@@ -71,20 +74,21 @@ Hooks.once("ready", async function () {
     }
   });
 
-  Hooks.on("updateCombat", async function (roundData: RoundData) {
-    if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_SURGE_TYPE}`
-      ) === `INCREMENTAL_CHECK_CHAOTIC`
-    ) {
-      const actor = game.actors.get(roundData.combatant.actor.id);
-      if (!actor) {
-        return false;
+  if (game.user?.isGM) {
+    Hooks.on("updateCombat", async function (roundData: RoundData) {
+      if (
+        game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_SURGE_TYPE}`
+        ) === `INCREMENTAL_CHECK_CHAOTIC`
+      ) {
+        if (!roundData.combatant?.actor) {
+          return false;
+        }
+        RoundCheck.Check(roundData.combatant?.actor);
       }
-      RoundCheck.Check(actor);
-    }
-  });
+    });
+  }
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
