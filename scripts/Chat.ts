@@ -56,6 +56,7 @@ export default class Chat {
 
     if (
       (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.ROLL) ||
+      (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.DEFAULT) ||
       (isWhisperAutoRollTableGM && type === WMSCONST.CHAT_TYPE.TABLE)
     ) {
       chatData = this.setChatToWhisper(chatData, gmsToWhisper);

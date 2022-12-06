@@ -39,6 +39,15 @@ Hooks.once("ready", async function () {
         if (payload.event === "IsWildMagicSurge") {
           TriggerMacro.Run(payload.data.actorId, payload.data.tokenId);
         }
+        if (payload.event === "SurgeCheck") {
+          const surgeCheckData = payload.data;
+          const actor = game.actors.get(surgeCheckData.actorId);
+          const magicSurgeCheck = new MagicSurgeCheck(
+            actor,
+            surgeCheckData.tokenId
+          );
+          magicSurgeCheck.CheckItem(surgeCheckData.item);
+        }
       }
     );
   }
@@ -47,26 +56,38 @@ Hooks.once("ready", async function () {
     if (item.actor) {
       const tokenId = getTokenIdByActorId(item?.actor.id);
       if (tokenId) {
-        const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
-        magicSurgeCheck.CheckItem(item);
+        if (game.user?.isGM) {
+          const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
+          magicSurgeCheck.CheckItem(item);
+        } else {
+          game.socket?.emit("module.wild-magic-surge-5e", {
+            event: "SurgeCheck",
+            data: {
+              actorId: item?.actor.id,
+              tokenId: tokenId,
+              item: item,
+            },
+          });
+        }
       }
     }
   });
 
-  Hooks.on("updateCombat", async function (roundData: RoundData) {
-    if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_SURGE_TYPE}`
-      ) === `INCREMENTAL_CHECK_CHAOTIC`
-    ) {
-      const actor = game.actors.get(roundData.combatant.actor.id);
-      if (!actor) {
-        return false;
+  if (game.user?.isGM) {
+    Hooks.on("updateCombat", async function (roundData: RoundData) {
+      if (
+        game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_SURGE_TYPE}`
+        ) === `INCREMENTAL_CHECK_CHAOTIC`
+      ) {
+        if (!roundData.combatant?.actor) {
+          return false;
+        }
+        RoundCheck.Check(roundData.combatant?.actor);
       }
-      RoundCheck.Check(actor);
-    }
-  });
+    });
+  }
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
