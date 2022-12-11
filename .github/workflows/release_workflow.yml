@@ -4,13 +4,12 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: write
-
 jobs:
   create_changelog_commit:
     name: Create and commit Changelog
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -31,6 +30,8 @@ jobs:
   create_tag_publish:
     name: Bump, Tag and Publish Pre-release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: ['create_changelog_commit']
     steps:
     - name: Checkout
