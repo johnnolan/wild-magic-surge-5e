@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   lint:
     name: ESLint Javascript
@@ -74,6 +77,19 @@ jobs:
       env:
         REPO: ${{ github.repository }}
 
+    - name: Update Changelog
+      uses: stefanzweifel/changelog-updater-action@v1
+      with:
+        latest-version: ${{ steps.bump_version.outputs.new_tag }}
+        release-notes: ${{ steps.changelog.outputs.changelog }}
+
+    - name: Commit updated CHANGELOG
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: ${{ github.event.release.target_commitish }}
+        commit_message: Update CHANGELOG
+        file_pattern: CHANGELOG.md
+
     # Substitute the Manifest and Download URLs in the module.json
     - name: Substitute Manifest and Download Links For Versioned Ones
       id: sub_manifest_link_version
@@ -87,7 +103,7 @@ jobs:
         download: https://github.com/${{github.repository}}/releases/download/${{steps.bump_version.outputs.new_tag}}/module.zip
 
     # Create a zip file with all files required by the module to add to the release
-    - run: zip -r ./module.zip module.json LICENSE dist/ languages/ templates/ packs/
+    - run: zip -r ./module.zip module.json LICENSE CHANGELOG.md dist/ languages/ templates/ packs/
 
     # Create a release for this specific version
     - name: Update Release with Files
