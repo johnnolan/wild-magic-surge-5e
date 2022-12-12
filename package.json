@@ -13,9 +13,9 @@
     "test:coverage": "jest --ci --runInBand",
     "test:watch": "jest --watch --maxWorkers=1",
     "test:watchcov": "jest --watch --coverage --maxWorkers=1",
-    "lint:check": "eslint --ignore-path .gitignore .",
-    "lint:report": "eslint --ignore-path .gitignore --output-file eslint_report.json --format json .",
-    "lint:fix": "eslint --fix --ignore-path .gitignore ."
+    "lint:check": "eslint --ignore-path .eslintignore .",
+    "lint:report": "eslint --ignore-path .eslintignore --output-file eslint_report.json --format json .",
+    "lint:fix": "eslint --fix --ignore-path .eslintignore ."
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
