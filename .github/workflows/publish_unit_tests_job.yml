@@ -27,7 +27,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: eslint_report
-          path: eslint_report.json
+          path: .
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
