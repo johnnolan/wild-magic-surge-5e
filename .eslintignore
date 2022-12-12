@@ -1,0 +1,8 @@
+node_modules/
+coverage/
+macros/
+dist/
+eslint_report.json
+.vscode/
+test-results/junit
+build-copy*
