@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.11.0 - 2022-12-21
+
+### Features
+
+- Adds CHANGELOG.md for tracking module changes
+
 ## 3.10.0
 
 ### Bug Fixes
