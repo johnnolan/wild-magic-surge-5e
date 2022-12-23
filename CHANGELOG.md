@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.11.1 - 2022-12-23
+
+### Bug Fixes
+
+- Fixes issue where new functionality to trigger surge from the player no longer triggers the run macro function on the GM.
+
 ## 3.11.0 - 2022-12-21
 
 ### Features
