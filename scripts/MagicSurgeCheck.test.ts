@@ -11,6 +11,7 @@ import { actor } from "../MockData/actor";
 import "../__mocks__/index";
 import AutoEffects from "./AutoEffects";
 import { firstLevel, melee } from "../MockData/items";
+import TriggerMacro from "./TriggerMacro";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   SpellParser,
@@ -69,6 +70,9 @@ SpellLevelTrigger.Check = mockSpellLevelTriggerCheck;
 const mockAutoEffect = jest.fn();
 AutoEffects.Run = mockAutoEffect;
 
+const mockTriggerMacro = jest.fn();
+TriggerMacro.Run = mockTriggerMacro;
+
 (global as any).Hooks = {
   callAll: jest.fn().mockReturnValue(undefined),
 };
@@ -88,6 +92,7 @@ beforeEach(() => {
   mockSpellLevelTriggerCheck.mockClear();
   mockIncrementalCheckCheck.mockClear();
   mockAutoEffect.mockClear();
+  mockTriggerMacro.mockClear();
   mockSurgeDetailsValid.mockClear();
   mockSurgeDetailsHasPathOfWildMagicFeat.mockClear();
   mockSurgeDetailsSpellLevel.mockClear();

@@ -9,6 +9,7 @@ import AutoEffects from "./AutoEffects";
 import CallHooks from "./utils/CallHooks";
 import SurgeDetails from "./utils/SurgeDetails";
 import Logger from "./Logger";
+import TriggerMacro from "./TriggerMacro";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -231,15 +232,9 @@ class MagicSurgeCheck {
       actorId: this._actor.id,
     });
 
-    game.socket?.emit("module.wild-magic-surge-5e", {
-      event: "IsWildMagicSurge",
-      data: {
-        surge: isSurge,
-        result: rollResult?.result,
-        tokenId: this._tokenId,
-        actorId: this._actor.id,
-      },
-    });
+    if (isSurge && this._actor.id) {
+      TriggerMacro.Run(this._actor.id, this._actor.id);
+    }
   }
 
   /**
