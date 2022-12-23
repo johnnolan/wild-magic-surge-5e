@@ -6,7 +6,6 @@ import ModuleSettings from "./ModuleSettings";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
-import TriggerMacro from "./TriggerMacro";
 import Flags from "./utils/Flags";
 
 Hooks.on("init", function () {
@@ -36,9 +35,6 @@ Hooks.once("ready", async function () {
     game.socket?.on(
       "module.wild-magic-surge-5e",
       async function (payload: unknown) {
-        if (payload.event === "IsWildMagicSurge") {
-          TriggerMacro.Run(payload.data.actorId, payload.data.tokenId);
-        }
         if (payload.event === "SurgeCheck") {
           const surgeCheckData = payload.data;
           const actor = game.actors.get(surgeCheckData.actorId);
