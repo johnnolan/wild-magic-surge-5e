@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.12.0 - 2022-12-24
+
+### Feature
+
+- Add option to exclude specific spells from triggering a Wild Magic Surge. Can be found in the Spell Regex options.
+
 ## 3.11.1 - 2022-12-23
 
 ### Bug Fixes
