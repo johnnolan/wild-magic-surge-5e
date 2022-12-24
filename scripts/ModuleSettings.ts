@@ -153,7 +153,9 @@ class ModuleSettings {
       `${WMSCONST.MODULE_ID}`,
       `SpellLevelSettingsPanel`,
       {
-        name: game.i18n.format("WildMagicSurge5E.settings_panel_spell_level_dep"),
+        name: game.i18n.format(
+          "WildMagicSurge5E.settings_panel_spell_level_dep"
+        ),
         label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
