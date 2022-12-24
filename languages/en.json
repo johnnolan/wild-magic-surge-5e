@@ -25,14 +25,14 @@
   "WildMagicSurge5E.opt_auto_d20_name": "Automate Wild Magic Surge",
   "WildMagicSurge5E.opt_auto_d20_hint": "When disabled, will ignore all other options and alert to the Chat Message. When enabled, will create a chat message to remind you to ask for a check.",
 
-  "WildMagicSurge5E.opt_enable_spell_regex_name": "Enable Spell Filter Regex",
-  "WildMagicSurge5E.opt_enable_spell_regex_hint": "Enable a check based on the spell name as to whether the spell cast is a sorcerer spell.",
+  "WildMagicSurge5E.opt_enable_spell_regex_name": "Enable Spell Filter",
+  "WildMagicSurge5E.opt_enable_spell_regex_hint": "Specify certain spells that trigger a Wild Magic Surge Check.",
 
-  "WildMagicSurge5E.opt_spell_regex_inverse_name": "Reverse Regex Filter",
-  "WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inverse the spell regex filter. Instead of triggering a Wild Magic Surge on the pattern, exclude spells that match it instead.",
+  "WildMagicSurge5E.opt_spell_regex_inverse_name": "Reverse Filter to exclude spells",
+  "WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inverse the spell filter. Instead of triggering a Wild Magic Surge on the pattern, exclude spells that match it instead.",
 
-  "WildMagicSurge5E.opt_spell_regex_name": "Spell Filter Regex",
-  "WildMagicSurge5E.opt_spell_regex_hint": "The RegEx to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like 'Magic Missile (S)'. Special characters must be escaped!",
+  "WildMagicSurge5E.opt_spell_regex_name": "Spell Filter Include Regex",
+  "WildMagicSurge5E.opt_spell_regex_hint": "The RegEx to specify what spells to include in a Wild Magic Surge Check. This assumes spells appended with (S) like 'Magic Missile (S)' will trigger a Wild Magic Surge, all other spells that do not have (S) on the end will be ignored.",
 
   "WildMagicSurge5E.opt_auto_d20_msg_name": "Surge Chat Message Success",
   "WildMagicSurge5E.opt_auto_d20_msg_hint": "On a Wild Magic Surge, show this message.",
@@ -107,5 +107,13 @@
 
   "WildMagicSurge5E.es_tides_of_chaos": "Tides of Chaos Wild Magic Surge",
   "WildMagicSurge5E.es_wild_magic_surge": "Wild Magic Surge",
-  "WildMagicSurge5E.es_wild_magic_surge_with_roll": "Wild Magic Surge with Roll of"
+  "WildMagicSurge5E.es_wild_magic_surge_with_roll": "Wild Magic Surge with Roll of",
+
+  "WildMagicSurge5E.settings_panel_spell_regex": "Include/Exclude Spell Filter",
+  "WildMagicSurge5E.settings_panel_standard_phb": "Standard PHB Variant",
+  "WildMagicSurge5E.settings_panel_spell_level_dep": "Spell Level Dependent Rolls Variant",
+  "WildMagicSurge5E.settings_panel_incremental": "Incremental Check Variant",
+  "WildMagicSurge5E.settings_panel_chat_message": "Chat Message Options",
+  "WildMagicSurge5E.configure": "Configure",
+  "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information"
 }

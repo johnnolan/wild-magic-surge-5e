@@ -4,7 +4,7 @@ import { SettingsList, UpdateObject } from "./Helpers";
 export class SpellLevelSettingsPanel extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      title: "Spell Level Settings",
+      title: game.i18n.format("WildMagicSurge5E.settings_panel_spell_level_dep"),
       template: "modules/wild-magic-surge-5e/templates/settings.html",
       id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,
