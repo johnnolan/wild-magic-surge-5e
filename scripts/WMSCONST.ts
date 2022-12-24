@@ -98,6 +98,7 @@ export const WMSCONST = {
   ],
 
   OPT_SPELL_REGEX: "spellRegex",
+  OPT_SPELL_REGEX_INVERSE: "spellRegexInverse",
   OPT_SPELL_REGEX_ENABLED: "spellRegexEnabled",
 
   OPT_SURGE_TOC_ENABLED: "surgeTocEnabled",

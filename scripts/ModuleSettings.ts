@@ -55,6 +55,19 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`,
+      {
+        name: game.i18n.format("WildMagicSurge5E.opt_spell_regex_inverse_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_spell_regex_inverse_hint"),
+        scope: "world",
+        config: false,
+        default: false,
+        type: Boolean,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_SPELL_REGEX}`,
       {
         name: game.i18n.format("WildMagicSurge5E.opt_spell_regex_name"),

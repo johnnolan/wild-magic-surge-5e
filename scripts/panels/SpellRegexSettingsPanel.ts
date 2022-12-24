@@ -19,7 +19,7 @@ export class SpellRegexSettingsPanel extends FormApplication {
 
   // @ts-expect-error TS(2416): Property 'getData' in type 'SpellRegexSettingsPane... Remove this comment to see the full error message
   getData() {
-    const settings = [WMSCONST.OPT_SPELL_REGEX_ENABLED, WMSCONST.OPT_SPELL_REGEX];
+    const settings = [WMSCONST.OPT_SPELL_REGEX_ENABLED, WMSCONST.OPT_SPELL_REGEX, WMSCONST.OPT_SPELL_REGEX_INVERSE];
 
     return {
       modules: this.settingsList(settings),
