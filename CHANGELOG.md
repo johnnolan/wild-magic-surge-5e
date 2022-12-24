@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.12.1 - 2022-12-24
+
+### Refactor
+
+- Add missing translations
+- Renamed Regex feature to Spell Filter to better describe its purpose
+
 ## 3.12.0 - 2022-12-24
 
 ### Feature
