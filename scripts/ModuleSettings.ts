@@ -127,8 +127,8 @@ class ModuleSettings {
       `${WMSCONST.MODULE_ID}`,
       `SpellRegexSettingsPanel`,
       {
-        name: "Spell Regex for Multiclass",
-        label: "Configure",
+        name: game.i18n.format("WildMagicSurge5E.settings_panel_spell_regex"),
+        label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
         type: SpellRegexSettingsPanel,
@@ -140,8 +140,8 @@ class ModuleSettings {
       `${WMSCONST.MODULE_ID}`,
       `StandardSettingsPanel`,
       {
-        name: "Standard PHB Variant",
-        label: "Configure",
+        name: game.i18n.format("WildMagicSurge5E.settings_panel_standard_phb"),
+        label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
         type: StandardSettingsPanel,
@@ -153,8 +153,8 @@ class ModuleSettings {
       `${WMSCONST.MODULE_ID}`,
       `SpellLevelSettingsPanel`,
       {
-        name: "Spell Level Dependent Rolls Variant",
-        label: "Configure",
+        name: game.i18n.format("WildMagicSurge5E.settings_panel_spell_level_dep"),
+        label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
         type: SpellLevelSettingsPanel,
@@ -166,8 +166,8 @@ class ModuleSettings {
       `${WMSCONST.MODULE_ID}`,
       `IncrementalSettingsPanel`,
       {
-        name: "Incremental Check Variant",
-        label: "Configure",
+        name: game.i18n.format("WildMagicSurge5E.settings_panel_incremental"),
+        label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
         type: IncrementalSettingsPanel,
@@ -176,8 +176,8 @@ class ModuleSettings {
     );
 
     game.settings.registerMenu(`${WMSCONST.MODULE_ID}`, `ChatSettingsPanel`, {
-      name: "Chat Message Options",
-      label: "Configure",
+      name: game.i18n.format("WildMagicSurge5E.settings_panel_chat_message"),
+      label: game.i18n.format("WildMagicSurge5E.configure"),
       icon: "fas fa-cog",
       scope: "world",
       type: ChatSettingsPanel,

@@ -4,7 +4,7 @@ import { SettingsList, UpdateObject } from "./Helpers";
 export class ChatSettingsPanel extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      title: "Chat Settings",
+      title: game.i18n.format("WildMagicSurge5E.settings_panel_chat_message"),
       template: "modules/wild-magic-surge-5e/templates/settings.html",
       id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,

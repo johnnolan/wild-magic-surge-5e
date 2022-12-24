@@ -170,9 +170,13 @@ Special thanks to [Jackolas126](https://github.com/Jackolas126) for this suggest
 
 [![Setup varying Wild Magic Surge triggers dependent on spell level](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)
 
-### Spell Regex for Multiclass spells and excluding certain spells from triggering a Wild Magic Surge
+### Include/Exclude Spell Filter
 
-The RegEx to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like `Magic Missile (S)`. Special characters must be escaped!
+Add a RegEx rule to exclude or include specific spells that should trigger a Wild Magic Surge.
+
+For example if you multiclass you can use this to differentiate between sorcerer spells and non sorcerer spells.
+
+Adding a regex rule of `\(S\)` assumes only spells appended with ` (S)` like `Magic Missile (S)` will trigger a Wild Magic Surge check.
 
 If you want to reverse this logic you can choose to tick the `Reverse Regex Filter` option. This is for spells that you don't want to trigger a Wild Magic Surge that are cast from the sorcerer.
 

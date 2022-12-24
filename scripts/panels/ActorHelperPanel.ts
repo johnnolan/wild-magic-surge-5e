@@ -15,7 +15,7 @@ export class ActorHelperPanel extends FormApplication {
   object!: Actor;
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      title: "Wild Magic Surge 5e Information",
+      title: game.i18n.format("WildMagicSurge5E.settings_panel_information"),
       template: "modules/wild-magic-surge-5e/templates/ActorHelperPanel.html",
       id: `${WMSCONST.MODULE_FLAG_NAME}-actor-help`,
       width: 480,
