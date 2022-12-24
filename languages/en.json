@@ -28,6 +28,9 @@
   "WildMagicSurge5E.opt_enable_spell_regex_name": "Enable Spell Filter Regex",
   "WildMagicSurge5E.opt_enable_spell_regex_hint": "Enable a check based on the spell name as to whether the spell cast is a sorcerer spell.",
 
+  "WildMagicSurge5E.opt_spell_regex_inverse_name": "Reverse Regex Filter",
+  "WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inverse the spell regex filter. Instead of triggering a Wild Magic Surge on the pattern, exclude spells that match it instead.",
+
   "WildMagicSurge5E.opt_spell_regex_name": "Spell Filter Regex",
   "WildMagicSurge5E.opt_spell_regex_hint": "The RegEx to differentiate between sorcerer spells and non sorcerer spells. This assumes the sorcerer spells to be renamed like 'Magic Missile (S)'. Special characters must be escaped!",
 

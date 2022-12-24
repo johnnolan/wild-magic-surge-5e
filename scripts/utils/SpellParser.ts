@@ -109,7 +109,16 @@ export default class SpellParser {
       `${WMSCONST.OPT_SPELL_REGEX}`
     );
 
-    return !!spellName?.match(spellRegex);
+    const isInverse = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`
+    );
+
+    if (isInverse) {
+      return spellName?.match(spellRegex) ? false : true;
+    } else {
+      return !!spellName?.match(spellRegex);
+    }
   }
 
   /**

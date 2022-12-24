@@ -292,7 +292,7 @@ describe("SpellParser", () => {
       };
       (global as any).game = {
         settings: {
-          get: jest.fn().mockReturnValue("\\(S\\)"),
+          get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(false),
         },
       };
     });
@@ -310,6 +310,35 @@ describe("SpellParser", () => {
         const result = SpellParser.IsSorcererSpell(firstLevel);
 
         expect(result).toBeFalsy();
+      });
+    });
+  });
+
+  describe("IsSorcererSpell Negative Lookup", () => {
+    beforeEach(() => {
+      (global as any).Hooks = {
+        callAll: jest.fn().mockReturnValue(true),
+      };
+      (global as any).game = {
+        settings: {
+          get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(true),
+        },
+      };
+    });
+
+    describe("Is a Sorcerer Spell", () => {
+      it("should be false", async () => {
+        const result = SpellParser.IsSorcererSpell(sorcererSpecificSpell);
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+    describe("Is not a Sorcerer Spell", () => {
+      it("should be true", async () => {
+        const result = SpellParser.IsSorcererSpell(firstLevel);
+
+        expect(result).toBeTruthy();
       });
     });
   });
