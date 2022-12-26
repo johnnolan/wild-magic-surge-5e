@@ -9,7 +9,6 @@
         "group:all"
     ],
     "lockFileMaintenance": {
-        "enabled": true,
-        "schedule": "after 10pm on sunday"
+        "enabled": true
     }
 }
