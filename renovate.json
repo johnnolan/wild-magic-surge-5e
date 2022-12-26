@@ -7,5 +7,9 @@
         ":automergeAll",
         "npm:unpublishSafe",
         "group:all"
-    ]
+    ],
+    "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": "after 10pm on sunday"
+    }
 }
