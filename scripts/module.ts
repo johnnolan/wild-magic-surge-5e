@@ -7,6 +7,7 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import Flags from "./utils/Flags";
+import RollTableMagicSurge from "./RollTableMagicSurge";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -16,6 +17,21 @@ Hooks.on("init", function () {
   Logger.log(
     `Settings for ${WMSCONST.MODULE_NAME} registered successfully.`,
     "module.init"
+  );
+
+  Hooks.on(
+    "renderChatMessage",
+    async function (app: FormApplication, html: object, data: object) {
+      const rollTableButton = html.find(".roll-table-wms");
+      if (rollTableButton && rollTableButton.length > 0) {
+        rollTableButton.unbind();
+        rollTableButton.on("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          RollTableMagicSurge.RollOnTable();
+        });
+      }
+    }
   );
 });
 

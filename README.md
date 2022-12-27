@@ -104,11 +104,17 @@ When enabled, each time a incremental check for a surge changes it is posted to 
 
 ### Enable Auto Roll on a Wild Magic Surge Table
 
-This option takes things a step further and will roll a Roll Table on a `Wild Magic Surge`.
+Choose how to auto roll on a Wild Magic Surge Table.
+
+1. None - This won't do any auto rolling on a table
+2. Auto Roll Table - This will automatically roll for the player and display the roll table results
+3. Player Trigger Roll - Will prompt in the Wild Magic Surge message for the Player to click a button to roll on the table and display the results.
 
 You can configure a Custom Roll Table by replacing the default name in the settings with your own version.
 
 [![Enable Auto Roll on a Wild Magic Surge Table](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table.jpg)
+[![Enable Auto Roll on a Wild Magic Surge Table](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table-2.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/enable-auto-roll-table-2.jpg)
+[![Roll on table option](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-on-table.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-on-table.jpg)
 
 ### Execute a GM Macro on a Wild Magic Surge
 

@@ -256,12 +256,30 @@ class MagicSurgeCheck {
           `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
         )
       ) {
-        Chat.Send(
-          WMSCONST.CHAT_TYPE.ROLL,
+        let chatSurgeMessage = "";
+        if (
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+          ) === "PLAYER_TRIGGER"
+        ) {
+          chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
+          <button class="roll-table-wms">
+          ${game.i18n.format(
+            "WildMagicSurge5E.es_roll_on_table"
+          )} ${game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_ROLLTABLE_NAME}`
+          )}
+          </button>
+      </div>`;
+        }
+        Chat.Send(
+          WMSCONST.CHAT_TYPE.ROLL,
+          `${game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
             `${WMSCONST.OPT_AUTO_D20_MSG}`
-          ),
+          )}${chatSurgeMessage}`,
           roll
         );
       }
@@ -330,12 +348,30 @@ class MagicSurgeCheck {
         `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
       )
     ) {
-      Chat.Send(
-        WMSCONST.CHAT_TYPE.DEFAULT,
+      let chatSurgeMessage = "";
+      if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+        ) === "PLAYER_TRIGGER"
+      ) {
+        chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
+        <button class="roll-table-wms">
+        ${game.i18n.format(
+          "WildMagicSurge5E.es_roll_on_table"
+        )} ${game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_ROLLTABLE_NAME}`
+        )}
+        </button>
+    </div>`;
+      }
+      Chat.Send(
+        WMSCONST.CHAT_TYPE.DEFAULT,
+        `${game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
           `${WMSCONST.OPT_AUTO_D20_MSG}`
-        )
+        )}${chatSurgeMessage}`
       );
     }
     TidesOfChaos.Check(this._actor);
