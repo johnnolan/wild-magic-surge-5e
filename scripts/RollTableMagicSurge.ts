@@ -20,7 +20,7 @@ class RollTableMagicSurge {
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
     );
-    if (!rollTableType || rollTableType !== "Auto Roll Table") {
+    if (!rollTableType || rollTableType !== "AUTO") {
       return;
     }
     let rollTableName: string;
