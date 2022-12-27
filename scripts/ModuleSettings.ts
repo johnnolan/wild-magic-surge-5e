@@ -241,7 +241,7 @@ class ModuleSettings {
         hint: game.i18n.format("WildMagicSurge5E.opt_auto_d20_msg_hint"),
         scope: "world",
         config: false,
-        default: "Wild Magic Surge! Roll a [[/r d100]]!",
+        default: "Wild Magic Surge!",
         type: String,
       }
     );

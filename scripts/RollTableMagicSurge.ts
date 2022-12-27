@@ -16,13 +16,20 @@ class RollTableMagicSurge {
   static async Check(
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge
   ): Promise<string | undefined> {
-    const rollTableType = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
-    );
-    if (!rollTableType || rollTableType !== "AUTO") {
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+      ) !== "AUTO"
+    ) {
       return;
     }
+    return await this.RollOnTable(type);
+  }
+
+  static async RollOnTable(
+    type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge
+  ): Promise<string | undefined> {
     let rollTableName: string;
     if (type === WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic) {
       rollTableName = game.settings.get(
