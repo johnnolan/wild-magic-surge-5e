@@ -47,7 +47,7 @@
   "WildMagicSurge5E.opt_enable_toc_hint": "Enables Tides of Chaos auto recharge when a Wild Magic Surge occurs.",
 
   "WildMagicSurge5E.opt_rolltable_enabled_name": "Auto Roll Table",
-  "WildMagicSurge5E.opt_rolltable_enabled_hint": "Enable Auto Roll on a Wild Magic Surge Table.",
+  "WildMagicSurge5E.opt_rolltable_enabled_hint": "Enable Auto Roll on a Wild Magic Surge Table or prompt player to roll via a chat message.",
 
   "WildMagicSurge5E.opt_rolltable_name_name": "Roll Table Name",
   "WildMagicSurge5E.opt_rolltable_name_hint": "The Roll Table to use when rolling for the surge effect. Enter the name of the Roll Table.",

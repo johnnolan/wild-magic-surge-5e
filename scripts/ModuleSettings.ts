@@ -305,8 +305,9 @@ class ModuleSettings {
         hint: game.i18n.format("WildMagicSurge5E.opt_rolltable_enabled_hint"),
         scope: "world",
         config: true,
-        default: false,
-        type: Boolean,
+        choices: WMSCONST.ROLLTABLE_TYPE,
+        default: "Default",
+        type: String,
       }
     );
 

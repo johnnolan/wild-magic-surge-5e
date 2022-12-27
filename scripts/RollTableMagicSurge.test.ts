@@ -27,7 +27,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce("undefined"),
         },
         user: {
@@ -64,7 +64,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce(undefined),
         },
         user: {
@@ -100,7 +100,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
@@ -139,7 +139,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
@@ -180,7 +180,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {
@@ -220,7 +220,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(true)
+            .mockReturnValueOnce("Auto Roll Table")
             .mockReturnValueOnce("Path of Wild Magic"),
         },
         user: {
@@ -258,7 +258,7 @@ describe("RollTableMagicSurge", () => {
         settings: {
           get: jest
             .fn()
-            .mockReturnValueOnce(false)
+            .mockReturnValueOnce("None")
             .mockReturnValueOnce("Wild Magic Surge"),
         },
         user: {

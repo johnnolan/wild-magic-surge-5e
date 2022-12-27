@@ -23,7 +23,29 @@ function getTokenIdByActorId(actorId: string) {
   return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
 }
 
+function Migrate() {
+  const rollTableType = game.settings.get(
+    `${WMSCONST.MODULE_ID}`,
+    `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+  );
+  if (rollTableType === "true") {
+    game.settings.set(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      WMSCONST.ROLLTABLE_TYPE.AUTO
+    );
+  }
+  if (rollTableType === "false") {
+    game.settings.set(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      WMSCONST.ROLLTABLE_TYPE.DEFAULT
+    );
+  }
+}
+
 Hooks.once("ready", async function () {
+  Migrate();
   if (game.user?.isGM) {
     const actors = game.actors.filter((f) => f.type === "character");
     for (const actor of actors) {

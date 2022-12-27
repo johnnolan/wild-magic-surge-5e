@@ -14,6 +14,12 @@ export const WMSCONST = {
   OPT_ROLLTABLE_NAME: "rollTableName",
   OPT_POWM_ROLLTABLE_NAME: "powmRollTableName",
 
+  ROLLTABLE_TYPE: {
+    DEFAULT: "None",
+    AUTO: "Auto Roll Table",
+    PLAYER_TRIGGER: "Player Trigger Roll",
+  },
+
   OPT_ENABLE_TOC: "enableTidesOfChaosRecharge",
 
   OPT_AUTO_D20: "autoRollD20",
