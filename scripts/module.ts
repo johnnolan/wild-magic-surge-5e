@@ -7,6 +7,7 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import Flags from "./utils/Flags";
+import RollTableMagicSurge from "./RollTableMagicSurge";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -17,13 +18,50 @@ Hooks.on("init", function () {
     `Settings for ${WMSCONST.MODULE_NAME} registered successfully.`,
     "module.init"
   );
+
+  Hooks.on(
+    "renderChatMessage",
+    async function (app: FormApplication, html: object, data: object) {
+      const rollTableButton = html.find(".roll-table-wms");
+      if (rollTableButton && rollTableButton.length > 0) {
+        rollTableButton.unbind();
+        rollTableButton.on("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          RollTableMagicSurge.RollOnTable();
+        });
+      }
+    }
+  );
 });
 
 function getTokenIdByActorId(actorId: string) {
   return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
 }
 
+function Migrate() {
+  const rollTableType = game.settings.get(
+    `${WMSCONST.MODULE_ID}`,
+    `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+  );
+  if (rollTableType === "true") {
+    game.settings.set(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      WMSCONST.ROLLTABLE_TYPE.AUTO
+    );
+  }
+  if (rollTableType === "false") {
+    game.settings.set(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+      WMSCONST.ROLLTABLE_TYPE.DEFAULT
+    );
+  }
+}
+
 Hooks.once("ready", async function () {
+  Migrate();
   if (game.user?.isGM) {
     const actors = game.actors.filter((f) => f.type === "character");
     for (const actor of actors) {
