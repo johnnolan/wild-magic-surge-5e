@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.13.0 - 2022-12-28
+
+### Features
+
+- Add Player Trigger option to allow Players to roll on a Magic Surge Table via a chat message
+- Changed Auto Roll Table option to a drop down of choices to include the above
+
+### Bugs
+
+- Fixes regex inverted surge check where any item cast would trigger a surge
+
 ## 3.12.1 - 2022-12-24
 
 ### Refactor
