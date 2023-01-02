@@ -10,6 +10,10 @@ export default class DieDescending {
     dieValue: WMSCONST.DIE_VALUE.D20,
   };
 
+  static async Reset(actor: Actor) {
+    await this.SetupDefault(actor, "1");
+  }
+
   private static async CallChanged(value: FlagValue): Promise<void> {
     CallHooks.Call("DieDescendingChanged", value);
   }

@@ -46,10 +46,14 @@ const mockSurgeDetailsSpellLevel = jest.spyOn(
 );
 
 const mockDieDescendingCheck = jest.fn();
+const mockDieDescendingReset = jest.fn();
 DieDescending.Check = mockDieDescendingCheck;
+DieDescending.Reset = mockDieDescendingReset;
 
 const mockIncrementalCheckCheck = jest.fn();
+const mockIncrementalCheckReset = jest.fn();
 IncrementalCheck.Check = mockIncrementalCheckCheck;
+IncrementalCheck.Reset = mockIncrementalCheckReset;
 
 const mockTidesOfChaosCheck = jest.fn();
 const mockTidesOfChaosIsTidesOfChaosUsed = jest.fn();
@@ -91,6 +95,8 @@ beforeEach(() => {
   mockRollTableMagicSurgeCheck.mockClear();
   mockSpellLevelTriggerCheck.mockClear();
   mockIncrementalCheckCheck.mockClear();
+  mockIncrementalCheckReset.mockClear();
+  mockDieDescendingReset.mockClear();
   mockAutoEffect.mockClear();
   mockTriggerMacro.mockClear();
   mockSurgeDetailsValid.mockClear();
@@ -901,6 +907,10 @@ describe("MagicSurgeCheck", () => {
         expect(mockTidesOfChaosCheck).toHaveBeenCalledTimes(1);
 
         expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
+
+        expect(mockIncrementalCheckReset).toHaveBeenCalledTimes(1);
+
+        expect(mockDieDescendingReset).toHaveBeenCalledTimes(1);
 
         expect((global as any).Hooks.callAll).toBeCalled();
 

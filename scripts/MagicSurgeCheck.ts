@@ -375,6 +375,8 @@ class MagicSurgeCheck {
       );
     }
     TidesOfChaos.Check(this._actor);
+    IncrementalCheck.Reset(this._actor);
+    DieDescending.Reset(this._actor);
     this._callIsSurgeHook(true);
     AutoEffects.Run(this._tokenId);
     this._callEncounterStatistic({
