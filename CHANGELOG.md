@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.13.1 - 2023-01-02
+
+### Bug
+
+- Reset Incremental and Descending count on Tides of Chaos Surge properly
+
 ## 3.13.0 - 2022-12-28
 
 ### Features
