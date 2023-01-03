@@ -43,7 +43,7 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
-          content: `<div>My Custom Message ${roll.total}</div>`,
+          content: `<div>My Custom Message (${roll.total})</div>`,
           speaker: [undefined],
           whisper: [undefined],
           blind: true,
