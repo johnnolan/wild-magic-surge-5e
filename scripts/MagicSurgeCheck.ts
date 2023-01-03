@@ -199,7 +199,7 @@ class MagicSurgeCheck {
           break;
         }
         case "SPELL_LEVEL_DEPENDENT_ROLL": {
-          isSurge = SpellLevelTrigger.Check(eval(roll.result), spellLevel);
+          isSurge = SpellLevelTrigger.Check(roll.total ?? 1, spellLevel);
           break;
         }
         case "DIE_DESCENDING": {
