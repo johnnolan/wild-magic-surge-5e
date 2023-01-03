@@ -102,7 +102,7 @@ export default class Chat {
   ): Promise<ChatMessage> {
     if (isWhisperGM) {
       return <ChatMessage>{
-        content: `<div>${message} ${roll.result}</div>`,
+        content: `<div>${message} (${roll.total ?? 0})</div>`,
       };
     } else {
       const wildMagicSurgeName = await game.settings.get(
