@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.14.0 - 2023-01-03
+
+### Feature
+
+- Allow more complex `Dice Formula` in the `Standard PHB Variant` setting. E.g. `1d20 + 5` or `1d10 + 2` for more niche variants.
+- Contribution by @ZeroXNoxus
+
 ## 3.13.2 - 2023-01-03
 
 ### Bug Fixes
