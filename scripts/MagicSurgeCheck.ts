@@ -178,10 +178,11 @@ class MagicSurgeCheck {
     if (!isAutoSurge) {
       roll = await this.WildMagicSurgeRollCheck();
       if (!roll) return;
+      const rollTotal = roll.total ?? 1;
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
-            roll.total ?? 0,
+            rollTotal,
             game.settings.get(
               `${WMSCONST.MODULE_ID}`,
               `${WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK}`
@@ -193,19 +194,19 @@ class MagicSurgeCheck {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           isSurge = await IncrementalCheck.Check(
             this._actor,
-            roll.total,
+            rollTotal,
             maxValue
           );
           break;
         }
         case "SPELL_LEVEL_DEPENDENT_ROLL": {
-          isSurge = SpellLevelTrigger.Check(roll.total ?? 1, spellLevel);
+          isSurge = SpellLevelTrigger.Check(rollTotal, spellLevel);
           break;
         }
         case "DIE_DESCENDING": {
           isSurge = await DieDescending.Check(
             this._actor,
-            roll.total ? roll.total.toString() : "1"
+            rollTotal.toString()
           );
           break;
         }
