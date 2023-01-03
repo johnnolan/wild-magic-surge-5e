@@ -57,7 +57,11 @@ export default class SurgeDetails {
     }
 
     if (this.isSorcererSpellRegexMatch !== undefined) {
-      return this._isASpell && this.isSorcererSpellRegexMatch;
+      return (
+        this._isASpell &&
+        this.isSorcererSpellRegexMatch &&
+        this._hasWildMagicFeat
+      );
     }
 
     let isValid = this._isASpell && this._hasWildMagicFeat;

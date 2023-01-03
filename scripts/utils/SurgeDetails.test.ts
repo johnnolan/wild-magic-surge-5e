@@ -3,6 +3,7 @@ import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
 import { firstLevel } from "../../MockData/items";
+import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   SpellParser,
@@ -84,7 +85,7 @@ describe("SurgeDetails", () => {
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
       });
       it("should be undefined", () => {
-        const surgeChatMessageDetails = new SurgeDetails(actor, firstLevel);
+        const surgeChatMessageDetails = new SurgeDetails(actorNoWildMagic, firstLevel);
 
         expect(
           surgeChatMessageDetails.isSorcererSpellRegexMatch
@@ -95,7 +96,8 @@ describe("SurgeDetails", () => {
       beforeEach(() => {
         (global as any).game = {
           settings: {
-            get: jest.fn().mockReturnValue(true),
+            get: jest.fn().mockReturnValueOnce("Wild Magic Surge")
+            .mockReturnValue(true),
           },
         };
 
