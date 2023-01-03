@@ -193,7 +193,7 @@ class MagicSurgeCheck {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           isSurge = await IncrementalCheck.Check(
             this._actor,
-            eval(roll.result),
+            roll.total,
             maxValue
           );
           break;
