@@ -35,6 +35,7 @@ describe("Chat", () => {
         (global as any).game.settings.get = jest.fn().mockResolvedValue(true);
         roll = {
           result: 20,
+          total: 20,
         };
       });
 
@@ -42,7 +43,7 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
-          content: `<div>My Custom Message ${roll.result}</div>`,
+          content: `<div>My Custom Message (${roll.total})</div>`,
           speaker: [undefined],
           whisper: [undefined],
           blind: true,
