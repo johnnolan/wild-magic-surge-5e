@@ -193,13 +193,13 @@ class MagicSurgeCheck {
           const maxValue = gameType === `INCREMENTAL_CHECK_CHAOTIC` ? 10 : 20;
           isSurge = await IncrementalCheck.Check(
             this._actor,
-            parseInt(roll.result),
+            eval(roll.result),
             maxValue
           );
           break;
         }
         case "SPELL_LEVEL_DEPENDENT_ROLL": {
-          isSurge = SpellLevelTrigger.Check(parseInt(roll.result), spellLevel);
+          isSurge = SpellLevelTrigger.Check(eval(roll.result), spellLevel);
           break;
         }
         case "DIE_DESCENDING": {
