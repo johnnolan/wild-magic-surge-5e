@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.13.2 - 2023-01-03
+
+### Bug Fixes
+
+- Add wild magic feat check when spell regex option is enabled - Fixes a situation when inverse regex option is selected it would cause any spell caster to trigger a surge check even when they don't have the feat setup.
+
 ## 3.13.1 - 2023-01-02
 
 ### Bug
