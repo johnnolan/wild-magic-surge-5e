@@ -56,15 +56,15 @@ export default class SurgeDetails {
       return this._raging;
     }
 
-    if (this.isSorcererSpellRegexMatch !== undefined) {
-      return (
-        this._isASpell &&
-        this.isSorcererSpellRegexMatch &&
-        this._hasWildMagicFeat
-      );
+    if (!this._hasWildMagicFeat) {
+      return false;
     }
 
-    let isValid = this._isASpell && this._hasWildMagicFeat;
+    if (this.isSorcererSpellRegexMatch !== undefined) {
+      return this._isASpell && this.isSorcererSpellRegexMatch;
+    }
+
+    let isValid = this._isASpell;
 
     if (
       !game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_NPCS}`)
