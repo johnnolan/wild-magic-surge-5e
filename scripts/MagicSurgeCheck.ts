@@ -118,8 +118,8 @@ class MagicSurgeCheck {
    * @param {Comparison} comparison
    * @returns boolean
    */
-  DefaultMagicSurgeRollResult(result: string, comparison: Comparison): boolean {
-    const rollResult = parseInt(result);
+  DefaultMagicSurgeRollResult(result: number, comparison: Comparison): boolean {
+    const rollResult = result;
     const rollResultTargets = this.SplitRollResult(
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
@@ -181,7 +181,7 @@ class MagicSurgeCheck {
       switch (gameType) {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
-            roll.result,
+            roll.total ?? 0,
             game.settings.get(
               `${WMSCONST.MODULE_ID}`,
               `${WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK}`
@@ -203,7 +203,10 @@ class MagicSurgeCheck {
           break;
         }
         case "DIE_DESCENDING": {
-          isSurge = await DieDescending.Check(this._actor, roll.result);
+          isSurge = await DieDescending.Check(
+            this._actor,
+            roll.total ? roll.total.toString() : "1"
+          );
           break;
         }
         default:
