@@ -5,7 +5,7 @@
 ![GitHub package.json version](https://img.shields.io/github/release/johnnolan/wild-magic-surge-5e)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fwild-magic-surge-5e&colorB=4aa94a)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/johnnolan/wild-magic-surge-5e/%5BWorkflow%5D%20Main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/johnnolan/wild-magic-surge-5e/main_workflow.yml?branch=main)
 [![license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/LICENSE)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=coverage)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
