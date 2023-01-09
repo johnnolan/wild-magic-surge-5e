@@ -11,9 +11,9 @@
 	"WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Compteur de charge de la \"Surcharge de la magie sauvage\"",
 	"WildMagicSurge5E.opt_chat_msg_hint": "Lorsque l'automatisation est désactivée, ce message s'affiche dans le Tchat pour vous rappeler qu'un sort est lancé.",
 	"WildMagicSurge5E.opt_auto_d20_name": "Automatiser la montée \"Surcharge de la magie sauvage\"",
-	"WildMagicSurge5E.opt_enable_spell_regex_name": "Activer le filtre orthographique Regex",
-	"WildMagicSurge5E.opt_enable_spell_regex_hint": "Active une vérification basée sur le nom du sort pour savoir si le sort lancé est un sort de sorcier.",
-	"WildMagicSurge5E.opt_spell_regex_name": "Filtre orthographique Regex",
+	"WildMagicSurge5E.opt_enable_spell_regex_name": "Activer le filtre des sorts",
+	"WildMagicSurge5E.opt_enable_spell_regex_hint": "Spécifier certains sorts qui déclenchent un test de surcharge de magie sauvage.",
+	"WildMagicSurge5E.opt_spell_regex_name": "Filtre des sorts Incluant Regex",
 	"WildMagicSurge5E.opt_auto_d20_msg_name": "Succès du message de tchat sur les Surcharges",
 	"WildMagicSurge5E.opt_auto_d20_msg_hint": "Lors d'une Surcharge de magie sauvage, affichez ce message.",
 	"WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Échec du message de Tchat sur les Surcharges",
@@ -73,5 +73,7 @@
 	"WildMagicSurge5E.opt_whisper_gm_roll_chat_hint": "Les résultats de la table des jets automatiques ne sont envoyés qu'au MJ et non à tous les joueurs.",
 	"WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Chuchoter le résultat de la table des jets automatiques au MJ",
 	"WildMagicSurge5E.opt_auto_d20_msg_enabled_name": "Afficher le message",
-	"WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "En option, vous pouvez activer l'affichage de ce message."
+	"WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "En option, vous pouvez activer l'affichage de ce message.",
+	"WildMagicSurge5E.opt_spell_regex_inverse_name": "Filtre inversé pour exclure les sorts",
+	"WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inversez le filtre des sorts. Au lieu de déclencher une surcharge de magie sauvage sur le motif, excluez plutôt les sorts qui y correspondent."
 }
