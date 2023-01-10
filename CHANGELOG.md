@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.14.1 - 2023-01-10
+
+### Translations
+
+- Translated using Weblate (French)
+
 ## 3.14.0 - 2023-01-03
 
 ### Feature
