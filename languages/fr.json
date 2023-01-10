@@ -56,8 +56,8 @@
 	"WildMagicSurge5E.opt_powm_feat_name_hint": "Si vous jouez dans une autre langue, cela vous permet de définir le nom de l'exploit dans votre langue.",
 	"WildMagicSurge5E.opt_incremental_check_to_chat_hint": "Lorsqu'elle est activée, chaque fois qu'un type de contrôle incrémentiel pour une poussée change, il est affiché sur le TChat pour que les autres puissent le voir.",
 	"WildMagicSurge5E.opt_auto_d20_hint": "Lorsqu'elle est désactivée, elle ignore toutes les autres options et alerte sur le message de Tchat. Lorsqu'elle est activée, elle crée un message de Tchat pour vous rappeler de demander un contôle.",
-	"WildMagicSurge5E.opt_spell_regex_hint": "La RegEx pour différencier les sorts de sorcier des sorts de non sorcier. Cela suppose que les sorts de sorcier soient renommés comme 'Projectile magique (S)'. Les caractères spéciaux doivent être échappés !",
-	"WildMagicSurge5E.opt_rolltable_enabled_hint": "Activer le jet automatique sur une table de la Surcharge de la magie sauvage.",
+	"WildMagicSurge5E.opt_spell_regex_hint": "RegEx permettant de spécifier les sorts à inclure dans un test de surcharge de magie sauvage. Cela suppose que les sorts accompagnés d'un (S), comme \"Missile magique (S)\", déclenchent une surcharge de magie sauvage. Tous les autres sorts qui n'ont pas de (S) à la fin sont ignorés.",
+	"WildMagicSurge5E.opt_rolltable_enabled_hint": "Activez la fonction de jet automatique sur une table de surcharge de la magie suavage ou invitez le joueur à effectuer un jet via la messagerie.",
 	"WildMagicSurge5E.opt_rolltable_name_hint": "La Table de jet de dés à utiliser lors des lancers pour l'effet de Surcharge. Saisissez le nom de la table de jet de dés.",
 	"WildMagicSurge5E.opt_custom_roll_result_name": "Le résultat cible du jet de dés",
 	"WildMagicSurge5E.opt_custom_roll_result_hint": "Quel est le résultat du lancer de dés que vous voulez vérifier. Pour les valeurs multiples, utilisez une liste de valeurs séparées par des virgules, comme '1, 4, 10'.",
@@ -75,5 +75,13 @@
 	"WildMagicSurge5E.opt_auto_d20_msg_enabled_name": "Afficher le message",
 	"WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "En option, vous pouvez activer l'affichage de ce message.",
 	"WildMagicSurge5E.opt_spell_regex_inverse_name": "Filtre inversé pour exclure les sorts",
-	"WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inversez le filtre des sorts. Au lieu de déclencher une surcharge de magie sauvage sur le motif, excluez plutôt les sorts qui y correspondent."
+	"WildMagicSurge5E.opt_spell_regex_inverse_hint": "Inversez le filtre des sorts. Au lieu de déclencher une surcharge de magie sauvage sur le motif, excluez plutôt les sorts qui y correspondent.",
+	"WildMagicSurge5E.settings_panel_spell_regex": "Inclure/Exclure le filtre des sorts",
+	"WildMagicSurge5E.settings_panel_standard_phb": "Variante standard du manuel des joueurs",
+	"WildMagicSurge5E.settings_panel_spell_level_dep": "Variante des jets dépendants du niveau du sort",
+	"WildMagicSurge5E.settings_panel_incremental": "Variante de contrôle incrémentiel",
+	"WildMagicSurge5E.settings_panel_chat_message": "Options de messagerie",
+	"WildMagicSurge5E.configure": "Configurer",
+	"WildMagicSurge5E.settings_panel_information": "Informations sur la surcharge de la magie sauvage 5e",
+	"WildMagicSurge5E.es_roll_on_table": "Lancer une table"
 }
