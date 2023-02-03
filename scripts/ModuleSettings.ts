@@ -123,6 +123,20 @@ class ModuleSettings {
       }
     );
 
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_RESOURCE_TYPE}`,
+      {
+        name: game.i18n.format("WildMagicSurge5E.opt_resource_type_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_resource_type_hint"),
+        scope: "world",
+        config: true,
+        choices: WMSCONST.RESOURCE_TYPE,
+        default: "None",
+        type: String,
+      }
+    );
+
     game.settings.registerMenu(
       `${WMSCONST.MODULE_ID}`,
       `SpellRegexSettingsPanel`,

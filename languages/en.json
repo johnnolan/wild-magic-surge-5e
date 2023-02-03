@@ -81,6 +81,9 @@
   "WildMagicSurge5E.opt_surge_type_name": "Wild Magic Surge Roll Feature",
   "WildMagicSurge5E.opt_surge_type_hint": "Choose how you want to play, either Standard, Spell level dependent rolls, Incremental Check or Incremental Check Chaotic. Incremental Check Chaotic: For the amazingly awesome chaotic players and GMs. Instead of checking every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`. Incremental Check: Every time a spell is cast, the threshold is increased by 1 for a Surge. Once triggered the threshold is reset back to 1. Spell level dependent rolls: Wild Magic Surge triggers dependent on spell level (Set options below). Descending Dice: On no Surge roll d20,d12,d10,d8,d6 then d4 until a surge, then reset back to d20.",
 
+  "WildMagicSurge5E.opt_resource_type_name": "Set Resource to use for tracking surge type",
+  "WildMagicSurge5E.opt_resource_type_hint": "Choose which resource on the Actor character sheet to use for tracking Incremental or Descending dice. You can then add this as a resource to track on your Token.",
+
   "WildMagicSurge5E.opt_enable_npcs_name": "Track Wild Magic Surge for NPCs",
   "WildMagicSurge5E.opt_enable_npcs_hint": "Enabling this setting will automate Wild Magic Surge for Non Player Characters as well as Player Characters.",
 
