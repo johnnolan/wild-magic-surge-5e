@@ -52,6 +52,14 @@ declare global {
     value: number;
     dieValue?: DieValue;
   };
+
+  type ResourceValue = {
+    label: string;
+    max: number;
+    value: number;
+    lr: boolean;
+    sr: boolean;
+  };
 }
 
 export {};
