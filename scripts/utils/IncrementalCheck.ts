@@ -1,21 +1,20 @@
 import { WMSCONST } from "../WMSCONST";
 import Chat from "../Chat";
 import CallHooks from "./CallHooks";
+import Resource from "./Resource";
 
-export default class IncrementalCheck {
+export default class IncrementalCheck extends Resource {
   static FLAG_NAME = "wild-magic-surge-5e";
   static FLAG_OPTION = "surge_increment_resource";
-  static defaultValue: FlagValue = {
+  static defaultValue: ResourceValue = {
+    label: "Surge Chance",
+    lr: false,
+    sr: false,
     max: 20,
-    min: 1,
     value: 1,
   };
 
-  static async Reset(actor: Actor) {
-    await this.SetupDefault(actor);
-  }
-
-  static async CallChanged(value: number) {
+  static async _callChanged(value: number) {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
     if (
@@ -33,45 +32,24 @@ export default class IncrementalCheck {
     }
   }
 
-  static async SetFlagResource(actor: Actor, value: FlagValue) {
-    await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, value);
-    await actor.update({
-      "data.resources.wmsurgeincrement": value,
-    });
-  }
-
-  static async SetupDefault(actor: Actor): Promise<boolean> {
-    await this.SetFlagResource(actor, this.defaultValue);
-    this.CallChanged(1);
-    return true;
-  }
-
   static async Check(
     actor: Actor,
     rollValue?: number,
     maxValue = 20
   ): Promise<boolean> {
-    if (!hasProperty(actor, `flags.${this.FLAG_NAME}`)) {
-      this.SetupDefault(actor);
-      return rollValue === 1;
-    }
+    const resourceValue: ResourceValue = await this.GetResource(actor);
 
-    const incrementLevel: FlagValue = await actor.getFlag(
-      this.FLAG_NAME,
-      this.FLAG_OPTION
-    );
-
-    if (!incrementLevel) {
-      return this.SetupDefault(actor);
-    }
-
-    if (rollValue !== undefined && rollValue <= incrementLevel.value) {
-      return this.SetupDefault(actor);
+    if (rollValue !== undefined && rollValue <= resourceValue.value) {
+      this._setupDefault(actor);
+      return true;
     } else {
-      if (incrementLevel.value !== maxValue) {
-        incrementLevel.value = incrementLevel.value + 1;
-        await this.SetFlagResource(actor, incrementLevel);
-        this.CallChanged(incrementLevel.value);
+      if (resourceValue.value !== maxValue) {
+        resourceValue.value = resourceValue.value + 1;
+        await this.SetResource(actor, {
+          max: maxValue,
+          value: resourceValue.value,
+        });
+        this._callChanged(resourceValue.value);
       }
     }
 

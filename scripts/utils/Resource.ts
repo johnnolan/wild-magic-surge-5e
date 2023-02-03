@@ -7,7 +7,7 @@ export default class Resource {
     label: "Surge Chance",
     lr: false,
     sr: false,
-    max: 6,
+    max: 20,
     value: 1,
   };
 
@@ -22,45 +22,65 @@ export default class Resource {
     );
 
     switch (resourceType) {
-      case WMSCONST.RESOURCE_TYPE.PRIMARY:
+      case "PRIMARY":
         return actor.system.resources.primary;
-      case WMSCONST.RESOURCE_TYPE.SECONDARY:
+      case "SECONDARY":
         return actor.system.resources.secondary;
-      case WMSCONST.RESOURCE_TYPE.TERTIARY:
+      case "TERTIARY":
         return actor.system.resources.tertiary;
       default:
         return this.defaultValue;
     }
   }
 
-  static async SetResource(actor: Actor, value: ResourceValue) {
+  static async SetResource(actor: Actor, resourceValues: ResourceValues) {
     const resourceType = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_RESOURCE_TYPE}`
     );
+    const resourceValue = this.defaultValue;
+    resourceValue.max = resourceValues.max;
+    resourceValue.value = resourceValues.value;
 
     switch (resourceType) {
-      case WMSCONST.RESOURCE_TYPE.NONE:
+      case "NONE":
         return;
-      case WMSCONST.RESOURCE_TYPE.PRIMARY:
+      case "PRIMARY":
         actor.update({
-          "system.resources.primary": value,
+          "system.resources.primary": resourceValue,
         });
         break;
-      case WMSCONST.RESOURCE_TYPE.SECONDARY:
+      case "SECONDARY":
         actor.update({
-          "system.resources.secondary": value,
+          "system.resources.secondary": resourceValue,
         });
         break;
-      case WMSCONST.RESOURCE_TYPE.TERTIARY:
+      case "TERTIARY":
         actor.update({
-          "system.resources.tertiary": value,
+          "system.resources.tertiary": resourceValue,
         });
         break;
     }
   }
 
   static async _setupDefault(actor: Actor): Promise<void> {
-    await this.SetResource(actor, this.defaultValue);
+    let maxValue = 20;
+    switch (
+      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
+    ) {
+      case `INCREMENTAL_CHECK_CHAOTIC`:
+        maxValue = 10;
+        break;
+      case `DIE_DESCENDING`:
+        maxValue = 6;
+        break;
+      default:
+        maxValue = 20;
+        break;
+    }
+    await this.SetResource(actor, {
+      max: maxValue,
+      value: 1,
+    });
   }
 }

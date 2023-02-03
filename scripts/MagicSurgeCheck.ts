@@ -66,15 +66,7 @@ class MagicSurgeCheck {
       game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
     ) {
       case WMSCONST.ROLL_CHECK_TYPE.DIE_DESCENDING:
-        {
-          const flagResource = await DieDescending.GetFlagResource(this._actor);
-
-          if (!flagResource) {
-            diceFormula = WMSCONST.DIE_VALUE.D20;
-          } else {
-            diceFormula = flagResource.dieValue;
-          }
-        }
+        diceFormula = await DieDescending.DieFormula(this._actor);
         break;
       case WMSCONST.ROLL_CHECK_TYPE.SPELL_LEVEL_DEPENDENT_ROLL:
         diceFormula = game.settings.get(
@@ -204,10 +196,7 @@ class MagicSurgeCheck {
           break;
         }
         case "DIE_DESCENDING": {
-          isSurge = await DieDescending.Check(
-            this._actor,
-            rollTotal.toString()
-          );
+          isSurge = await DieDescending.Check(this._actor, rollTotal);
           break;
         }
         default:

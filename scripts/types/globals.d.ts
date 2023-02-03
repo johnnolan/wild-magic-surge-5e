@@ -53,13 +53,16 @@ declare global {
     dieValue?: DieValue;
   };
 
-  type ResourceValue = {
-    label: string;
+  interface ResourceValues {
     max: number;
     value: number;
+  }
+
+  interface ResourceValue extends ResourceValues {
+    label: string;
     lr: boolean;
     sr: boolean;
-  };
+  }
 }
 
 export {};
