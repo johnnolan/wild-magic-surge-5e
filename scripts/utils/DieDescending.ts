@@ -3,7 +3,7 @@ import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 import Resource from "./Resource";
 
-// TODO: What about when set and the user does not want to show it? Should this be an option?
+// TODO: What about when set and the user does not want to show it? Should this be an option? Warn if this is setup?
 // TODO: Tidy up any types no longer used
 
 export default class DieDescending extends Resource {
