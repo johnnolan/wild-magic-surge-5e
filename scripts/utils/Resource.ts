@@ -2,7 +2,7 @@ import { WMSCONST } from "../WMSCONST";
 
 export default class Resource {
   static FLAG_NAME = "wild-magic-surge-5e";
-  static FLAG_OPTION = "surge_increment_resource";
+  static FLAG_OPTION = "resource";
   static defaultValue: ResourceValue = {
     label: "Surge Chance",
     lr: false,
@@ -22,6 +22,8 @@ export default class Resource {
     );
 
     switch (resourceType) {
+      case "NONE":
+        return <ResourceValue>actor.getFlag(this.FLAG_NAME, this.FLAG_OPTION);
       case "PRIMARY":
         return actor.system.resources.primary;
       case "SECONDARY":
@@ -44,7 +46,8 @@ export default class Resource {
 
     switch (resourceType) {
       case "NONE":
-        return;
+        actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, resourceValue);
+        break;
       case "PRIMARY":
         actor.update({
           "system.resources.primary": resourceValue,
