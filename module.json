@@ -26,7 +26,7 @@
 				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
 				"compatibility": {
 					"minimum": "2.0.2",
-					"verified": "2.0.3"
+					"verified": "2.1.4"
 				}
 			}
 		]
