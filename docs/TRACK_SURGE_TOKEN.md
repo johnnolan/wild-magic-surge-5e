@@ -19,6 +19,6 @@ Use one of the resource slots on the character sheet to track the progress of th
 [![Track incremental wild magic surge count on token](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/actor-sheet-resources.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/actor-sheet-resources.jpg)
 
 
-To view the count on your token, set Bar 1 or Bar 2 to either `resources.primary`, `resources.primary` or `resources.primary` depending on what you have set to track.
+To view the count on your token, set Bar 1 or Bar 2 to either `resources.primary`, `resources.secondary` or `resources.tertiary` depending on what you have set to track.
 
 [![Track incremental wild magic surge count on token](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/incremental-attribute.jpg)
