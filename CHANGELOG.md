@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.0.0 - 2023-02-05
+
+### Breaking Change
+
+Due to the latest dnd5e changes, tracking of surge increments for Incremental Check and Descending Dice has been reworked.
+
+In order to display the surge increment on your token you now have to use one of the three available Resources on the character sheet.
+
+Optionally you can select None and it will silently track the increments in the background.
+
+More information on how to set this up can be found in the readme [https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/TRACK_SURGE_TOKEN.md](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/TRACK_SURGE_TOKEN.md)
+
 ## 3.14.2 - 2023-01-11
 
 ### Translations
