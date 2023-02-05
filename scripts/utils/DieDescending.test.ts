@@ -1,7 +1,16 @@
-import { WMSCONST } from "../WMSCONST";
 import DieDescending from "./DieDescending";
 import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
+import Resource from "./Resource";
+
+const mockResourceSetResource = jest.spyOn(
+  Resource,
+  "SetResource"
+);
+
+beforeEach(() => {
+  mockResourceSetResource.mockClear();
+});
 
 describe("DieDescending", () => {
   beforeEach(() => {
@@ -26,13 +35,14 @@ describe("DieDescending", () => {
     });
 
     it("should return default", async () => {
-      const result = await DieDescending.GetFlagResource(newActor);
+      const result = await DieDescending.GetResource(newActor);
 
       expect(result).toStrictEqual({
         value: 1,
-        min: 1,
-        max: 6,
-        dieValue: WMSCONST.DIE_VALUE.D20,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6
       });
     });
   });
@@ -52,7 +62,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "12");
+      const result = await DieDescending.Check(newActor, 12);
 
       expect(result).toBeFalsy();
     });
@@ -69,7 +79,7 @@ describe("DieDescending", () => {
     });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(undefined, "1");
+      const result = await DieDescending.Check(undefined, 1);
 
       expect(result).toBeFalsy();
     });
@@ -92,7 +102,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -109,7 +119,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -126,7 +136,7 @@ describe("DieDescending", () => {
     });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(newActor, "10");
+      const result = await DieDescending.Check(newActor, 10);
 
       expect(result).toBeFalsy();
     });
@@ -140,7 +150,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -154,7 +164,7 @@ describe("DieDescending", () => {
     });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(actor, "4");
+      const result = await DieDescending.Check(actor, 4);
 
       expect(result).toBeFalsy();
     });
@@ -169,7 +179,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -190,14 +200,13 @@ describe("DieDescending", () => {
     });
 
     it("should change to D12", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d12", value: 2, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 5, max: 6 }
       );
     });
   });
@@ -216,14 +225,13 @@ describe("DieDescending", () => {
     });
 
     it("should change to D10", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d10", value: 3, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 6, max: 6 }
       );
     });
   });
@@ -239,14 +247,13 @@ describe("DieDescending", () => {
     });
 
     it("should change to D8", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d8", value: 4, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 6, max: 6 }
       );
     });
   });
@@ -262,14 +269,13 @@ describe("DieDescending", () => {
     });
 
     it("should change to D6", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d6", value: 5, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 6, max: 6 }
       );
     });
   });
@@ -285,14 +291,13 @@ describe("DieDescending", () => {
     });
 
     it("should change to D4", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d4", value: 6, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 6, max: 6 }
       );
     });
   });
@@ -308,14 +313,13 @@ describe("DieDescending", () => {
     });
 
     it("should stay as D4", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
 
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d4", value: 6, max: 6, min: 1 }
+      expect(mockResourceSetResource).toBeCalledWith(
+        newActor,
+        { value: 6, max: 6 }
       );
     });
   });
