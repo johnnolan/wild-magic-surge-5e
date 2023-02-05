@@ -1,65 +1,44 @@
 import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
+import Resource from "./Resource";
 
-export default class DieDescending {
-  static readonly defaultValue: FlagValue = {
-    value: 1,
-    min: 1,
+export default class DieDescending extends Resource {
+  static defaultValue: ResourceValue = {
+    label: "Surge Chance",
+    lr: false,
+    sr: false,
     max: 6,
-    dieValue: WMSCONST.DIE_VALUE.D20,
+    value: 1,
   };
 
-  static async Reset(actor: Actor) {
-    await this.SetupDefault(actor, "1");
-  }
-
-  private static async CallChanged(value: FlagValue): Promise<void> {
+  private static async _callChanged(value: ResourceValue): Promise<void> {
     CallHooks.Call("DieDescendingChanged", value);
   }
 
-  static async SetFlagResource(actor: Actor, value: FlagValue) {
-    await actor.setFlag(
-      WMSCONST.MODULE_FLAG_NAME,
-      WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-      value
-    );
-    await actor.update({
-      "data.resources.wmsurgedescending": value,
-    });
-  }
+  static async DieFormula(actor: Actor): Promise<DieValue> {
+    const resourceValue = await this.GetResource(actor);
 
-  static async GetFlagResource(actor: Actor): Promise<FlagValue | undefined> {
-    const flagResource = <FlagValue>(
-      await actor.getFlag(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION
-      )
-    );
-
-    if (
-      !flagResource?.dieValue ||
-      !flagResource?.max ||
-      !flagResource?.min ||
-      !flagResource?.value
-    ) {
-      await this.SetFlagResource(actor, this.defaultValue);
-      return this.defaultValue;
-    } else {
-      return flagResource;
+    switch (resourceValue.value) {
+      case 1:
+        return WMSCONST.DIE_VALUE.D20;
+      case 2:
+        return WMSCONST.DIE_VALUE.D12;
+      case 3:
+        return WMSCONST.DIE_VALUE.D10;
+      case 4:
+        return WMSCONST.DIE_VALUE.D8;
+      case 5:
+        return WMSCONST.DIE_VALUE.D6;
+      case 6:
+      case 7:
+        return WMSCONST.DIE_VALUE.D4;
+      default:
+        return WMSCONST.DIE_VALUE.D20;
     }
   }
 
-  private static async SetupDefault(
-    actor: Actor,
-    rollValue: string
-  ): Promise<boolean> {
-    await this.SetFlagResource(actor, this.defaultValue);
-    await this.CallChanged(this.defaultValue);
-    return rollValue === "1";
-  }
-
-  static async Check(actor: Actor, rollValue: string): Promise<boolean> {
+  static async Check(actor: Actor, rollValue: number): Promise<boolean> {
     if (!actor) {
       Logger.warn(
         `Missing actor for Die Descending Check`,
@@ -68,45 +47,39 @@ export default class DieDescending {
       return false;
     }
 
-    if (!hasProperty(actor, `flags.${WMSCONST.MODULE_FLAG_NAME}`)) {
-      return await this.SetupDefault(actor, rollValue);
-    }
+    const resourceValue = await this.GetResource(actor);
 
-    const flagValue = await this.GetFlagResource(actor);
-
-    if (!flagValue || !flagValue.dieValue) {
-      return await this.SetupDefault(actor, rollValue);
-    }
-
-    if (rollValue === "1") {
-      return await this.SetupDefault(actor, rollValue);
+    if (rollValue === 1) {
+      await this._setupDefault(actor);
+      return true;
     } else {
-      switch (flagValue.dieValue) {
-        case WMSCONST.DIE_VALUE.D20:
-          flagValue.value = 2;
-          flagValue.dieValue = WMSCONST.DIE_VALUE.D12;
+      switch (resourceValue.value) {
+        case 1:
+          resourceValue.value = 2;
           break;
-        case WMSCONST.DIE_VALUE.D12:
-          flagValue.value = 3;
-          flagValue.dieValue = WMSCONST.DIE_VALUE.D10;
+        case 2:
+          resourceValue.value = 3;
           break;
-        case WMSCONST.DIE_VALUE.D10:
-          flagValue.value = 4;
-          flagValue.dieValue = WMSCONST.DIE_VALUE.D8;
+        case 3:
+          resourceValue.value = 4;
           break;
-        case WMSCONST.DIE_VALUE.D8:
-          flagValue.value = 5;
-          flagValue.dieValue = WMSCONST.DIE_VALUE.D6;
+        case 4:
+          resourceValue.value = 5;
           break;
-        case WMSCONST.DIE_VALUE.D6:
-        case WMSCONST.DIE_VALUE.D4:
-          flagValue.value = 6;
-          flagValue.dieValue = WMSCONST.DIE_VALUE.D4;
+        case 5:
+          resourceValue.value = 6;
+          break;
+        case 6:
+        case 7:
+          resourceValue.value = 6;
           break;
       }
 
-      await this.SetFlagResource(actor, flagValue);
-      await this.CallChanged(flagValue);
+      await this.SetResource(actor, {
+        max: 6,
+        value: resourceValue.value,
+      });
+      await this._callChanged(resourceValue);
     }
 
     return false;

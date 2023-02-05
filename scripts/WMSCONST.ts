@@ -70,6 +70,14 @@ export const WMSCONST = {
     TidesOfChaosSurge: "TOCSURGE",
   },
 
+  RESOURCE_TYPE: {
+    NONE: "None",
+    PRIMARY: "Primary",
+    SECONDARY: "Secondary",
+    TERTIARY: "Tertiary",
+  },
+  OPT_RESOURCE_TYPE: "OPT_RESOURCE_TYPE",
+
   SURGE_TYPE: {
     DEFAULT: "Standard",
     SPELL_LEVEL_DEPENDENT_ROLL: "Spell Level Dependent Rolls",

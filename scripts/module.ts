@@ -6,7 +6,6 @@ import ModuleSettings from "./ModuleSettings";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
-import Flags from "./utils/Flags";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 
 Hooks.on("init", function () {
@@ -62,12 +61,6 @@ function Migrate() {
 
 Hooks.once("ready", async function () {
   Migrate();
-  if (game.user?.isGM) {
-    const actors = game.actors.filter((f) => f.type === "character");
-    for (const actor of actors) {
-      await Flags.Setup(actor);
-    }
-  }
 
   if (game.user?.isGM) {
     game.socket?.on(

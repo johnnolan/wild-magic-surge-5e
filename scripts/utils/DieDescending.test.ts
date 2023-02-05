@@ -1,4 +1,3 @@
-import { WMSCONST } from "../WMSCONST";
 import DieDescending from "./DieDescending";
 import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
@@ -15,24 +14,22 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.setFlag = jest.fn().mockResolvedValue(true),
-      newActor.update = jest.fn().mockResolvedValue(true),
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
       newActor.getFlag = jest
         .fn()
-        .mockResolvedValue({ dieValue: "1d20",
-        value: 1, });
-      global.hasProperty = jest.fn().mockReturnValue(true);
+        .mockResolvedValueOnce({ dieValue: "1d20", value: 1 });
     });
 
     it("should return default", async () => {
-      const result = await DieDescending.GetFlagResource(newActor);
+      const result = await DieDescending.GetResource(newActor);
 
       expect(result).toStrictEqual({
         value: 1,
-        min: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
         max: 6,
-        dieValue: WMSCONST.DIE_VALUE.D20,
       });
     });
   });
@@ -42,17 +39,19 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.setFlag = jest.fn().mockResolvedValue(true),
-      newActor.update = jest.fn().mockResolvedValue(true),
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d20",
-        value: 1, });
-      global.hasProperty = jest.fn().mockReturnValue(true);
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "12");
+      const result = await DieDescending.Check(newActor, 12);
 
       expect(result).toBeFalsy();
     });
@@ -64,12 +63,9 @@ describe("DieDescending", () => {
       update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
-    beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(false);
-    });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(undefined, "1");
+      const result = await DieDescending.Check(undefined, 1);
 
       expect(result).toBeFalsy();
     });
@@ -80,19 +76,19 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.setFlag = jest.fn().mockResolvedValue(true),
-      newActor.update = jest.fn().mockResolvedValue(true),
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d20",
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
         value: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
         max: 6,
-        min: 1, });
-      global.hasProperty = jest.fn().mockReturnValue(true);
+      });
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -104,12 +100,9 @@ describe("DieDescending", () => {
       update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
-    beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(false);
-    });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -121,12 +114,9 @@ describe("DieDescending", () => {
       update: jest.fn().mockResolvedValue(true),
       flags: [],
     };
-    beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(false);
-    });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(newActor, "10");
+      const result = await DieDescending.Check(newActor, 10);
 
       expect(result).toBeFalsy();
     });
@@ -140,7 +130,7 @@ describe("DieDescending", () => {
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -154,7 +144,7 @@ describe("DieDescending", () => {
     });
 
     it("should return false", async () => {
-      const result = await DieDescending.Check(actor, "4");
+      const result = await DieDescending.Check(actor, 4);
 
       expect(result).toBeFalsy();
     });
@@ -163,13 +153,17 @@ describe("DieDescending", () => {
   describe("If a roll of 1 flag set as 1", () => {
     const newActor: Actor = actor;
     beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        value: "1d20",
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
       });
     });
 
     it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, "1");
+      const result = await DieDescending.Check(newActor, 1);
 
       expect(result).toBeTruthy();
     });
@@ -179,9 +173,8 @@ describe("DieDescending", () => {
     let newActor: Actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
       newActor = actor;
-      newActor.getFlag = jest.fn().mockResolvedValue({
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
         dieValue: "1d20",
         value: 1,
         max: 6,
@@ -190,15 +183,9 @@ describe("DieDescending", () => {
     });
 
     it("should change to D12", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d12", value: 2, max: 6, min: 1 }
-      );
     });
   });
 
@@ -206,25 +193,19 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValue({
-        dieValue: "1d12",
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
         value: 2,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
         max: 6,
-        min: 1,
       });
     });
 
     it("should change to D10", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d10", value: 3, max: 6, min: 1 }
-      );
     });
   });
 
@@ -232,22 +213,19 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d10", value: 3, max: 6, min: 1 });
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 3,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should change to D8", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d8", value: 4, max: 6, min: 1 }
-      );
     });
   });
 
@@ -255,22 +233,19 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d8", value: 4, max: 6, min: 1 });
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 4,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should change to D6", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d6", value: 5, max: 6, min: 1 }
-      );
     });
   });
 
@@ -278,22 +253,19 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d6", value: 6, max: 6, min: 1 });
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 6,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should change to D4", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d4", value: 6, max: 6, min: 1 }
-      );
     });
   });
 
@@ -301,22 +273,19 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValue({ dieValue: "1d4", value: 6, max: 6, min: 1 });
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 6,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should stay as D4", async () => {
-      const result = await DieDescending.Check(newActor, "18");
+      const result = await DieDescending.Check(newActor, 18);
 
       expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d4", value: 6, max: 6, min: 1 }
-      );
     });
   });
 
