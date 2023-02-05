@@ -14,11 +14,11 @@ describe("DieDescending", () => {
     const newActor: Actor = actor;
 
     beforeEach(() => {
-      (newActor.setFlag = jest.fn().mockResolvedValue(true)),
-        (newActor.update = jest.fn().mockResolvedValue(true)),
-        (newActor.getFlag = jest
-          .fn()
-          .mockResolvedValueOnce({ dieValue: "1d20", value: 1 }));
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
+      newActor.getFlag = jest
+        .fn()
+        .mockResolvedValueOnce({ dieValue: "1d20", value: 1 });
     });
 
     it("should return default", async () => {
@@ -39,15 +39,15 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      (newActor.setFlag = jest.fn().mockResolvedValue(true)),
-        (newActor.update = jest.fn().mockResolvedValue(true)),
-        (newActor.getFlag = jest.fn().mockResolvedValueOnce({
-          value: 1,
-          label: "Surge Chance",
-          sr: false,
-          lr: false,
-          max: 6,
-        }));
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should return true", async () => {
@@ -76,15 +76,15 @@ describe("DieDescending", () => {
 
     beforeEach(() => {
       global.hasProperty = jest.fn().mockReturnValue(true);
-      (newActor.setFlag = jest.fn().mockResolvedValue(true)),
-        (newActor.update = jest.fn().mockResolvedValue(true)),
-        (newActor.getFlag = jest.fn().mockResolvedValueOnce({
-          value: 1,
-          label: "Surge Chance",
-          sr: false,
-          lr: false,
-          max: 6,
-        }));
+      newActor.setFlag = jest.fn().mockResolvedValue(true);
+      newActor.update = jest.fn().mockResolvedValue(true);
+      newActor.getFlag = jest.fn().mockResolvedValueOnce({
+        value: 1,
+        label: "Surge Chance",
+        sr: false,
+        lr: false,
+        max: 6,
+      });
     });
 
     it("should return true", async () => {

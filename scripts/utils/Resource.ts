@@ -77,9 +77,6 @@ export default class Resource {
       case `DIE_DESCENDING`:
         maxValue = 6;
         break;
-      default:
-        maxValue = 20;
-        break;
     }
     await this.SetResource(actor, {
       max: maxValue,
