@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.1 - 2023-02-05
+
+### Versioning
+
+- Set compatibility for dnd5e 2.1.4
+
 ## 4.0.0 - 2023-02-05
 
 ### Breaking Change
