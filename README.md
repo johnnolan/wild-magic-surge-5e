@@ -80,7 +80,15 @@ Choose between the following options to track your Wild Magic Surges
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
 
-[![Whisper chat results to GM](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
+[![Surge Mode Options](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
+
+### Automate Wild Magic Surge
+
+When unchecked, will ignore all other automation options in this module and only send a Chat Message to remind you to roll.
+
+[![Automate Wild Magic Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms.jpg)
+
+[![Automate Wild Magic Surge Message](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)
 
 ### Whisper chat results to GM
 

@@ -23,7 +23,7 @@
   "WildMagicSurge5E.opt_chat_msg_hint": "When automation is disabled, this message will show in chat to remind you when a spell is cast.",
 
   "WildMagicSurge5E.opt_auto_d20_name": "Automate Wild Magic Surge",
-  "WildMagicSurge5E.opt_auto_d20_hint": "When disabled, will ignore all other options and alert to the Chat Message. When enabled, will create a chat message to remind you to ask for a check.",
+  "WildMagicSurge5E.opt_auto_d20_hint": "When unchecked, will ignore all other automation options in this module and only send a Chat Message to remind you to roll.",
 
   "WildMagicSurge5E.opt_enable_spell_regex_name": "Enable Spell Filter",
   "WildMagicSurge5E.opt_enable_spell_regex_hint": "Specify certain spells that trigger a Wild Magic Surge Check.",
