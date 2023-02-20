@@ -60,6 +60,7 @@ describe("Chat", () => {
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
+          .mockResolvedValueOnce("PLAYER_TRIGGER")
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
         roll = {
