@@ -42,7 +42,11 @@ export default class Chat {
         chatData = await this.createRollChat(
           message,
           rollObject,
-          isWhisperRollResultGM
+          isWhisperRollResultGM,
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+          ) === "PLAYER_TRIGGER"
         );
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
@@ -98,7 +102,8 @@ export default class Chat {
   static async createRollChat(
     message: string,
     roll: Roll,
-    isWhisperGM: boolean
+    isWhisperGM: boolean,
+    isRollOnTableButton = false
   ): Promise<ChatMessage> {
     if (isWhisperGM) {
       return <ChatMessage>{
@@ -113,7 +118,9 @@ export default class Chat {
         flavor: `${wildMagicSurgeName} Check - ${message}`,
         type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         roll: roll,
-        rollMode: await game.settings.get("core", "rollMode"),
+        rollMode: isRollOnTableButton
+          ? "publicroll"
+          : await game.settings.get("core", "rollMode"),
       };
     }
   }
