@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.3 - 2023-02-20
+
+### Bug Fixes
+
+- If displaying Player Triggered Roll Table chat option, logic now shows the message as a public roll rather than using the selected GM roll type (private, blind rolls, etc). Message will still be hidden if you have specifically choosen to whisper rolls in settings.
+
 ## 4.0.2 - 2023-02-07
 
 ### Translations
