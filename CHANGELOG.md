@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.4 - 2023-02-21
+
+### Documentation
+
+- Update `Automate Wild Magic Surge` setting description
+
 ## 4.0.3 - 2023-02-20
 
 ### Bug Fixes
