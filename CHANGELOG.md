@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.6 - 2023-02-21
+
+### Features
+
+- Allow Path of Wild Magic Barbarian to use `Player Trigger Roll` option as well as `Auto Roll Table` option for surges.
+
+### Documentation
+
+- Add seperate documentation on how to setup the Path of Wild Magic Barbarian
+
 ## 4.0.4 - 2023-02-21
 
 ### Documentation
