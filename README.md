@@ -36,7 +36,7 @@ This module provide various bits of functionality to help automate the `Wild Mag
 
 [Setup, and display Incremental Check and Descending Dice Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
 
-- **Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything**: When you enter a Rage as a Wild Magic Barbarian, the module will auto roll on a table. **Must enable `Enable Auto Roll on a Wild Magic Surge Table` to work**. Specify a custom table (TCOE table not included).
+- **Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything**: When you enter a Rage as a Wild Magic Barbarian, the module will auto roll on a table. [For setup instructions see the documentation here](./docs/POWN_BARB.md).
 
 Additional options include
 
