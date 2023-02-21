@@ -26,6 +26,36 @@ class MagicSurgeCheck {
     this._tokenId = tokenId;
   }
 
+  async _rollPlayerTrigger(
+    rollTableName: string,
+    chatType: string,
+    roll: Roll | undefined = undefined
+  ) {
+    let chatSurgeMessage = "";
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+      ) === "PLAYER_TRIGGER"
+    ) {
+      chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
+          <button class="roll-table-wms">
+          ${game.i18n.format(
+            "WildMagicSurge5E.es_roll_on_table"
+          )} ${rollTableName}
+          </button>
+      </div>`;
+    }
+    Chat.Send(
+      chatType,
+      `${game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_AUTO_D20_MSG}`
+      )}${chatSurgeMessage}`,
+      roll
+    );
+  }
+
   /**
    * Entry point for Chat Message Hook. Check the message is valid and if so do Surge checks.
    * @param item - Item5e object
@@ -37,7 +67,22 @@ class MagicSurgeCheck {
     if (!itemSurgeDetails.valid) return;
 
     if (itemSurgeDetails.hasPathOfWildMagicFeat) {
-      RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic);
+      if (
+        game.settings.get(
+          `${WMSCONST.MODULE_ID}`,
+          `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+        ) === "PLAYER_TRIGGER"
+      ) {
+        this._rollPlayerTrigger(
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`
+          ),
+          WMSCONST.CHAT_TYPE.DEFAULT
+        );
+      } else {
+        RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic);
+      }
     } else {
       if (
         game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
@@ -249,30 +294,12 @@ class MagicSurgeCheck {
           `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
         )
       ) {
-        let chatSurgeMessage = "";
-        if (
+        this._rollPlayerTrigger(
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
-          ) === "PLAYER_TRIGGER"
-        ) {
-          chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
-          <button class="roll-table-wms">
-          ${game.i18n.format(
-            "WildMagicSurge5E.es_roll_on_table"
-          )} ${game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
             `${WMSCONST.OPT_ROLLTABLE_NAME}`
-          )}
-          </button>
-      </div>`;
-        }
-        Chat.Send(
+          ),
           WMSCONST.CHAT_TYPE.ROLL,
-          `${game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_AUTO_D20_MSG}`
-          )}${chatSurgeMessage}`,
           roll
         );
       }
@@ -341,30 +368,12 @@ class MagicSurgeCheck {
         `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`
       )
     ) {
-      let chatSurgeMessage = "";
-      if (
+      this._rollPlayerTrigger(
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
-        ) === "PLAYER_TRIGGER"
-      ) {
-        chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
-        <button class="roll-table-wms">
-        ${game.i18n.format(
-          "WildMagicSurge5E.es_roll_on_table"
-        )} ${game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
           `${WMSCONST.OPT_ROLLTABLE_NAME}`
-        )}
-        </button>
-    </div>`;
-      }
-      Chat.Send(
-        WMSCONST.CHAT_TYPE.DEFAULT,
-        `${game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_AUTO_D20_MSG}`
-        )}${chatSurgeMessage}`
+        ),
+        WMSCONST.CHAT_TYPE.DEFAULT
       );
     }
     TidesOfChaos.Check(this._actor);
