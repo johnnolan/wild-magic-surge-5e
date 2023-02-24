@@ -26,12 +26,22 @@ This module provide various bits of functionality to help automate the `Wild Mag
 
 [![Watch the overview and how to guide of Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/GCouaXNVrUY/0.jpg)](https://www.youtube.com/watch?v=GCouaXNVrUY)
 
+## Advanced Guides
+
+Below is a list of links to help you setup the module and your Player Characters.
+
+- [Prerequisites and setting up your Player Character to work with this module](./docs/SETTING_UP_PLAYER.md)
+- [Using built in Hooks](./docs/HOOKS.md)
+- [Track Incremental and Descending Die Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
+- [Setting up the Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything](./docs/POWN_BARB.md)
+- [Setting up Spell Level Dependent Rolls](./docs/SPELL_LEVEL_DEPENDENT.md)
+
 ## Top Level Features
 
 - **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
-- **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below). 
+- **Spell Level Dependent Rolls**: [Wild Magic Surge triggers dependent on spell level. Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
 - **Descending Dice**: On no Surge roll `d20`, `d12`, `d10`, `d8`, `d6` then `d4` until a surge, then reset back to `d20`.
 
 [Setup, and display Incremental Check and Descending Dice Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
@@ -61,14 +71,6 @@ Additional options include
   - Includes a set of example macros on how you can use this feature. Can be found in the compendium.
 - [Optionally send Wild Magic Surge event](#encounter-statistics-module-integration) to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
 
-## Contents
-
-Below is a list of links to help you setup the module and your Player Characters.
-
-* [Prerequisites and setting up your Player Character to work with this module](./docs/SETTING_UP_PLAYER.md)
-* [Using built in Hooks](./docs/HOOKS.md)
-* [Track Incremental and Descending Die Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
-
 ## Options
 
 ### Wild Magic Surge Mode
@@ -78,7 +80,7 @@ Choose between the following options to track your Wild Magic Surges
 - **Default**: On a roll of `1`, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
-- **Spell Level Dependent Rolls**: Wild Magic Surge triggers dependent on spell level (Set options below).
+- **Spell Level Dependent Rolls**: [Wild Magic Surge triggers dependent on spell level. Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
 
 [![Surge Mode Options](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
 
@@ -174,17 +176,7 @@ When Tides of Chaos is used, any 1st level spell and higher will trigger a surge
 
 ### Setup varying Wild Magic Surge triggers dependent on spell level
 
-Adds the ability to set your own roll evaluation dependent on the spell level used.
-
-For example
-
-- A lvl 1 spell only triggers wild magic if a 1 is rolled on the d20
-- A lvl 4 spell triggers if a 4 or lower is rolled
-- A lvl 9 triggers if a 9 or lower is rolled
-
-Special thanks to [Jackolas126](https://github.com/Jackolas126) for this suggestion.
-
-[![Setup varying Wild Magic Surge triggers dependent on spell level](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/varying-triggers.jpg)
+[Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
 
 ### Include/Exclude Spell Filter
 

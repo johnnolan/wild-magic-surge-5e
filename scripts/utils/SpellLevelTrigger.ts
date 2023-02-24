@@ -3,82 +3,149 @@ import { WMSCONST } from "../WMSCONST";
 
 export default class SpellLevelTrigger {
   static Check(result: number, spellLevel: string): boolean {
-    let spellString = "";
+    const spellString = this._spellString(spellLevel);
+
+    if (!spellString) return false;
+
+    const spellLevelFormula = this._rollFormula(spellString);
+    if (!spellLevelFormula) {
+      this._warnSetup({ spellString, spellLevel });
+      return false;
+    }
+
+    switch (spellLevelFormula?.equation) {
+      case "=":
+        return result === spellLevelFormula.target;
+      case ">":
+        return result > spellLevelFormula.target;
+      case "<":
+        return result < spellLevelFormula.target;
+      default:
+        this._warnSetup({ spellString, spellLevel });
+        return false;
+    }
+  }
+
+  static ParseRollFormula(spellLevel?: string): string {
+    const diceFormula = game.settings.get(
+      `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_TSL_DIE}`
+    );
+
+    if (!spellLevel) {
+      this._warnSetup({ spellLevel });
+      return diceFormula;
+    }
+
+    const spellString = this._spellString(spellLevel);
+
+    if (!spellString) {
+      this._warnSetup({ spellString, spellLevel });
+      return diceFormula;
+    }
+
+    const spellLevelFormula = this._rollFormula(spellString);
+    if (!spellLevelFormula) {
+      this._warnSetup({ spellString, spellLevel });
+      return diceFormula;
+    }
+    if (!spellLevelFormula.roll) {
+      spellLevelFormula.roll = diceFormula;
+    }
+
+    return spellLevelFormula.roll ?? "1D20";
+  }
+
+  static _rollFormula(spellString: string): SpellLevelFormula | undefined {
+    const spellFormula: SpellLevelFormula = {
+      equation: "",
+      target: 0,
+    };
+    const comparisonRegex = /^([=><]\s\d+)$/g;
+
+    if (!spellString.match(comparisonRegex)) {
+      const regex = /(.*)\s([=><]\s\d+)/;
+      const result = spellString.match(regex);
+      if (result && result.length > 1) {
+        spellFormula.roll = result[1];
+        spellString = result[2];
+      } else {
+        return undefined;
+      }
+    }
+
+    const splitLevel: Array<string> = spellString.split(" ");
+
+    spellFormula.equation = splitLevel[0];
+    spellFormula.target = parseInt(splitLevel[1]);
+
+    return spellFormula;
+  }
+
+  static _spellString(spellLevel: string) {
     switch (spellLevel) {
+      case WMSCONST.SPELL_LEVELS.Cantrip:
+        return <string>(
+          game.settings.get(
+            `${WMSCONST.MODULE_ID}`,
+            `${WMSCONST.OPT_TSL_CANTRIP}`
+          )
+        );
       case WMSCONST.SPELL_LEVELS.LEVEL_1:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL1}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_2:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL2}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_3:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL3}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_4:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL4}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_5:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL5}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_6:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL6}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_7:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL7}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_8:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL8}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_9:
-        spellString = <string>(
+        return <string>(
           game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL9}`)
         );
-        break;
       case WMSCONST.SPELL_LEVELS.LEVEL_10:
-        spellString = <string>(
+        return <string>(
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
             `${WMSCONST.OPT_TSL_LVL10}`
           )
         );
-        break;
     }
+  }
 
-    if (spellString === "") return false;
+  static _warnSetup(data: unknown) {
+    Logger.warn(
+      `Cannot parse custom Spell Level trigger setting.`,
+      "spellleveltrigger.Check",
+      data
+    );
 
-    const splitLevel: Array<string> = spellString.split(" ");
-
-    const rollResultTarget: number = parseInt(splitLevel[1]);
-    switch (splitLevel[0]) {
-      case "=":
-        return result === rollResultTarget;
-      case ">":
-        return result > rollResultTarget;
-      case "<":
-        return result < rollResultTarget;
-      default:
-        Logger.warn(
-          `Cannot parse custom Spell Level trigger setting.`,
-          "spellleveltrigger.Check",
-          { spellString, spellLevel }
-        );
-        return false;
-    }
+    ui.notifications?.warn(
+      `Wild Magic Surge 5e: Cannot parse custom Spell Level trigger setting. Check console for details.`
+    );
   }
 }

@@ -317,6 +317,13 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("1D20"),
           },
         };
+        
+      (global as any).ui = {
+        notifications: {
+          warn: jest.fn(),
+          info: jest.fn(),
+        }
+      };
 
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
