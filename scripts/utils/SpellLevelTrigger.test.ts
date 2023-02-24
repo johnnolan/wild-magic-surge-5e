@@ -12,8 +12,14 @@ describe("SpellLevelTrigger", () => {
       expect(result).toStrictEqual({
         roll: "2d20kh",
         equation: "=",
-        target: 1
+        target: 1,
       });
+    });
+
+    it("should return undefined", () => {
+      const result = SpellLevelTrigger._rollFormula("2d20kh a 1");
+
+      expect(result).toBeUndefined();
     });
 
     it("should just show the equation", () => {
@@ -21,14 +27,12 @@ describe("SpellLevelTrigger", () => {
 
       expect(result).toStrictEqual({
         equation: "=",
-        target: 1
+        target: 1,
       });
     });
   });
 
-
   describe("Sets a custom roll type of advantage d20", () => {
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -55,7 +59,6 @@ describe("SpellLevelTrigger", () => {
   });
 
   describe("Roll 4 < 5", () => {
-
     beforeEach(() => {
       jest.clearAllMocks();
 
@@ -300,7 +303,12 @@ describe("SpellLevelTrigger", () => {
       (global as any).game = {
         settings: {
           get: jest.fn().mockReturnValueOnce("11"),
-        },
+        }
+      };
+      (global as any).ui = {
+        notifications: {
+          warn: jest.fn(),
+        }
       };
     });
 
