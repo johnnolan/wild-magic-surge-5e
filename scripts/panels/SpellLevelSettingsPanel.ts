@@ -21,6 +21,7 @@ export class SpellLevelSettingsPanel extends FormApplication {
   getData() {
     const settings = [
       WMSCONST.OPT_TSL_DIE,
+      WMSCONST.OPT_TSL_CANTRIP,
       WMSCONST.OPT_TSL_LVL1,
       WMSCONST.OPT_TSL_LVL2,
       WMSCONST.OPT_TSL_LVL3,

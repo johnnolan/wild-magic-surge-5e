@@ -5,6 +5,55 @@ describe("SpellLevelTrigger", () => {
     callAll: jest.fn().mockReturnValue(true),
   };
 
+  describe("gets the correct roll formula", () => {
+    it("should create the correct roll value", () => {
+      const result = SpellLevelTrigger._rollFormula("2d20kh = 1");
+
+      expect(result).toStrictEqual({
+        roll: "2d20kh",
+        equation: "=",
+        target: 1
+      });
+    });
+
+    it("should just show the equation", () => {
+      const result = SpellLevelTrigger._rollFormula("= 1");
+
+      expect(result).toStrictEqual({
+        equation: "=",
+        target: 1
+      });
+    });
+  });
+
+
+  describe("Sets a custom roll type of advantage d20", () => {
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+
+      jest.resetAllMocks();
+      (global as any).game = {
+        settings: {
+          get: jest.fn().mockReturnValueOnce("2d20kh = 1"),
+        },
+        tables: [
+          {
+            name: "Wild Magic Surge",
+            roll: jest.fn().mockResolvedValue(true),
+            results: jest.fn().mockResolvedValue([]),
+          },
+        ],
+      };
+    });
+
+    it("should be true", () => {
+      const result = SpellLevelTrigger.Check(1, "Cantrip");
+
+      expect(result).toBeTruthy();
+    });
+  });
+
   describe("Roll 4 < 5", () => {
 
     beforeEach(() => {

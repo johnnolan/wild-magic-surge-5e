@@ -104,7 +104,9 @@ class MagicSurgeCheck {
    * @private
    * @returns RollResult
    */
-  async WildMagicSurgeRollCheck(): Promise<Roll | undefined> {
+  async WildMagicSurgeRollCheck(
+    spellLevel?: string
+  ): Promise<Roll | undefined> {
     let diceFormula: DieValue = undefined;
 
     switch (
@@ -114,10 +116,7 @@ class MagicSurgeCheck {
         diceFormula = await DieDescending.DieFormula(this._actor);
         break;
       case WMSCONST.ROLL_CHECK_TYPE.SPELL_LEVEL_DEPENDENT_ROLL:
-        diceFormula = game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_TSL_DIE}`
-        );
+        diceFormula = SpellLevelTrigger.ParseRollFormula(spellLevel);
         break;
       default:
         diceFormula = game.settings.get(
@@ -213,7 +212,7 @@ class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
-      roll = await this.WildMagicSurgeRollCheck();
+      roll = await this.WildMagicSurgeRollCheck(spellLevel);
       if (!roll) return;
       const rollTotal = roll.total ?? 1;
       switch (gameType) {

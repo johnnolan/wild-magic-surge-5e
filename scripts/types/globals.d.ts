@@ -24,6 +24,12 @@ declare global {
     isValid: boolean;
   };
 
+  type SpellLevelFormula = {
+    roll?: string;
+    equation: string;
+    target: number;
+  };
+
   type ModuleSetup = {
     actor: {
       name: string;

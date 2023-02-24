@@ -423,10 +423,22 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_TSL_CANTRIP}`,
+      {
+        name: game.i18n.format("WildMagicSurge5E.opt_tsl_cantrip_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_hint"),
+        scope: "world",
+        config: false,
+        default: "= 1",
+        type: String,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_TSL_LVL1}`,
       {
         name: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_name"),
-        hint: game.i18n.format("WildMagicSurge5E.opt_tsl_lvl1_hint"),
         scope: "world",
         config: false,
         default: "= 1",
