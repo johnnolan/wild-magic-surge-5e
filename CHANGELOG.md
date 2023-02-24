@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.1.0 - 2023-02-24
+
+### Features
+
+- [Enable custom rolls for Spell Level Dependent Rolls](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/SPELL_LEVEL_DEPENDENT.md)
+- Add custom Cantrip option for Spell Level Dependent Rolls
+
+### Documentation
+
+- Add Spell Level Dependent Rolls documentation
+- Tidied README
+
 ## 4.0.6 - 2023-02-21
 
 ### Features
