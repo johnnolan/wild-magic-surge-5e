@@ -45,12 +45,15 @@ export default class SpellLevelTrigger {
     }
 
     const spellLevelFormula = this._rollFormula(spellString);
-    if (!spellLevelFormula || !spellLevelFormula.roll) {
+    if (!spellLevelFormula) {
       this._warnSetup({ spellString, spellLevel });
       return diceFormula;
     }
+    if (!spellLevelFormula.roll) {
+      spellLevelFormula.roll = diceFormula;
+    }
 
-    return spellLevelFormula.roll;
+    return spellLevelFormula.roll ?? "1D20";
   }
 
   static _rollFormula(spellString: string): SpellLevelFormula | undefined {
@@ -144,6 +147,5 @@ export default class SpellLevelTrigger {
     ui.notifications?.warn(
       `Wild Magic Surge 5e: Cannot parse custom Spell Level trigger setting. Check console for details.`
     );
-
   }
 }

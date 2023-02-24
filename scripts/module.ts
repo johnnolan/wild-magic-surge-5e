@@ -20,7 +20,7 @@ Hooks.on("init", function () {
 
   Hooks.on(
     "renderChatMessage",
-    async function (app: FormApplication, html: object, data: object) {
+    async function (app: FormApplication, html: object) {
       const rollTableButton = html.find(".roll-table-wms");
       if (rollTableButton && rollTableButton.length > 0) {
         rollTableButton.unbind();
