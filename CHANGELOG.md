@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.2 - 2023-03-03
+
+### Versioning
+
+- Bump compatible system version
+
 ## 4.1.1 - 2023-03-03
 
 ### Translations
