@@ -18,15 +18,49 @@
 
 This module provide various bits of functionality to help automate the `Wild Magic Surge` feat within the `dnd5e` game system.
 
-## Quickstart guide to setting up Wild Magic Surge 5e on YouTube
+## Contents
+
+- [Quick start youtube videos](#quick-start-youtube-videos)
+  - [Setting up Wild Magic Surge 5e](#quickstart-guide-to-setting-up-wild-magic-surge-5e-on-youtube)
+  - [Advanced feature overview of Wild Magic Surge 5e](#advanced-feature-overview-of-wild-magic-surge-5e-on-youtube)
+- [Setup Guides](#setup-guides)
+  - [Prerequisites and setting up your Player Character to work with this module](./docs/SETTING_UP_PLAYER.md)
+  - [Track Incremental and Descending Die Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
+  - [Setting up the Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything](./docs/POWN_BARB.md)
+  - [Setting up Spell Level Dependent Rolls](./docs/SPELL_LEVEL_DEPENDENT.md)
+  - [Using built in Hooks](./docs/HOOKS.md)
+- [Top Level Features](#top-level-features)
+  - [Additional Features](#additional-features)
+- [Options](#options)
+  - [Wild Magic Surge Mode](#wild-magic-surge-mode)
+  - [Whisper chat results to GM](#whisper-chat-results-to-gm)
+  - [Automate Wild Magic Surge](#auto-roll-a-check-for-wild-magic-surge-instead-of-just-a-reminder-to-roll)
+  - [Send Incremental Check charge to chat](#send-incremental-check-charge-to-chat)
+  - [Enable Auto Roll on a Wild Magic Surge Table](#enable-auto-roll-on-a-wild-magic-surge-table)
+  - [Execute a GM Macro on a Wild Magic Surge](#execute-a-gm-macro-on-a-wild-magic-surge)
+  - [Tides of Chaos Recharge](#tides-of-chaos-recharge)
+  - [Auto surge on spell use after Tides of Chaos has been used](#auto-surge-on-spell-use-after-tides-of-chaos-has-been-used)
+  - [Dice Formula](#dice-formula)
+  - [Track Wild Magic Surge for NPCs](#track-wild-magic-surge-for-npcs)
+  - [Target result of the dice roll](#the-target-result-of-the-dice-roll)
+  - [Roll result boolean expression](#roll-result-boolean-expression)
+  - [Include/Exclude Spell Filter](#includeexclude-spell-filter)
+  - [Play animation on Surge](#play-animation-on-surge)
+  - [Roll for surge on Cantrips](#roll-for-surge-on-cantrips)
+  - [Encounter Statistics Module Integration](#encounter-statistics-module-integration)
+
+
+## Quick start youtube videos
+
+### Quickstart guide to setting up Wild Magic Surge 5e on YouTube
 
 [![Quickstart guide to setting up Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/OPlUbe1Wfbs/0.jpg)](https://www.youtube.com/watch?v=OPlUbe1Wfbs)
 
-## Advanced feature overview of Wild Magic Surge 5e on YouTube
+### Advanced feature overview of Wild Magic Surge 5e on YouTube
 
 [![Watch the overview and how to guide of Wild Magic Surge 5e on YouTube](https://img.youtube.com/vi/GCouaXNVrUY/0.jpg)](https://www.youtube.com/watch?v=GCouaXNVrUY)
 
-## Advanced Guides
+## Setup Guides
 
 Below is a list of links to help you setup the module and your Player Characters.
 
@@ -43,12 +77,9 @@ Below is a list of links to help you setup the module and your Player Characters
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: [Wild Magic Surge triggers dependent on spell level. Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
 - **Descending Dice**: On no Surge roll `d20`, `d12`, `d10`, `d8`, `d6` then `d4` until a surge, then reset back to `d20`.
-
-[Setup, and display Incremental Check and Descending Dice Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
-
 - **Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything**: When you enter a Rage as a Wild Magic Barbarian, the module will auto roll on a table. [For setup instructions see the documentation here](./docs/POWN_BARB.md).
 
-Additional options include
+### Additional Features
 
 - Prompt to roll on a `1st level` or higher spell slot used with the `Wild Magic Surge` feat
   - Optionally Surge Check on `Cantrips`, not just `1st Level` or higher
@@ -84,14 +115,6 @@ Choose between the following options to track your Wild Magic Surges
 
 [![Surge Mode Options](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/settings.jpg)
 
-### Automate Wild Magic Surge
-
-When unchecked, will ignore all other automation options in this module and only send a Chat Message to remind you to roll.
-
-[![Automate Wild Magic Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms.jpg)
-
-[![Automate Wild Magic Surge Message](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)
-
 ### Whisper chat results to GM
 
 Whisper all message to the GM in case you want to be nice and fudge the rolls.
@@ -107,6 +130,8 @@ Based on your settings, it will show a prompt that a `Wild Magic Surge` has occu
 This message is configurable should you wish.
 
 [![Auto Roll a check for Wild Magic Surge instead of just a reminder to roll](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-roll-check.jpg)
+
+[![Automate Wild Magic Surge Message](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/automate-wms-message.jpg)
 
 ### Send Incremental Check charge to chat
 
@@ -173,10 +198,6 @@ Based on the target dice roll, should the result be less/greater than or equal t
 When Tides of Chaos is used, any 1st level spell and higher will trigger a surge and restore your Tides of Chaos.
 
 [![Auto surge on spell use after Tides of Chaos has been used](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/auto-surge-toc.jpg)
-
-### Setup varying Wild Magic Surge triggers dependent on spell level
-
-[Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
 
 ### Include/Exclude Spell Filter
 
