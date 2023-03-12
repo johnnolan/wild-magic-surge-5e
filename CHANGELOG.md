@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.2.0 - 2023-03-12
+
+### Features
+
+- Add support for JB2A Patreon module animations.
+- Previously only work with the free version. If you have the Patreon version, it will now use animations from that module.
+- Note: You can create your own animations on a surge by following the guide here https://github.com/johnnolan/wild-magic-surge-5e#execute-a-gm-macro-on-a-wild-magic-surge and using the example script.
+
 ## 4.1.2 - 2023-03-03
 
 ### Versioning
