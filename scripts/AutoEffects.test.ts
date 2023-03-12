@@ -53,7 +53,7 @@ describe("AutoEffects", () => {
       });
 
       it("It returns true", async () => {
-        const result = await AutoEffects.ModuleActive("sequencer");
+        const result = await AutoEffects._isModuleActive("sequencer");
 
         expect(result).toBeTruthy();
       });
@@ -71,7 +71,7 @@ describe("AutoEffects", () => {
       });
 
       it("It returns true", async () => {
-        const result = await AutoEffects.ModuleActive("sequencer");
+        const result = await AutoEffects._isModuleActive("sequencer");
 
         expect(result).toBeFalsy();
       });
@@ -102,7 +102,7 @@ describe("AutoEffects", () => {
         },
       };
 
-      AutoEffects.ModuleActive = jest.fn().mockResolvedValue(true);
+      AutoEffects._isModuleActive = jest.fn().mockResolvedValue(true);
     });
 
     describe("Given Sequencer and JB2A are installed and active", () => {
@@ -140,7 +140,7 @@ describe("AutoEffects", () => {
           },
         };
 
-        AutoEffects.ModuleActive = jest.fn().mockReturnValue(false);
+        AutoEffects._isModuleActive = jest.fn().mockReturnValue(false);
       });
 
       it("It returns the just the content", async () => {
@@ -179,7 +179,7 @@ describe("AutoEffects", () => {
           },
         };
 
-        AutoEffects.ModuleActive = jest
+        AutoEffects._isModuleActive = jest
           .fn()
           .mockReturnValueOnce(true)
           .mockReturnValueOnce(false);
