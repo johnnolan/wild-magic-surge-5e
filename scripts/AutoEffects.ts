@@ -14,16 +14,24 @@ class AutoEffects {
     return game.modules.get(moduleName)?.active;
   }
 
-  static _getJB2AFilePath(): string {
+  static _getJB2AFilePath(): string[] {
     if (this._isModuleActive("jb2a_patreon")) {
-      return "modules/jb2a_patreon/Library/Generic";
+      return [
+        "modules/jb2a_patreon/Library/Generic/Energy/SwirlingSparkles_01_Regular_OrangePurple_400x400.webm",
+        "modules/jb2a_patreon/Library/Generic/Token_Border/TokenBorderCircleSpin_04_Regular_Blue_400x400.webm",
+        "modules/jb2a_patreon/Library/Generic/Marker/EnergyStrands_01_Dark_Green_600x600.webm",
+      ];
     }
 
     if (this._isModuleActive("JB2A_DnD5e")) {
-      return "modules/JB2A_DnD5e/Library/Generic";
+      return [
+        "modules/JB2A_DnD5e/Library/Generic/Nature/SwirlingLeavesComplete01_02_Regular_Green_400x400.webm",
+        "modules/JB2A_DnD5e/Library/Generic/Token_Border/TokenBorderCircleSpin_04_Regular_Blue_400x400.webm",
+        "modules/JB2A_DnD5e/Library/Generic/Particles/ParticlesOutward02_03_Regular_GreenYellow_400x400.webm",
+      ];
     }
 
-    return "";
+    return [];
   }
 
   /**
@@ -61,23 +69,19 @@ class AutoEffects {
     // @ts-expect-error TS(2304): Cannot find name 'Sequence'.
     const wildMagicSurgeEffect = new Sequence(WMSCONST.MODULE_ID)
       .effect()
-      .file(
-        `${animationPath}/Energy/SwirlingSparkles_01_Regular_OrangePurple_400x400.webm`
-      )
+      .file(`${animationPath[0]}`)
       .duration(10000)
       .fadeIn(500)
       .fadeOut(1000)
       .atLocation(tokenId)
       .effect()
-      .file(
-        `${animationPath}/Token_Border/TokenBorderCircleSpin_04_Regular_Blue_400x400.webm`
-      )
+      .file(`${animationPath[1]}`)
       .duration(10000)
       .fadeIn(500)
       .fadeOut(1000)
       .atLocation(tokenId)
       .effect()
-      .file(`${animationPath}/Marker/EnergyStrands_01_Dark_Green_600x600.webm`)
+      .file(`${animationPath[2]}`)
       .duration(10000)
       .fadeIn(500)
       .fadeOut(1000)
