@@ -82,20 +82,18 @@ Hooks.once("ready", async function () {
   Hooks.on("dnd5e.useItem", (item: Item) => {
     if (item.actor) {
       const tokenId = getTokenIdByActorId(item?.actor.id);
-      if (tokenId) {
-        if (game.user?.isGM) {
-          const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
-          magicSurgeCheck.CheckItem(item);
-        } else {
-          game.socket?.emit("module.wild-magic-surge-5e", {
-            event: "SurgeCheck",
-            data: {
-              actorId: item?.actor.id,
-              tokenId: tokenId,
-              item: item,
-            },
-          });
-        }
+      if (game.user?.isGM) {
+        const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
+        magicSurgeCheck.CheckItem(item);
+      } else {
+        game.socket?.emit("module.wild-magic-surge-5e", {
+          event: "SurgeCheck",
+          data: {
+            actorId: item?.actor.id,
+            tokenId: tokenId,
+            item: item,
+          },
+        });
       }
     }
   });
