@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.1 - 2023-03-26
+
+### Bug Fixes
+
+- Allows tracking of WMS when no token is present on canvas
+
 ## 4.2.0 - 2023-03-12
 
 ### Features
