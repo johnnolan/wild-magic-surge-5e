@@ -38,6 +38,7 @@ This module provide various bits of functionality to help automate the `Wild Mag
   - [Send Incremental Check charge to chat](#send-incremental-check-charge-to-chat)
   - [Enable Auto Roll on a Wild Magic Surge Table](#enable-auto-roll-on-a-wild-magic-surge-table)
   - [Execute a GM Macro on a Wild Magic Surge](#execute-a-gm-macro-on-a-wild-magic-surge)
+  - [Trigger a Wild Magic Surge from your own Macro](#trigger-a-wild-magic-surge-from-your-own-macro)
   - [Tides of Chaos Recharge](#tides-of-chaos-recharge)
   - [Auto surge on spell use after Tides of Chaos has been used](#auto-surge-on-spell-use-after-tides-of-chaos-has-been-used)
   - [Dice Formula](#dice-formula)
@@ -160,6 +161,26 @@ When a surge happens you can specify your own macro to run. Note this will only 
 Included is a compendium containing examples and the javascript for them are in [/scripts/macros](scripts/macros/).
 
 [![Execute a GM Macro on a Wild Magic Surge](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/macro-surge.jpg)
+
+### Trigger a Wild Magic Surge from your own Macro
+
+If you want to trigger a Wild Magic Surge from your own Macro, you can call the built in hook `wild-magic-surge-5e.manualTriggerWMS` and pass the actor with it.
+
+This feature will allow you to customise to your own preferences, what triggers the Wild Magic Surge.
+
+#### Example macro code
+
+- Select the token on the canvas you want to run the Wild Magic Surge for
+- Click your macro with the token still selected
+- The module will trigger a Wild Magic Surge on that actor
+
+``` js
+
+Hooks.callAll(`wild-magic-surge-5e.manualTriggerWMS`, actor);
+
+```
+
+Doing this will automatically trigger the Wild Magic Surge logic you have set up.
 
 ### Tides of Chaos Recharge
 
