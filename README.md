@@ -172,11 +172,22 @@ This feature will allow you to customise to your own preferences, what triggers 
 
 - Select the token on the canvas you want to run the Wild Magic Surge for
 - Click your macro with the token still selected
-- The module will trigger a Wild Magic Surge on that actor
+- The module will trigger a Wild Magic Surge on that actor if a roll on 1d20 is less than 3
 
 ``` js
 
-Hooks.callAll(`wild-magic-surge-5e.manualTriggerWMS`, actor);
+// Create new roll object
+let roll = new Roll("1d20");
+
+// Roll the dice
+await roll.evaluate({async: false});
+
+// If total is less than 3 (i.e. less than 10%)
+if (roll.total < 3) {
+  // Trigger a wild magic surge passing the selected actor and roll
+  Hooks.callAll(`wild-magic-surge-5e.manualTriggerWMS`, actor, roll);
+}
+
 
 ```
 

@@ -20,12 +20,14 @@ Hooks.on("init", function () {
 
   Hooks.on(
     "wild-magic-surge-5e.manualTriggerWMS",
-    async function (actor: Actor) {
-      const wildMagicSurgeCheck = new MagicSurgeCheck(
-        actor,
-        getTokenIdByActorId(actor.id)
-      );
-      wildMagicSurgeCheck.SurgeWildMagic(true, { result: 1 });
+    async function (actor: Actor, roll: Roll) {
+      if (roll && actor) {
+        const wildMagicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          getTokenIdByActorId(actor.id)
+        );
+        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+      }
     }
   );
 
