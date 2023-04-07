@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.3.0 - 2023-04-07
+
+### Features
+
+- Allow users to trigger WMS through macros
+
+See readme for more details here on how to set up [https://github.com/johnnolan/wild-magic-surge-5e#trigger-a-wild-magic-surge-from-your-own-macro](https://github.com/johnnolan/wild-magic-surge-5e#trigger-a-wild-magic-surge-from-your-own-macro)
+
 ## 4.2.1 - 2023-03-26
 
 ### Bug Fixes
