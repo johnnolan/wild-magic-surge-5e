@@ -19,6 +19,19 @@ Hooks.on("init", function () {
   );
 
   Hooks.on(
+    "wild-magic-surge-5e.manualTriggerWMS",
+    async function (actor: Actor, roll: Roll) {
+      if (roll && actor) {
+        const wildMagicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          getTokenIdByActorId(actor.id)
+        );
+        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+      }
+    }
+  );
+
+  Hooks.on(
     "renderChatMessage",
     async function (app: FormApplication, html: object) {
       const rollTableButton = html.find(".roll-table-wms");
@@ -34,7 +47,7 @@ Hooks.on("init", function () {
   );
 });
 
-function getTokenIdByActorId(actorId: string) {
+function getTokenIdByActorId(actorId: string): string | undefined {
   return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
 }
 
