@@ -7,8 +7,6 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/johnnolan/wild-magic-surge-5e/main_workflow.yml?branch=main)
 [![license](https://img.shields.io/badge/license-MIT-blue)](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/LICENSE)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=johnnolan_wild-magic-surge-5e&metric=coverage)](https://sonarcloud.io/summary/new_code?id=johnnolan_wild-magic-surge-5e)
 
 [![Translation status](https://weblate.foundryvtt-hub.com/widgets/wild-magic-surge-5e/-/main/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/wild-magic-surge-5e/)
 
