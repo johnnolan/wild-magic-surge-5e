@@ -38,12 +38,25 @@ export default class SpellParser {
 
   /**
    * Gets the Foundry Spell Level Name from the Item
-   * @private
    * @param item - Item5e object
    * @return {Promise<string>}
    */
-  private static SpellDetails(item: Item): string | undefined {
+  static SpellDetails(item: Item): string | undefined {
+    const minimumSpellLevelTrigger = parseInt(
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`
+      )
+    );
+
     if (item?.system?.level === undefined) return;
+
+    if (
+      minimumSpellLevelTrigger > 0 &&
+      item.system.level < minimumSpellLevelTrigger
+    )
+      return undefined;
+
     switch (item.system.level) {
       case 0: {
         if (

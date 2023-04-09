@@ -595,6 +595,23 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_minimum_spell_level_trigger_name"
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_minimum_spell_level_trigger_hint"
+        ),
+        scope: "world",
+        config: true,
+        default: "0",
+        type: String,
+      }
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
       {
         name: game.i18n.format(
