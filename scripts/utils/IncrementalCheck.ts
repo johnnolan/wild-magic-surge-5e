@@ -39,7 +39,10 @@ export default class IncrementalCheck extends Resource {
   ): Promise<boolean> {
     const resourceValue: ResourceValue = await this.GetResource(actor);
 
-    if (rollValue !== undefined && rollValue <= resourceValue.value) {
+    if (
+      !resourceValue ||
+      (rollValue !== undefined && rollValue <= resourceValue.value)
+    ) {
       this._setupDefault(actor);
       return true;
     } else {

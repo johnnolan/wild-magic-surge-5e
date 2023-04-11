@@ -96,6 +96,9 @@
 
   "WildMagicSurge5E.opt_cantrip_surge_enabled_name": "Roll for surge on Cantrips",
   "WildMagicSurge5E.opt_cantrip_surge_enabled_hint": "Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.",
+  
+  "WildMagicSurge5E.opt_minimum_spell_level_trigger_name": "Set minimum Spell Level to trigger Surge",
+  "WildMagicSurge5E.opt_minimum_spell_level_trigger_hint": "Set a custom minimum level to trigger a Wild Magic Surge. For example 3 would only trigger on spells cast at level 3 or higher.",
 
   "WildMagicSurge5E.opt_triggermacro_enabled_name": "Execute macro on a Surge",
   "WildMagicSurge5E.opt_triggermacro_enabled_hint": "Execute a macro when a Wild Magic Surge happens.",

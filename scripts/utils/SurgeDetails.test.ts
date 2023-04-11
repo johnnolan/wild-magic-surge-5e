@@ -16,6 +16,10 @@ const mockSpellParserIsSorcererSpell = jest.spyOn(
   SpellParser,
   "IsSorcererSpell"
 );
+const mockSpellParserSpellDetails = jest.spyOn(
+  SpellParser,
+  "SpellDetails"
+);
 const mockSpellParserIsNPC = jest.spyOn(SpellParser, "IsNPC");
 const mockSpellParserIsWildMagicFeat = jest.spyOn(
   SpellParser,
@@ -96,12 +100,12 @@ describe("SurgeDetails", () => {
       beforeEach(() => {
         (global as any).game = {
           settings: {
-            get: jest.fn().mockReturnValueOnce("Wild Magic Surge")
-            .mockReturnValue(true),
+            get: jest.fn().mockReturnValueOnce("Wild Magic Surge").mockReturnValue(true),
           },
         };
 
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
+        mockSpellParserSpellDetails.mockReturnValue("1st Level");
       });
       it("should be true", () => {
         const surgeChatMessageDetails = new SurgeDetails(actor, firstLevel);

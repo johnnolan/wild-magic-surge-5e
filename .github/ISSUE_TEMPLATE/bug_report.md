@@ -10,9 +10,8 @@ assignees: johnnolan
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**What version of FoundryVTT are you using?**
-[] 0.7.x
-[] 0.8.x
+**Actor Export**
+To help with debugging, please export your actor data and attach the file to this ticket.
 
 **To Reproduce**
 Steps to reproduce the behavior:

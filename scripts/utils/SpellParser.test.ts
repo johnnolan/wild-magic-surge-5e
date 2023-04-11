@@ -170,13 +170,51 @@ describe("SpellParser", () => {
   });
 
   describe("SpellDetails", () => {
+    describe("Is set to level 3 or higher", () => {
+      describe("it is a level 2 spell", () => {
+        beforeEach(() => {
+          jest.clearAllMocks();
+          jest.resetAllMocks();
+          (global as any).game = {
+            settings: {
+              get: jest.fn().mockReturnValueOnce("3").mockReturnValueOnce(false),
+            },
+          };
+        });
+
+        it("should be undefined", async () => {
+          const result = SpellParser.SpellDetails(firstLevel);
+  
+          expect(result).toBeUndefined();
+        });
+      });
+
+      describe("it is a level 3 spell", () => {
+        beforeEach(() => {
+          jest.clearAllMocks();
+          jest.resetAllMocks();
+          (global as any).game = {
+            settings: {
+              get: jest.fn().mockReturnValueOnce(false),
+            },
+          };
+        });
+
+        it("should be 3rd Level", async () => {
+          const result = SpellParser.SpellDetails(thirdLevel);
+  
+          expect(result).toBe("3rd Level");
+        });
+      });
+    });
+
     describe("Is a Cantrip and cantrip surge is disabled", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
         (global as any).game = {
           settings: {
-            get: jest.fn().mockReturnValueOnce(false),
+            get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(false),
           },
         };
       });
@@ -194,7 +232,7 @@ describe("SpellParser", () => {
         jest.resetAllMocks();
         (global as any).game = {
           settings: {
-            get: jest.fn().mockReturnValueOnce(true),
+            get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(true),
           },
         };
       });
@@ -212,7 +250,7 @@ describe("SpellParser", () => {
         jest.resetAllMocks();
         (global as any).game = {
           settings: {
-            get: jest.fn().mockReturnValueOnce(false),
+            get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(false),
           },
         };
       });
