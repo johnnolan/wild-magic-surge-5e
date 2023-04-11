@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.4.1 - 2023-04-11
+
+### Features
+
+- Set a custom minimum level to trigger a Wild Magic Surge. For example 3 would only trigger on spells cast at level 3 or higher.
+
+### Bug Fixes
+
+- Fix issue with resource not being set on incremental checks
+
 ## 4.3.0 - 2023-04-07
 
 ### Features
