@@ -86,5 +86,6 @@
 	"WildMagicSurge5E.es_roll_on_table": "Lancer une table",
 	"WildMagicSurge5E.opt_resource_type_name": "Définir la ressource à utiliser pour le suivi de type surcharge",
 	"WildMagicSurge5E.opt_resource_type_hint": "Choisissez la ressource sur la feuille de personnage de l'acteur à utiliser pour suivre les dés incrémentiels ou décroissants. Vous pouvez ensuite l'ajouter en tant que ressource à suivre sur votre jeton. Choisir Aucun, masque le suivi de l'acteur.",
-	"WildMagicSurge5E.opt_tsl_cantrip_name": "Tour de magie"
+	"WildMagicSurge5E.opt_tsl_cantrip_name": "Tour de magie",
+	"WildMagicSurge5E.opt_minimum_spell_level_trigger_hint": "Définissez un niveau minimum personnalisé pour déclencher une vague de magie sauvage. Par exemple, le niveau 3 ne se déclencherait que pour les sorts lancés au niveau 3 ou plus."
 }
