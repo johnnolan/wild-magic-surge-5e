@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.5.1 - 2023-06-11
+
+### Feature
+
+- Update to Foundry V11
+
 ## 4.4.2 - 2023-04-17
 
 ### Translations
