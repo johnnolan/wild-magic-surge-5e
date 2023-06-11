@@ -7,8 +7,8 @@
 	"manifestPlusVersion": "1.0.0",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "10.291",
-		"maximum": "10"
+		"verified": "11.301",
+		"maximum": "11"
 	},
 	"authors": [
 		{
@@ -26,7 +26,7 @@
 				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
 				"compatibility": {
 					"minimum": "2.0.2",
-					"verified": "2.1.5"
+					"verified": "2.2.1"
 				}
 			}
 		]
