@@ -20,14 +20,14 @@ export default class IncrementalCheck extends Resource {
     if (
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`
+        `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`,
       )
     ) {
       Chat.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
-          "WildMagicSurge5E.opt_incremental_check_to_chat_text_name"
-        )} ${value}`
+          "WildMagicSurge5E.opt_incremental_check_to_chat_text_name",
+        )} ${value}`,
       );
     }
   }
@@ -35,7 +35,7 @@ export default class IncrementalCheck extends Resource {
   static async Check(
     actor: Actor,
     rollValue?: number,
-    maxValue = 20
+    maxValue = 20,
   ): Promise<boolean> {
     const resourceValue: ResourceValue = await this.GetResource(actor);
 

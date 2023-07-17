@@ -15,7 +15,7 @@ Hooks.on("init", function () {
 
   Logger.log(
     `Settings for ${WMSCONST.MODULE_NAME} registered successfully.`,
-    "module.init"
+    "module.init",
   );
 
   Hooks.on(
@@ -24,11 +24,11 @@ Hooks.on("init", function () {
       if (roll && actor) {
         const wildMagicSurgeCheck = new MagicSurgeCheck(
           actor,
-          getTokenIdByActorId(actor.id)
+          getTokenIdByActorId(actor.id),
         );
         wildMagicSurgeCheck.SurgeWildMagic(true, roll);
       }
-    }
+    },
   );
 
   Hooks.on(
@@ -43,7 +43,7 @@ Hooks.on("init", function () {
           RollTableMagicSurge.RollOnTable();
         });
       }
-    }
+    },
   );
 });
 
@@ -54,20 +54,20 @@ function getTokenIdByActorId(actorId: string): string | undefined {
 function Migrate() {
   const rollTableType = game.settings.get(
     `${WMSCONST.MODULE_ID}`,
-    `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
+    `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
   );
   if (rollTableType === "true") {
     game.settings.set(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-      WMSCONST.ROLLTABLE_TYPE.AUTO
+      WMSCONST.ROLLTABLE_TYPE.AUTO,
     );
   }
   if (rollTableType === "false") {
     game.settings.set(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-      WMSCONST.ROLLTABLE_TYPE.DEFAULT
+      WMSCONST.ROLLTABLE_TYPE.DEFAULT,
     );
   }
 }
@@ -84,11 +84,11 @@ Hooks.once("ready", async function () {
           const actor = game.actors.get(surgeCheckData.actorId);
           const magicSurgeCheck = new MagicSurgeCheck(
             actor,
-            surgeCheckData.tokenId
+            surgeCheckData.tokenId,
           );
           magicSurgeCheck.CheckItem(surgeCheckData.item);
         }
-      }
+      },
     );
   }
 
@@ -116,7 +116,7 @@ Hooks.once("ready", async function () {
       if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_SURGE_TYPE}`
+          `${WMSCONST.OPT_SURGE_TYPE}`,
         ) === `INCREMENTAL_CHECK_CHAOTIC`
       ) {
         if (!roundData.combatant?.actor) {
@@ -135,30 +135,30 @@ Hooks.once("ready", async function () {
         return false;
       }
       await IncrementalCheck.Reset(actor);
-    }
+    },
   );
 
   if (
     game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`
+      `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
     )
   ) {
     Hooks.on(
       "renderActorSheet",
       async function (app: FormApplication, html: object, data: object) {
         const openButton = $(
-          `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`
+          `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`,
         );
         openButton.on("click", () => {
           new ActorHelperPanel(app.document, { actor: data.actor }).render(
-            true
+            true,
           );
         });
         html.closest(".app").find(".open-actor-wms").remove();
         const titleElement = html.closest(".app").find(".window-title");
         if (!app._minimized) openButton.insertAfter(titleElement);
-      }
+      },
     );
   }
 });

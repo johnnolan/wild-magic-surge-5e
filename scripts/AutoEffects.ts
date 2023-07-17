@@ -44,13 +44,13 @@ class AutoEffects {
     if (
       !game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_EFFECTS_ENABLED}`
+        `${WMSCONST.OPT_EFFECTS_ENABLED}`,
       )
     )
       return;
     if (!this._isModuleActive("sequencer")) {
       ui.notifications?.info(
-        `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`
+        `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`,
       );
       return;
     }
@@ -59,7 +59,7 @@ class AutoEffects {
       !this._isModuleActive("jb2a_patreon")
     ) {
       ui.notifications?.info(
-        `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the JB2A module is not active/installed. Disable the play animation in settings or install and enable JB2A.`
+        `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the JB2A module is not active/installed. Disable the play animation in settings or install and enable JB2A.`,
       );
       return;
     }

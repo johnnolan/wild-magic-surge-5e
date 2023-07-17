@@ -29,7 +29,7 @@ export default class SpellLevelTrigger {
   static ParseRollFormula(spellLevel?: string): string {
     const diceFormula = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TSL_DIE}`
+      `${WMSCONST.OPT_TSL_DIE}`,
     );
 
     if (!spellLevel) {
@@ -88,7 +88,7 @@ export default class SpellLevelTrigger {
         return <string>(
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_TSL_CANTRIP}`
+            `${WMSCONST.OPT_TSL_CANTRIP}`,
           )
         );
       case WMSCONST.SPELL_LEVELS.LEVEL_1:
@@ -131,7 +131,7 @@ export default class SpellLevelTrigger {
         return <string>(
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_TSL_LVL10}`
+            `${WMSCONST.OPT_TSL_LVL10}`,
           )
         );
     }
@@ -141,11 +141,11 @@ export default class SpellLevelTrigger {
     Logger.warn(
       `Cannot parse custom Spell Level trigger setting.`,
       "spellleveltrigger.Check",
-      data
+      data,
     );
 
     ui.notifications?.warn(
-      `Wild Magic Surge 5e: Cannot parse custom Spell Level trigger setting. Check console for details.`
+      `Wild Magic Surge 5e: Cannot parse custom Spell Level trigger setting. Check console for details.`,
     );
   }
 }

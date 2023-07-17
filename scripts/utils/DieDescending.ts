@@ -42,7 +42,7 @@ export default class DieDescending extends Resource {
     if (!actor) {
       Logger.warn(
         `Missing actor for Die Descending Check`,
-        "diedescending.SetupDefault"
+        "diedescending.SetupDefault",
       );
       return false;
     }

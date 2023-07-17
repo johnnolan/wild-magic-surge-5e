@@ -24,7 +24,7 @@ class ModuleSettings {
         config: true,
         default: true,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -37,7 +37,7 @@ class ModuleSettings {
         config: true,
         default: "Wild Magic Surge",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -50,7 +50,7 @@ class ModuleSettings {
         config: false,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -63,7 +63,7 @@ class ModuleSettings {
         config: false,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -76,7 +76,7 @@ class ModuleSettings {
         config: false,
         default: "\\(S\\)",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -89,7 +89,7 @@ class ModuleSettings {
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -97,16 +97,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_whisper_gm_roll_chat_name"
+          "WildMagicSurge5E.opt_whisper_gm_roll_chat_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_whisper_gm_roll_chat_hint"
+          "WildMagicSurge5E.opt_whisper_gm_roll_chat_hint",
         ),
         scope: "world",
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -120,7 +120,7 @@ class ModuleSettings {
         choices: WMSCONST.SURGE_TYPE,
         default: "Default",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -134,7 +134,7 @@ class ModuleSettings {
         choices: WMSCONST.RESOURCE_TYPE,
         default: "None",
         type: String,
-      }
+      },
     );
 
     game.settings.registerMenu(
@@ -147,7 +147,7 @@ class ModuleSettings {
         scope: "world",
         type: SpellRegexSettingsPanel,
         restricted: true,
-      }
+      },
     );
 
     game.settings.registerMenu(
@@ -160,7 +160,7 @@ class ModuleSettings {
         scope: "world",
         type: StandardSettingsPanel,
         restricted: true,
-      }
+      },
     );
 
     game.settings.registerMenu(
@@ -168,14 +168,14 @@ class ModuleSettings {
       `SpellLevelSettingsPanel`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.settings_panel_spell_level_dep"
+          "WildMagicSurge5E.settings_panel_spell_level_dep",
         ),
         label: game.i18n.format("WildMagicSurge5E.configure"),
         icon: "fas fa-cog",
         scope: "world",
         type: SpellLevelSettingsPanel,
         restricted: true,
-      }
+      },
     );
 
     game.settings.registerMenu(
@@ -188,7 +188,7 @@ class ModuleSettings {
         scope: "world",
         type: IncrementalSettingsPanel,
         restricted: true,
-      }
+      },
     );
 
     game.settings.registerMenu(`${WMSCONST.MODULE_ID}`, `ChatSettingsPanel`, {
@@ -205,16 +205,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_incremental_check_to_chat_name"
+          "WildMagicSurge5E.opt_incremental_check_to_chat_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_incremental_check_to_chat_hint"
+          "WildMagicSurge5E.opt_incremental_check_to_chat_hint",
         ),
         scope: "world",
         config: false,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -227,7 +227,7 @@ class ModuleSettings {
         config: false,
         default: "Wild Magic Check - Roll a [[/r d20]]",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -235,16 +235,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_CHAT_MSG_ENABLED}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint",
         ),
         scope: "world",
         config: false,
         default: true,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -257,7 +257,7 @@ class ModuleSettings {
         config: false,
         default: "Wild Magic Surge!",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -265,16 +265,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint",
         ),
         scope: "world",
         config: false,
         default: true,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -282,16 +282,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name"
+          "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint"
+          "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint",
         ),
         scope: "world",
         config: false,
         default: "No wild magic surge",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -299,16 +299,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint"
+          "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint",
         ),
         scope: "world",
         config: false,
         default: true,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -322,7 +322,7 @@ class ModuleSettings {
         choices: WMSCONST.ROLLTABLE_TYPE,
         default: "Default",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -335,7 +335,7 @@ class ModuleSettings {
         config: true,
         default: "Wild Magic Surge 5e (PHB)",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -348,7 +348,7 @@ class ModuleSettings {
         config: true,
         default: "Path of Wild Magic",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -361,7 +361,7 @@ class ModuleSettings {
         config: true,
         default: "Path of Wild Magic Table",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -369,16 +369,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_custom_roll_dice_formula_name"
+          "WildMagicSurge5E.opt_custom_roll_dice_formula_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_custom_roll_dice_formula_hint"
+          "WildMagicSurge5E.opt_custom_roll_dice_formula_hint",
         ),
         scope: "world",
         config: false,
         default: WMSCONST.DIE_VALUE.D20,
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -386,17 +386,17 @@ class ModuleSettings {
       `${WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_custom_roll_result_check_name"
+          "WildMagicSurge5E.opt_custom_roll_result_check_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_custom_roll_result_check_hint"
+          "WildMagicSurge5E.opt_custom_roll_result_check_hint",
         ),
         scope: "world",
         config: false,
         choices: WMSCONST.ROLL_COMPARISON,
         default: WMSCONST.COMPARISON.EQ,
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -409,7 +409,7 @@ class ModuleSettings {
         config: false,
         default: "1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_DIE}`, {
@@ -431,7 +431,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -443,7 +443,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -455,7 +455,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -467,7 +467,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -479,7 +479,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -491,7 +491,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -503,7 +503,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -515,7 +515,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -527,7 +527,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -539,7 +539,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -551,7 +551,7 @@ class ModuleSettings {
         config: false,
         default: "= 1",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -564,7 +564,7 @@ class ModuleSettings {
         config: true,
         default: "Tides of Chaos",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -577,7 +577,7 @@ class ModuleSettings {
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -590,7 +590,7 @@ class ModuleSettings {
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -598,16 +598,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_minimum_spell_level_trigger_name"
+          "WildMagicSurge5E.opt_minimum_spell_level_trigger_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_minimum_spell_level_trigger_hint"
+          "WildMagicSurge5E.opt_minimum_spell_level_trigger_hint",
         ),
         scope: "world",
         config: true,
         default: "0",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -615,16 +615,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_cantrip_surge_enabled_name"
+          "WildMagicSurge5E.opt_cantrip_surge_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_cantrip_surge_enabled_hint"
+          "WildMagicSurge5E.opt_cantrip_surge_enabled_hint",
         ),
         scope: "world",
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -637,7 +637,7 @@ class ModuleSettings {
         config: true,
         default: true,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -650,7 +650,7 @@ class ModuleSettings {
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -658,16 +658,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_TRIGGERMACRO_ENABLE}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_triggermacro_enabled_name"
+          "WildMagicSurge5E.opt_triggermacro_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_triggermacro_enabled_hint"
+          "WildMagicSurge5E.opt_triggermacro_enabled_hint",
         ),
         scope: "world",
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -680,7 +680,7 @@ class ModuleSettings {
         config: true,
         default: "WMSMacro",
         type: String,
-      }
+      },
     );
 
     game.settings.register(
@@ -688,16 +688,16 @@ class ModuleSettings {
       `${WMSCONST.OPT_ENCOUNTER_STATS_ENABLED}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_encounter_stats_enabled_name"
+          "WildMagicSurge5E.opt_encounter_stats_enabled_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_encounter_stats_enabled_hint"
+          "WildMagicSurge5E.opt_encounter_stats_enabled_hint",
         ),
         scope: "world",
         config: true,
         default: false,
         type: Boolean,
-      }
+      },
     );
 
     game.settings.register(
@@ -705,17 +705,17 @@ class ModuleSettings {
       `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
       {
         name: game.i18n.format(
-          "WildMagicSurge5E.opt_show_wms_debug_option_name"
+          "WildMagicSurge5E.opt_show_wms_debug_option_name",
         ),
         hint: game.i18n.format(
-          "WildMagicSurge5E.opt_show_wms_debug_option_hint"
+          "WildMagicSurge5E.opt_show_wms_debug_option_hint",
         ),
         scope: "world",
         config: true,
         default: true,
         requiresReload: true,
         type: Boolean,
-      }
+      },
     );
   }
 }

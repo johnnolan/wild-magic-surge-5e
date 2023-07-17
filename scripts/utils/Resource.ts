@@ -18,7 +18,7 @@ export default class Resource {
   static async GetResource(actor: Actor): Promise<ResourceValue> {
     const resourceType = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`
+      `${WMSCONST.OPT_RESOURCE_TYPE}`,
     );
 
     switch (resourceType) {
@@ -38,7 +38,7 @@ export default class Resource {
   static async SetResource(actor: Actor, resourceValues: ResourceValues) {
     const resourceType = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`
+      `${WMSCONST.OPT_RESOURCE_TYPE}`,
     );
     const resourceValue = this.defaultValue;
     resourceValue.max = resourceValues.max;
