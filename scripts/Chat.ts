@@ -19,19 +19,19 @@ export default class Chat {
     type: string,
     message: string,
     rollObject?: Roll,
-    rollTable?: RollTable
+    rollTable?: RollTable,
   ): Promise<void> {
     const isWhisperRollResultGM = await game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM}`
+      `${WMSCONST.OPT_WHISPER_GM}`,
     );
     const isWhisperAutoRollTableGM = await game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`
+      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`,
     );
 
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
-      (u: User) => u.id
+      (u: User) => u.id,
     );
 
     let chatData: ChatMessage;
@@ -45,8 +45,8 @@ export default class Chat {
           isWhisperRollResultGM,
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`
-          ) === "PLAYER_TRIGGER"
+            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+          ) === "PLAYER_TRIGGER",
         );
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
@@ -72,7 +72,7 @@ export default class Chat {
 
   static setChatToWhisper(
     chatData: ChatMessage,
-    gmsToWhisper: Array<string | null>
+    gmsToWhisper: Array<string | null>,
   ) {
     chatData.whisper = gmsToWhisper;
     chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
@@ -103,7 +103,7 @@ export default class Chat {
     message: string,
     roll: Roll,
     isWhisperGM: boolean,
-    isRollOnTableButton = false
+    isRollOnTableButton = false,
   ): Promise<ChatMessage> {
     if (isWhisperGM) {
       return <ChatMessage>{
@@ -112,7 +112,7 @@ export default class Chat {
     } else {
       const wildMagicSurgeName = await game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_WMS_NAME}`
+        `${WMSCONST.OPT_WMS_NAME}`,
       );
       return <ChatMessage>{
         flavor: `${wildMagicSurgeName} Check - ${message}`,
@@ -133,7 +133,7 @@ export default class Chat {
    */
   static async createRollTable(
     rollResult: Roll,
-    surgeRollTable: RollTable
+    surgeRollTable: RollTable,
   ): Promise<ChatMessage> {
     const results = rollResult.results;
     const roll = rollResult.roll;
@@ -152,7 +152,7 @@ export default class Chat {
       CONFIG.RollTable.resultTemplate,
       surgeRollTable,
       roll,
-      results
+      results,
     );
     return chatData;
   }
@@ -169,7 +169,7 @@ export default class Chat {
     template: string,
     surgeRollTable: RollTable,
     roll: Roll,
-    results: string[]
+    results: string[],
   ): Promise<string> {
     return renderTemplate(template, {
       description: await TextEditor.enrichHTML(surgeRollTable.description, {
@@ -194,12 +194,12 @@ export default class Chat {
     if (
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_CHAT_MSG_ENABLED}`
+        `${WMSCONST.OPT_CHAT_MSG_ENABLED}`,
       )
     ) {
       await this.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
-        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`)
+        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`),
       );
     }
   }

@@ -56,7 +56,7 @@ class TidesOfChaos {
     let tidesItem = false;
     const featName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
+      `${WMSCONST.OPT_TOC_NAME}`,
     );
     const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
     const hasTidesOfChaosResource =
@@ -84,10 +84,10 @@ class TidesOfChaos {
   static async getTidesOfChaosResource(actor: Actor) {
     const featName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
+      `${WMSCONST.OPT_TOC_NAME}`,
     );
     const item = actor.items.find(
-      (a: Item) => a.name === featName && a.type === "feat"
+      (a: Item) => a.name === featName && a.type === "feat",
     );
 
     if (item === undefined) {

@@ -21,7 +21,7 @@ export default class SurgeDetails {
     this._valid = false;
 
     this._hasPathOfWildMagicFeat = SpellParser.IsPathOfWildMagicFeat(
-      this._actor
+      this._actor,
     );
     this._raging = SpellParser.IsRage(this._item);
     this._isASpell = SpellParser.IsSpell(this._item);
@@ -43,7 +43,7 @@ export default class SurgeDetails {
     if (
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_SPELL_REGEX_ENABLED}`
+        `${WMSCONST.OPT_SPELL_REGEX_ENABLED}`,
       )
     ) {
       return this._isSorcererSpell;

@@ -9,12 +9,12 @@ class TriggerMacro {
   static async Run(actorId: string, tokenId: string): Promise<void> {
     const macroName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TRIGGERMACRO_NAME}`
+      `${WMSCONST.OPT_TRIGGERMACRO_NAME}`,
     );
     if (
       !game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_TRIGGERMACRO_ENABLE}`
+        `${WMSCONST.OPT_TRIGGERMACRO_ENABLE}`,
       ) ||
       !macroName
     ) {
@@ -22,13 +22,13 @@ class TriggerMacro {
     }
 
     const macro: Macro = game.macros.find(
-      (f) => f.name === macroName && f.isOwner
+      (f) => f.name === macroName && f.isOwner,
     );
     if (!macro) {
       Logger.error(
         `Trigger Macro ${macroName} does not exist.`,
         "TriggerMacro.Run",
-        macroName
+        macroName,
       );
       return;
     }

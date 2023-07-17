@@ -9,11 +9,11 @@ export default class SpellParser {
   static IsWildMagicFeat(actor: Actor): boolean {
     const surgeName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WMS_NAME}`
+      `${WMSCONST.OPT_WMS_NAME}`,
     );
     return (
       actor.items.find(
-        (a: Item) => a.name === surgeName && a.type === "feat"
+        (a: Item) => a.name === surgeName && a.type === "feat",
       ) !== undefined
     );
   }
@@ -30,8 +30,8 @@ export default class SpellParser {
           a.name ===
             game.settings.get(
               `${WMSCONST.MODULE_ID}`,
-              `${WMSCONST.OPT_POWM_NAME}`
-            ) && a.type === "subclass"
+              `${WMSCONST.OPT_POWM_NAME}`,
+            ) && a.type === "subclass",
       ) !== undefined
     );
   }
@@ -45,8 +45,8 @@ export default class SpellParser {
     const minimumSpellLevelTrigger = parseInt(
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`
-      )
+        `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`,
+      ),
     );
 
     if (item?.system?.level === undefined) return;
@@ -62,7 +62,7 @@ export default class SpellParser {
         if (
           !game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`
+            `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
           )
         ) {
           return undefined;
@@ -119,12 +119,12 @@ export default class SpellParser {
 
     const spellRegex = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX}`
+      `${WMSCONST.OPT_SPELL_REGEX}`,
     );
 
     const isInverse = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`
+      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`,
     );
 
     if (isInverse) {

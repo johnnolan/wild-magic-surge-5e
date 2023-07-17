@@ -20,7 +20,7 @@ class RoundCheck {
         if (
           game.settings.get(
             `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ENABLE_NPCS}`
+            `${WMSCONST.OPT_ENABLE_NPCS}`,
           )
         ) {
           await IncrementalCheck.Check(actor, undefined, 10);
