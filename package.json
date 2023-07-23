@@ -28,7 +28,7 @@
     "@typescript-eslint/parser": "6.1.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
     "babel-jest": "29.6.1",
-    "esbuild": "0.18.14",
+    "esbuild": "0.18.15",
     "eslint": "8.45.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "5.0.0",
