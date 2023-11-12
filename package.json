@@ -18,8 +18,8 @@
     "lint:fix": "eslint --fix --ignore-path .eslintignore ."
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.22.15",
-    "@babel/preset-env": "7.23.2",
+    "@babel/eslint-parser": "7.23.3",
+    "@babel/preset-env": "7.23.3",
     "@jest/types": "29.6.3",
     "@league-of-foundry-developers/foundry-vtt-types": "9.280.0",
     "@types/jest": "29.5.8",
