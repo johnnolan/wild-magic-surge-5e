@@ -40,8 +40,8 @@ describe("RollTableMagicSurge", () => {
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toBeCalled();
-      expect(mockLoggerError).toBeCalled();
+      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect(mockLoggerError).toHaveBeenCalled();
     });
   });
 
@@ -77,7 +77,7 @@ describe("RollTableMagicSurge", () => {
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toBeCalled();
+      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
     });
   });
 
@@ -113,7 +113,7 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).toBeCalled();
+      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
@@ -152,7 +152,7 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toBeCalled();
+      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
@@ -193,7 +193,7 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       const result = await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toBeCalled();
+      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
 
@@ -233,7 +233,7 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("POWM", actor);
 
-      expect((global as any).game.tables[0].roll).toBeCalled();
+      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
@@ -271,7 +271,7 @@ describe("RollTableMagicSurge", () => {
     it("should not call the draw function", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).not.toBeCalled();
+      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(0);
     });

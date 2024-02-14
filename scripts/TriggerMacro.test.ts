@@ -46,8 +46,8 @@ describe("TriggerMacro", () => {
     it("should not call the macro", async () => {
       await TriggerMacro.Run("actorId", "tokenId");
 
-      expect((global as any).game.macros.find).not.toBeCalled();
-      expect(mockLoggerError).not.toBeCalled();
+      expect((global as any).game.macros.find).not.toHaveBeenCalled();
+      expect(mockLoggerError).not.toHaveBeenCalled();
     });
   });
 
@@ -69,9 +69,9 @@ describe("TriggerMacro", () => {
     it("should not call the macro", async () => {
       await TriggerMacro.Run("actorId", "tokenId");
 
-      expect((global as any).game.macros.find).toBeCalled();
-      expect(mockLoggerError).toBeCalled();
-      expect(mockMacroExecute).not.toBeCalled();
+      expect((global as any).game.macros.find).toHaveBeenCalled();
+      expect(mockLoggerError).toHaveBeenCalled();
+      expect(mockMacroExecute).not.toHaveBeenCalled();
     });
   });
 
@@ -97,8 +97,8 @@ describe("TriggerMacro", () => {
     it("should call the macro", async () => {
       await TriggerMacro.Run("actorId", "tokenId");
 
-      expect(mockLoggerError).not.toBeCalled();
-      expect(mockMacroExecute).toBeCalled();
+      expect(mockLoggerError).not.toHaveBeenCalled();
+      expect(mockMacroExecute).toHaveBeenCalled();
     });
   });
 
@@ -124,8 +124,8 @@ describe("TriggerMacro", () => {
     it("should not call the macro", async () => {
       await TriggerMacro.Run("actorId", "tokenId");
 
-      expect(mockLoggerError).toBeCalled();
-      expect(mockMacroExecute).not.toBeCalled();
+      expect(mockLoggerError).toHaveBeenCalled();
+      expect(mockMacroExecute).not.toHaveBeenCalled();
     });
   });
 });

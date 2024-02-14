@@ -100,7 +100,7 @@ describe("Chat", () => {
       it("It returns undefined", async () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", undefined);
 
-        expect(ChatMessage.create).not.toBeCalled();
+        expect(ChatMessage.create).not.toHaveBeenCalled();
       });
     });
   });

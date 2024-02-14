@@ -161,11 +161,11 @@ describe("TidesOfChaos", () => {
         it("should return true", async () => {
           await TidesOfChaos.Check(actor);
 
-          expect(actor.update).toBeCalled();
+          expect(actor.update).toHaveBeenCalled();
 
           expect(actor.update).toHaveBeenCalledTimes(1);
 
-          expect(actor.updateEmbeddedDocuments).toBeCalled();
+          expect(actor.updateEmbeddedDocuments).toHaveBeenCalled();
 
           expect(actor.updateEmbeddedDocuments).toHaveBeenCalledTimes(1);
         });
