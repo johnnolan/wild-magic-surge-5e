@@ -75,7 +75,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should not call the table", async () => {
-      await RollTableMagicSurge.Check((undefined, actor);
+      await RollTableMagicSurge.Check(undefined, actor);
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
     });
@@ -111,7 +111,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await RollTableMagicSurge.Check((undefined, actor);
+      await RollTableMagicSurge.Check(undefined, actor);
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
