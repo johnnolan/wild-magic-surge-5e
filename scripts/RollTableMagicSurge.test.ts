@@ -1,6 +1,7 @@
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import Logger from "./Logger";
 import "../__mocks__/index";
+import { actor } from "../MockData/actor";
 
 jest.mock("./Chat");
 const mockLoggerError = jest.fn();
@@ -37,7 +38,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should not call the table", async () => {
-      await RollTableMagicSurge.Check();
+      await RollTableMagicSurge.Check(undefined, actor);
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
       expect(mockLoggerError).toBeCalled();
@@ -74,7 +75,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should not call the table", async () => {
-      await RollTableMagicSurge.Check();
+      await RollTableMagicSurge.Check((undefined, actor);
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
     });
@@ -110,7 +111,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await RollTableMagicSurge.Check();
+      await RollTableMagicSurge.Check((undefined, actor);
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -149,7 +150,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await RollTableMagicSurge.Check("WMS");
+      await RollTableMagicSurge.Check("WMS", actor);
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -190,7 +191,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      const result = await RollTableMagicSurge.Check("WMS");
+      const result = await RollTableMagicSurge.Check("WMS", actor);
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -230,7 +231,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should call the draw function once", async () => {
-      await RollTableMagicSurge.Check("POWM");
+      await RollTableMagicSurge.Check("POWM", actor);
 
       expect((global as any).game.tables[0].roll).toBeCalled();
 
@@ -268,7 +269,7 @@ describe("RollTableMagicSurge", () => {
     });
 
     it("should not call the draw function", async () => {
-      await RollTableMagicSurge.Check("WMS");
+      await RollTableMagicSurge.Check("WMS", actor);
 
       expect((global as any).game.tables[0].roll).not.toBeCalled();
 

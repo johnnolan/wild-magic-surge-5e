@@ -105,6 +105,57 @@ describe("SpellParser", () => {
     });
   });
 
+  describe("IsControlledChaosFeat", () => {
+    (global as any).Hooks = {
+      callAll: jest.fn().mockReturnValue(true),
+    };
+
+    describe("Has Controlled Chaos Feat", () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+        (global as any).game = {
+          settings: {
+            get: jest.fn().mockReturnValue("CCF"),
+          },
+        };
+      });
+
+      it("should be true", () => {
+        const result = SpellParser.IsPathOfWildMagicFeat({
+          items: [
+            {
+              name: "CCF",
+              type: "subclass",
+            },
+          ],
+        });
+
+        expect(result).toBeTruthy();
+      });
+    });
+
+    describe("Does not have Controlled Chaos Feat", () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetAllMocks();
+      });
+
+      it("should be false", () => {
+        const result = SpellParser.IsPathOfWildMagicFeat({
+          items: [
+            {
+              name: "WMS",
+              type: "subclass",
+            },
+          ],
+        });
+
+        expect(result).toBeFalsy();
+      });
+    });
+  });
+
   describe("SpellLevel", () => {
     (global as any).Hooks = {
       callAll: jest.fn().mockReturnValue(true),

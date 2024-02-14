@@ -26,7 +26,7 @@ class RollTableMagicSurge {
     ) {
       return;
     }
-    if (SpellParser.IsControlledChaosFeat(actor)) {
+    if (actor && SpellParser.IsControlledChaosFeat(actor)) {
       let rollTableResults: string;
       rollTableResults = await this.RollOnTable(type) ?? "";
       rollTableResults = rollTableResults + await this.RollOnTable(type);

@@ -258,7 +258,7 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM");
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM", actor);
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
       });
