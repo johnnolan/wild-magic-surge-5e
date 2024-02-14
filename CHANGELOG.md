@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.0 - 2024-02-14
+
+### Feature
+
+- Add support for Controlled Chaos in the WMS feat. When level 14 or higher and auto roll on Magic Surge Table is enabled it will roll and return 2 results for the player to choose from.
+
 ## 4.5.1 - 2023-06-11
 
 ### Feature
