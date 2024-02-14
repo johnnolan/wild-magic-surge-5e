@@ -81,7 +81,10 @@ class MagicSurgeCheck {
           WMSCONST.CHAT_TYPE.DEFAULT,
         );
       } else {
-        RollTableMagicSurge.Check(WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic);
+        RollTableMagicSurge.Check(
+          WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic,
+          this._actor,
+        );
       }
     } else {
       if (
@@ -148,7 +151,7 @@ class MagicSurgeCheck {
   }
 
   /**
-   * On a Default Wild Magic Surge, check the result of the roll against the specified roll targe.
+   * On a Default Wild Magic Surge, check the result of the roll against the specified roll target.
    * @private
    * @param {string} result
    * @param {Comparison} comparison
@@ -303,7 +306,10 @@ class MagicSurgeCheck {
         );
       }
       TidesOfChaos.Check(this._actor);
-      const tableResult = await RollTableMagicSurge.Check();
+      const tableResult = await RollTableMagicSurge.Check(
+        undefined,
+        this._actor,
+      );
       let flavorText = `${game.i18n.format(
         "WildMagicSurge5E.es_wild_magic_surge_with_roll",
       )} ${roll?.result}`;
@@ -354,6 +360,7 @@ class MagicSurgeCheck {
     );
     const tableResult = await RollTableMagicSurge.Check(
       WMSCONST.SURGE_FEAT_TYPE.TidesOfChaosSurge,
+      this._actor,
     );
     let flavorText = `${game.i18n.format(
       "WildMagicSurge5E.es_tides_of_chaos",

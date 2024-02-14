@@ -15,6 +15,7 @@ class RollTableMagicSurge {
    */
   static async Check(
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge,
+    actor: Actor,
   ): Promise<string | undefined> {
     if (
       game.settings.get(
@@ -24,7 +25,15 @@ class RollTableMagicSurge {
     ) {
       return;
     }
-    return await this.RollOnTable(type);
+    if (actor.system.details.level > 13) {
+      let rollTableResults: string;
+      rollTableResults = (await this.RollOnTable(type)) ?? "";
+      rollTableResults =
+        rollTableResults + ", " + (await this.RollOnTable(type));
+      return rollTableResults;
+    } else {
+      return await this.RollOnTable(type);
+    }
   }
 
   static async RollOnTable(

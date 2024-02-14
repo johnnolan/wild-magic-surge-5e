@@ -258,7 +258,7 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM");
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM", actor);
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
       });
@@ -556,9 +556,9 @@ describe("MagicSurgeCheck", () => {
       test("Calls Tides of Chaos surge", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
 
-        expect(defaultSurgeTidesOfChaosSpy).toBeCalled();
+        expect(defaultSurgeTidesOfChaosSpy).toHaveBeenCalled();
 
-        expect(mockTidesOfChaosIsTidesOfChaosUsed).toBeCalled();
+        expect(mockTidesOfChaosIsTidesOfChaosUsed).toHaveBeenCalled();
       });
     });
 
@@ -622,102 +622,102 @@ describe("MagicSurgeCheck", () => {
       test("INVALID_OPTION", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(0);
 
-        expect(mockIncrementalCheckCheck).not.toBeCalled();
+        expect(mockIncrementalCheckCheck).not.toHaveBeenCalled();
 
         expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(0);
 
-        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+        expect(mockSpellLevelTriggerCheck).not.toHaveBeenCalled();
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
       });
       test("DEFAULT", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "DEFAULT");
 
-        expect(defaultMagicSurgeRollResultSpy).toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(1);
 
-        expect(mockIncrementalCheckCheck).not.toBeCalled();
+        expect(mockIncrementalCheckCheck).not.toHaveBeenCalled();
 
         expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(0);
 
-        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+        expect(mockSpellLevelTriggerCheck).not.toHaveBeenCalled();
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK");
 
-        expect(mockIncrementalCheckCheck).toBeCalled();
+        expect(mockIncrementalCheckCheck).toHaveBeenCalled();
 
         expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(0);
 
-        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+        expect(mockSpellLevelTriggerCheck).not.toHaveBeenCalled();
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK_CHAOTIC", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK_CHAOTIC");
 
-        expect(mockIncrementalCheckCheck).toBeCalled();
+        expect(mockIncrementalCheckCheck).toHaveBeenCalled();
 
         expect(mockIncrementalCheckCheck).toHaveBeenCalledTimes(1);
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(0);
 
-        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+        expect(mockSpellLevelTriggerCheck).not.toHaveBeenCalled();
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("SPELL_LEVEL_DEPENDENT_ROLL", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "SPELL_LEVEL_DEPENDENT_ROLL");
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(0);
 
-        expect(mockSpellLevelTriggerCheck).toBeCalled();
+        expect(mockSpellLevelTriggerCheck).toHaveBeenCalled();
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("DIE_DESCENDING", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "DIE_DESCENDING");
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
         expect(defaultMagicSurgeRollResultSpy).toHaveBeenCalledTimes(0);
 
-        expect(mockDieDescendingCheck).toBeCalled();
+        expect(mockDieDescendingCheck).toHaveBeenCalled();
 
         expect(mockDieDescendingCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
@@ -783,11 +783,11 @@ describe("MagicSurgeCheck", () => {
       test("It should return", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
 
-        expect(defaultMagicSurgeRollResultSpy).not.toBeCalled();
+        expect(defaultMagicSurgeRollResultSpy).not.toHaveBeenCalled();
 
-        expect(mockIncrementalCheckCheck).not.toBeCalled();
+        expect(mockIncrementalCheckCheck).not.toHaveBeenCalled();
 
-        expect(mockSpellLevelTriggerCheck).not.toBeCalled();
+        expect(mockSpellLevelTriggerCheck).not.toHaveBeenCalled();
       });
     });
   });
@@ -919,7 +919,7 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockDieDescendingReset).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
@@ -954,7 +954,7 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toBeCalled();
+        expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
       });
