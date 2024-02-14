@@ -1,7 +1,6 @@
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import Logger from "./Logger";
-import SpellParser from "./utils/SpellParser";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
@@ -16,7 +15,7 @@ class RollTableMagicSurge {
    */
   static async Check(
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge,
-    actor: Actor | undefined
+    actor: Actor | undefined,
   ): Promise<string | undefined> {
     if (
       game.settings.get(
@@ -28,8 +27,9 @@ class RollTableMagicSurge {
     }
     if (actor && actor.system.details.level > 13) {
       let rollTableResults: string;
-      rollTableResults = await this.RollOnTable(type) ?? "";
-      rollTableResults = rollTableResults + ", " +  await this.RollOnTable(type);
+      rollTableResults = (await this.RollOnTable(type)) ?? "";
+      rollTableResults =
+        rollTableResults + ", " + (await this.RollOnTable(type));
       return rollTableResults;
     } else {
       return await this.RollOnTable(type);

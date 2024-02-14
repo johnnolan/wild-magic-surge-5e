@@ -9,7 +9,7 @@ export const actor: Actor = {
   system: {
     details: {
       level: 14,
-    }
+    },
   },
   id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",
