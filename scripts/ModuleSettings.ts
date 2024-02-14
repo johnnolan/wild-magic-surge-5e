@@ -353,6 +353,19 @@ class ModuleSettings {
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
+      `${WMSCONST.OPT_CCF_NAME}`,
+      {
+        name: game.i18n.format("WildMagicSurge5E.opt_cc_feat_name_name"),
+        hint: game.i18n.format("WildMagicSurge5E.opt_cc_feat_name_hint"),
+        scope: "world",
+        config: true,
+        default: "Controlled Chaos",
+        type: String,
+      },
+    );
+
+    game.settings.register(
+      `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`,
       {
         name: game.i18n.format("WildMagicSurge5E.opt_rolltable_powm_name_name"),

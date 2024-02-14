@@ -4,6 +4,7 @@ export const WMSCONST = {
   OPT_WMS_NAME: "wmsName",
   OPT_TOC_NAME: "tocName",
   OPT_POWM_NAME: "powmName",
+  OPT_CCF_NAME: "contolledChaosFeatName",
 
   OPT_WHISPER_GM: "whisperToGM",
   OPT_WHISPER_GM_ROLL_CHAT: "whisperToGMRollChat",
