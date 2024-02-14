@@ -197,7 +197,7 @@ describe("RollTableMagicSurge", () => {
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
 
-      expect(result).toBe("test");
+      expect(result).toBe("test, undefined");
     });
   });
 

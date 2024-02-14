@@ -26,10 +26,10 @@ class RollTableMagicSurge {
     ) {
       return;
     }
-    if (actor && SpellParser.IsControlledChaosFeat(actor)) {
+    if (actor && actor.system.details.level > 13) {
       let rollTableResults: string;
       rollTableResults = await this.RollOnTable(type) ?? "";
-      rollTableResults = rollTableResults + await this.RollOnTable(type);
+      rollTableResults = rollTableResults + ", " +  await this.RollOnTable(type);
       return rollTableResults;
     } else {
       return await this.RollOnTable(type);

@@ -88,8 +88,5 @@
 	"WildMagicSurge5E.opt_resource_type_hint": "Choisissez la ressource sur la feuille de personnage de l'acteur à utiliser pour suivre les dés incrémentiels ou décroissants. Vous pouvez ensuite l'ajouter en tant que ressource à suivre sur votre jeton. Choisir Aucun, masque le suivi de l'acteur.",
 	"WildMagicSurge5E.opt_tsl_cantrip_name": "Tour de magie",
 	"WildMagicSurge5E.opt_minimum_spell_level_trigger_hint": "Définissez un niveau minimum personnalisé pour déclencher une vague de magie sauvage. Par exemple, le niveau 3 ne se déclencherait que pour les sorts lancés au niveau 3 ou plus.",
-	"WildMagicSurge5E.opt_minimum_spell_level_trigger_name": "Définir le niveau de sort minimum pour déclencher la Surcharge",
-
-	"WildMagicSurge5E.opt_cc_feat_name_name": "Name of the Controlled Chaos feat",
-	"WildMagicSurge5E.opt_cc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language."
+	"WildMagicSurge5E.opt_minimum_spell_level_trigger_name": "Définir le niveau de sort minimum pour déclencher la Surcharge"
 }

@@ -123,8 +123,5 @@
   "WildMagicSurge5E.settings_panel_incremental": "Incremental Check Variant",
   "WildMagicSurge5E.settings_panel_chat_message": "Chat Message Options",
   "WildMagicSurge5E.configure": "Configure",
-  "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information",
-
-  "WildMagicSurge5E.opt_cc_feat_name_name": "Name of the Controlled Chaos feat",
-  "WildMagicSurge5E.opt_cc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language."
+  "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information"
 }

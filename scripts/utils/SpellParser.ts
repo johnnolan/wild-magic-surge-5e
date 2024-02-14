@@ -37,24 +37,6 @@ export default class SpellParser {
   }
 
   /**
-   * Returns whether the actor has the Path of Wild Magic Subclass in their items
-   * @param actor - Foundry Actor
-   * @return {boolean}
-   */
-    static IsControlledChaosFeat(actor: Actor): boolean {
-      return (
-        actor.items.find(
-          (a: Item) =>
-            a.name ===
-              game.settings.get(
-                `${WMSCONST.MODULE_ID}`,
-                `${WMSCONST.OPT_CCF_NAME}`,
-              ) && a.type === "subclass",
-        ) !== undefined
-      );
-    }
-
-  /**
    * Gets the Foundry Spell Level Name from the Item
    * @param item - Item5e object
    * @return {Promise<string>}

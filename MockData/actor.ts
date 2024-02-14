@@ -6,6 +6,11 @@ export const actor: Actor = {
   }),
   setFlag: jest.fn().mockResolvedValue(2),
   update: jest.fn().mockResolvedValue(true),
+  system: {
+    details: {
+      level: 14,
+    }
+  },
   id: "eMyoELkOwFNPGEK8",
   name: "Graa S'oua",
   type: "character",

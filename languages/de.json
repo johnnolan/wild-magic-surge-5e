@@ -6,8 +6,5 @@
 	"WildMagicSurge5E.opt_powm_feat_name_hint": "Wenn Sie in einer anderen Sprache spielen, können Sie den Namen des Merkmals auf Ihre Sprache einstellen.",
 	"WildMagicSurge5E.opt_incremental_check_to_chat_name": "Zum Chatten senden",
 	"WildMagicSurge5E.opt_incremental_check_to_chat_hint": "Wenn diese Funktion aktiviert ist, wird jedes Mal, wenn sich die Art der inkrementellen Prüfung für einen Stromstoß ändert, im Chat gepostet, damit andere sie sehen können.",
-	"WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Anzahl der Aufladungen für wilde Zaubersprüche",
-
-	"WildMagicSurge5E.opt_cc_feat_name_name": "Name of the Controlled Chaos feat",
-	"WildMagicSurge5E.opt_cc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language."
+	"WildMagicSurge5E.opt_incremental_check_to_chat_text_name": "Anzahl der Aufladungen für wilde Zaubersprüche"
 }

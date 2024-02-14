@@ -9,8 +9,5 @@
 	"WildMagicSurge5E.opt_whisper_gm_hint": "El mensaje de tirada de verificación de aumento solo se envía al DJ en lugar de a todos los jugadores.",
 	"WildMagicSurge5E.opt_wms_feat_name_name": "Nombre de la hazaña de Oleada Mágica Salvaje",
 	"WildMagicSurge5E.opt_wms_feat_name_hint": "Si juegas en otro idioma, esto te permite establecer el nombre de la hazaña en tu idioma.",
-	"WildMagicSurge5E.opt_incremental_check_to_chat_hint": "Cuando está habilitado, cada vez que cambia un tipo de verificación incremental para un aumento, se publica en Chat para que otros lo vean.",
-	
-	"WildMagicSurge5E.opt_cc_feat_name_name": "Name of the Controlled Chaos feat",
-	"WildMagicSurge5E.opt_cc_feat_name_hint": "If you play in another language, this enables you to set the name of the feat to your language."
+	"WildMagicSurge5E.opt_incremental_check_to_chat_hint": "Cuando está habilitado, cada vez que cambia un tipo de verificación incremental para un aumento, se publica en Chat para que otros lo vean."
 }
