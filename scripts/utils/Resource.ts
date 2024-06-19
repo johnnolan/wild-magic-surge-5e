@@ -21,18 +21,29 @@ export default class Resource {
       `${WMSCONST.OPT_RESOURCE_TYPE}`,
     );
 
+    let resource = this.defaultValue;
+
     switch (resourceType) {
       case "NONE":
-        return <ResourceValue>actor.getFlag(this.FLAG_NAME, this.FLAG_OPTION);
+        resource = <ResourceValue>actor.getFlag(this.FLAG_NAME, this.FLAG_OPTION);
+        break;
       case "PRIMARY":
-        return actor.system.resources.primary;
+        resource = actor.system.resources.primary;
+        break;
       case "SECONDARY":
-        return actor.system.resources.secondary;
+        resource = actor.system.resources.secondary;
+        break;
       case "TERTIARY":
-        return actor.system.resources.tertiary;
-      default:
-        return this.defaultValue;
+        resource = actor.system.resources.tertiary;
+        break;
     }
+
+    if (!resource) {
+      this._setupDefault(actor);
+      resource = this.defaultValue;
+    }
+
+    return resource;
   }
 
   static async SetResource(actor: Actor, resourceValues: ResourceValues) {
