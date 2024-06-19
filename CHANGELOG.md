@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.1 - 2024-06-19
+
+### Feature
+
+- Fix Descending Dice error when no Resource Tracking is enabled
+
 ## 4.6.0 - 2024-02-14
 
 ### Feature
