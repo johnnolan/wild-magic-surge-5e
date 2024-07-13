@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.0 - 2024-07-13
+
+### Feature
+
+- Update to V12
+
 ## 4.6.1 - 2024-06-19
 
 ### Feature
