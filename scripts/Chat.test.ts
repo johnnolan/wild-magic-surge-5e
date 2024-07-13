@@ -47,7 +47,6 @@ describe("Chat", () => {
           speaker: [undefined],
           whisper: [undefined],
           blind: true,
-          type: "WHISPER",
         });
       });
     });
@@ -77,7 +76,6 @@ describe("Chat", () => {
             result: 20,
           },
           rollMode: "rollMode",
-          type: "ROLL",
           speaker: [undefined],
         });
       });
