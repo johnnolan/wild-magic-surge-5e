@@ -4,12 +4,13 @@
 	"description": "A module to remind you whenever a player with the Wild Magic Surge Feat casts a spell and to roll a d20.",
 	"version": "This is auto replaced",
 	"library": "false",
-	"manifestPlusVersion": "1.0.0",
 	"compatibility": {
-		"minimum": "10",
-		"verified": "11.301",
-		"maximum": "11"
+		"minimum": "12",
+		"verified": "12.328",
+		"maximum": "12"
 	},
+	"minimumCoreVersion": "12",
+	"compatibleCoreVersion": "12",
 	"authors": [
 		{
 			"name": "John Nolan",
@@ -25,8 +26,8 @@
 				"type": "system",
 				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
 				"compatibility": {
-					"minimum": "2.0.2",
-					"verified": "2.4.1"
+					"minimum": "3.2.1",
+					"verified": "3.2.1"
 				}
 			}
 		]
@@ -40,7 +41,6 @@
 			"type": "Macro"
 		}
 	],
-	"conflicts": [],
 	"esmodules": [
 		"/dist/module.js"
 	],
