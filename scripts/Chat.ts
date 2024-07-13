@@ -116,7 +116,6 @@ export default class Chat {
       );
       return <ChatMessage>{
         flavor: `${wildMagicSurgeName} Check - ${message}`,
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         roll: roll,
         rollMode: isRollOnTableButton
           ? "publicroll"
