@@ -75,7 +75,6 @@ export default class Chat {
     gmsToWhisper: Array<string | null>,
   ) {
     chatData.whisper = gmsToWhisper;
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.WHISPER;
     chatData.blind = true;
 
     return chatData;
@@ -141,7 +140,6 @@ export default class Chat {
 
     const chatData = <ChatMessage>{
       flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       user: game.user.id,
       rolls: [roll],
       sound: null,
