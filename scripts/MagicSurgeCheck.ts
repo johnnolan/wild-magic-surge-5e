@@ -137,7 +137,7 @@ class MagicSurgeCheck {
       return;
     }
 
-    return new Roll(diceFormula).evaluate();
+    return await new Roll(diceFormula).evaluate();
   }
 
   /**
