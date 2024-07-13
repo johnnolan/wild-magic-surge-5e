@@ -26,6 +26,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: eslint_report
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           path: .
 
       - name: Publish Unit Test Results
