@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.0.0 - 2024-10-11
+
+### Compatibility
+
+* May be the final update to this module to keep it going, will see the extent of rewrite required in 4.4.0 of DND5e.
+* No longer compatible with anything below 4.0.4.
+
 ## 5.0.0 - 2024-07-13
 
 ### Feature
