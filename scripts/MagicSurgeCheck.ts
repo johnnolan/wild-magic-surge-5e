@@ -137,7 +137,12 @@ class MagicSurgeCheck {
       return;
     }
 
-    return await new Roll(diceFormula).evaluate();
+    const data = this._actor ? this._actor.getRollData() : {};
+    const roll = new Roll(diceFormula, data);
+    await roll.evaluate({ allowInteractive: false });
+    await roll.toMessage();
+
+    return roll;
   }
 
   /**
