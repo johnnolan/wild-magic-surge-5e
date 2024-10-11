@@ -6,7 +6,7 @@
 	"library": "false",
 	"compatibility": {
 		"minimum": "12",
-		"verified": "12.328",
+		"verified": "12.331",
 		"maximum": "12"
 	},
 	"minimumCoreVersion": "12",
@@ -26,8 +26,8 @@
 				"type": "system",
 				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
 				"compatibility": {
-					"minimum": "3.2.1",
-					"verified": "3.2.1"
+					"minimum": "4.0.4",
+					"verified": "4.0.4"
 				}
 			}
 		]
