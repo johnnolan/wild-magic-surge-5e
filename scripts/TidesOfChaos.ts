@@ -13,24 +13,19 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async Check(actor: Actor): Promise<void> {
-    if (
-      !game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_TOC}`)
-    ) {
+    if (!game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_TOC}`)) {
       return;
     }
-    const tidesItemData = await this.getTidesOfChaosResource(actor);
+    const tidesItem = await this.getTidesOfChaosItem(actor);
+    if (!tidesItem) return;
 
-    if (tidesItemData === undefined) return;
-
-    const updates = [];
-    updates.push({
-      _id: tidesItemData.id,
+    const updates = [{
+      _id: tidesItem.id,
       "system.uses.value": 1,
-      "system.recharge.charged": true,
-    });
+      "system.recharge.charged": true
+    }];
 
     await actor.updateEmbeddedDocuments("Item", updates);
-    await actor.update({ data: { [`${tidesItemData.resourceName}`]: 1 } });
   }
 
   /**
@@ -40,11 +35,9 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
-    const tidesItemData = await this.getTidesOfChaosResource(actor);
-
-    if (tidesItemData === undefined) return false;
-
-    return tidesItemData.usesLeft === 0;
+    const tidesItem = await this.getTidesOfChaosItem(actor);
+    if (!tidesItem) return false;
+    return tidesItem.system.uses.value === 0;
   }
 
   /**
@@ -53,26 +46,17 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
-    let tidesItem = false;
     const featName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`,
+      `${WMSCONST.OPT_TOC_NAME}`
     );
-    const tidesOfChaosResourceSetup = await this.getTidesOfChaosResource(actor);
-    const hasTidesOfChaosResource =
-      tidesOfChaosResourceSetup === undefined ? false : true;
-
-    if (hasTidesOfChaosResource && tidesOfChaosResourceSetup) {
-      const resourceName = tidesOfChaosResourceSetup.resourceName.split(".");
-      if (resourceName.length === 3) {
-        tidesItem = actor.system.resources[resourceName[1]].label === featName;
-      }
-    }
-
+    const tidesItem = await this.getTidesOfChaosItem(actor);
+    const hasUsesSetup = !!tidesItem && tidesItem.system.uses?.max === 1 && tidesItem.system.consume?.type === "itemUses";
+    
     return <TidesItemData>{
-      hasTidesOfChaosResource: tidesItem,
-      hasTidesOfChaosFeat: hasTidesOfChaosResource,
-      isValid: hasTidesOfChaosResource && tidesItem,
+      hasTidesOfChaosResource: hasUsesSetup,
+      hasTidesOfChaosFeat: !!tidesItem,
+      isValid: hasUsesSetup
     };
   }
 
@@ -81,30 +65,14 @@ class TidesOfChaos {
    * @return {Promise<TidesItemData>}
    * @param actor - The Foundry Actor.
    */
-  static async getTidesOfChaosResource(actor: Actor) {
+  static async getTidesOfChaosItem(actor: Actor) {
     const featName = game.settings.get(
       `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`,
+      `${WMSCONST.OPT_TOC_NAME}`
     );
-    const item = actor.items.find(
-      (a: Item) => a.name === featName && a.type === "feat",
+    return actor.items.find(
+      (a: Item) => a.name === featName && a.type === "feat"
     );
-
-    if (item === undefined) {
-      // If not enabled or exists then return false indicating not used.
-      return undefined;
-    }
-
-    if (!item?.system?.consume?.target) {
-      // If not enabled or exists then return false indicating not used.
-      return undefined;
-    }
-
-    return {
-      usesLeft: item.system.uses.value,
-      id: item.id,
-      resourceName: item?.system?.consume?.target,
-    };
   }
 }
 
