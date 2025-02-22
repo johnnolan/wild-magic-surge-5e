@@ -73,7 +73,8 @@ describe("TidesOfChaos", () => {
                 type: "feat",
                 system: {
                   uses: {
-                    value: 0,
+                    // value: 0,
+                    max: 1,
                   },
                 },
               },
@@ -161,10 +162,6 @@ describe("TidesOfChaos", () => {
         it("should return true", async () => {
           await TidesOfChaos.Check(actor);
 
-          expect(actor.update).toHaveBeenCalled();
-
-          expect(actor.update).toHaveBeenCalledTimes(1);
-
           expect(actor.updateEmbeddedDocuments).toHaveBeenCalled();
 
           expect(actor.updateEmbeddedDocuments).toHaveBeenCalledTimes(1);
@@ -251,14 +248,6 @@ describe("TidesOfChaos", () => {
         };
         
         actor = {
-          system: {
-            resources: {
-              tertiary: {
-                value: "1",
-                label: "Tides of Chaos",
-              },
-            },
-          },
           items: {
             find: jest.fn().mockReturnValueOnce(undefined),
           },
@@ -288,14 +277,6 @@ describe("TidesOfChaos", () => {
         };
         
         actor = {
-          system: {
-            resources: {
-              tertiary: {
-                value: "",
-                label: "",
-              },
-            },
-          },
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -304,9 +285,10 @@ describe("TidesOfChaos", () => {
               system: {
                 uses: {
                   value: 0,
+                  max: 0
                 },
                 consume: {
-                  target: "resources.tertiary.value",
+                  target: "itemUses",
                 },
               },
             }),
@@ -337,14 +319,6 @@ describe("TidesOfChaos", () => {
         };
         
         actor = {
-          system: {
-            resources: {
-              tertiary: {
-                value: "1",
-                label: "Tides of Chaos",
-              },
-            },
-          },
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -353,10 +327,8 @@ describe("TidesOfChaos", () => {
               system: {
                 uses: {
                   value: 0,
-                },
-                consume: {
-                  target: "resources.tertiary",
-                },
+                  max: 0,
+                }
               },
             }),
           },
@@ -386,14 +358,6 @@ describe("TidesOfChaos", () => {
         };
         
         actor = {
-          system: {
-            resources: {
-              tertiary: {
-                value: "1",
-                label: "Tides of Chaos",
-              },
-            },
-          },
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -402,9 +366,10 @@ describe("TidesOfChaos", () => {
               system: {
                 uses: {
                   value: 0,
+                  max: 1,
                 },
                 consume: {
-                  target: "resources.tertiary.value",
+                  type: "itemUses",
                 },
               },
             }),

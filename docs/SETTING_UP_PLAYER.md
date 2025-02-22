@@ -12,18 +12,16 @@ Ensure under the features tab on your character sheet that you have a Feat calle
 
 ## Setup Tides of Chaos
 
-Ensure under the features tab on your character sheet that you have a Feat call Tides of Chaos.
+To properly configure Tides of Chaos for your character, follow these steps:
 
-Edit the Feat, go to the `Details` tab and ensure the following are setup
+1. Ensure you have the `Tides of Chaos` feature on your character sheet under the Features tab.
 
-### Resource Consumption
+2. Configure the `Tides of Chaos` feature to have:
+   - Navigate to section `DETAILS` 
+   - Update group `USAGE` to
+     - `MAX`: 1
+     - `SPENT`: 0
+ 
+3. Make sure the feature has a `Use` action/activity that will consume one use when activated.
 
-The `Resource Consumption` setting should be set to `Attribute`, `resources.tertiary.value` and `1`.
-
-[![Tides of Chaos resource example](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/setup/toc_resource_1.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/setup/toc_resource_1.jpg)
-
-### Attributes and Consumption
-
-On the `Attributes` tab, on `Resource 3`, add `Tides of Chaos` as the description and change the values from `0/0` to `1/1`.
-
-[![Tides of Chaos Attributes and Consumption example](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/setup/toc_resource_2.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/setup/toc_resource_2.jpg)
+### NOTE: Make sure your spell have `Source Class` set `Sorcerer`
