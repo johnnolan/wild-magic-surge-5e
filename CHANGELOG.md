@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.1 - 2025-02-22
+
+### Breaking Changes
+
+- Use Tides Of Chaos item consumption counter instead of Resources by [DaniilTurceac](https://github.com/DaniilTurceac). See [https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/SETTING_UP_PLAYER.md#setup-tides-of-chaos](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/SETTING_UP_PLAYER.md#setup-tides-of-chaos) on change to Tides of Chaos setup to support 4.x including Feat configuration and Spell changes.
+
 ## 6.1.0 - 2025-02-22
 
 ### Breaking Changes
