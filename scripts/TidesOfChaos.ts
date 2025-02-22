@@ -51,7 +51,7 @@ class TidesOfChaos {
       `${WMSCONST.OPT_TOC_NAME}`
     );
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    const hasUsesSetup = !!tidesItem && tidesItem.system.uses?.max === 1 && tidesItem.system.consume?.type === "itemUses";
+    const hasUsesSetup = !!tidesItem && tidesItem.system.uses?.max === 1;
     
     return <TidesItemData>{
       hasTidesOfChaosResource: hasUsesSetup,
