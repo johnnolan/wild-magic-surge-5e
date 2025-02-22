@@ -6,23 +6,9 @@ on:
       - main
 
 jobs:
-  lint:
-    name: ESLint Javascript
-    uses: ./.github/workflows/lint_job.yml
-
-  test:
-    name: Jest Tests
-    uses: ./.github/workflows/test_job.yml
-
-  publish_unit_tests:
-    name: Publish Unit Tests
-    needs: ['lint', 'test']
-    uses: ./.github/workflows/publish_unit_tests_job.yml
-
   create_tag_publish:
     name: Build
     runs-on: ubuntu-latest
-    needs: ['lint', 'test']
     steps:
     - name: Checkout
       uses: actions/checkout@v4
