@@ -24,12 +24,12 @@
     "@league-of-foundry-developers/foundry-vtt-types": "9.280.1",
     "@types/jest": "29.5.14",
     "@types/node": "22.14.0",
-    "@typescript-eslint/eslint-plugin": "8.29.0",
-    "@typescript-eslint/parser": "8.29.0",
+    "@typescript-eslint/eslint-plugin": "8.29.1",
+    "@typescript-eslint/parser": "8.29.1",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
     "babel-jest": "29.7.0",
     "esbuild": "0.25.2",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "eslint-config-prettier": "10.1.1",
     "eslint-plugin-prettier": "5.2.6",
     "handlebars": "4.7.8",
@@ -40,7 +40,7 @@
     "jshint": "2.13.6",
     "prettier": "3.5.3",
     "ts-jest": "29.3.1",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "jest-junit": {
     "outputDirectory": "./test-results/junit",
