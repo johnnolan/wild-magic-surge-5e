@@ -23,7 +23,7 @@
     "@jest/types": "29.6.3",
     "@league-of-foundry-developers/foundry-vtt-types": "9.280.1",
     "@types/jest": "29.5.14",
-    "@types/node": "22.14.1",
+    "@types/node": "22.15.0",
     "@typescript-eslint/eslint-plugin": "8.31.0",
     "@typescript-eslint/parser": "8.31.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
