@@ -38,7 +38,7 @@
     "jest-junit": "16.0.0",
     "jquery": "3.7.1",
     "jshint": "2.13.6",
-    "prettier": "3.6.0",
+    "prettier": "3.6.1",
     "ts-jest": "29.4.0",
     "typescript": "5.8.3"
   },
