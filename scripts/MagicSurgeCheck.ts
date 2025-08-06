@@ -119,7 +119,7 @@ class MagicSurgeCheck {
         diceFormula = await DieDescending.DieFormula(this._actor);
         break;
       case WMSCONST.ROLL_CHECK_TYPE.SPELL_LEVEL_DEPENDENT_ROLL:
-        diceFormula = SpellLevelTrigger.ParseRollFormula(spellLevel);
+        diceFormula = SpellLevelTrigger.ParseRollFormula(spellLevel) as DieValue;
         break;
       default:
         diceFormula = game.settings.get(
@@ -273,7 +273,7 @@ class MagicSurgeCheck {
     CallHooks.Call("IsWildMagicSurge", {
       surge: isSurge,
       result: rollResult?.result,
-      tokenId: this._tokenId,
+      tokenId: this._tokenId ?? "",
       actorId: this._actor.id,
     });
 

@@ -4,7 +4,6 @@ import IncrementalCheck from "./utils/IncrementalCheck";
 import RoundCheck from "./RoundCheck";
 import ModuleSettings from "./ModuleSettings";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel";
-import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 
@@ -33,22 +32,27 @@ Hooks.on("init", function () {
 
   Hooks.on(
     "renderChatMessage",
-    async function (app: FormApplication, html: object) {
-      const rollTableButton = html.find(".roll-table-wms");
-      if (rollTableButton && rollTableButton.length > 0) {
-        rollTableButton.unbind();
-        rollTableButton.on("click", (e) => {
+    async function (app: FormApplication, html: HTMLElement) {
+      // Modernize: Use vanilla JS instead of jQuery
+      const rollTableButtons = html.querySelectorAll('.roll-table-wms');
+      rollTableButtons.forEach((button) => {
+        // Remove previous event listeners by cloning
+        const newButton = button.cloneNode(true) as HTMLElement;
+        button.replaceWith(newButton);
+        newButton.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
           RollTableMagicSurge.RollOnTable();
         });
-      }
+      });
     },
   );
 });
 
 function getTokenIdByActorId(actorId: string): string | undefined {
-  return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
+  // Modernize: Add null checks for canvas and tokens, and specify type for 'f'
+  if (!canvas || !canvas.tokens) return undefined;
+  return canvas.tokens.placeables.find((f: Token) => f.actor?.id === actorId)?.id;
 }
 
 function Migrate() {
@@ -78,10 +82,12 @@ Hooks.once("ready", async function () {
   if (game.user?.isGM) {
     game.socket?.on(
       "module.wild-magic-surge-5e",
-      async function (payload: unknown) {
-        if (payload.event === "SurgeCheck") {
+      async function (payload: any) {
+        // Modernize: Ensure payload is serializable and type safe
+        if (payload?.event === "SurgeCheck") {
           const surgeCheckData = payload.data;
           const actor = game.actors.get(surgeCheckData.actorId);
+          if (!actor) return;
           const magicSurgeCheck = new MagicSurgeCheck(
             actor,
             surgeCheckData.tokenId,
@@ -92,18 +98,19 @@ Hooks.once("ready", async function () {
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", (activity: Item) => {
+  Hooks.on("dnd5e.postUseActivity", (activity: any) => {
     const item = activity.item;
-    if (item.actor) {
-      const tokenId = getTokenIdByActorId(item?.actor.id);
+    if (item?.actor) {
+      const tokenId = getTokenIdByActorId(item.actor.id);
       if (game.user?.isGM) {
         const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
         magicSurgeCheck.CheckItem(item);
       } else {
+        // Modernize: Only send serializable data over the socket
         game.socket?.emit("module.wild-magic-surge-5e", {
           event: "SurgeCheck",
           data: {
-            actorId: item?.actor.id,
+            actorId: item.actor.id,
             tokenId: tokenId,
             item: item,
           },
@@ -113,17 +120,17 @@ Hooks.once("ready", async function () {
   });
 
   if (game.user?.isGM) {
-    Hooks.on("updateCombat", async function (roundData: RoundData) {
+    Hooks.on("updateCombat", async function (combat: Combat) {
       if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
           `${WMSCONST.OPT_SURGE_TYPE}`,
         ) === `INCREMENTAL_CHECK_CHAOTIC`
       ) {
-        if (!roundData.combatant?.actor) {
+        if (!combat.combatant?.actor) {
           return false;
         }
-        RoundCheck.Check(roundData.combatant?.actor);
+        RoundCheck.Check(combat.combatant.actor);
       }
     });
   }
@@ -147,18 +154,24 @@ Hooks.once("ready", async function () {
   ) {
     Hooks.on(
       "renderActorSheet",
-      async function (app: FormApplication, html: object, data: object) {
-        const openButton = $(
-          `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`,
-        );
-        openButton.on("click", () => {
-          new ActorHelperPanel(app.document, { actor: data.actor }).render(
-            true,
-          );
+      async function (app: FormApplication, html: HTMLElement, data: any) {
+        // Modernize: Use vanilla JS instead of jQuery
+        const openButton = document.createElement("a");
+        openButton.className = "open-actor-wms";
+        openButton.title = "Wild Magic Surge 5e Information";
+        openButton.innerHTML = '<i class="fas fa-wrench"></i>WMS';
+        openButton.addEventListener("click", () => {
+          // Use app.object instead of app.document, and cast options to any to allow custom actor property
+          new ActorHelperPanel(app.object, { ...(data as any), actor: data.actor } as any).render(true);
         });
-        html.closest(".app").find(".open-actor-wms").remove();
-        const titleElement = html.closest(".app").find(".window-title");
-        if (!app._minimized) openButton.insertAfter(titleElement);
+        const appElement = html.closest(".app");
+        if (appElement) {
+          appElement.querySelectorAll(".open-actor-wms").forEach((el) => el.remove());
+          const titleElement = appElement.querySelector(".window-title");
+          if (titleElement && !(app as any)._minimized) {
+            titleElement.insertAdjacentElement("afterend", openButton);
+          }
+        }
       },
     );
   }

@@ -11,13 +11,26 @@ describe("Chat", () => {
     jest.clearAllMocks();
 
     jest.resetAllMocks();
+
+    global.foundry = {
+      utils: {
+        renderTemplate: jest.fn().mockResolvedValue("<div>template</div>"),
+        TextEditor: {
+          enrichHTML: jest.fn().mockResolvedValue("<div>enriched</div>")
+        }
+      }
+    };
+    global.ChatMessage = {
+      create: jest.fn(),
+      getWhisperRecipients: jest.fn().mockReturnValue([{ id: undefined }])
+    };
   });
 
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message", null);
+        await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message", undefined);
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: "<div>My Custom Message</div>",
@@ -177,7 +190,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult.roll, surgeRollTable, rollResult.results);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 
@@ -218,7 +231,7 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult.roll, surgeRollTable, rollResult.results);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 
@@ -264,7 +277,7 @@ describe("Chat", () => {
       });
 
       it("It calls the correct methods", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResultTwoResults, surgeRollTable);
+        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResultTwoResults.roll, surgeRollTable, rollResultTwoResults.results);
 
         expect(ChatMessage.create).toHaveBeenCalled();
 

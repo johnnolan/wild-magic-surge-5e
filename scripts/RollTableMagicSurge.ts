@@ -72,13 +72,12 @@ class RollTableMagicSurge {
       return;
     }
 
-    const result = await surgeRollTable?.roll().then((result: Roll) => {
-      Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
-      return result;
-    });
+    const draw = await surgeRollTable.draw({ displayChat: false });
+    const { roll, results } = draw;
+    Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", roll, surgeRollTable, results);
 
-    if (result.results.length > 0) {
-      return result.results[0].text;
+    if (results.length > 0) {
+      return results[0].text;
     } else {
       return;
     }

@@ -5,12 +5,12 @@
 	"version": "This is auto replaced",
 	"library": "false",
 	"compatibility": {
-		"minimum": "12",
-		"verified": "12.331",
-		"maximum": "12"
+		"minimum": "13",
+		"verified": "13.341",
+		"maximum": "13.999"
 	},
-	"minimumCoreVersion": "12",
-	"compatibleCoreVersion": "12",
+	"minimumCoreVersion": "13.0.0",
+	"compatibleCoreVersion": "13.341",
 	"authors": [
 		{
 			"name": "John Nolan",
@@ -26,8 +26,8 @@
 				"type": "system",
 				"manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
 				"compatibility": {
-					"minimum": "4.0.4",
-					"verified": "4.0.4"
+					"minimum": "5.0.0",
+					"verified": "5.0.4"
 				}
 			}
 		]
@@ -73,7 +73,7 @@
 	"bugs": "https://github.com/johnnolan/wild-magic-surge-5e/issues/new/choose",
 	"changelog": "https://github.com/johnnolan/wild-magic-surge-5e/releases",
 	"socket": true,
-	"url": "This is auto replaced",
+	"url": "https://github.com/rramirezmata/wild-magic-surge-5e/releases/download/v13/wild-magic-surge-5e.zip",
 	"manifest": "This is auto replaced",
 	"download": "This is auto replaced"
 }

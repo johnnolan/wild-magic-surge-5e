@@ -39,7 +39,7 @@ export default class Resource {
     }
 
     if (!resource) {
-      this._setupDefault(actor);
+      await this._setupDefault(actor);
       resource = this.defaultValue;
     }
 

@@ -1,9 +1,11 @@
+import "./actor";
 import "./jquery";
 import "./game";
 import "./chat-message";
 import "./roll";
 import "./const";
 import "./renderTemplate";
+import "./rollTable";
 import "./textEditor";
 import "./config";
 import "./hasProperty";

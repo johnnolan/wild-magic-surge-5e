@@ -1,6 +1,7 @@
+import type { Game } from "foundry-vtt-types";
 declare global {
   interface LenientGlobalVariableTypes {
-    game: never; // the type doesn't matter
+    game: Game;
   }
   interface Window {
     Hooks: typeof Hooks;

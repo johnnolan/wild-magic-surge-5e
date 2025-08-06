@@ -45,6 +45,7 @@ describe("TidesOfChaos", () => {
                   },
                 },
               }),
+              update: jest.fn().mockResolvedValue([]), // v13+ mock
             },
           };
         });
@@ -113,6 +114,7 @@ describe("TidesOfChaos", () => {
                   },
                 },
               }),
+              update: jest.fn().mockResolvedValue([]), // v13+ mock
             },
           };
         });
@@ -155,6 +157,7 @@ describe("TidesOfChaos", () => {
                   },
                 },
               }),
+              update: jest.fn().mockResolvedValue([]), // v13+ mock
             },
           };
         });
@@ -162,9 +165,8 @@ describe("TidesOfChaos", () => {
         it("should return true", async () => {
           await TidesOfChaos.Check(actor);
 
-          expect(actor.updateEmbeddedDocuments).toHaveBeenCalled();
-
-          expect(actor.updateEmbeddedDocuments).toHaveBeenCalledTimes(1);
+          expect(actor.items.update).toHaveBeenCalled();
+          expect(actor.items.update).toHaveBeenCalledTimes(1);
         });
       });
 
@@ -292,6 +294,7 @@ describe("TidesOfChaos", () => {
                 },
               },
             }),
+            update: jest.fn().mockResolvedValue([]), // v13+ mock
           },
         };
       });
@@ -331,6 +334,7 @@ describe("TidesOfChaos", () => {
                 }
               },
             }),
+            update: jest.fn().mockResolvedValue([]), // v13+ mock
           },
         };
       });
@@ -373,6 +377,7 @@ describe("TidesOfChaos", () => {
                 },
               },
             }),
+            update: jest.fn().mockResolvedValue([]), // v13+ mock
           },
         };
       });

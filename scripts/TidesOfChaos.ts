@@ -25,7 +25,7 @@ class TidesOfChaos {
       "system.recharge.charged": true
     }];
 
-    await actor.updateEmbeddedDocuments("Item", updates);
+    await actor.items.update(updates);
   }
 
   /**

@@ -15,11 +15,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table Test",
             },
@@ -40,7 +39,7 @@ describe("RollTableMagicSurge", () => {
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).not.toHaveBeenCalled();
       expect(mockLoggerError).toHaveBeenCalled();
     });
   });
@@ -52,11 +51,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table Test",
             },
@@ -77,7 +75,7 @@ describe("RollTableMagicSurge", () => {
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).not.toHaveBeenCalled();
     });
   });
 
@@ -88,11 +86,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table Test",
             },
@@ -113,9 +110,9 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect((global as any).game.tables[0].draw).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -127,11 +124,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table",
             },
@@ -152,9 +148,9 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect((global as any).game.tables[0].draw).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -166,13 +162,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
-              results: [{
-                text: "test"
-              }],
-              render: jest.fn().mockResolvedValue(""),
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
+              results: [{ text: "test" }],
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table",
             },
@@ -193,9 +186,9 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       const result = await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect((global as any).game.tables[0].draw).toHaveBeenCalledTimes(1);
 
       expect(result).toBe("test, undefined");
     });
@@ -208,11 +201,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Path of Wild Magic",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Path of Wild Magic Surge",
             },
@@ -233,9 +225,9 @@ describe("RollTableMagicSurge", () => {
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("POWM", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect((global as any).game.tables[0].draw).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -246,11 +238,10 @@ describe("RollTableMagicSurge", () => {
         tables: [
           {
             name: "Wild Magic Surge",
-            roll: jest.fn().mockResolvedValue({
+            draw: jest.fn().mockResolvedValue({
+              roll: { total: 1 },
               results: [],
-              render: jest.fn().mockResolvedValue(""),
             }),
-            results: jest.fn().mockResolvedValue([]),
             data: {
               description: "Wild Magic Surge Table",
             },
@@ -271,9 +262,9 @@ describe("RollTableMagicSurge", () => {
     it("should not call the draw function", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect((global as any).game.tables[0].draw).not.toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(0);
+      expect((global as any).game.tables[0].draw).toHaveBeenCalledTimes(0);
     });
   });
 });

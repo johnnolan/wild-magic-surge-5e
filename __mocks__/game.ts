@@ -32,6 +32,20 @@ const game = {
     {
       name: "Wild Magic Surge",
       roll: jest.fn().mockResolvedValue(true),
+      draw: jest.fn().mockResolvedValue({ 
+        roll: {
+          results: [
+            {
+              text: "test result",
+            },
+          ],
+        },
+        results: [
+          {
+            text: "test result",
+          },
+        ],
+      }),
       results: jest.fn().mockResolvedValue([]),
     },
   ],
@@ -138,6 +152,15 @@ const game = {
     get: () => {
       return { canExecute: true, execute: jest.fn() };
     },
+    find: jest.fn().mockReturnValue({
+      name: "Test Macro",
+      isOwner: true,
+      execute: jest.fn()
+    }),
+  },
+  actors: {
+    get: jest.fn(),
+    // You can add more mock methods/properties as needed
   },
 };
 

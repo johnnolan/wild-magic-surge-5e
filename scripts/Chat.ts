@@ -20,6 +20,7 @@ export default class Chat {
     message: string,
     rollObject?: Roll,
     rollTable?: RollTable,
+    results?: TableResult[],
   ): Promise<void> {
     const isWhisperRollResultGM = await game.settings.get(
       `${WMSCONST.MODULE_ID}`,
@@ -50,8 +51,10 @@ export default class Chat {
         );
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
-        if (!rollObject || !rollTable) return;
-        chatData = await this.createRollTable(rollObject, rollTable);
+        if (!rollObject || !rollTable || !results) return;
+        // v13: The caller must provide the results array from the table draw, not from the Roll object.
+        // chatData = await this.createRollTable(rollObject, rollTable, rollObject.results);
+        throw new Error("createRollTable now requires the results array from the table draw as the third argument.");
         break;
       default:
         chatData = await this.createDefaultChat(message);
@@ -126,16 +129,16 @@ export default class Chat {
   /**
    * Creates a HTML string message based on a RollTable
    * @return {Promise<ChatMessage>} The chatData object
-   * @param {RollResult} rollResult The result of a Roll.
+   * @param {Roll} roll The evaluated Roll.
    * @param {RollTable} surgeRollTable The Roll Table to use.
+   * @param {TableResult[]} results The results from the table draw.
    */
   static async createRollTable(
-    rollResult: Roll,
+    roll: Roll,
     surgeRollTable: RollTable,
+    results: TableResult[], // v13: pass results explicitly
   ): Promise<ChatMessage> {
-    const results = rollResult.results;
-    const roll = rollResult.roll;
-
+    // v13: results are passed in, not on the Roll object
     const nr = results.length > 1 ? `${results.length} results` : "a result";
 
     const chatData = <ChatMessage>{
@@ -160,19 +163,16 @@ export default class Chat {
    * @param {string} template The foundry template to use for the message.
    * @param {RollTable} surgeRollTable The Roll Table to use.
    * @param {Roll} roll The result of a Roll.
-   * @param {Array} results An Array of results from the roll.
+   * @param {TableResult[]} results An Array of results from the roll.
    */
   static async createTemplate(
     template: string,
     surgeRollTable: RollTable,
     roll: Roll,
-    results: string[],
+    results: TableResult[], // v13: TableResult[]
   ): Promise<string> {
-    return renderTemplate(template, {
-      description: await TextEditor.enrichHTML(surgeRollTable.description, {
-        entities: true,
-        async: true,
-      }),
+    return foundry.utils.renderTemplate(template, {
+      description: await foundry.utils.TextEditor.enrichHTML(surgeRollTable.description),
       results: results.map((r: TableResult) => {
         r.text = r.getChatText();
         return r;
