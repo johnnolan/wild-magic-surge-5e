@@ -322,11 +322,6 @@ class MagicSurgeCheck {
         flavorText = tableResult;
       }
       this._callIsSurgeHook(true, roll);
-      this._callEncounterStatistic({
-        EventName: game.i18n.format("WildMagicSurge5E.es_wild_magic_surge"),
-        actorId: this._actor.id,
-        FlavorText: flavorText,
-      });
       AutoEffects.Run(this._tokenId);
     } else {
       await this._actor.setFlag(
@@ -392,34 +387,6 @@ class MagicSurgeCheck {
     DieDescending.Reset(this._actor);
     this._callIsSurgeHook(true);
     AutoEffects.Run(this._tokenId);
-    this._callEncounterStatistic({
-      EventName: game.i18n.format("WildMagicSurge5E.es_wild_magic_surge"),
-      actorId: this._actor.id,
-      FlavorText: flavorText,
-    });
-  }
-
-  async _callEncounterStatistic(
-    encounterStatisticsEvent: EncounterStatisticsEvent,
-  ) {
-    if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ENCOUNTER_STATS_ENABLED}`,
-      )
-    ) {
-      if (game.modules.get("encounter-stats")?.active) {
-        Hooks.callAll(`encounter-stats.customEvent`, {
-          EventName: encounterStatisticsEvent.EventName,
-          actorId: encounterStatisticsEvent.actorId,
-          FlavorText: encounterStatisticsEvent.FlavorText,
-        });
-      } else {
-        ui.notifications?.info(
-          `Wild Magic Surge 5e: Encounter Statistics module is not installed or enabled in settings. Disable sending events in settings or install/enable the Encounter Statistics module.`,
-        );
-      }
-    }
   }
 }
 
