@@ -169,12 +169,10 @@ export default class Chat {
     results: string[],
   ): Promise<string> {
     return renderTemplate(template, {
-      description: await TextEditor.enrichHTML(surgeRollTable.description, {
-        entities: true,
-        async: true,
+      description: results.map((r: TableResult) => {
+        return r.text;
       }),
       results: results.map((r: TableResult) => {
-        r.text = r.getChatText();
         return r;
       }),
       rollHTML: await roll.render(),
