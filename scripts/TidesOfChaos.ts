@@ -1,4 +1,5 @@
 import { WMSCONST } from "./WMSCONST";
+import Logger from "./Logger";
 
 /**
  * Controls the Tides of Chaos feat
@@ -17,12 +18,18 @@ class TidesOfChaos {
       return;
     }
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    if (!tidesItem) return;
+    if (!tidesItem) {      
+      Logger.warn(
+        `Tides of Chaos not found in feature list.`,
+        "TidesOfChaos.getTidesOfChaosItem",
+      );
+      return;
+    }
 
     const updates = [{
       _id: tidesItem.id,
       "system.uses.value": 1,
-      "system.recharge.charged": true
+      "system.uses.spent": 0
     }];
 
     await actor.updateEmbeddedDocuments("Item", updates);
@@ -70,6 +77,7 @@ class TidesOfChaos {
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_TOC_NAME}`
     );
+    console.debug("toc", actor.items)
     return actor.items.find(
       (a: Item) => a.name === featName && a.type === "feat"
     );
