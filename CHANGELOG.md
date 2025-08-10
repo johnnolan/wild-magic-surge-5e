@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.0 - 2025-08-10
+
+### Features
+
+- Upgrade to V13
+- Remove Encounter Stats integration
+- Remove config checker
+
 ## 6.1.1 - 2025-02-22
 
 ### Breaking Changes
