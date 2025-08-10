@@ -1,8 +1,6 @@
 # Setting up your Player Character to work with this module
 
-To setup your Player Character to work with this module, ensure the following steps are setup. If you want to check where there might be an issue, you can click the `WMS` button in the character screen to help debug any issues.
-
-[![Character Sheet check option](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/setup/wms_check_button.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/setup/wms_check_button.jpg)
+To setup your Player Character to work with this module, ensure the following steps are setup.
 
 ## Setup Wild Magic Surge Feat
 

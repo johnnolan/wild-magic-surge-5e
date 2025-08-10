@@ -120,7 +120,6 @@ export const WMSCONST = {
   OPT_EFFECTS_ENABLED: "wildMagicSurgeEffectsEnabled",
   OPT_CANTRIP_SURGE_ENABLED: "cantripTriggerSurgeCheckEnabled",
   OPT_MINIMUM_SPELL_LEVEL_TRIGGER: "minimumSpellLevelTrigger",
-  OPT_SHOW_WMS_DEBUG_OPTION: "showWMSDebugOption",
 
   COMPARISON: {
     EQ: "EQ",

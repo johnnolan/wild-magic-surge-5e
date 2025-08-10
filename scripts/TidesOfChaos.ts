@@ -77,7 +77,6 @@ class TidesOfChaos {
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_TOC_NAME}`
     );
-    console.debug("toc", actor.items)
     return actor.items.find(
       (a: Item) => a.name === featName && a.type === "feat"
     );
