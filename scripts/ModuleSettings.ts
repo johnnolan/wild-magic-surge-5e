@@ -682,41 +682,6 @@ class ModuleSettings {
         type: String,
       },
     );
-
-    game.settings.register(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ENCOUNTER_STATS_ENABLED}`,
-      {
-        name: game.i18n.format(
-          "WildMagicSurge5E.opt_encounter_stats_enabled_name",
-        ),
-        hint: game.i18n.format(
-          "WildMagicSurge5E.opt_encounter_stats_enabled_hint",
-        ),
-        scope: "world",
-        config: true,
-        default: false,
-        type: Boolean,
-      },
-    );
-
-    game.settings.register(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
-      {
-        name: game.i18n.format(
-          "WildMagicSurge5E.opt_show_wms_debug_option_name",
-        ),
-        hint: game.i18n.format(
-          "WildMagicSurge5E.opt_show_wms_debug_option_hint",
-        ),
-        scope: "world",
-        config: true,
-        default: true,
-        requiresReload: true,
-        type: Boolean,
-      },
-    );
   }
 }
 

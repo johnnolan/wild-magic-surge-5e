@@ -3,7 +3,6 @@ import MagicSurgeCheck from "./MagicSurgeCheck";
 import IncrementalCheck from "./utils/IncrementalCheck";
 import RoundCheck from "./RoundCheck";
 import ModuleSettings from "./ModuleSettings";
-import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -138,28 +137,4 @@ Hooks.once("ready", async function () {
       await IncrementalCheck.Reset(actor);
     },
   );
-
-  if (
-    game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
-    )
-  ) {
-    Hooks.on(
-      "renderActorSheet",
-      async function (app: FormApplication, html: object, data: object) {
-        const openButton = $(
-          `<a class="open-actor-wms" title="Wild Magic Surge 5e Information"><i class="fas fa-wrench"></i>WMS</a>`,
-        );
-        openButton.on("click", () => {
-          new ActorHelperPanel(app.document, { actor: data.actor }).render(
-            true,
-          );
-        });
-        html.closest(".app").find(".open-actor-wms").remove();
-        const titleElement = html.closest(".app").find(".window-title");
-        if (!app._minimized) openButton.insertAfter(titleElement);
-      },
-    );
-  }
 });

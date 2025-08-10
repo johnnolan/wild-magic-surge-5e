@@ -18,35 +18,36 @@ This module provide various bits of functionality to help automate the `Wild Mag
 
 ## Contents
 
-- [Quick start youtube videos](#quick-start-youtube-videos)
-  - [Setting up Wild Magic Surge 5e](#quickstart-guide-to-setting-up-wild-magic-surge-5e-on-youtube)
-  - [Advanced feature overview of Wild Magic Surge 5e](#advanced-feature-overview-of-wild-magic-surge-5e-on-youtube)
-- [Setup Guides](#setup-guides)
-  - [Prerequisites and setting up your Player Character to work with this module](./docs/SETTING_UP_PLAYER.md)
-  - [Track Incremental and Descending Die Wild Magic Surge count on token](./docs/TRACK_SURGE_TOKEN.md)
-  - [Setting up the Barbarian - Path of Wild Magic - Tasha's Cauldron of Everything](./docs/POWN_BARB.md)
-  - [Setting up Spell Level Dependent Rolls](./docs/SPELL_LEVEL_DEPENDENT.md)
-  - [Using built in Hooks](./docs/HOOKS.md)
-- [Top Level Features](#top-level-features)
-  - [Additional Features](#additional-features)
-- [Options](#options)
-  - [Wild Magic Surge Mode](#wild-magic-surge-mode)
-  - [Whisper chat results to GM](#whisper-chat-results-to-gm)
-  - [Automate Wild Magic Surge](#auto-roll-a-check-for-wild-magic-surge-instead-of-just-a-reminder-to-roll)
-  - [Send Incremental Check charge to chat](#send-incremental-check-charge-to-chat)
-  - [Enable Auto Roll on a Wild Magic Surge Table](#enable-auto-roll-on-a-wild-magic-surge-table)
-  - [Execute a GM Macro on a Wild Magic Surge](#execute-a-gm-macro-on-a-wild-magic-surge)
-  - [Trigger a Wild Magic Surge from your own Macro](#trigger-a-wild-magic-surge-from-your-own-macro)
-  - [Tides of Chaos Recharge](#tides-of-chaos-recharge)
-  - [Auto surge on spell use after Tides of Chaos has been used](#auto-surge-on-spell-use-after-tides-of-chaos-has-been-used)
-  - [Dice Formula](#dice-formula)
-  - [Track Wild Magic Surge for NPCs](#track-wild-magic-surge-for-npcs)
-  - [Target result of the dice roll](#the-target-result-of-the-dice-roll)
-  - [Roll result boolean expression](#roll-result-boolean-expression)
-  - [Include/Exclude Spell Filter](#includeexclude-spell-filter)
-  - [Play animation on Surge](#play-animation-on-surge)
-  - [Roll for surge on Cantrips](#roll-for-surge-on-cantrips)
-  - [Encounter Statistics Module Integration](#encounter-statistics-module-integration)
+- [Wild Magic Surge 5e](#wild-magic-surge-5e)
+  - [Contents](#contents)
+  - [Quick start youtube videos](#quick-start-youtube-videos)
+    - [Quickstart guide to setting up Wild Magic Surge 5e on YouTube](#quickstart-guide-to-setting-up-wild-magic-surge-5e-on-youtube)
+    - [Advanced feature overview of Wild Magic Surge 5e on YouTube](#advanced-feature-overview-of-wild-magic-surge-5e-on-youtube)
+  - [Setup Guides](#setup-guides)
+  - [Top Level Features](#top-level-features)
+    - [Additional Features](#additional-features)
+  - [Options](#options)
+    - [Wild Magic Surge Mode](#wild-magic-surge-mode)
+    - [Whisper chat results to GM](#whisper-chat-results-to-gm)
+    - [Auto Roll a check for Wild Magic Surge instead of just a reminder to roll](#auto-roll-a-check-for-wild-magic-surge-instead-of-just-a-reminder-to-roll)
+    - [Send Incremental Check charge to chat](#send-incremental-check-charge-to-chat)
+    - [Enable Auto Roll on a Wild Magic Surge Table](#enable-auto-roll-on-a-wild-magic-surge-table)
+    - [Execute a GM Macro on a Wild Magic Surge](#execute-a-gm-macro-on-a-wild-magic-surge)
+    - [Trigger a Wild Magic Surge from your own Macro](#trigger-a-wild-magic-surge-from-your-own-macro)
+      - [Example macro code](#example-macro-code)
+    - [Tides of Chaos Recharge](#tides-of-chaos-recharge)
+    - [Dice Formula](#dice-formula)
+    - [Track Wild Magic Surge for NPCs](#track-wild-magic-surge-for-npcs)
+    - [The target result of the dice roll](#the-target-result-of-the-dice-roll)
+    - [Roll result boolean expression](#roll-result-boolean-expression)
+    - [Auto surge on spell use after Tides of Chaos has been used](#auto-surge-on-spell-use-after-tides-of-chaos-has-been-used)
+    - [Include/Exclude Spell Filter](#includeexclude-spell-filter)
+    - [Play animation on Surge](#play-animation-on-surge)
+    - [Roll for surge on Cantrips](#roll-for-surge-on-cantrips)
+  - [Contributing](#contributing)
+    - [Translations](#translations)
+  - [License](#license)
+  - [Contact](#contact)
 
 
 ## Quick start youtube videos
@@ -99,7 +100,6 @@ Below is a list of links to help you setup the module and your Player Characters
 - Auto play animation effect on a Wild Magic Surge
 - Execute a Macro on a Wild Magic Surge
   - Includes a set of example macros on how you can use this feature. Can be found in the compendium.
-- [Optionally send Wild Magic Surge event](#encounter-statistics-module-integration) to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
 
 ## Options
 
@@ -254,17 +254,6 @@ On a Wild Magic Surge, the token that triggered the Surge will get an animation 
 Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.
 
 [![Roll for surge on Cantrips](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/roll-cantrips.jpg)
-
-### Encounter Statistics Module Integration
-
-Optionally send Wild Magic Surge event to [Encounter Statistics Module](https://github.com/johnnolan/encounter-stats) to track history of surges in your campaign.
-
-[![Encounter Statistics Module Integration option](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/opt-encounter-stats.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/opt-encounter-stats.jpg)
-
-#### Example output
-
-[![Encounter Statistics Module Example output](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/encstats-example.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/encstats-example.jpg)
-
 
 ## Contributing
 
