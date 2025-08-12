@@ -6,6 +6,7 @@ import ModuleSettings from "./ModuleSettings";
 import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
+import DieDescending from "./utils/DieDescending";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -21,6 +22,19 @@ Hooks.on("init", function () {
     "wild-magic-surge-5e.manualTriggerWMS",
     async function (actor: Actor, roll: Roll) {
       if (roll && actor) {
+        const wildMagicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          getTokenIdByActorId(actor.id),
+        );
+        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+      }
+    },
+  );
+
+  Hooks.on(
+    "wild-magic-surge-5e.reset",
+    async function (actor: Actor) {
+      if (actor) {
         const wildMagicSurgeCheck = new MagicSurgeCheck(
           actor,
           getTokenIdByActorId(actor.id),
@@ -69,6 +83,15 @@ function Migrate() {
       WMSCONST.ROLLTABLE_TYPE.DEFAULT,
     );
   }
+}
+
+async function _resetChecks(actorId: string) {
+  const actor = game.actors.get(actorId);
+  if (!actor) {
+    return false;
+  }
+  await IncrementalCheck.Reset(actor);
+  await DieDescending.Reset(actor);
 }
 
 Hooks.once("ready", async function () {
@@ -128,13 +151,25 @@ Hooks.once("ready", async function () {
   }
 
   Hooks.on(
-    "wild-magic-surge-5e.ResetIncrementalCheck",
+    "wild-magic-surge-5e.Reset",
     async function (actorId: string) {
-      const actor = game.actors.get(actorId);
-      if (!actor) {
-        return false;
-      }
-      await IncrementalCheck.Reset(actor);
+      _resetChecks(actorId);
     },
   );
+
+    Hooks.on(
+    "wild-magic-surge-5e.ResetDieDescending",
+    async function (actorId: string) {
+      _resetChecks(actorId);
+    },
+  );
+
+    Hooks.on(
+    "wild-magic-surge-5e.ResetIncrementalCheck",
+    async function (actorId: string) {
+      _resetChecks(actorId);
+    },
+  );
+
+
 });
