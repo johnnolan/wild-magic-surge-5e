@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.0 - 2025-08-12
+
+### Features
+
+* Format WMS Auto Roll Table Chat Message to show description and look prettier
+
 ## 7.0.0 - 2025-08-10
 
 ### Features
