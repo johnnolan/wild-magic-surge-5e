@@ -170,6 +170,4 @@ Hooks.once("ready", async function () {
       _resetChecks(actorId);
     },
   );
-
-
 });
