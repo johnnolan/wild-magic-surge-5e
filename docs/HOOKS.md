@@ -116,3 +116,27 @@ To get the actor ID
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
 
 `Hooks.callAll("wild-magic-surge-5e.ResetDieDescending", "Owr50jt6HyYru2e1");`
+
+## wild-magic-surge-5e.SetDieDescending
+
+This hook allows you to specify which die to use for the Die Descending count. Handy for when you want to add homebrew rules like increasing or decreasing manually based on a story element or other event.
+
+To get the actor ID
+
+* select the token you want on the map
+* Press F12
+* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* This is your actorId
+
+In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
+
+The 1-6 value in the example specified which dice to switch to.
+
+* 1 = D20
+* 2 = D12
+* 3 = D10
+* 4 = D8
+* 5 = D6
+* 6 = D4
+
+`Hooks.callAll("wild-magic-surge-5e.SetDieDescending", "Owr50jt6HyYru2e1", 1);`

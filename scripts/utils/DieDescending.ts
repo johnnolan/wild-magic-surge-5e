@@ -84,4 +84,13 @@ export default class DieDescending extends Resource {
 
     return false;
   }
+
+  static async OverrideResource(actor: Actor, resourceNumber: number): Promise<void> {
+    await this.SetResource(actor, {
+        max: 6,
+        value: resourceNumber,
+      });
+      const resourceValue = await this.GetResource(actor);
+      await this._callChanged(resourceValue);
+  }
 }
