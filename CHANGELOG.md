@@ -1,5 +1,16 @@
 # Changelog
 
+## 7.2.0 - 2025-08-12
+
+This change creates 4 new hooks to allow users to override manually via macros the Incremental and Die Descending values. It also allows users to reset the values as if a surge has happened.
+
+* `wild-magic-surge-5e.ResetDieDescending`
+* `wild-magic-surge-5e.Reset`
+* `wild-magic-surge-5e.SetDieDescending`
+* `wild-magic-surge-5e.SetIncrementalCheck`
+
+See documentation for more details [https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/HOOKS.md#wild-magic-surge-5ereset](https://github.com/johnnolan/wild-magic-surge-5e/blob/main/docs/HOOKS.md#wild-magic-surge-5ereset)
+
 ## 7.1.0 - 2025-08-12
 
 ### Features
