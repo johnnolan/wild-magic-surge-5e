@@ -58,4 +58,13 @@ export default class IncrementalCheck extends Resource {
 
     return false;
   }
+
+  static async OverrideResource(actor: Actor, resourceNumber: number): Promise<void> {
+    await this.SetResource(actor, {
+        max: 20,
+        value: resourceNumber,
+      });
+      const resourceValue = await this.GetResource(actor);
+      await this._callChanged(resourceValue.value);
+  }
 }

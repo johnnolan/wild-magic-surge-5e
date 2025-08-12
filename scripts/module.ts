@@ -181,4 +181,15 @@ Hooks.once("ready", async function () {
       DieDescending.OverrideResource(actor, resourceNumber);
     },
   );
+
+    Hooks.on(
+    "wild-magic-surge-5e.SetIncrementalCheck",
+    async function (actorId: string, resourceNumber: number) {
+      const actor = game.actors.get(actorId);
+      if (!actor) {
+        return false;
+      }
+      IncrementalCheck.OverrideResource(actor, resourceNumber);
+    },
+  );
 });

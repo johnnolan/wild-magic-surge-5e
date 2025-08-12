@@ -87,7 +87,9 @@ In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the 
 
 `Hooks.callAll("wild-magic-surge-5e.Reset", "Owr50jt6HyYru2e1");`
 
-## wild-magic-surge-5e.ResetIncrementalCheck
+## Incremental Check Hooks
+
+### wild-magic-surge-5e.ResetIncrementalCheck
 
 This hook allows you to tell the module to reset the incremental count to 1. Handy for when you want to add homebrew rules like resetting after a long rest.
 
@@ -102,7 +104,27 @@ In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the 
 
 `Hooks.callAll("wild-magic-surge-5e.ResetIncrementalCheck", "Owr50jt6HyYru2e1");`
 
-## wild-magic-surge-5e.ResetDieDescending
+
+## wild-magic-surge-5e.SetIncrementalCheck
+
+This hook allows you to specify which die to use for the incremental count. Handy for when you want to add homebrew rules like increasing or decreasing manually based on a story element or other event.
+
+To get the actor ID
+
+* select the token you want on the map
+* Press F12
+* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* This is your actorId
+
+In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
+
+The last argument is a value 1-20 which sets what the target roll to trigger should be.
+
+`Hooks.callAll("wild-magic-surge-5e.SetIncrementalCheck", "Owr50jt6HyYru2e1", 1);`
+
+## Die Descending Hooks
+
+### wild-magic-surge-5e.ResetDieDescending
 
 This hook allows you to tell the module to reset the Die Descending count. Handy for when you want to add homebrew rules like resetting after a long rest.
 
@@ -117,7 +139,7 @@ In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the 
 
 `Hooks.callAll("wild-magic-surge-5e.ResetDieDescending", "Owr50jt6HyYru2e1");`
 
-## wild-magic-surge-5e.SetDieDescending
+### wild-magic-surge-5e.SetDieDescending
 
 This hook allows you to specify which die to use for the Die Descending count. Handy for when you want to add homebrew rules like increasing or decreasing manually based on a story element or other event.
 
