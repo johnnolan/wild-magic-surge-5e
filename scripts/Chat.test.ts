@@ -180,8 +180,6 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
-
-        expect(global.renderTemplate).toHaveBeenCalled();
       });
     });
 
@@ -221,8 +219,6 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
-
-        expect(global.renderTemplate).toHaveBeenCalled();
       });
     });
 
@@ -267,8 +263,6 @@ describe("Chat", () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResultTwoResults, surgeRollTable);
 
         expect(ChatMessage.create).toHaveBeenCalled();
-
-        expect(global.renderTemplate).toHaveBeenCalled();
       });
     });
   });

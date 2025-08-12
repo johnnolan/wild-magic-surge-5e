@@ -136,48 +136,32 @@ export default class Chat {
     const results = rollResult.results;
     const roll = rollResult.roll;
 
-    const nr = results.length > 1 ? `${results.length} results` : "a result";
-
     const chatData = <ChatMessage>{
-      flavor: `Draws ${nr} from the <WILD MAGIC SURGE> table.`,
       user: game.user.id,
       rolls: [roll],
       sound: null,
     };
 
-    chatData.content = await this.createTemplate(
-      CONFIG.RollTable.resultTemplate,
-      surgeRollTable,
-      roll,
-      results,
-    );
-    return chatData;
-  }
-
-  /**
-   * Based on the RollTable template, generates the appropriate HTML to display in chat
-   * @return {Promise<string>} A rendered HTML string.
-   * @param {string} template The foundry template to use for the message.
-   * @param {RollTable} surgeRollTable The Roll Table to use.
-   * @param {Roll} roll The result of a Roll.
-   * @param {Array} results An Array of results from the roll.
-   */
-  static async createTemplate(
-    template: string,
-    surgeRollTable: RollTable,
-    roll: Roll,
-    results: string[],
-  ): Promise<string> {
-    return renderTemplate(template, {
-      description: results.map((r: TableResult) => {
-        return r.text;
-      }),
-      results: results.map((r: TableResult) => {
-        return r;
-      }),
-      rollHTML: await roll.render(),
-      table: surgeRollTable,
+    const rollText = results.map((r: TableResult) => {
+      return r.text;
     });
+
+    chatData.content = `
+        <div class="my-roll-result">
+          <div class="dnd5e2 chat-card">
+            <section class="card-header description ">
+              <header class="summary"><img class="gold-icon" src="icons/magic/lightning/bolts-forked-large-magenta.webp" alt="Wild Magic Surge">
+                <div class="name-stacked"><span class="title">${game.i18n.format("WildMagicSurge5E.es_wild_magic_surge",)}</span>
+                  <span class="subtitle">${rollText}</span>
+                </div>
+              </header>
+            </section>
+          </div>
+          ${await roll.render()}
+        </div>
+      `;
+
+    return chatData;
   }
 
   /**
