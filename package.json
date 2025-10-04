@@ -23,7 +23,7 @@
     "@jest/types": "30.2.0",
     "@league-of-foundry-developers/foundry-vtt-types": "13.345.1",
     "@types/jest": "30.0.0",
-    "@types/node": "22.18.7",
+    "@types/node": "22.18.8",
     "@typescript-eslint/eslint-plugin": "8.45.0",
     "@typescript-eslint/parser": "8.45.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
@@ -40,7 +40,7 @@
     "jshint": "2.13.6",
     "prettier": "3.6.2",
     "ts-jest": "29.4.4",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "jest-junit": {
     "outputDirectory": "./test-results/junit",
