@@ -23,7 +23,7 @@ jobs:
         release-notes: ${{ github.event.release.body }}
 
     - name: Setup Node
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@v6
       with:
         node-version-file: '.nvmrc'
 
@@ -70,7 +70,7 @@ jobs:
         allowUpdates: true
 
     - name: Commit updated CHANGELOG
-      uses: stefanzweifel/git-auto-commit-action@v6
+      uses: stefanzweifel/git-auto-commit-action@v7
       with:
         branch: ${{ github.event.release.target_commitish }}
         commit_message: Update CHANGELOG
