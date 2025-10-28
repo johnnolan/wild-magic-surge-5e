@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
 
@@ -31,7 +31,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload ESLint Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: eslint_report
           path: |

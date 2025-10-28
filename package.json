@@ -18,18 +18,18 @@
     "lint:fix": "eslint --fix --ignore-path .eslintignore ."
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.28.4",
-    "@babel/preset-env": "7.28.3",
+    "@babel/eslint-parser": "7.28.5",
+    "@babel/preset-env": "7.28.5",
     "@jest/types": "30.2.0",
     "@league-of-foundry-developers/foundry-vtt-types": "13.345.1",
     "@types/jest": "30.0.0",
-    "@types/node": "22.18.7",
-    "@typescript-eslint/eslint-plugin": "8.45.0",
-    "@typescript-eslint/parser": "8.45.0",
+    "@types/node": "24.9.1",
+    "@typescript-eslint/eslint-plugin": "8.46.2",
+    "@typescript-eslint/parser": "8.46.2",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
     "babel-jest": "30.2.0",
-    "esbuild": "0.25.10",
-    "eslint": "9.36.0",
+    "esbuild": "0.25.11",
+    "eslint": "9.38.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
     "handlebars": "4.7.8",
@@ -39,8 +39,8 @@
     "jquery": "3.7.1",
     "jshint": "2.13.6",
     "prettier": "3.6.2",
-    "ts-jest": "29.4.4",
-    "typescript": "5.9.2"
+    "ts-jest": "29.4.5",
+    "typescript": "5.9.3"
   },
   "jest-junit": {
     "outputDirectory": "./test-results/junit",
