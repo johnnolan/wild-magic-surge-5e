@@ -116,6 +116,10 @@ Hooks.once("ready", async function () {
 
   Hooks.on("dnd5e.postUseActivity", (activity: Item) => {
     const item = activity.item;
+
+    // Only fire when a spell slot is actually consumed
+    if (!activity.consumption?.spellSlot) return;
+
     if (item.actor) {
       const tokenId = getTokenIdByActorId(item?.actor.id);
       if (game.user?.isGM) {
