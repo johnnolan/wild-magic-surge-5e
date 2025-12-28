@@ -1,6 +1,6 @@
 # Setting up your Player Character to work with this module
 
-To setup your Player Character to work with this module, ensure the following steps are setup.
+To setup your Player Character to work with this module, ensure the following steps are setup. If you want to check where there might be an issue, you can click the `WMS` button in the character screen to help debug any issues.
 
 ## Setup Wild Magic Surge Feat
 
