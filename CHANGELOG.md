@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.3.0 - 2025-12-28
+
+### Features
+
+Fixes issues in other automation modules (Cauldron of Plentiful Resources, midi-qol, etc) that use an item but does not consume a spell slot. E.g. Magic Missile firing a Wild Magic Surged multiple times on cast. The script now checks for whether a spell slot has been consumed on the `dnd5e.postUseActivity` hook and only triggers if it is consumed.
+
+Adds back in to the new Character sheets the WMS check for actors.
+
 ## 7.2.0 - 2025-08-12
 
 This change creates 4 new hooks to allow users to override manually via macros the Incremental and Die Descending values. It also allows users to reset the values as if a surge has happened.
