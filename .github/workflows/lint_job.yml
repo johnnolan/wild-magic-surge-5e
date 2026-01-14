@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -17,7 +17,7 @@ jobs:
 
       - name: Cache yarn dependencies
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('yarn.lock') }}
@@ -31,7 +31,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload ESLint Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: eslint_report
           path: |
