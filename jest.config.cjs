@@ -30,4 +30,9 @@ module.exports = {
     "!scripts/Logger.ts",
     "!scripts/macros/**/*.*",
   ],
+  testEnvironment: "jest-environment-jsdom",
+  testEnvironmentOptions: {
+    url: "http://localhost",
+  },
+  setupFiles: ["./jest.setup.cjs"],
 };
