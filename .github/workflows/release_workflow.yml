@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         token: ${{ secrets.PAT }}
 
@@ -23,13 +23,13 @@ jobs:
         release-notes: ${{ github.event.release.body }}
 
     - name: Setup Node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
       with:
         node-version-file: '.nvmrc'
 
     - name: Cache yarn dependencies
       id: cache
-      uses: actions/cache@v5
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: ./node_modules
         key: modules-${{ hashFiles('yarn.lock') }}
@@ -59,7 +59,7 @@ jobs:
     # Create a release for this specific version
     - name: Update Release with Files
       id: create_version_release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
       with:
         name: ${{ github.event.release.name }}
         draft: ${{ github.event.release.unpublished }}
@@ -70,7 +70,7 @@ jobs:
         allowUpdates: true
 
     - name: Commit updated CHANGELOG
-      uses: stefanzweifel/git-auto-commit-action@v7
+      uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
       with:
         branch: ${{ github.event.release.target_commitish }}
         commit_message: Update CHANGELOG
