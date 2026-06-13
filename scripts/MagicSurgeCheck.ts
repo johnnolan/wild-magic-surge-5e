@@ -10,6 +10,8 @@ import CallHooks from "./utils/CallHooks";
 import SurgeDetails from "./utils/SurgeDetails";
 import Logger from "./Logger";
 import TriggerMacro from "./TriggerMacro";
+import { UsageConfig } from "foundry-extensions";
+import SpellParser from "./utils/SpellParser";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -21,9 +23,15 @@ import TriggerMacro from "./TriggerMacro";
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string | undefined;
-  constructor(actor: Actor, tokenId: string | undefined) {
+  _usageConfig: UsageConfig;
+  constructor(
+    actor: Actor,
+    tokenId: string | undefined,
+    usageConfig: UsageConfig,
+  ) {
     this._actor = actor;
     this._tokenId = tokenId;
+    this._usageConfig = usageConfig;
   }
 
   async _rollPlayerTrigger(
@@ -207,6 +215,7 @@ class MagicSurgeCheck {
     let roll: Roll | undefined;
 
     let isAutoSurge = false;
+    const isUpcastSpell = SpellParser.IsUpcastSpell(this._usageConfig);
     if (
       game.settings.get(
         `${WMSCONST.MODULE_ID}`,
@@ -214,12 +223,31 @@ class MagicSurgeCheck {
       )
     ) {
       if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
-        isAutoSurge = true;
-        this.SurgeTidesOfChaos();
+        if (
+          game.settings.get(
+            WMSCONST.MODULE_ID,
+            isUpcastSpell
+              ? WMSCONST.OPT_UPCAST_TOC_TRIGGER_UPCAST
+              : WMSCONST.OPT_UPCAST_TOC_TRIGGER_BASE,
+          )
+        ) {
+          isAutoSurge = true;
+          this.SurgeTidesOfChaos();
+        }
       }
     }
 
     if (!isAutoSurge) {
+      if (
+        !game.settings.get(
+          WMSCONST.MODULE_ID,
+          isUpcastSpell
+            ? WMSCONST.OPT_UPCAST_WMS_TRIGGER_UPCAST
+            : WMSCONST.OPT_UPCAST_WMS_TRIGGER_BASE,
+        )
+      ) {
+        return;
+      }
       roll = await this.WildMagicSurgeRollCheck(spellLevel);
       if (!roll) return;
       const rollTotal = roll.total ?? 1;
