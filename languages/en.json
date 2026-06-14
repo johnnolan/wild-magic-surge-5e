@@ -15,7 +15,7 @@
 
   "WildMagicSurge5E.opt_whisper_gm_name": "Whisper Wild Magic Surge Roll Check to GM",
   "WildMagicSurge5E.opt_whisper_gm_hint": "The surge check roll message is only sent to the GM instead of all players.",
-  
+
   "WildMagicSurge5E.opt_whisper_gm_roll_chat_name": "Whisper Auto Roll Table result to GM",
   "WildMagicSurge5E.opt_whisper_gm_roll_chat_hint": "Auto Roll Table results are only sent to the GM instead of all players.",
 
@@ -39,7 +39,7 @@
 
   "WildMagicSurge5E.opt_auto_d20_msg_no_surge_name": "Surge Chat Message Fail",
   "WildMagicSurge5E.opt_auto_d20_msg_no_surge_hint": "On a failed auto Wild Magic Surge roll, show this message.",
-  
+
   "WildMagicSurge5E.opt_auto_d20_msg_enabled_name": "Show Message",
   "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint": "Optionally enable this message to show.",
 
@@ -96,7 +96,7 @@
 
   "WildMagicSurge5E.opt_cantrip_surge_enabled_name": "Roll for surge on Cantrips",
   "WildMagicSurge5E.opt_cantrip_surge_enabled_hint": "Standard rules are 1st Level and higher to trigger a surge. This also enables it for Cantrips.",
-  
+
   "WildMagicSurge5E.opt_minimum_spell_level_trigger_name": "Set minimum Spell Level to trigger Surge",
   "WildMagicSurge5E.opt_minimum_spell_level_trigger_hint": "Set a custom minimum level to trigger a Wild Magic Surge. For example 3 would only trigger on spells cast at level 3 or higher.",
 
@@ -120,5 +120,16 @@
   "WildMagicSurge5E.settings_panel_incremental": "Incremental Check Variant",
   "WildMagicSurge5E.settings_panel_chat_message": "Chat Message Options",
   "WildMagicSurge5E.configure": "Configure",
-  "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information"
+  "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information",
+  "WildMagicSurge5E.settings_panel_upcast": "Upcast Spell Options",
+
+  "WildMagicSurge5E.opt_upcast_wms_trigger_base_name": "Wild Magic Surge Rolls — Base-Level Spells",
+  "WildMagicSurge5E.opt_upcast_wms_trigger_base_hint": "Trigger a Wild Magic Surge Roll when a spell is cast at its normal level. Requires \"Automate Wild Magic Surge\" to be enabled.",
+  "WildMagicSurge5E.opt_upcast_wms_trigger_upcast_name": "Wild Magic Surge Rolls — Upcast Spells",
+  "WildMagicSurge5E.opt_upcast_wms_trigger_upcast_hint": "Trigger a Wild Magic Surge Roll when a spell is cast using a higher-level spell slot. Requires \"Automate Wild Magic Surge\" to be enabled.",
+
+  "WildMagicSurge5E.opt_upcast_toc_trigger_base_name": "Tides of Chaos Surges — Base-Level Spells",
+  "WildMagicSurge5E.opt_upcast_toc_trigger_base_hint": "Trigger a Tides of Chaos Wild Magic Surge when a spell is cast at its normal level. Requires the Auto Surge After Tides of Chaos to be enabled.",
+  "WildMagicSurge5E.opt_upcast_toc_trigger_upcast_name": "Tides of Chaos Surges — Upcast Spells",
+  "WildMagicSurge5E.opt_upcast_toc_trigger_upcast_hint": "Trigger a Tides of Chaos Wild Magic Surge when a spell is cast using a higher-level spell slot. Requires the Auto Surge After Tides of Chaos to be enabled."
 }

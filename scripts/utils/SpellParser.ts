@@ -1,3 +1,4 @@
+import { UsageConfig } from "foundry-extensions";
 import { WMSCONST } from "../WMSCONST";
 
 export default class SpellParser {
@@ -107,6 +108,15 @@ export default class SpellParser {
   static IsSpell(item: Item): boolean {
     const result = SpellParser.SpellDetails(item);
     return result !== undefined && item.type === "spell";
+  }
+
+  /**
+   * Checks if the spell was cast at a higher level
+   * @param usageConfig
+   * @returns {boolean}
+   */
+  static IsUpcastSpell(usageConfig: UsageConfig): boolean {
+    return (usageConfig?.scaling ?? 0) > 0;
   }
 
   /**

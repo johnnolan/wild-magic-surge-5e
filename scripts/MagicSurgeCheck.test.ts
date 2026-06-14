@@ -15,34 +15,34 @@ import TriggerMacro from "./TriggerMacro";
 
 const mockSpellParserIsPathOfWildMagicFeat = jest.spyOn(
   SpellParser,
-  "IsPathOfWildMagicFeat"
+  "IsPathOfWildMagicFeat",
 );
 const mockSpellParserSpellLevel = jest.spyOn(SpellParser, "SpellLevel");
 const mockSpellParserIsRage = jest.spyOn(SpellParser, "IsRage");
 const mockSpellParserIsSpell = jest.spyOn(SpellParser, "IsSpell");
 const mockSpellParserIsSorcererSpell = jest.spyOn(
   SpellParser,
-  "IsSorcererSpell"
+  "IsSorcererSpell",
 );
 const mockSpellParserIsWildMagicFeat = jest.spyOn(
   SpellParser,
-  "IsWildMagicFeat"
+  "IsWildMagicFeat",
 );
 
 const mockSurgeDetailsValid = jest.spyOn(
   SurgeDetails.prototype,
   "valid",
-  "get"
+  "get",
 );
 const mockSurgeDetailsHasPathOfWildMagicFeat = jest.spyOn(
   SurgeDetails.prototype,
   "hasPathOfWildMagicFeat",
-  "get"
+  "get",
 );
 const mockSurgeDetailsSpellLevel = jest.spyOn(
   SurgeDetails.prototype,
   "spellLevel",
-  "get"
+  "get",
 );
 
 const mockDieDescendingCheck = jest.fn();
@@ -130,7 +130,9 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValue(true),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
 
         mockSurgeDetailsValid.mockReturnValue(false);
 
@@ -167,7 +169,9 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValue(true),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
@@ -206,7 +210,9 @@ describe("MagicSurgeCheck", () => {
           },
         };
 
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
@@ -245,7 +251,9 @@ describe("MagicSurgeCheck", () => {
           },
         };
 
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(true);
@@ -258,7 +266,10 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellParserIsPathOfWildMagicFeat).toHaveBeenCalledTimes(1);
 
-        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith("POWM", actor);
+        expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledWith(
+          "POWM",
+          actor,
+        );
 
         expect(magicSurgeCheck.AutoSurgeCheck).not.toHaveBeenCalled();
       });
@@ -287,13 +298,15 @@ describe("MagicSurgeCheck", () => {
           },
         };
 
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
 
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect((global as any).Roll).toHaveBeenCalled());
+        expect((global as any).Roll).toHaveBeenCalled();
       });
     });
 
@@ -317,15 +330,17 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("1D20"),
           },
         };
-        
-      (global as any).ui = {
-        notifications: {
-          warn: jest.fn(),
-          info: jest.fn(),
-        }
-      };
 
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        (global as any).ui = {
+          notifications: {
+            warn: jest.fn(),
+            info: jest.fn(),
+          },
+        };
+
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -357,7 +372,9 @@ describe("MagicSurgeCheck", () => {
         };
 
         actor.getFlag = jest.fn().mockReturnValue({ value: "1D20" });
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -391,7 +408,9 @@ describe("MagicSurgeCheck", () => {
         actor.getFlag = jest.fn().mockReturnValue(undefined);
 
         actor.setFlag = jest.fn();
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
 
       it("It calls Roll with 1D20", async () => {
@@ -426,7 +445,9 @@ describe("MagicSurgeCheck", () => {
             },
           ],
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
       test("roll of 2 EQ 2", async () => {
         const result = magicSurgeCheck.DefaultMagicSurgeRollResult(2, "EQ");
@@ -463,7 +484,9 @@ describe("MagicSurgeCheck", () => {
     describe("has 2 values in the result check", () => {
       let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
         (global as any).game = {
           modules: {
             get: () => {
@@ -543,11 +566,13 @@ describe("MagicSurgeCheck", () => {
             get: jest.fn().mockReturnValue(true),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
 
         defaultSurgeTidesOfChaosSpy = jest.spyOn(
           magicSurgeCheck,
-          "SurgeTidesOfChaos"
+          "SurgeTidesOfChaos",
         );
 
         jest.spyOn(magicSurgeCheck, "SurgeWildMagic").mockReturnValue(true);
@@ -607,12 +632,14 @@ describe("MagicSurgeCheck", () => {
             }),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
         defaultMagicSurgeRollResultSpy = jest.spyOn(
           magicSurgeCheck,
-          "DefaultMagicSurgeRollResult"
+          "DefaultMagicSurgeRollResult",
         );
 
         jest
@@ -768,12 +795,14 @@ describe("MagicSurgeCheck", () => {
             }),
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
         defaultMagicSurgeRollResultSpy = jest.spyOn(
           magicSurgeCheck,
-          "DefaultMagicSurgeRollResult"
+          "DefaultMagicSurgeRollResult",
         );
 
         jest
@@ -810,7 +839,9 @@ describe("MagicSurgeCheck", () => {
             },
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
         mockRollTableMagicSurgeCheck.mockResolvedValueOnce("test result");
       });
 
@@ -850,7 +881,9 @@ describe("MagicSurgeCheck", () => {
             },
           },
         };
-        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+        magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+          scaling: 0,
+        });
       });
 
       it("It runs the correct functions", async () => {
@@ -873,7 +906,9 @@ describe("MagicSurgeCheck", () => {
     let magicSurgeCheck: MagicSurgeCheck;
 
     beforeEach(() => {
-      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
+      magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4", {
+        scaling: 0,
+      });
     });
 
     it("It splits one value into an array", async () => {

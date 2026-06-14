@@ -1,7 +1,22 @@
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
 import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
-import { cantrip, eighthLevel, fifthLevel, firstLevel, fourthLevel, melee, ninthLevel, rage, secondLevel, seventhLevel, sixthLevel, sorcererSpecificSpell, tenthLevel, thirdLevel } from "../../MockData/items";
+import {
+  cantrip,
+  eighthLevel,
+  fifthLevel,
+  firstLevel,
+  fourthLevel,
+  melee,
+  ninthLevel,
+  rage,
+  secondLevel,
+  seventhLevel,
+  sixthLevel,
+  sorcererSpecificSpell,
+  tenthLevel,
+  thirdLevel,
+} from "../../MockData/items";
 import "../../__mocks__/index";
 
 describe("SpellParser", () => {
@@ -169,6 +184,25 @@ describe("SpellParser", () => {
     });
   });
 
+  describe("IsUpcastSpell", () => {
+    it("returns true when scaling > 0", () => {
+      expect(SpellParser.IsUpcastSpell({ scaling: 1 } as any)).toBe(true);
+      expect(SpellParser.IsUpcastSpell({ scaling: 2 } as any)).toBe(true);
+    });
+
+    it("returns false when scaling is 0", () => {
+      expect(SpellParser.IsUpcastSpell({ scaling: 0 } as any)).toBe(false);
+    });
+
+    it("returns false when scaling is undefined", () => {
+      expect(SpellParser.IsUpcastSpell({} as any)).toBe(false);
+    });
+
+    it("returns false when usageConfig is undefined", () => {
+      expect(SpellParser.IsUpcastSpell(undefined as any)).toBe(false);
+    });
+  });
+
   describe("SpellDetails", () => {
     describe("Is set to level 3 or higher", () => {
       describe("it is a level 2 spell", () => {
@@ -177,14 +211,17 @@ describe("SpellParser", () => {
           jest.resetAllMocks();
           (global as any).game = {
             settings: {
-              get: jest.fn().mockReturnValueOnce("3").mockReturnValueOnce(false),
+              get: jest
+                .fn()
+                .mockReturnValueOnce("3")
+                .mockReturnValueOnce(false),
             },
           };
         });
 
         it("should be undefined", async () => {
           const result = SpellParser.SpellDetails(firstLevel);
-  
+
           expect(result).toBeUndefined();
         });
       });
@@ -202,7 +239,7 @@ describe("SpellParser", () => {
 
         it("should be 3rd Level", async () => {
           const result = SpellParser.SpellDetails(thirdLevel);
-  
+
           expect(result).toBe("3rd Level");
         });
       });
@@ -330,7 +367,10 @@ describe("SpellParser", () => {
       };
       (global as any).game = {
         settings: {
-          get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(false),
+          get: jest
+            .fn()
+            .mockReturnValueOnce("\\(S\\)")
+            .mockReturnValueOnce(false),
         },
       };
     });
@@ -359,7 +399,10 @@ describe("SpellParser", () => {
       };
       (global as any).game = {
         settings: {
-          get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(true),
+          get: jest
+            .fn()
+            .mockReturnValueOnce("\\(S\\)")
+            .mockReturnValueOnce(true),
         },
       };
     });
