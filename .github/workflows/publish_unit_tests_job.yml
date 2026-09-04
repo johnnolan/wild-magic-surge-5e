@@ -29,14 +29,14 @@ jobs:
           path: .
 
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         if: always()
         with:
           check_name: "Unit Test Results"
           junit_files: test-results/junit/results.xml
 
       - name: Coverage Report
-        uses: lucassabreu/comment-coverage-clover@c0f074f770934003d14a2a90121da232e47f53c1 # v0.17.0
+        uses: lucassabreu/comment-coverage-clover@bf3529f94c7bc09be98bbe61c1bb56b9889ef0fb # v0.17.2
         with:
           file: "coverage/clover.xml"
           min-line-coverage: 80
