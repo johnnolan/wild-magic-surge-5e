@@ -1,16 +1,8 @@
 /* exported config */
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('jest').Config} */
 module.exports = {
   transform: {
-    "^.+\\.ts?$": [
-      "ts-jest",
-      {
-        isolatedModules: true,
-        diagnostics: {
-          exclude: ["**"],
-        },
-      },
-    ],
+    "^.+\\.tsx?$": "babel-jest",
   },
   reporters: ["default", "jest-junit"],
   coverageThreshold: {
