@@ -293,7 +293,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect((global as any).Roll).toHaveBeenCalled());
+        expect((global as any).Roll).toHaveBeenCalled();
       });
     });
 
