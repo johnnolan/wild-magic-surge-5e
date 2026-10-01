@@ -2,12 +2,82 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        "schedule:weekends",
-        ":pinAllExceptPeerDependencies",
-        "npm:unpublishSafe",
-        "group:all"
+        "helpers:pinGitHubActionDigests",
+        ":enableVulnerabilityAlerts"
     ],
     "lockFileMaintenance": {
         "enabled": true
-    }
+    },
+    "enabledManagers": [
+        "github-actions",
+        "npm"
+    ],
+    "timezone": "Etc/UTC",
+    "schedule": [
+        "* 4-7 * * 1"
+    ],
+    "prConcurrentLimit": 5,
+    "semanticCommits": "enabled",
+    "semanticCommitType": "chore",
+    "semanticCommitScope": "deps",
+    "labels": [
+        "dependencies",
+        "security"
+    ],
+    "packageRules": [
+        {
+            "matchManagers": [
+                "npm"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "groupName": "npm non-major dependencies",
+            "addLabels": [
+                "npm"
+            ],
+            "minimumReleaseAge": "3 days"
+        },
+        {
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "groupName": "GitHub Actions non-major dependencies",
+            "addLabels": [
+                "github-actions"
+            ],
+            "minimumReleaseAge": "3 days"
+        },
+        {
+            "matchManagers": [
+                "npm"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "groupName": null,
+            "addLabels": [
+                "npm"
+            ],
+            "minimumReleaseAge": "7 days"
+        },
+        {
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "groupName": null,
+            "addLabels": [
+                "github-actions"
+            ],
+            "minimumReleaseAge": "7 days"
+        }
+    ]
 }
