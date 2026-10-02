@@ -1,11 +1,17 @@
 import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
-import type { WMSModuleSettingKey } from "../utils/TypedSettings";
+import type {
+  PanelSettingKey,
+  SettingsListEntry,
+  SettingsPanelData,
+} from "./Helpers";
 
 export class SpellLevelSettingsPanel extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      title: game.i18n.format("WildMagicSurge5E.settings_panel_spell_level_dep"),
+      title: game.i18n.format(
+        "WildMagicSurge5E.settings_panel_spell_level_dep",
+      ),
       template: "modules/wild-magic-surge-5e/templates/settings.html",
       id: `${WMSCONST.MODULE_FLAG_NAME}-chat-settings`,
       width: 520,
@@ -14,11 +20,11 @@ export class SpellLevelSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings: readonly WMSModuleSettingKey[]) {
+  settingsList(settings: readonly PanelSettingKey[]): SettingsListEntry[] {
     return SettingsList(settings);
   }
 
-  getData() {
+  getData(): SettingsPanelData {
     const settings = [
       WMSCONST.OPT_TSL_DIE,
       WMSCONST.OPT_TSL_CANTRIP,
@@ -39,7 +45,10 @@ export class SpellLevelSettingsPanel extends FormApplication {
     };
   }
 
-  _updateObject(_event: any, formData: any) {
+  _updateObject(
+    _event: Event,
+    formData?: Record<string, unknown>,
+  ): Promise<void> {
     return UpdateObject(formData);
   }
 }

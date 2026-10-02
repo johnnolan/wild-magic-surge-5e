@@ -190,12 +190,14 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 17. Replace `any` in settings panel helpers
 
-- [ ] In `scripts/panels/Helpers.ts`, define a setting-key union, typed metadata/value records, and the form-data shape used by the helper.
-- [ ] Type settings reads/writes through the wrappers from task 12 where practical.
-- [ ] Keep any unavoidable conversion at one adapter boundary and explain why it is needed.
-- [ ] Test building settings data and submitting valid/invalid form values.
+- [x] In `scripts/panels/Helpers.ts`, define a setting-key union, typed metadata/value records, and the form-data shape used by the helper.
+- [x] Type settings reads/writes through the wrappers from task 12 where practical.
+- [x] Keep any unavoidable conversion at one adapter boundary and explain why it is needed.
+- [x] Test building settings data and submitting valid/invalid form values.
 
 **Done when:** the helpers no longer expose unbounded `any` inputs/outputs and their callers remain type-safe.
+
+**Verification:** `Helpers.ts` now defines the panel-key union, typed template entries, and qualified form-data shape. Foundry registration metadata is validated in one documented adapter; setting values use the task 12 getter and form setter. All five panels use typed helper inputs, outputs, and submit handlers. Tests cover checkbox, text, and choice data plus valid and invalid submissions. All 233 tests pass; production diagnostics fell from 200 to 191 and test diagnostics from 114 to 112, with none remaining in `Helpers.ts`.
 
 ### 18. Make resource defaults immutable per operation
 

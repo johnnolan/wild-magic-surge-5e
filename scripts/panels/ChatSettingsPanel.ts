@@ -1,6 +1,10 @@
 import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
-import type { WMSModuleSettingKey } from "../utils/TypedSettings";
+import type {
+  PanelSettingKey,
+  SettingsListEntry,
+  SettingsPanelData,
+} from "./Helpers";
 
 export class ChatSettingsPanel extends FormApplication {
   static get defaultOptions() {
@@ -14,11 +18,11 @@ export class ChatSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings: readonly WMSModuleSettingKey[]) {
+  settingsList(settings: readonly PanelSettingKey[]): SettingsListEntry[] {
     return SettingsList(settings);
   }
 
-  getData() {
+  getData(): SettingsPanelData {
     const settings = [
       WMSCONST.OPT_CHAT_MSG,
       WMSCONST.OPT_CHAT_MSG_ENABLED,
@@ -33,7 +37,10 @@ export class ChatSettingsPanel extends FormApplication {
     };
   }
 
-  _updateObject(_event: any, formData: any) {
+  _updateObject(
+    _event: Event,
+    formData?: Record<string, unknown>,
+  ): Promise<void> {
     return UpdateObject(formData);
   }
 }

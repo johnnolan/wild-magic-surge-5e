@@ -39,6 +39,7 @@ const game = {
     format: jest.fn().mockResolvedValue("test language string"),
   },
   settings: {
+    settings: new Map(),
     get: jest.fn().mockResolvedValue("true"),
     register: jest.fn((_moduleName, _settingName, _data) => {
       // This is intentional
