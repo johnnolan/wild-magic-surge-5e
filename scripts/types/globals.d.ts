@@ -1,4 +1,5 @@
 import type { WMSHookNotificationPayloads } from "../utils/CallHooks";
+import type { Dnd5ePostUseActivity } from "../utils/Dnd5eActivity";
 
 declare global {
   interface LenientGlobalVariableTypes {
@@ -56,12 +57,6 @@ declare global {
     sr: boolean;
   }
 
-    type Dnd5ePostUseActivity = {
-      item: Item;
-      consumption: {
-        spellSlot?: boolean;
-      };
-    };
 }
 
   declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {

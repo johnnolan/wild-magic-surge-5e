@@ -7,6 +7,7 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import DieDescending from "./utils/DieDescending";
+import { HandlePostUseActivity } from "./utils/Dnd5eActivity";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -115,28 +116,17 @@ Hooks.once("ready", async function () {
   }
 
   Hooks.on("dnd5e.postUseActivity", (activity) => {
-    const item = activity.item;
-
-    // Only fire when a spell slot is actually consumed
-    if (!activity.consumption?.spellSlot) return;
-
-    const actor = item.actor;
-    if (!actor) return;
-
-    const tokenId = getTokenIdByActorId(actor.id);
-    if (game.user?.isGM) {
-      const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
-      magicSurgeCheck.CheckItem(item);
-    } else {
-      game.socket?.emit("module.wild-magic-surge-5e", {
-        event: "SurgeCheck",
-        data: {
-          actorId: actor.id,
-          tokenId,
-          item,
-        },
-      });
-    }
+    HandlePostUseActivity(activity, {
+      getTokenIdByActorId,
+      isGM: game.user?.isGM ?? false,
+      onGMCheck: (actor, item, tokenId) => {
+        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+        magicSurgeCheck.CheckItem(item);
+      },
+      onPlayerCheck: (payload) => {
+        game.socket?.emit("module.wild-magic-surge-5e", payload);
+      },
+    });
   });
 
   if (

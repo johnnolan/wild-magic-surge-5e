@@ -112,12 +112,14 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 10. Type the D&D5E Activity hook independently
 
-- [ ] Check the D&D5E version the module supports and inspect that version's `dnd5e.postUseActivity` declaration/implementation.
-- [ ] Use a D&D5E-exported Activity type if it is available and stable; otherwise define a narrow module-owned consumer shape for the `item`, `item.actor`, and `consumption.spellSlot` fields actually read.
-- [ ] Correct the callback so the Activity is not incorrectly annotated as a core `Item`.
-- [ ] Add tests for relevant activity values, missing optional fields, and non-spell activity behavior.
+- [x] Check the D&D5E version the module supports and inspect that version's `dnd5e.postUseActivity` declaration/implementation.
+- [x] Use a D&D5E-exported Activity type if it is available and stable; otherwise define a narrow module-owned consumer shape for the `item`, `item.actor`, and `consumption.spellSlot` fields actually read.
+- [x] Correct the callback so the Activity is not incorrectly annotated as a core `Item`.
+- [x] Add tests for relevant activity values, missing optional fields, and non-spell activity behavior.
 
 **Done when:** the hook's argument order and accessed fields match the supported D&D5E release and are checked without a broad cast.
+
+**Verification:** D&D5E 6.0.5 invokes `postUseActivity(activity, usageConfig, results)` after use; the Activity exposes `item` and `consumption.spellSlot`. No stable D&D5E declaration package is a project dependency, so `Dnd5ePostUseActivity` is a narrow module-owned type in `scripts/utils/Dnd5eActivity.ts` and the hook registry retains the exact three-argument order. `HandlePostUseActivity` tests cover absent consumption data, unconsumed spells, orphaned items, GM checks, and player socket routing (5 tests pass). Production typecheck remains at 414/425 diagnostics; a Foundry runtime smoke test remains unavailable.
 
 ### 11. Model only the D&D5E system data this module consumes
 
