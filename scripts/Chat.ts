@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import CallHooks from "./utils/CallHooks";
 
@@ -21,14 +22,8 @@ export default class Chat {
     rollObject?: Roll,
     rollTable?: RollTable,
   ): Promise<void> {
-    const isWhisperRollResultGM = await game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM}`,
-    );
-    const isWhisperAutoRollTableGM = await game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`,
-    );
+    const isWhisperRollResultGM = await getModuleSetting(WMSCONST.OPT_WHISPER_GM);
+    const isWhisperAutoRollTableGM = await getModuleSetting(WMSCONST.OPT_WHISPER_GM_ROLL_CHAT);
 
     const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
       (u: User) => u.id,
@@ -43,10 +38,7 @@ export default class Chat {
           message,
           rollObject,
           isWhisperRollResultGM,
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-          ) === "PLAYER_TRIGGER",
+          getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER",
         );
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
@@ -109,10 +101,7 @@ export default class Chat {
         content: `<div>${message} (${roll.total ?? 0})</div>`,
       };
     } else {
-      const wildMagicSurgeName = await game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_WMS_NAME}`,
-      );
+      const wildMagicSurgeName = await getModuleSetting(WMSCONST.OPT_WMS_NAME);
       return <ChatMessage>{
         flavor: `${wildMagicSurgeName} Check - ${message}`,
         roll: roll,
@@ -171,14 +160,11 @@ export default class Chat {
   static async RunMessageCheck(): Promise<void> {
     CallHooks.Call("CheckForSurge", { value: true });
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_CHAT_MSG_ENABLED}`,
-      )
+      getModuleSetting(WMSCONST.OPT_CHAT_MSG_ENABLED)
     ) {
       await this.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
-        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`),
+        getModuleSetting(WMSCONST.OPT_CHAT_MSG),
       );
     }
   }

@@ -1,5 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
+import type { WMSModuleSettingKey } from "../utils/TypedSettings";
 
 export class ChatSettingsPanel extends FormApplication {
   static get defaultOptions() {
@@ -13,11 +14,10 @@ export class ChatSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings: any) {
+  settingsList(settings: readonly WMSModuleSettingKey[]) {
     return SettingsList(settings);
   }
 
-  // @ts-expect-error TS(2416): Property 'getData' in type 'ChatSettingsPanel' is ... Remove this comment to see the full error message
   getData() {
     const settings = [
       WMSCONST.OPT_CHAT_MSG,
@@ -33,8 +33,7 @@ export class ChatSettingsPanel extends FormApplication {
     };
   }
 
-  // @ts-expect-error TS(2416): Property '_updateObject' in type 'ChatSettingsPane... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
-    UpdateObject(formData);
+    return UpdateObject(formData);
   }
 }

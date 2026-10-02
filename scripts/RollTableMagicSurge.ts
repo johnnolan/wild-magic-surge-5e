@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import Logger from "./Logger";
@@ -19,10 +20,7 @@ class RollTableMagicSurge {
     actor: Actor,
   ): Promise<string | undefined> {
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-      ) !== "AUTO"
+      getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) !== "AUTO"
     ) {
       return;
     }
@@ -43,15 +41,9 @@ class RollTableMagicSurge {
   ): Promise<string | undefined> {
     let rollTableName: string;
     if (type === WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic) {
-      rollTableName = game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`,
-      );
+      rollTableName = getModuleSetting(WMSCONST.OPT_POWM_ROLLTABLE_NAME);
     } else {
-      rollTableName = game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ROLLTABLE_NAME}`,
-      );
+      rollTableName = getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME);
     }
     if (rollTableName === undefined) {
       Logger.error(

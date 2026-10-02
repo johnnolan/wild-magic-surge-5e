@@ -1,11 +1,13 @@
+import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
 import Chat from "../Chat";
 import CallHooks from "./CallHooks";
 import Resource from "./Resource";
+import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 
 export default class IncrementalCheck extends Resource {
-  static FLAG_NAME = "wild-magic-surge-5e";
-  static FLAG_OPTION = "surge_increment_resource";
+  static FLAG_NAME = WMSCONST.MODULE_ID;
+  static FLAG_OPTION: WMSModuleResourceFlagKey = "surge_increment_resource";
   static defaultValue: ResourceValue = {
     label: "Surge Chance",
     lr: false,
@@ -18,10 +20,7 @@ export default class IncrementalCheck extends Resource {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`,
-      )
+      getModuleSetting(WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT)
     ) {
       Chat.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,

@@ -1,4 +1,6 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
+import { setModuleActorFlag } from "./utils/TypedSettings";
 import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -33,10 +35,7 @@ class MagicSurgeCheck {
   ) {
     let chatSurgeMessage = "";
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-      ) === "PLAYER_TRIGGER"
+      getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
     ) {
       chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
           <button class="roll-table-wms">
@@ -48,10 +47,7 @@ class MagicSurgeCheck {
     }
     Chat.Send(
       chatType,
-      `${game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_AUTO_D20_MSG}`,
-      )}${chatSurgeMessage}`,
+      `${getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG)}${chatSurgeMessage}`,
       roll,
     );
   }
@@ -68,16 +64,10 @@ class MagicSurgeCheck {
 
     if (itemSurgeDetails.hasPathOfWildMagicFeat) {
       if (
-        game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-        ) === "PLAYER_TRIGGER"
+        getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
       ) {
         this._rollPlayerTrigger(
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`,
-          ),
+          getModuleSetting(WMSCONST.OPT_POWM_ROLLTABLE_NAME),
           WMSCONST.CHAT_TYPE.DEFAULT,
         );
       } else {
@@ -88,14 +78,11 @@ class MagicSurgeCheck {
       }
     } else {
       if (
-        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
+        getModuleSetting(WMSCONST.OPT_AUTO_D20)
       ) {
         await this.AutoSurgeCheck(
           itemSurgeDetails.spellLevel,
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_SURGE_TYPE}`,
-          ),
+          getModuleSetting(WMSCONST.OPT_SURGE_TYPE),
         );
       } else {
         Chat.RunMessageCheck();
@@ -113,7 +100,7 @@ class MagicSurgeCheck {
     let diceFormula: DieValue = undefined;
 
     switch (
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
+      getModuleSetting(WMSCONST.OPT_SURGE_TYPE)
     ) {
       case WMSCONST.ROLL_CHECK_TYPE.DIE_DESCENDING:
         diceFormula = await DieDescending.DieFormula(this._actor);
@@ -122,10 +109,7 @@ class MagicSurgeCheck {
         diceFormula = SpellLevelTrigger.ParseRollFormula(spellLevel);
         break;
       default:
-        diceFormula = game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA}`,
-        );
+        diceFormula = getModuleSetting(WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA);
         break;
     }
 
@@ -165,10 +149,7 @@ class MagicSurgeCheck {
   DefaultMagicSurgeRollResult(result: number, comparison: Comparison): boolean {
     const rollResult = result;
     const rollResultTargets = this.SplitRollResult(
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_CUSTOM_ROLL_RESULT}`,
-      ),
+      getModuleSetting(WMSCONST.OPT_CUSTOM_ROLL_RESULT),
     );
 
     for (const resultTarget of rollResultTargets) {
@@ -208,10 +189,7 @@ class MagicSurgeCheck {
 
     let isAutoSurge = false;
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_SURGE_TOC_ENABLED}`,
-      )
+      getModuleSetting(WMSCONST.OPT_SURGE_TOC_ENABLED)
     ) {
       if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
@@ -227,10 +205,7 @@ class MagicSurgeCheck {
         case "DEFAULT":
           isSurge = this.DefaultMagicSurgeRollResult(
             rollTotal,
-            game.settings.get(
-              `${WMSCONST.MODULE_ID}`,
-              `${WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK}`,
-            ),
+            getModuleSetting(WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK),
           );
           break;
         case "INCREMENTAL_CHECK":
@@ -290,22 +265,16 @@ class MagicSurgeCheck {
    */
   async SurgeWildMagic(isSurge: boolean, roll: Roll): Promise<void> {
     if (isSurge) {
-      await this._actor.setFlag(
-        WMSCONST.MODULE_FLAG_NAME,
+      await setModuleActorFlag(
+        this._actor,
         WMSCONST.HAS_SURGED_FLAG_OPTION,
         true,
       );
       if (
-        game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`,
-        )
+        getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_ENABLED)
       ) {
         this._rollPlayerTrigger(
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ROLLTABLE_NAME}`,
-          ),
+          getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME),
           WMSCONST.CHAT_TYPE.ROLL,
           roll,
         );
@@ -324,23 +293,17 @@ class MagicSurgeCheck {
       this._callIsSurgeHook(true, roll);
       AutoEffects.Run(this._tokenId);
     } else {
-      await this._actor.setFlag(
-        WMSCONST.MODULE_FLAG_NAME,
+      await setModuleActorFlag(
+        this._actor,
         WMSCONST.HAS_SURGED_FLAG_OPTION,
         false,
       );
       if (
-        game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED}`,
-        )
+        getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED)
       ) {
         Chat.Send(
           WMSCONST.CHAT_TYPE.ROLL,
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE}`,
-          ),
+          getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE),
           roll,
         );
       }
@@ -353,8 +316,8 @@ class MagicSurgeCheck {
    * @private
    */
   async SurgeTidesOfChaos(): Promise<void> {
-    await this._actor.setFlag(
-      WMSCONST.MODULE_FLAG_NAME,
+    await setModuleActorFlag(
+      this._actor,
       WMSCONST.HAS_SURGED_FLAG_OPTION,
       true,
     );
@@ -369,16 +332,10 @@ class MagicSurgeCheck {
       flavorText = tableResult;
     }
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_AUTO_D20_MSG_ENABLED}`,
-      )
+      getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_ENABLED)
     ) {
       this._rollPlayerTrigger(
-        game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_ROLLTABLE_NAME}`,
-        ),
+        getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME),
         WMSCONST.CHAT_TYPE.DEFAULT,
       );
     }

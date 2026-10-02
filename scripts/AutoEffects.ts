@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 
 /**
@@ -42,10 +43,7 @@ class AutoEffects {
   static async Run(tokenId: string | undefined): Promise<void> {
     if (!tokenId) return;
     if (
-      !game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_EFFECTS_ENABLED}`,
-      )
+      !getModuleSetting(WMSCONST.OPT_EFFECTS_ENABLED)
     )
       return;
     if (!this._isModuleActive("sequencer")) {

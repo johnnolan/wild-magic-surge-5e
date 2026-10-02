@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import Logger from "./Logger";
 import { WMSCONST } from "./WMSCONST";
 
@@ -7,15 +8,9 @@ import { WMSCONST } from "./WMSCONST";
  */
 class TriggerMacro {
   static async Run(actorId: string, tokenId: string): Promise<void> {
-    const macroName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TRIGGERMACRO_NAME}`,
-    );
+    const macroName = getModuleSetting(WMSCONST.OPT_TRIGGERMACRO_NAME);
     if (
-      !game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_TRIGGERMACRO_ENABLE}`,
-      ) ||
+      !getModuleSetting(WMSCONST.OPT_TRIGGERMACRO_ENABLE) ||
       !macroName
     ) {
       return;

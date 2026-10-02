@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import Logger from "./Logger";
 import { GetDnd5eUses, IsDnd5eItemSubtype } from "./utils/Dnd5eSystem";
@@ -15,7 +16,7 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async Check(actor: Actor): Promise<void> {
-    if (!game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_TOC}`)) {
+    if (!getModuleSetting(WMSCONST.OPT_ENABLE_TOC)) {
       return;
     }
     const tidesItem = await this.getTidesOfChaosItem(actor);
@@ -70,10 +71,7 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async getTidesOfChaosItem(actor: Actor) {
-    const featName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
-    );
+    const featName = getModuleSetting(WMSCONST.OPT_TOC_NAME);
     return actor.items.find(
       (a: Item) => a.name === featName && IsDnd5eItemSubtype(a, "feat")
     );

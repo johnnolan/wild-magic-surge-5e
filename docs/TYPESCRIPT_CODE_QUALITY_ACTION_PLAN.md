@@ -134,12 +134,14 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 12. Type module flags and settings
 
-- [ ] Inventory every `wild-magic-surge-5e` Actor flag key and its stored value type.
-- [ ] Inventory every module setting key and registered value type.
-- [ ] Add key-to-value maps and typed wrappers around `getFlag`/`setFlag` and `game.settings.get`/`set`.
-- [ ] Migrate callers to the wrappers and test representative reads, writes, and invalid key/value combinations.
+- [x] Inventory every `wild-magic-surge-5e` Actor flag key and its stored value type.
+- [x] Inventory every module setting key and registered value type.
+- [x] Add key-to-value maps and typed wrappers around `getFlag`/`setFlag` and `game.settings.get`/`set`.
+- [x] Migrate callers to the wrappers and test representative reads, writes, and invalid key/value combinations.
 
 **Done when:** misspelled keys and mismatched value types are caught at the access boundary instead of at arbitrary call sites.
+
+**Verification:** `scripts/utils/TypedSettings.ts` maps all 45 registered module settings to boolean/string values and augments Foundry's public `SettingConfig`, so registration keys and direct type inference agree. Typed `getModuleSetting`/`setModuleSetting` wrappers cover module consumers; settings-form updates validate namespace, key, and runtime value type. Actor flag wrappers map `hassurged` to boolean, `resource` and `surge_increment_resource` to `ResourceValue`, and legacy `die_type` to `{ dieValue: DieValue }`. Active TypeScript module reads/writes use the wrappers. Shipped example macros call Foundry's public `Actor.getFlag` directly because they execute outside the module's typed runtime; the `die_type` example reflects its legacy object shape. The only raw settings read left in production TypeScript outside the boundary is Foundry's built-in `core.rollMode`. Seven wrapper tests pass, including compile-time expected errors and invalid runtime setting/resource values. Production/test checks are within baselines at 212/425 and 120/145 diagnostics.
 
 ### 13. Type chat, sheet, and header callbacks
 

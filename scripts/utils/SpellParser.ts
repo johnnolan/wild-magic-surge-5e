@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
 import {
   GetDnd5eSpellLevel,
@@ -12,10 +13,7 @@ export default class SpellParser {
    * @return {boolean}
    */
   static IsWildMagicFeat(actor: Actor): boolean {
-    const surgeName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WMS_NAME}`,
-    );
+    const surgeName = getModuleSetting(WMSCONST.OPT_WMS_NAME);
     return (
       actor.items.find(
         (a: Item) => a.name === surgeName && IsDnd5eItemSubtype(a, "feat"),
@@ -33,10 +31,7 @@ export default class SpellParser {
       actor.items.find(
         (a: Item) =>
           a.name ===
-            game.settings.get(
-              `${WMSCONST.MODULE_ID}`,
-              `${WMSCONST.OPT_POWM_NAME}`,
-            ) && IsDnd5eItemSubtype(a, "subclass"),
+            getModuleSetting(WMSCONST.OPT_POWM_NAME) && IsDnd5eItemSubtype(a, "subclass"),
       ) !== undefined
     );
   }
@@ -48,10 +43,7 @@ export default class SpellParser {
    */
   static SpellDetails(item: Item): string | undefined {
     const minimumSpellLevelTrigger = parseInt(
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`,
-      ),
+      getModuleSetting(WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER),
     );
 
     const spellLevel = GetDnd5eSpellLevel(item?.system);
@@ -66,10 +58,7 @@ export default class SpellParser {
     switch (spellLevel) {
       case 0: {
         if (
-          !game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
-          )
+          !getModuleSetting(WMSCONST.OPT_CANTRIP_SURGE_ENABLED)
         ) {
           return undefined;
         } else {
@@ -123,15 +112,9 @@ export default class SpellParser {
   static IsSorcererSpell(item: Item): boolean {
     const spellName = item.name;
 
-    const spellRegex = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX}`,
-    );
+    const spellRegex = getModuleSetting(WMSCONST.OPT_SPELL_REGEX);
 
-    const isInverse = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`,
-    );
+    const isInverse = getModuleSetting(WMSCONST.OPT_SPELL_REGEX_INVERSE);
 
     if (isInverse) {
       return spellName?.match(spellRegex) ? false : true;

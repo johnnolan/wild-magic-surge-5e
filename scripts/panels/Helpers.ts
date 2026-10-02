@@ -1,51 +1,70 @@
 import { WMSCONST } from "../WMSCONST";
+import {
+  getModuleSetting,
+  isWMSModuleSettingKey,
+  setModuleSettingFromForm,
+} from "../utils/TypedSettings";
+import type { WMSModuleSettingKey } from "../utils/TypedSettings";
 
-export function SettingsList(settings: any) {
-  const chatSettingsList = [];
+export function SettingsList(settings: readonly WMSModuleSettingKey[]) {
+  const chatSettingsList: {
+    module: string;
+    key: string;
+    type: string;
+    isBoolean: boolean;
+    isString: boolean;
+    isArray: boolean;
+    displayname: string;
+    hint: string;
+    choices: Record<string, string>;
+    value: boolean | string;
+    choicesSelect: { key: string; value: string; selected: boolean }[];
+  }[] = [];
 
-  for (const element of settings) {
-    const setting = element;
+  for (const setting of settings) {
+    const registration = game.settings.settings.get(
+      `${WMSCONST.MODULE_ID}.${setting}`,
+    );
+    if (!registration) continue;
 
-    for (const [key, value] of (game.settings as any).settings.entries()) {
-      if (key === `${WMSCONST.MODULE_ID}.${setting}`) {
-        const settingValue = game.settings.get(WMSCONST.MODULE_ID, setting);
+    const settingValue = getModuleSetting(setting);
+    const choices = registration.choices ?? {};
+    const choicesSelect = Object.entries(choices).map(([key, value]) => ({
+      key,
+      value,
+      selected: key === settingValue,
+    }));
 
-        const choicesSelect = [];
-        let isArray = false;
-        if (value.choices) {
-          isArray = true;
-          for (const keyChoice in value.choices) {
-            choicesSelect.push({
-              key: keyChoice.toString(),
-              value: value.choices[keyChoice],
-              selected: keyChoice.toString() === settingValue,
-            });
-          }
-        }
-
-        chatSettingsList.push({
-          module: value.namespace ? value.namespace : value.module,
-          key: value.key,
-          type: value.type.name,
-          isBoolean: value.type.name === "Boolean",
-          isString: value.type.name === "String" && !value.choices,
-          isArray: isArray,
-          displayname: game.i18n.format(value.name),
-          hint: value.hint ? game.i18n.format(value.hint) : "",
-          choices: value.choices ? value.choices : [],
-          value: settingValue,
-          choicesSelect: choicesSelect,
-        });
-      }
-    }
+    chatSettingsList.push({
+      module: registration.namespace ?? registration.module,
+      key: registration.key,
+      type: registration.type.name,
+      isBoolean: registration.type.name === "Boolean",
+      isString: registration.type.name === "String" && !registration.choices,
+      isArray: Boolean(registration.choices),
+      displayname: game.i18n.format(registration.name),
+      hint: registration.hint ? game.i18n.format(registration.hint) : "",
+      choices,
+      value: settingValue,
+      choicesSelect,
+    });
   }
 
   return chatSettingsList;
 }
 
-export function UpdateObject(formData: any) {
-  for (const key in formData) {
-    const keySplit = key.split(".");
-    game.settings.set(keySplit[0], keySplit[1], formData[key]);
+export async function UpdateObject(
+  formData: Record<string, unknown>,
+): Promise<void> {
+  for (const [qualifiedKey, value] of Object.entries(formData)) {
+    const [namespace, key, ...extraSegments] = qualifiedKey.split(".");
+    if (
+      namespace !== WMSCONST.MODULE_ID ||
+      extraSegments.length > 0 ||
+      !isWMSModuleSettingKey(key)
+    ) {
+      throw new TypeError(`Invalid module setting field: ${qualifiedKey}`);
+    }
+    await setModuleSettingFromForm(key, value);
   }
 }

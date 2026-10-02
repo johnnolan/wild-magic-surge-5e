@@ -1,3 +1,4 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import IncrementalCheck from "./utils/IncrementalCheck";
 import SpellParser from "./utils/SpellParser";
@@ -10,10 +11,7 @@ import Chat from "./Chat";
 class RoundCheck {
   static async OnCombatUpdate(combat: Combat): Promise<false | void> {
     if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_SURGE_TYPE}`,
-      ) !== "INCREMENTAL_CHECK_CHAOTIC"
+      getModuleSetting(WMSCONST.OPT_SURGE_TYPE) !== "INCREMENTAL_CHECK_CHAOTIC"
     ) {
       return;
     }
@@ -32,14 +30,11 @@ class RoundCheck {
    */
   static async Check(actor: Actor): Promise<void> {
     if (
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_AUTO_D20}`)
+      getModuleSetting(WMSCONST.OPT_AUTO_D20)
     ) {
       if (SpellParser.IsWildMagicFeat(actor)) {
         if (
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ENABLE_NPCS}`,
-          )
+          getModuleSetting(WMSCONST.OPT_ENABLE_NPCS)
         ) {
           await IncrementalCheck.Check(actor, undefined, 10);
         } else {

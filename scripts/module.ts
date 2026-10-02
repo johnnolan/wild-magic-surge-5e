@@ -1,3 +1,4 @@
+import { getModuleSetting, setModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import IncrementalCheck from "./utils/IncrementalCheck";
@@ -65,22 +66,17 @@ function getTokenIdByActorId(actorId: string | null | undefined): string | undef
   return canvas?.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id ?? undefined;
 }
 
-function Migrate() {
-  const rollTableType = game.settings.get(
-    `${WMSCONST.MODULE_ID}`,
-    `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-  );
+async function Migrate(): Promise<void> {
+  const rollTableType = getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE);
   if (rollTableType === "true") {
-    game.settings.set(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+    await setModuleSetting(
+      WMSCONST.OPT_ROLLTABLE_ENABLE,
       WMSCONST.ROLLTABLE_TYPE.AUTO,
     );
   }
   if (rollTableType === "false") {
-    game.settings.set(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
+    await setModuleSetting(
+      WMSCONST.OPT_ROLLTABLE_ENABLE,
       WMSCONST.ROLLTABLE_TYPE.DEFAULT,
     );
   }
@@ -96,7 +92,7 @@ async function _resetChecks(actorId: string) {
 }
 
 Hooks.once("ready", async function () {
-  Migrate();
+  await Migrate();
 
   if (game.user?.isGM) {
     game.socket?.on(
@@ -130,10 +126,7 @@ Hooks.once("ready", async function () {
   });
 
   if (
-    game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
-    )
+    getModuleSetting(WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION)
   ) {
     Hooks.on("getHeaderControlsActorSheetV2", (app: CharacterActorSheet, controls: Array<any>) => {
       controls.push({

@@ -1,5 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
+import type { WMSModuleSettingKey } from "../utils/TypedSettings";
 
 export class SpellLevelSettingsPanel extends FormApplication {
   static get defaultOptions() {
@@ -13,11 +14,10 @@ export class SpellLevelSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings: any) {
+  settingsList(settings: readonly WMSModuleSettingKey[]) {
     return SettingsList(settings);
   }
 
-  // @ts-expect-error TS(2416): Property 'getData' in type 'SpellLevelSettingsPane... Remove this comment to see the full error message
   getData() {
     const settings = [
       WMSCONST.OPT_TSL_DIE,
@@ -39,8 +39,7 @@ export class SpellLevelSettingsPanel extends FormApplication {
     };
   }
 
-  // @ts-expect-error TS(2416): Property '_updateObject' in type 'SpellLevelSettin... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
-    UpdateObject(formData);
+    return UpdateObject(formData);
   }
 }

@@ -1,5 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 import { SettingsList, UpdateObject } from "./Helpers";
+import type { WMSModuleSettingKey } from "../utils/TypedSettings";
 
 export class IncrementalSettingsPanel extends FormApplication {
   static get defaultOptions() {
@@ -13,11 +14,10 @@ export class IncrementalSettingsPanel extends FormApplication {
     });
   }
 
-  settingsList(settings: any) {
+  settingsList(settings: readonly WMSModuleSettingKey[]) {
     return SettingsList(settings);
   }
 
-  // @ts-expect-error TS(2416): Property 'getData' in type 'IncrementalSettingsPan... Remove this comment to see the full error message
   getData() {
     const settings = [WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT];
 
@@ -26,8 +26,7 @@ export class IncrementalSettingsPanel extends FormApplication {
     };
   }
 
-  // @ts-expect-error TS(2416): Property '_updateObject' in type 'IncrementalSetti... Remove this comment to see the full error message
   _updateObject(_event: any, formData: any) {
-    UpdateObject(formData);
+    return UpdateObject(formData);
   }
 }

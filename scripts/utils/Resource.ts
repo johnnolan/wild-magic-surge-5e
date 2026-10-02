@@ -1,10 +1,16 @@
+import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
-import { GetDnd5eResource, ParseDnd5eResource } from "./Dnd5eSystem";
+import { GetDnd5eResource } from "./Dnd5eSystem";
+import {
+  getModuleActorFlag,
+  setModuleActorFlag,
+} from "./TypedSettings";
+import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 import type { Dnd5eResourceSlot } from "./Dnd5eSystem";
 
 export default class Resource {
-  static FLAG_NAME = "wild-magic-surge-5e";
-  static FLAG_OPTION = "resource";
+  static FLAG_NAME = WMSCONST.MODULE_ID;
+  static FLAG_OPTION: WMSModuleResourceFlagKey = "resource";
   static defaultValue: ResourceValue = {
     label: "Surge Chance",
     lr: false,
@@ -18,18 +24,13 @@ export default class Resource {
   }
 
   static async GetResource(actor: Actor): Promise<ResourceValue> {
-    const resourceType = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`,
-    );
+    const resourceType = getModuleSetting(WMSCONST.OPT_RESOURCE_TYPE);
 
     let resource: ResourceValue | undefined;
 
     switch (resourceType) {
       case "NONE":
-        resource = ParseDnd5eResource(
-          await actor.getFlag(this.FLAG_NAME, this.FLAG_OPTION),
-        );
+        resource = await getModuleActorFlag(actor, this.FLAG_OPTION);
         break;
       case "PRIMARY":
         resource = this.getSystemResource(actor, "primary");
@@ -51,10 +52,7 @@ export default class Resource {
   }
 
   static async SetResource(actor: Actor, resourceValues: ResourceValues) {
-    const resourceType = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`,
-    );
+    const resourceType = getModuleSetting(WMSCONST.OPT_RESOURCE_TYPE);
     const resourceValue: ResourceValue = {
       ...this.defaultValue,
       max: resourceValues.max,
@@ -63,7 +61,7 @@ export default class Resource {
 
     switch (resourceType) {
       case "NONE":
-        await actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, resourceValue);
+        await setModuleActorFlag(actor, this.FLAG_OPTION, resourceValue);
         break;
       case "PRIMARY":
         await actor.update({
@@ -86,7 +84,7 @@ export default class Resource {
   static async _setupDefault(actor: Actor): Promise<ResourceValue> {
     let maxValue = 20;
     switch (
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
+      getModuleSetting(WMSCONST.OPT_SURGE_TYPE)
     ) {
       case `INCREMENTAL_CHECK_CHAOTIC`:
         maxValue = 10;
