@@ -44,20 +44,17 @@ Hooks.on("init", function () {
     },
   );
 
-  Hooks.on(
-    "renderChatMessage",
-    async function (app: FormApplication, html: object) {
-      const rollTableButton = html.find(".roll-table-wms");
-      if (rollTableButton && rollTableButton.length > 0) {
-        rollTableButton.unbind();
-        rollTableButton.on("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          RollTableMagicSurge.RollOnTable();
-        });
-      }
-    },
-  );
+  Hooks.on("renderChatMessageHTML", (_message, html) => {
+    const rollTableButton = html.querySelector<HTMLButtonElement>(".roll-table-wms");
+    if (!rollTableButton || rollTableButton.dataset.wmsBound === "true") return;
+
+    rollTableButton.dataset.wmsBound = "true";
+    rollTableButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      RollTableMagicSurge.RollOnTable();
+    });
+  });
 });
 
 function getTokenIdByActorId(actorId: string | null | undefined): string | undefined {
