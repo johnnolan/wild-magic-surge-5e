@@ -4,7 +4,6 @@ import IncrementalCheck from "./utils/IncrementalCheck";
 import RoundCheck from "./RoundCheck";
 import ModuleSettings from "./ModuleSettings";
 import { ActorHelperPanel } from "./panels/ActorHelperPanel";
-import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/documents/combat";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import DieDescending from "./utils/DieDescending";
@@ -156,17 +155,17 @@ Hooks.once("ready", async function () {
   }
 
   if (game.user?.isGM) {
-    Hooks.on("updateCombat", async function (roundData: RoundData) {
+    Hooks.on("updateCombat", async function (combat) {
       if (
         game.settings.get(
           `${WMSCONST.MODULE_ID}`,
           `${WMSCONST.OPT_SURGE_TYPE}`,
         ) === `INCREMENTAL_CHECK_CHAOTIC`
       ) {
-        if (!roundData.combatant?.actor) {
+        if (!combat.combatant?.actor) {
           return false;
         }
-        RoundCheck.Check(roundData.combatant?.actor);
+        RoundCheck.Check(combat.combatant.actor);
       }
     });
   }
