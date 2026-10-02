@@ -9,6 +9,8 @@ import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import DieDescending from "./utils/DieDescending";
 import { HandlePostUseActivity } from "./utils/Dnd5eActivity";
+import { AttachRollTableButton } from "./utils/ChatMessageHooks";
+import { CreateWMSActorSheetControl } from "./utils/ActorSheetControls";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -46,17 +48,9 @@ Hooks.on("init", function () {
     },
   );
 
-  Hooks.on("renderChatMessageHTML", (_message, html) => {
-    const rollTableButton = html.querySelector<HTMLButtonElement>(".roll-table-wms");
-    if (!rollTableButton || rollTableButton.dataset.wmsBound === "true") return;
-
-    rollTableButton.dataset.wmsBound = "true";
-    rollTableButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      RollTableMagicSurge.RollOnTable();
-    });
-  });
+  Hooks.on("renderChatMessageHTML", (_message, html) =>
+    AttachRollTableButton(html, () => RollTableMagicSurge.RollOnTable()),
+  );
 });
 
 function getTokenIdByActorId(actorId: string | null | undefined): string | undefined {
@@ -128,13 +122,12 @@ Hooks.once("ready", async function () {
   if (
     getModuleSetting(WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION)
   ) {
-    Hooks.on("getHeaderControlsActorSheetV2", (app: CharacterActorSheet, controls: Array<any>) => {
-      controls.push({
-        label: "WMS",
-        icon: "fas fa-wrench",
-        onClick: () => new ActorHelperPanel({ document: app.document }).render({ force: true }),
-        button: true,
-      });
+    Hooks.on("getHeaderControlsActorSheetV2", (app, controls) => {
+      controls.push(
+        CreateWMSActorSheetControl(app.document, (actor) => {
+          void new ActorHelperPanel({ document: actor }).render({ force: true });
+        }),
+      );
     });
   }
 

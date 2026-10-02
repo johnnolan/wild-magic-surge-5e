@@ -145,12 +145,15 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 13. Type chat, sheet, and header callbacks
 
-- [ ] In `scripts/Chat.ts` and related hooks, select the intended legacy `renderChatMessage` or V14 `renderChatMessageHTML` contract and use its declared callback types.
-- [ ] In `scripts/module.ts`, replace `Array<any>` for header controls with the matching Foundry control entry type.
-- [ ] Update callback code to match the selected hook's actual HTML element/context arguments.
-- [ ] Add focused tests where callback logic can be exercised in Jest; include a real Foundry smoke check for rendering behavior.
+- [x] In `scripts/module.ts`, use V14's `renderChatMessageHTML` hook with its declared message/HTMLElement/context arguments; `scripts/Chat.ts` does not register a rendering hook.
+- [x] In `scripts/module.ts`, replace `Array<any>` for header controls with the inferred V14 `HeaderControlsEntry[]` contract.
+- [x] Update callback code to match the selected hook's actual HTML element/context arguments.
+- [x] Add focused Jest tests for the chat button and header control behavior.
+- [ ] Run a real Foundry smoke check for message rendering, button behavior after re-render, and the actor-sheet header control.
 
-**Done when:** the relevant hook callbacks compile against the selected declarations without `any` and preserve expected UI behavior.
+**Done when:** the relevant hook callbacks compile against the selected declarations without `any` and preserve expected UI behavior. The real Foundry smoke check remains pending because no Foundry runtime is installed in this environment.
+
+**Verification:** Production typecheck remains within baseline at 212/425 diagnostics; the changed callbacks and helpers have no editor diagnostics. Four focused Jest tests pass for event handling, duplicate binding, absent buttons, and typed header control construction.
 
 ### 14. Move application-owned aliases out of ambient globals
 
