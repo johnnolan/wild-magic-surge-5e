@@ -1,10 +1,11 @@
+import { chatMessageFixture, rollFixture, rollTableFixture, tableDrawFixture, setTestGame, setTestHooks, testGlobals } from "./test/FoundryFixtures";
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import "../__mocks__/index";
 
 describe("Chat", () => {
   beforeEach(() => {
-    (global as any).game.roll = {
+    testGlobals.game.roll = {
       get: jest.fn().mockResolvedValue(true),
       result: jest.fn().mockResolvedValue(20),
     };
@@ -14,7 +15,7 @@ describe("Chat", () => {
   });
 
   it("resolves only after chat creation finishes and returns the created message", async () => {
-    const created = { id: "message-1" } as ChatMessage.Stored;
+    const created = chatMessageFixture({ id: "message-1" });
     let finishCreate: ((message: ChatMessage.Stored) => void) | undefined;
     const create = ChatMessage.create as jest.Mock;
     create.mockImplementation(
@@ -57,14 +58,14 @@ describe("Chat", () => {
 
   describe("createRollChat", () => {
     describe("Given I pass it a message and roll but is whisper to GM", () => {
-      let roll: any;
+      let roll: Roll;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest.fn().mockResolvedValue(true);
-        roll = {
+        testGlobals.game.settings.get = jest.fn().mockResolvedValue(true);
+        roll = rollFixture({
           result: 20,
           total: 20,
-        };
+        });
       });
 
       it("It returns the just the content", async () => {
@@ -80,18 +81,18 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll but its a public message", () => {
-      let roll: any;
+      let roll: Roll;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest.fn((_namespace: string, key: string) => {
+        testGlobals.game.settings.get = jest.fn((_namespace: string, key: string) => {
           if (key === WMSCONST.OPT_WHISPER_GM || key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT) return false;
           if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
           if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return "PLAYER_TRIGGER";
           if (key === "rollMode") return "publicroll";
         });
-        roll = {
+        roll = rollFixture({
           result: 20,
-        };
+        });
       });
 
       it("It returns the just the content", async () => {
@@ -109,17 +110,17 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message but no roll object", () => {
-      let roll: any;
+      let roll: Roll;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
+        testGlobals.game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        roll = {
+        roll = rollFixture({
           result: 20,
-        };
+        });
       });
 
       it("It returns undefined", async () => {
@@ -132,21 +133,21 @@ describe("Chat", () => {
 
   describe("createRollTable", () => {
     describe("Given I pass it a message and not roll table", () => {
-      let rollResult: any;
-      let surgeRollTable: any;
+      let rollResult: RollTable.Draw;
+      let surgeRollTable: RollTable;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
+        testGlobals.game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        surgeRollTable = {
+        surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
           },
-        };
-        rollResult = {
+        });
+        rollResult = tableDrawFixture({
           results: [
             {
               text: "test text",
@@ -159,7 +160,7 @@ describe("Chat", () => {
 
             render: jest.fn().mockResolvedValue(null),
           },
-        };
+        });
       });
 
       it("It just returns", async () => {
@@ -172,22 +173,22 @@ describe("Chat", () => {
     });
 
     describe("Given I set whisper gm for roll table", () => {
-      let rollResult: any;
-      let surgeRollTable: any;
+      let rollResult: RollTable.Draw;
+      let surgeRollTable: RollTable;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
+        testGlobals.game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(true)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        surgeRollTable = {
+        surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
           },
-        };
-        rollResult = {
+        });
+        rollResult = tableDrawFixture({
           results: [
             {
               text: "test text",
@@ -200,7 +201,7 @@ describe("Chat", () => {
 
             render: jest.fn().mockResolvedValue(null),
           },
-        };
+        });
       });
 
       it("It returns the just the content", async () => {
@@ -211,22 +212,22 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll table with one result", () => {
-      let rollResult: any;
-      let surgeRollTable: any;
+      let rollResult: RollTable.Draw;
+      let surgeRollTable: RollTable;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
+        testGlobals.game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        surgeRollTable = {
+        surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
           },
-        };
-        rollResult = {
+        });
+        rollResult = tableDrawFixture({
           results: [
             {
               text: "test text",
@@ -239,7 +240,7 @@ describe("Chat", () => {
 
             render: jest.fn().mockResolvedValue(null),
           },
-        };
+        });
       });
 
       it("It returns the just the content", async () => {
@@ -250,22 +251,22 @@ describe("Chat", () => {
     });
 
     describe("Given I pass it a message and roll table with two results", () => {
-      let rollResultTwoResults: any;
-      let surgeRollTable: any;
+      let rollResultTwoResults: RollTable.Draw;
+      let surgeRollTable: RollTable;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
+        testGlobals.game.settings.get = jest
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
           .mockResolvedValueOnce("rollMode");
-        surgeRollTable = {
+        surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
           },
-        };
-        rollResultTwoResults = {
+        });
+        rollResultTwoResults = tableDrawFixture({
           results: [
             {
               text: "test text",
@@ -283,7 +284,7 @@ describe("Chat", () => {
 
             render: jest.fn().mockResolvedValue(null),
           },
-        };
+        });
       });
 
       it("It calls the correct methods", async () => {
@@ -298,20 +299,20 @@ describe("Chat", () => {
     describe("Given I call RunMessageCheck to send a message to chat", () => {
 
       beforeEach(() => {
-        (global as any).Hooks = {
+        setTestHooks({
           callAll: jest.fn(),
-        };
-        (global as any).game = {
+        });
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce("Surge Message"),
           },
-        };
+        });
       });
 
       it("It returns the just the content", async () => {
         await Chat.RunMessageCheck();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
         expect(ChatMessage.create).toHaveBeenCalled();
       });

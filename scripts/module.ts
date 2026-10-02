@@ -134,13 +134,13 @@ Hooks.once("ready", async function () {
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", (activity) => {
-    HandlePostUseActivity(activity, {
+  Hooks.on("dnd5e.postUseActivity", async (activity) => {
+    await HandlePostUseActivity(activity, {
       getTokenIdByActorId,
       isGM: game.user?.isGM ?? false,
-      onGMCheck: (actor, item, tokenId) => {
+      onGMCheck: async (actor, item, tokenId) => {
         const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
-        magicSurgeCheck.CheckItem(item);
+        await magicSurgeCheck.CheckItem(item);
       },
       onPlayerCheck: (payload) => {
         game.socket?.emit("module.wild-magic-surge-5e", payload);
@@ -167,21 +167,21 @@ Hooks.once("ready", async function () {
   Hooks.on(
     "wild-magic-surge-5e.Reset",
     async function (actorId) {
-      _resetChecks(actorId);
+      await _resetChecks(actorId);
     },
   );
 
   Hooks.on(
     "wild-magic-surge-5e.ResetDieDescending",
     async function (actorId) {
-      _resetChecks(actorId);
+      await _resetChecks(actorId);
     },
   );
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
     async function (actorId) {
-      _resetChecks(actorId);
+      await _resetChecks(actorId);
     },
   );
 
@@ -193,7 +193,7 @@ Hooks.once("ready", async function () {
       if (!actor) {
         return false;
       }
-      DieDescending.OverrideResource(actor, resourceNumber);
+      await DieDescending.OverrideResource(actor, resourceNumber);
     },
   );
 
@@ -205,7 +205,7 @@ Hooks.once("ready", async function () {
       if (!actor) {
         return false;
       }
-      IncrementalCheck.OverrideResource(actor, resourceNumber);
+      await IncrementalCheck.OverrideResource(actor, resourceNumber);
     },
   );
 });

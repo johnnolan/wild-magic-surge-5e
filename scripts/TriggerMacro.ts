@@ -32,7 +32,7 @@ class TriggerMacro {
     if (!actor) return;
     const token = tokenId ? canvas?.tokens?.get(tokenId) : undefined;
 
-    macro.execute({ actor, token });
+    await macro.execute({ actor, token });
   }
 }
 

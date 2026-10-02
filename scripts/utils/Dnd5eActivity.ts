@@ -8,7 +8,11 @@ export interface Dnd5ePostUseActivity {
 interface PostUseActivityHandlers {
   getTokenIdByActorId: (actorId: string) => string | undefined;
   isGM: boolean;
-  onGMCheck: (actor: Actor, item: Item, tokenId: string | undefined) => void;
+  onGMCheck: (
+    actor: Actor,
+    item: Item,
+    tokenId: string | undefined,
+  ) => Promise<void> | void;
   onPlayerCheck: (data: {
     event: "SurgeCheck";
     data: {
@@ -19,10 +23,10 @@ interface PostUseActivityHandlers {
   }) => void;
 }
 
-export function HandlePostUseActivity(
+export async function HandlePostUseActivity(
   activity: Dnd5ePostUseActivity,
   handlers: PostUseActivityHandlers,
-): void {
+): Promise<void> {
   if (!activity.consumption?.spellSlot) return;
 
   const item = activity.item;
@@ -32,7 +36,7 @@ export function HandlePostUseActivity(
   const actorId = actor.id;
   const tokenId = actorId ? handlers.getTokenIdByActorId(actorId) : undefined;
   if (handlers.isGM) {
-    handlers.onGMCheck(actor, item, tokenId);
+    await handlers.onGMCheck(actor, item, tokenId);
     return;
   }
 

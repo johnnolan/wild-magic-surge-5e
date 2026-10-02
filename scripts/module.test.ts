@@ -1,3 +1,4 @@
+import { actorFixture, deferred, itemFixture, rollFixture, setTestCanvas, setTestGame, setTestHooks, testGlobals } from "./test/FoundryFixtures";
 import { WMSCONST } from "./WMSCONST";
 import MagicSurgeCheck from "./MagicSurgeCheck";
 
@@ -10,23 +11,23 @@ jest.mock("./panels/ActorHelperPanel", () => ({
 }));
 
 describe("module hooks", () => {
-  const listeners = new Map<string, (...args: any[]) => unknown>();
-  const onceListeners = new Map<string, (...args: any[]) => unknown>();
+  const listeners = new Map<string, (...args: unknown[]) => unknown>();
+  const onceListeners = new Map<string, (...args: unknown[]) => unknown>();
 
   beforeAll(async () => {
-    (global as any).Hooks = {
-      on: jest.fn((name: string, listener: (...args: any[]) => unknown) => {
+    setTestHooks({
+      on: jest.fn((name: string, listener: (...args: unknown[]) => unknown) => {
         listeners.set(name, listener);
       }),
-      once: jest.fn((name: string, listener: (...args: any[]) => unknown) => {
+      once: jest.fn((name: string, listener: (...args: unknown[]) => unknown) => {
         onceListeners.set(name, listener);
       }),
-    };
-    (global as any).game = {
+    });
+    setTestGame({
       settings: {
         get: jest.fn(),
       },
-    };
+    });
 
     require("./module");
     await listeners.get("init")?.();
@@ -37,7 +38,7 @@ describe("module hooks", () => {
       [WMSCONST.OPT_RESOURCE_TYPE]: "NONE",
       [WMSCONST.OPT_SURGE_TYPE]: WMSCONST.ROLL_CHECK_TYPE.DIE_DESCENDING,
     };
-    (global as any).game.settings.get = jest.fn(
+    testGlobals.game.settings.get = jest.fn(
       (_module: string, key: keyof typeof settings) => settings[key],
     );
 
@@ -48,14 +49,14 @@ describe("module hooks", () => {
       max: 6,
       value: 5,
     };
-    const actor = {
+    const actor = actorFixture({
       id: "actor-1",
       setFlag: jest.fn(
         async (_module: string, key: string, value: typeof resource) => {
           if (key === "resource") resource = value;
         },
       ),
-    } as unknown as Actor;
+    });
 
     const reset = listeners.get("wild-magic-surge-5e.reset");
     expect(reset).toBeDefined();
@@ -76,9 +77,37 @@ describe("module hooks", () => {
     );
   });
 
+  it("awaits a socket reset write and exposes a failed flag update", async () => {
+    const write = deferred<void>();
+    const actor = actorFixture({
+      id: "actor-1",
+      setFlag: jest.fn(() => write.promise),
+    });
+    setTestGame({
+      user: { isGM: false },
+      actors: { get: jest.fn().mockReturnValue(actor) },
+      settings: {
+        get: jest.fn((_module: string, key: string) => {
+          if (key === WMSCONST.OPT_RESOURCE_TYPE) return "NONE";
+          if (key === WMSCONST.OPT_SURGE_TYPE) return "INCREMENTAL_CHECK";
+        }),
+      },
+    });
+    await onceListeners.get("ready")?.();
+    const reset = listeners.get("wild-magic-surge-5e.Reset");
+    expect(reset).toBeDefined();
+
+    const pending = reset?.("actor-1");
+    await Promise.resolve();
+    expect(actor.setFlag).toHaveBeenCalledTimes(1);
+    const failure = new Error("reset write failed");
+    write.reject(failure);
+    await expect(pending).rejects.toBe(failure);
+  });
+
   it("passes a found canvas token to the manual surge and tolerates its absence", async () => {
-    const actor = { id: "actor-1" } as Actor;
-    const roll = { result: "1" } as Roll;
+    const actor = actorFixture({ id: "actor-1" });
+    const roll = rollFixture({ result: "1" });
     const seenTokenIds: Array<string | undefined> = [];
     const surge = jest
       .spyOn(MagicSurgeCheck.prototype, "SurgeWildMagic")
@@ -86,15 +115,15 @@ describe("module hooks", () => {
         seenTokenIds.push(this._tokenId);
       });
     try {
-      (global as any).canvas = {
+      setTestCanvas({
         tokens: { placeables: [{ id: "token-1", actor }] },
-      };
+      });
       await listeners.get("wild-magic-surge-5e.manualTriggerWMS")?.(
         actor,
         roll,
       );
 
-      (global as any).canvas = undefined;
+      setTestCanvas(undefined);
       await listeners.get("wild-magic-surge-5e.manualTriggerWMS")?.(
         actor,
         roll,
@@ -108,16 +137,16 @@ describe("module hooks", () => {
   });
 
   it("ignores socket checks without a saved actor and preserves an optional token", async () => {
-    const actor = { id: "actor-1" } as Actor;
-    const item = { name: "spell" } as Item;
+    const actor = actorFixture({ id: "actor-1" });
+    const item = itemFixture({ name: "spell" });
     const getActor = jest.fn().mockReturnValue(actor);
     const socketOn = jest.fn();
-    (global as any).game = {
+    setTestGame({
       user: { isGM: true },
       actors: { get: getActor },
       socket: { on: socketOn },
       settings: { get: jest.fn().mockReturnValue(undefined) },
-    };
+    });
     await onceListeners.get("ready")?.();
     const socketHandler = socketOn.mock.calls[0][1];
 

@@ -1,3 +1,4 @@
+import { setTestGame } from "../scripts/test/FoundryFixtures";
 const user = {
   name: "",
   id: "",
@@ -23,8 +24,7 @@ const user = {
   }),
 };
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'game'.
-const game = {
+const gameFixture = {
   data: null,
   user: user,
   paused: true,
@@ -45,9 +45,7 @@ const game = {
       // This is intentional
     }),
     registerMenu: jest.fn(),
-    set: (_moduleName: any, _settingName: any, _data: any) => {
-      return Promise.resolve(true);
-    },
+    set: jest.fn().mockResolvedValue(true),
   },
   time: {
     worldTime: 10,
@@ -142,4 +140,4 @@ const game = {
   },
 };
 
-(global as any).game = game;
+setTestGame(gameFixture);

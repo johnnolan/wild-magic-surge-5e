@@ -1,16 +1,38 @@
+import { actorFixture, deferred, itemFixture, setTestGame, testGlobals } from "./test/FoundryFixtures";
 import TidesOfChaos from "./TidesOfChaos";
 import "../__mocks__/index";
 
 describe("TidesOfChaos", () => {
+  it("waits for the embedded Item update and exposes its rejection", async () => {
+    setTestGame({ settings: { get: jest.fn().mockReturnValue(true) } });
+    const update = deferred<Item[]>();
+    const actor = actorFixture({
+      updateEmbeddedDocuments: jest.fn(() => update.promise),
+    });
+    const findItem = jest.spyOn(TidesOfChaos, "getTidesOfChaosItem")
+      .mockResolvedValue(itemFixture({ id: "tides-item" }));
+    try {
+      const check = TidesOfChaos.Check(actor);
+      await Promise.resolve();
+      expect(actor.updateEmbeddedDocuments).toHaveBeenCalledWith("Item", [
+        { _id: "tides-item", "system.uses.value": 1, "system.uses.spent": 0 },
+      ]);
+      const failure = new Error("embedded update failed");
+      update.reject(failure);
+      await expect(check).rejects.toBe(failure);
+    } finally {
+      findItem.mockRestore();
+    }
+  });
   describe("If TidesOfChaos is not enabled", () => {
-    let actor: Actor;
+    const actor = actorFixture({});
 
     beforeEach(() => {
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce(false),
         },
-      };
+      });
     });
 
     it("should return undefined", async () => {
@@ -25,12 +47,12 @@ describe("TidesOfChaos", () => {
         let actor: Actor;
 
         beforeEach(() => {
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
-          };
-          actor = {
+          });
+          actor = actorFixture({
             items: {
               find: jest.fn().mockReturnValueOnce({
                 id: 1,
@@ -46,7 +68,7 @@ describe("TidesOfChaos", () => {
                 },
               }),
             },
-          };
+          });
         });
 
         it("should return true", async () => {
@@ -60,12 +82,12 @@ describe("TidesOfChaos", () => {
         let actor: Actor;
 
         beforeEach(() => {
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
-          };
-          actor = {
+          });
+          actor = actorFixture({
             items: [
               {
                 id: 1,
@@ -79,7 +101,7 @@ describe("TidesOfChaos", () => {
                 },
               },
             ],
-          };
+          });
         });
 
         it("should return false", async () => {
@@ -93,12 +115,12 @@ describe("TidesOfChaos", () => {
         let actor: Actor;
 
         beforeEach(() => {
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
-          };
-          actor = {
+          });
+          actor = actorFixture({
             items: {
               find: jest.fn().mockReturnValueOnce({
                 id: 1,
@@ -114,7 +136,7 @@ describe("TidesOfChaos", () => {
                 },
               }),
             },
-          };
+          });
         });
 
         it("should return false", async () => {
@@ -131,13 +153,13 @@ describe("TidesOfChaos", () => {
         let actor: Actor;
 
         beforeEach(() => {
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
-          };
+          });
           
-          actor = {
+          actor = actorFixture({
             update: jest.fn(),
 
             updateEmbeddedDocuments: jest.fn(),
@@ -156,7 +178,7 @@ describe("TidesOfChaos", () => {
                 },
               }),
             },
-          };
+          });
         });
 
         it("should return true", async () => {
@@ -173,13 +195,13 @@ describe("TidesOfChaos", () => {
         let actor: Actor;
 
         beforeEach(() => {
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
             },
-          };
+          });
           
-          actor = {
+          actor = actorFixture({
             update: jest.fn(),
 
             updateEmbeddedDocuments: jest.fn(),
@@ -198,7 +220,7 @@ describe("TidesOfChaos", () => {
                 },
               },
             ],
-          };
+          });
         });
 
         it("should return false", async () => {
@@ -215,17 +237,17 @@ describe("TidesOfChaos", () => {
     let actor: Actor;
 
     beforeEach(() => {
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("Tides of Chaos"),
         },
-      };
+      });
       
-      actor = {
+      actor = actorFixture({
         items: {
           find: jest.fn().mockReturnValueOnce(undefined),
         },
-      };
+      });
     });
 
     it("should return true", async () => {
@@ -241,17 +263,17 @@ describe("TidesOfChaos", () => {
       let actor: Actor;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
-        };
+        });
         
-        actor = {
+        actor = actorFixture({
           items: {
             find: jest.fn().mockReturnValueOnce(undefined),
           },
-        };
+        });
       });
 
       it("should return false", async () => {
@@ -270,13 +292,13 @@ describe("TidesOfChaos", () => {
       let actor: Actor;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
-        };
+        });
         
-        actor = {
+        actor = actorFixture({
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -293,7 +315,7 @@ describe("TidesOfChaos", () => {
               },
             }),
           },
-        };
+        });
       });
 
       it("should return false for resource check", async () => {
@@ -312,13 +334,13 @@ describe("TidesOfChaos", () => {
       let actor: Actor;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
-        };
+        });
         
-        actor = {
+        actor = actorFixture({
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -332,7 +354,7 @@ describe("TidesOfChaos", () => {
               },
             }),
           },
-        };
+        });
       });
 
       it("should return false", async () => {
@@ -351,13 +373,13 @@ describe("TidesOfChaos", () => {
       let actor: Actor;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("Tides of Chaos"),
           },
-        };
+        });
         
-        actor = {
+        actor = actorFixture({
           items: {
             find: jest.fn().mockReturnValueOnce({
               id: 1,
@@ -374,7 +396,7 @@ describe("TidesOfChaos", () => {
               },
             }),
           },
-        };
+        });
       });
 
       it("should return false", async () => {
@@ -392,15 +414,15 @@ describe("TidesOfChaos", () => {
 
 describe("TidesOfChaos with malformed D&D5E uses data", () => {
   beforeEach(() => {
-    (global as any).game = {
+    setTestGame({
       settings: {
         get: jest.fn().mockReturnValue("Tides of Chaos"),
       },
-    };
+    });
   });
 
   it("treats malformed uses.value as not consumed", async () => {
-    const actor = {
+    const actor = actorFixture({
       items: [
         {
           id: "tides",
@@ -409,13 +431,13 @@ describe("TidesOfChaos with malformed D&D5E uses data", () => {
           system: { uses: { value: "0" } },
         },
       ],
-    } as unknown as Actor;
+    });
 
     await expect(TidesOfChaos.IsTidesOfChaosUsed(actor)).resolves.toBe(false);
   });
 
   it("treats malformed uses.max as unconfigured", async () => {
-    const actor = {
+    const actor = actorFixture({
       items: [
         {
           id: "tides",
@@ -424,7 +446,7 @@ describe("TidesOfChaos with malformed D&D5E uses data", () => {
           system: { uses: { value: 1, max: "1" } },
         },
       ],
-    } as unknown as Actor;
+    });
 
     await expect(TidesOfChaos.IsTidesOfChaosSetup(actor)).resolves.toEqual({
       hasTidesOfChaosResource: false,

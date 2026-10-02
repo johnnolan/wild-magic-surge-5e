@@ -1,4 +1,5 @@
 import { AttachRollTableButton } from "./ChatMessageHooks";
+import Logger from "../Logger";
 
 describe("AttachRollTableButton", () => {
   it("handles button clicks and prevents propagation", () => {
@@ -32,6 +33,29 @@ describe("AttachRollTableButton", () => {
     button.click();
 
     expect(onRoll).toHaveBeenCalledTimes(1);
+  });
+
+  it("reports a rejected roll started by a DOM click", async () => {
+    const container = document.createElement("div");
+    const button = document.createElement("button");
+    button.classList.add("roll-table-wms");
+    container.append(button);
+    const failure = new Error("table roll failed");
+    const report = jest
+      .spyOn(Logger, "error")
+      .mockImplementation(() => undefined);
+    try {
+      AttachRollTableButton(container, () => Promise.reject(failure));
+      button.click();
+      await Promise.resolve();
+      expect(report).toHaveBeenCalledWith(
+        "Roll-table button failed",
+        "ChatMessageHooks",
+        failure,
+      );
+    } finally {
+      report.mockRestore();
+    }
   });
 
   it("does nothing when the chat message has no roll-table button", () => {

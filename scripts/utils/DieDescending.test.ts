@@ -1,316 +1,96 @@
+import {
+  actorFixture,
+  deferred,
+  setTestGame,
+  setTestHooks,
+} from "../test/FoundryFixtures";
+import { WMSCONST } from "../WMSCONST";
+import type { ResourceValue } from "../types/domain";
 import DieDescending from "./DieDescending";
-import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
 
+const resource = (value: number): ResourceValue => ({
+  label: "Surge Chance",
+  lr: false,
+  sr: false,
+  max: 6,
+  value,
+});
+
+function actorWithResource(initial?: ResourceValue) {
+  let stored = initial;
+  const actor = actorFixture({
+    getFlag: jest.fn(() => stored),
+    setFlag: jest.fn(
+      async (_module: string, _key: string, next: ResourceValue) => {
+        stored = next;
+      },
+    ),
+  });
+  return { actor, stored: () => stored };
+}
+
+beforeEach(() => {
+  setTestHooks({ callAll: jest.fn() });
+  setTestGame({
+    settings: {
+      get: jest.fn((_module: string, key: string) => {
+        if (key === WMSCONST.OPT_RESOURCE_TYPE) return "NONE";
+        if (key === WMSCONST.OPT_SURGE_TYPE) return "DIE_DESCENDING";
+      }),
+    },
+  });
+});
+
 describe("DieDescending", () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    (global as any).Hooks = {
-      callAll: jest.fn().mockReturnValue(true),
-    };
+  it("initializes a missing resource before returning its formula", async () => {
+    const holder = actorWithResource();
+
+    await expect(DieDescending.DieFormula(holder.actor)).resolves.toBe("1d20");
+    expect(holder.stored()).toEqual(resource(1));
   });
 
-  describe("If get resource with incorrect flag set", () => {
-    const newActor: Actor = actor;
+  it.each([
+    [1, 2, "1d12"],
+    [2, 3, "1d10"],
+    [3, 4, "1d8"],
+    [4, 5, "1d6"],
+    [5, 6, "1d4"],
+    [6, 6, "1d4"],
+  ])("persists step %i as %i (%s)", async (start, next, formula) => {
+    const holder = actorWithResource(resource(start));
 
-    beforeEach(() => {
-      newActor.setFlag = jest.fn().mockResolvedValue(true);
-      newActor.update = jest.fn().mockResolvedValue(true);
-      newActor.getFlag = jest
-        .fn()
-        .mockResolvedValueOnce({ dieValue: "1d20", value: 1 });
-    });
+    await expect(DieDescending.Check(holder.actor, 18)).resolves.toBe(false);
 
-    it("should return default", async () => {
-      const result = await DieDescending.GetResource(newActor);
-
-      expect(result).toStrictEqual({
-        value: 1,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
+    expect(holder.stored()).toEqual(resource(next));
+    await expect(DieDescending.DieFormula(holder.actor)).resolves.toBe(formula);
   });
 
-  describe("If a roll of 1 with incorrect flag set", () => {
-    const newActor: Actor = actor;
+  it("resets on a roll of one before reporting a surge", async () => {
+    const holder = actorWithResource(resource(5));
 
-    beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.setFlag = jest.fn().mockResolvedValue(true);
-      newActor.update = jest.fn().mockResolvedValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 1,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, 12);
-
-      expect(result).toBeFalsy();
-    });
+    await expect(DieDescending.Check(holder.actor, 1)).resolves.toBe(true);
+    expect(holder.stored()).toEqual(resource(1));
   });
 
-  describe("If no actor is passed", () => {
-    const newActor: Actor = {
-      setFlag: jest.fn().mockResolvedValue(true),
-      update: jest.fn().mockResolvedValue(true),
-      flags: [],
-    };
-
-    it("should return false", async () => {
-      const result = await DieDescending.Check(undefined, 1);
-
-      expect(result).toBeFalsy();
+  it("propagates a rejected resource write", async () => {
+    const write = deferred<void>();
+    const actor = actorFixture({
+      getFlag: jest.fn().mockReturnValue(resource(3)),
+      setFlag: jest.fn(() => write.promise),
     });
+    const check = DieDescending.Check(actor, 18);
+    const failure = new Error("resource write failed");
+    write.reject(failure);
+
+    await expect(check).rejects.toBe(failure);
   });
 
-  describe("If a roll of 1 with flag set", () => {
-    const newActor: Actor = actor;
+  it("persists an override before notifying listeners", async () => {
+    const holder = actorWithResource(resource(1));
 
-    beforeEach(() => {
-      global.hasProperty = jest.fn().mockReturnValue(true);
-      newActor.setFlag = jest.fn().mockResolvedValue(true);
-      newActor.update = jest.fn().mockResolvedValue(true);
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 1,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
+    await DieDescending.OverrideResource(holder.actor, 4);
 
-    it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, 1);
-
-      expect(result).toBeTruthy();
-    });
+    expect(holder.stored()).toEqual(resource(4));
   });
-
-  describe("If a roll of 1 with no flag set", () => {
-    const newActor: Actor = {
-      setFlag: jest.fn().mockResolvedValue(true),
-      update: jest.fn().mockResolvedValue(true),
-      flags: [],
-    };
-
-    it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, 1);
-
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe("If a roll of 10 with no flag set", () => {
-    const newActor: Actor = {
-      setFlag: jest.fn().mockResolvedValue(true),
-      update: jest.fn().mockResolvedValue(true),
-      flags: [],
-    };
-
-    it("should return false", async () => {
-      const result = await DieDescending.Check(newActor, 10);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 1 with no flag value set", () => {
-    const newActor: Actor = actor;
-    beforeEach(() => {
-      // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
-      newActor.flags["wild-magic-surge-5e"] = {};
-    });
-
-    it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, 1);
-
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe("If a roll of 4 with no flag set", () => {
-    const newActor: Actor = actor;
-    beforeEach(() => {
-      // @ts-expect-error TS(2741): Property 'surge_increment' is missing in type '{}'... Remove this comment to see the full error message
-      newActor.flags["wild-magic-surge-5e"] = {};
-    });
-
-    it("should return false", async () => {
-      const result = await DieDescending.Check(actor, 4);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 1 flag set as 1", () => {
-    const newActor: Actor = actor;
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 1,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should return true", async () => {
-      const result = await DieDescending.Check(newActor, 1);
-
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d20", () => {
-    let newActor: Actor;
-
-    beforeEach(() => {
-      newActor = actor;
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        dieValue: "1d20",
-        value: 1,
-        max: 6,
-        min: 1,
-      });
-    });
-
-    it("should change to D12", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d12", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 2,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should change to D10", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d10", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 3,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should change to D8", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d8", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 4,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should change to D6", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d6", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 6,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should change to D4", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe("If a roll of 18 flag set as 1d4", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      newActor.getFlag = jest.fn().mockResolvedValueOnce({
-        value: 6,
-        label: "Surge Chance",
-        sr: false,
-        lr: false,
-        max: 6,
-      });
-    });
-
-    it("should stay as D4", async () => {
-      const result = await DieDescending.Check(newActor, 18);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  /*describe("If a DIE_DESCENDING_FLAG_OPTION is not set", () => {
-    const newActor: Actor = actor;
-
-    beforeEach(() => {
-      jest.resetAllMocks();
-      global.hasProperty = jest.fn().mockReturnValue(false);
-      newActor.getFlag = jest.fn().mockResolvedValue(undefined);
-      newActor.setFlag = jest.fn().mockResolvedValue(true);
-      newActor.update = jest.fn().mockResolvedValue(true);
-      newActor.flags = [];
-    });
-
-    it("should set the flag as default values", async () => {
-      const result = await DieDescending.Check(newActor, "18");
-
-      expect(result).toBeFalsy();
-
-      expect(newActor.setFlag).toBeCalledWith(
-        WMSCONST.MODULE_FLAG_NAME,
-        WMSCONST.DIE_DESCENDING_FLAG_OPTION,
-        { dieValue: "1d20", value: 1, max: 6, min: 1 }
-      );
-    });
-  });*/
 });

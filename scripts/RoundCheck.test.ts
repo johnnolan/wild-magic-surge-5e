@@ -1,3 +1,4 @@
+import { combatFixture, setTestGame, testGlobals } from "./test/FoundryFixtures";
 import RoundCheck from "./RoundCheck";
 import SpellParser from "./utils/SpellParser";
 import IncrementalCheck from "./utils/IncrementalCheck";
@@ -32,11 +33,11 @@ describe("RoundCheck", () => {
   describe("Check", () => {
     describe("Given Auto D20 setting is false", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(false),
           },
-        };
+        });
       });
 
       it("It should call RunMessageCheck", async () => {
@@ -48,11 +49,11 @@ describe("RoundCheck", () => {
 
     describe("Given Auto D20 setting is true and IsWildMagicFeat is false", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
           },
-        };
+        });
         mockSpellParserIsWildMagicFeat.mockReturnValueOnce(false);
       });
 
@@ -67,11 +68,11 @@ describe("RoundCheck", () => {
 
     describe("Given Auto D20 setting and enable npcs is true", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(true),
           },
-        };
+        });
       });
 
       describe("Given IsWildMagicFeat is true", () => {
@@ -92,11 +93,11 @@ describe("RoundCheck", () => {
 
     describe("Given Auto D20 setting and enable npcs is false", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
           },
-        };
+        });
       });
 
       describe("Given IsWildMagicFeat is true and not IsNPC", () => {
@@ -140,11 +141,11 @@ describe("RoundCheck.OnCombatUpdate", () => {
   const mockRoundCheck = jest.spyOn(RoundCheck, "Check");
 
   beforeEach(() => {
-    (global as any).game = {
+    setTestGame({
       settings: {
         get: jest.fn().mockReturnValue("INCREMENTAL_CHECK_CHAOTIC"),
       },
-    };
+    });
     mockRoundCheck.mockClear();
     mockRoundCheck.mockResolvedValue();
   });
@@ -154,21 +155,21 @@ describe("RoundCheck.OnCombatUpdate", () => {
   });
 
   it("does not check when combat has no current combatant", async () => {
-    const combat = { combatant: undefined } as unknown as Combat;
+    const combat = combatFixture({ combatant: undefined });
 
     await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
     expect(mockRoundCheck).not.toHaveBeenCalled();
   });
 
   it("does not check when the current combatant has no actor", async () => {
-    const combat = { combatant: { actor: undefined } } as unknown as Combat;
+    const combat = combatFixture({ combatant: { actor: undefined } });
 
     await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
     expect(mockRoundCheck).not.toHaveBeenCalled();
   });
 
   it("checks the actor on the current combatant", async () => {
-    const combat = { combatant: { actor } } as unknown as Combat;
+    const combat = combatFixture({ combatant: { actor } });
 
     await RoundCheck.OnCombatUpdate(combat);
 

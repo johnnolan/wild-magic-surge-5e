@@ -72,7 +72,7 @@ class MagicSurgeCheck {
           WMSCONST.CHAT_TYPE.DEFAULT,
         );
       } else {
-        RollTableMagicSurge.Check(
+        await RollTableMagicSurge.Check(
           WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic,
           this._actor,
         );
@@ -254,7 +254,7 @@ class MagicSurgeCheck {
     });
 
     if (isSurge && this._actor.id) {
-      TriggerMacro.Run(this._actor.id, this._tokenId);
+      await TriggerMacro.Run(this._actor.id, this._tokenId);
     }
   }
 
@@ -280,7 +280,7 @@ class MagicSurgeCheck {
           roll,
         );
       }
-      TidesOfChaos.Check(this._actor);
+      await TidesOfChaos.Check(this._actor);
       const tableResult = await RollTableMagicSurge.Check(
         undefined,
         this._actor,
@@ -291,8 +291,8 @@ class MagicSurgeCheck {
       if (tableResult) {
         flavorText = tableResult;
       }
-      this._callIsSurgeHook(true, roll);
-      AutoEffects.Run(this._tokenId);
+      await this._callIsSurgeHook(true, roll);
+      await AutoEffects.Run(this._tokenId);
     } else {
       await setModuleActorFlag(
         this._actor,
@@ -308,7 +308,7 @@ class MagicSurgeCheck {
           roll,
         );
       }
-      this._callIsSurgeHook(false, roll);
+      await this._callIsSurgeHook(false, roll);
     }
   }
 
@@ -340,11 +340,11 @@ class MagicSurgeCheck {
         WMSCONST.CHAT_TYPE.DEFAULT,
       );
     }
-    TidesOfChaos.Check(this._actor);
-    IncrementalCheck.Reset(this._actor);
-    DieDescending.Reset(this._actor);
-    this._callIsSurgeHook(true);
-    AutoEffects.Run(this._tokenId);
+    await TidesOfChaos.Check(this._actor);
+    await IncrementalCheck.Reset(this._actor);
+    await DieDescending.Reset(this._actor);
+    await this._callIsSurgeHook(true);
+    await AutoEffects.Run(this._tokenId);
   }
 }
 

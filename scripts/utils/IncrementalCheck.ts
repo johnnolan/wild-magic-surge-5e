@@ -43,7 +43,7 @@ export default class IncrementalCheck extends Resource {
       !resourceValue ||
       (rollValue !== undefined && rollValue <= resourceValue.value)
     ) {
-      this._setupDefault(actor);
+      await this._setupDefault(actor);
       return true;
     } else {
       if (resourceValue.value !== maxValue) {

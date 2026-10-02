@@ -1,9 +1,10 @@
+import { setTestGame, setTestHooks, setTestUi, testGlobals } from "../test/FoundryFixtures";
 import SpellLevelTrigger from "./SpellLevelTrigger";
 
 describe("SpellLevelTrigger", () => {
-  (global as any).Hooks = {
+  setTestHooks({
     callAll: jest.fn().mockReturnValue(true),
-  };
+  });
 
   describe("gets the correct roll formula", () => {
     it("should create the correct roll value", () => {
@@ -37,7 +38,7 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("2d20kh = 1"),
         },
@@ -48,7 +49,7 @@ describe("SpellLevelTrigger", () => {
             results: jest.fn().mockResolvedValue([]),
           },
         ],
-      };
+      });
     });
 
     it("should be true", () => {
@@ -63,7 +64,7 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("< 5"),
         },
@@ -74,7 +75,7 @@ describe("SpellLevelTrigger", () => {
             results: jest.fn().mockResolvedValue([]),
           },
         ],
-      };
+      });
     });
 
     it("should be true", () => {
@@ -89,7 +90,7 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("> 6"),
         },
@@ -100,7 +101,7 @@ describe("SpellLevelTrigger", () => {
             results: jest.fn().mockResolvedValue([]),
           },
         ],
-      };
+      });
     });
 
     it("should be true", () => {
@@ -115,7 +116,7 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 4"),
         },
@@ -126,7 +127,7 @@ describe("SpellLevelTrigger", () => {
             results: jest.fn().mockResolvedValue([]),
           },
         ],
-      };
+      });
     });
 
     it("should be true", () => {
@@ -141,7 +142,7 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 3"),
         },
@@ -152,7 +153,7 @@ describe("SpellLevelTrigger", () => {
             results: jest.fn().mockResolvedValue([]),
           },
         ],
-      };
+      });
     });
 
     it("should be true", () => {
@@ -167,11 +168,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 1"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -186,11 +187,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 2"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -205,11 +206,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 3"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -224,11 +225,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 7"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -243,11 +244,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 8"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -262,11 +263,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 9"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -281,11 +282,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("= 10"),
         },
-      };
+      });
     });
 
     it("should be true", () => {
@@ -300,16 +301,16 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("11"),
         }
-      };
-      (global as any).ui = {
+      });
+      setTestUi({
         notifications: {
           warn: jest.fn(),
         }
-      };
+      });
     });
 
     it("should be false", () => {
@@ -324,11 +325,11 @@ describe("SpellLevelTrigger", () => {
       jest.clearAllMocks();
 
       jest.resetAllMocks();
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("11"),
         },
-      };
+      });
     });
 
     it("should be false", () => {

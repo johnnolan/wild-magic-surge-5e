@@ -1,3 +1,4 @@
+import { actorFixture, rollFixture, setTestGame, setTestHooks, setTestUi, testGlobals } from "./test/FoundryFixtures";
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import SpellParser from "./utils/SpellParser";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -77,15 +78,15 @@ AutoEffects.Run = mockAutoEffect;
 const mockTriggerMacro = jest.fn();
 TriggerMacro.Run = mockTriggerMacro;
 
-(global as any).Hooks = {
+setTestHooks({
   callAll: jest.fn().mockReturnValue(undefined),
-};
+});
 
-(global as any).ui = {
+setTestUi({
   notifications: {
     info: jest.fn(),
   },
-};
+});
 
 beforeEach(() => {
   mockChatRunMessageCheck.mockClear();
@@ -108,7 +109,7 @@ beforeEach(() => {
   mockSpellParserIsRage.mockClear();
   mockSpellParserIsSpell.mockClear();
   mockSpellParserIsWildMagicFeat.mockClear();
-  (global as any).Hooks.callAll.mockClear();
+  testGlobals.Hooks.callAll.mockClear();
 });
 
 describe("MagicSurgeCheck", () => {
@@ -126,7 +127,7 @@ describe("MagicSurgeCheck", () => {
     });
 
     it("does not start a surge macro without an actor ID", async () => {
-      const unsavedActor = { ...actor, id: null } as Actor;
+      const unsavedActor = actorFixture({ ...actor, id: null });
 
       await new MagicSurgeCheck(unsavedActor, "token-123")._callIsSurgeHook(true);
 
@@ -139,7 +140,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -151,12 +152,12 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         mockSurgeDetailsValid.mockReturnValue(false);
 
-        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
+        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockResolvedValue(undefined);
       });
 
       it("It returns as invalid", async () => {
@@ -176,7 +177,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -188,13 +189,13 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
 
-        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
+        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockResolvedValue(undefined);
       });
 
       it("It runs correctly", async () => {
@@ -214,7 +215,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -226,14 +227,14 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValueOnce(false),
           },
-        };
+        });
 
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(false);
 
-        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
+        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockResolvedValue(undefined);
       });
 
       it("It runs correctly", async () => {
@@ -253,7 +254,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -265,14 +266,14 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValueOnce(true),
           },
-        };
+        });
 
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         mockSurgeDetailsValid.mockReturnValue(true);
         mockSurgeDetailsHasPathOfWildMagicFeat.mockReturnValue(true);
 
-        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockReturnValue(true);
+        jest.spyOn(magicSurgeCheck, "AutoSurgeCheck").mockResolvedValue(undefined);
       });
 
       it("It runs correctly", async () => {
@@ -292,7 +293,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -307,7 +308,7 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("DEFAULT")
               .mockReturnValueOnce("1D20"),
           },
-        };
+        });
 
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
@@ -315,7 +316,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect((global as any).Roll).toHaveBeenCalled();
+        expect(testGlobals.Roll).toHaveBeenCalled();
       });
     });
 
@@ -323,7 +324,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -338,14 +339,14 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("SPELL_LEVEL_DEPENDENT_ROLL")
               .mockReturnValueOnce("1D20"),
           },
-        };
+        });
         
-      (global as any).ui = {
+      setTestUi({
         notifications: {
           warn: jest.fn(),
           info: jest.fn(),
         }
-      };
+      });
 
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
@@ -353,7 +354,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect((global as any).Roll).toHaveBeenCalled();
+        expect(testGlobals.Roll).toHaveBeenCalled();
       });
     });
 
@@ -361,7 +362,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -376,7 +377,7 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("DIE_DESCENDING")
               .mockReturnValueOnce("1D20"),
           },
-        };
+        });
 
         actor.getFlag = jest.fn().mockReturnValue({ value: "1D20" });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
@@ -385,7 +386,7 @@ describe("MagicSurgeCheck", () => {
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
 
-        expect((global as any).Roll).toHaveBeenCalled();
+        expect(testGlobals.Roll).toHaveBeenCalled();
       });
     });
 
@@ -393,7 +394,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -408,7 +409,7 @@ describe("MagicSurgeCheck", () => {
               .mockReturnValueOnce("DIE_DESCENDING")
               .mockReturnValueOnce("1D20"),
           },
-        };
+        });
 
         actor.getFlag = jest.fn().mockReturnValue(undefined);
 
@@ -418,7 +419,7 @@ describe("MagicSurgeCheck", () => {
 
       it("It calls Roll with 1D20", async () => {
         await magicSurgeCheck.WildMagicSurgeRollCheck();
-        expect((global as any).Roll).toHaveBeenCalled();
+        expect(testGlobals.Roll).toHaveBeenCalled();
       });
     });
   });
@@ -427,7 +428,7 @@ describe("MagicSurgeCheck", () => {
     describe("has 1 value in the result check", () => {
       let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -436,7 +437,6 @@ describe("MagicSurgeCheck", () => {
           i18n: {
             format: jest.fn().mockReturnValue("TestKeyValue"),
           },
-          actors: actor,
           settings: {
             get: jest.fn().mockReturnValue("2"),
           },
@@ -447,7 +447,7 @@ describe("MagicSurgeCheck", () => {
               results: jest.fn().mockResolvedValue([]),
             },
           ],
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
       test("roll of 2 EQ 2", async () => {
@@ -486,7 +486,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
       beforeAll(() => {
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -495,7 +495,6 @@ describe("MagicSurgeCheck", () => {
           i18n: {
             format: jest.fn().mockReturnValue("TestKeyValue"),
           },
-          actors: actor,
           settings: {
             get: jest.fn().mockReturnValue("3, 4"),
           },
@@ -506,7 +505,7 @@ describe("MagicSurgeCheck", () => {
               results: jest.fn().mockResolvedValue([]),
             },
           ],
-        };
+        });
       });
       test("roll of 3 EQ 3", async () => {
         const result = magicSurgeCheck.DefaultMagicSurgeRollResult(3, "EQ");
@@ -548,11 +547,11 @@ describe("MagicSurgeCheck", () => {
 
   describe("AutoSurgeCheck", () => {
     describe("Is Tides of Chaos Auto Surge", () => {
-      let defaultSurgeTidesOfChaosSpy: any;
+      let defaultSurgeTidesOfChaosSpy: jest.SpiedFunction<MagicSurgeCheck["SurgeTidesOfChaos"]>;
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -564,7 +563,7 @@ describe("MagicSurgeCheck", () => {
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
 
         defaultSurgeTidesOfChaosSpy = jest.spyOn(
@@ -572,7 +571,7 @@ describe("MagicSurgeCheck", () => {
           "SurgeTidesOfChaos"
         );
 
-        jest.spyOn(magicSurgeCheck, "SurgeWildMagic").mockReturnValue(true);
+        jest.spyOn(magicSurgeCheck, "SurgeWildMagic").mockResolvedValue(undefined);
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(true);
       });
       test("Calls Tides of Chaos surge", async () => {
@@ -585,11 +584,11 @@ describe("MagicSurgeCheck", () => {
     });
 
     describe("Is Auto Surge Check", () => {
-      let defaultMagicSurgeRollResultSpy: any;
+      let defaultMagicSurgeRollResultSpy: jest.SpiedFunction<MagicSurgeCheck["DefaultMagicSurgeRollResult"]>;
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -628,7 +627,7 @@ describe("MagicSurgeCheck", () => {
               },
             }),
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
@@ -639,7 +638,7 @@ describe("MagicSurgeCheck", () => {
 
         jest
           .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
-          .mockReturnValue(true);
+          .mockResolvedValue(rollFixture({ total: 1, result: "1" }));
       });
       test("INVALID_OPTION", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
@@ -671,9 +670,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK");
@@ -690,9 +689,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("INCREMENTAL_CHECK_CHAOTIC", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INCREMENTAL_CHECK_CHAOTIC");
@@ -709,9 +708,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(0);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("SPELL_LEVEL_DEPENDENT_ROLL", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "SPELL_LEVEL_DEPENDENT_ROLL");
@@ -724,9 +723,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockSpellLevelTriggerCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
       test("DIE_DESCENDING", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "DIE_DESCENDING");
@@ -739,18 +738,18 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockDieDescendingCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
     });
 
     describe("Is Auto Surge Check but no roll", () => {
-      let defaultMagicSurgeRollResultSpy: any;
+      let defaultMagicSurgeRollResultSpy: jest.SpiedFunction<MagicSurgeCheck["DefaultMagicSurgeRollResult"]>;
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
@@ -789,7 +788,7 @@ describe("MagicSurgeCheck", () => {
               },
             }),
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockTidesOfChaosIsTidesOfChaosUsed.mockReturnValue(false);
 
@@ -800,7 +799,7 @@ describe("MagicSurgeCheck", () => {
 
         jest
           .spyOn(magicSurgeCheck, "WildMagicSurgeRollCheck")
-          .mockReturnValue(undefined);
+          .mockResolvedValue(undefined);
       });
       test("It should return", async () => {
         await magicSurgeCheck.AutoSurgeCheck("1", "INVALID_OPTION");
@@ -819,7 +818,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           i18n: {
             format: jest.fn().mockReturnValue("TestKeyValue"),
           },
@@ -831,7 +830,7 @@ describe("MagicSurgeCheck", () => {
               return { active: false };
             },
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
         mockRollTableMagicSurgeCheck.mockResolvedValueOnce("test result");
       });
@@ -849,9 +848,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockDieDescendingReset).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -859,7 +858,7 @@ describe("MagicSurgeCheck", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           i18n: {
             format: jest.fn().mockReturnValue("TestKeyValue"),
           },
@@ -871,7 +870,7 @@ describe("MagicSurgeCheck", () => {
               return { active: false };
             },
           },
-        };
+        });
         magicSurgeCheck = new MagicSurgeCheck(actor, "rMyoELkOwFNPGEK4");
       });
 
@@ -884,9 +883,9 @@ describe("MagicSurgeCheck", () => {
 
         expect(mockRollTableMagicSurgeCheck).toHaveBeenCalledTimes(1);
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalled();
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalled();
 
-        expect((global as any).Hooks.callAll).toHaveBeenCalledTimes(1);
+        expect(testGlobals.Hooks.callAll).toHaveBeenCalledTimes(1);
       });
     });
   });

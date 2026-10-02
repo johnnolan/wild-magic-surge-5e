@@ -1,3 +1,4 @@
+import { actorFixture, setTestGame, testGlobals } from "../test/FoundryFixtures";
 import {
   getModuleActorFlag,
   getModuleSetting,
@@ -8,7 +9,7 @@ import {
 import type { ResourceValue } from "../types/domain";
 
 if (false) {
-  const actor = {} as Actor;
+  const actor = actorFixture({});
   // @ts-expect-error Unknown setting keys are rejected.
   getModuleSetting("misspelledSetting");
   // @ts-expect-error Setting values must match the registered value type.
@@ -31,19 +32,19 @@ if (false) {
 
 describe("typed module settings and flags", () => {
   beforeEach(() => {
-    (global as any).game = {
+    setTestGame({
       settings: {
         get: jest.fn().mockReturnValue(true),
         set: jest
           .fn()
           .mockImplementation(async (_namespace, _key, value) => value),
       },
-    };
+    });
   });
 
   it("reads a registered setting using its mapped value type", () => {
     expect(getModuleSetting("autoRollD20")).toBe(true);
-    expect(game.settings.get).toHaveBeenCalledWith(
+    expect(testGlobals.game.settings.get).toHaveBeenCalledWith(
       "wild-magic-surge-5e",
       "autoRollD20",
     );
@@ -51,7 +52,7 @@ describe("typed module settings and flags", () => {
 
   it("writes a valid registered setting", async () => {
     await expect(setModuleSetting("autoRollD20", false)).resolves.toBe(false);
-    expect(game.settings.set).toHaveBeenCalledWith(
+    expect(testGlobals.game.settings.set).toHaveBeenCalledWith(
       "wild-magic-surge-5e",
       "autoRollD20",
       false,
@@ -71,10 +72,10 @@ describe("typed module settings and flags", () => {
   });
 
   it("validates Actor flag values when reading and writing", async () => {
-    const actor = {
+    const actor = actorFixture({
       getFlag: jest.fn().mockReturnValue("true"),
       setFlag: jest.fn().mockResolvedValue(undefined),
-    } as unknown as Actor;
+    });
 
     expect(getModuleActorFlag(actor, "hassurged")).toBeUndefined();
     await setModuleActorFlag(actor, "hassurged", true);
@@ -93,10 +94,10 @@ describe("typed module settings and flags", () => {
       max: 20,
       value: 4,
     };
-    const actor = {
+    const actor = actorFixture({
       getFlag: jest.fn().mockReturnValue(resource),
       setFlag: jest.fn().mockResolvedValue(undefined),
-    } as unknown as Actor;
+    });
 
     expect(getModuleActorFlag(actor, "surge_increment_resource")).toEqual(
       resource,
@@ -110,7 +111,7 @@ describe("typed module settings and flags", () => {
   });
 
   it("rejects malformed resource flag writes from dynamic callers", () => {
-    const actor = { setFlag: jest.fn() } as unknown as Actor;
+    const actor = actorFixture({ setFlag: jest.fn() });
 
     expect(() =>
       setModuleActorFlag(actor, "resource", {
@@ -122,9 +123,9 @@ describe("typed module settings and flags", () => {
   });
 
   it("accepts only known legacy die_type values", () => {
-    const actor = {
+    const actor = actorFixture({
       getFlag: jest.fn().mockReturnValue({ dieValue: "1d8" }),
-    } as unknown as Actor;
+    });
     expect(getModuleActorFlag(actor, "die_type")).toEqual({ dieValue: "1d8" });
 
     actor.getFlag = jest.fn().mockReturnValue({ dieValue: "1d3" });

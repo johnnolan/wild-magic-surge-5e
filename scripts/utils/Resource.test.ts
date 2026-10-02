@@ -1,3 +1,4 @@
+import { actorFixture, setTestGame, testGlobals } from "../test/FoundryFixtures";
 import Resource from "./Resource";
 import IncrementalCheck from "./IncrementalCheck";
 import DieDescending from "./DieDescending";
@@ -6,27 +7,27 @@ import type { ResourceValue } from "../types/domain";
 
 function actorWithResource(initial?: ResourceValue) {
   let stored = initial;
-  const actor = {
+  const actor = actorFixture({
     getFlag: jest.fn(() => stored),
     setFlag: jest.fn(
       async (_module: string, _key: string, value: ResourceValue) => {
         stored = value;
       },
     ),
-  } as unknown as Actor;
+  });
   return { actor, stored: () => stored };
 }
 
 describe("Resource defaults", () => {
   beforeEach(() => {
-    (global as any).game = {
+    setTestGame({
       settings: {
         get: jest.fn((_module: string, key: string) => {
           if (key === WMSCONST.OPT_RESOURCE_TYPE) return "NONE";
           if (key === WMSCONST.OPT_SURGE_TYPE) return "INCREMENTAL_CHECK";
         }),
       },
-    };
+    });
   });
 
   it("writes independent resources without changing static defaults", async () => {
@@ -52,7 +53,7 @@ describe("Resource defaults", () => {
   });
 
   it("returns a fresh copy of the initialized default used for a missing resource", async () => {
-    (global as any).game.settings.get.mockImplementation(
+    testGlobals.game.settings.get.mockImplementation(
       (_module: string, key: string) => {
         if (key === WMSCONST.OPT_RESOURCE_TYPE) return "NONE";
         if (key === WMSCONST.OPT_SURGE_TYPE) return "INCREMENTAL_CHECK_CHAOTIC";

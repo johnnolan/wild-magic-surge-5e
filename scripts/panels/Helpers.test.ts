@@ -1,3 +1,4 @@
+import { setTestGame, testGlobals } from "../test/FoundryFixtures";
 import { SettingsList, UpdateObject } from "./Helpers";
 import type { SettingsFormData } from "./Helpers";
 import { WMSCONST } from "../WMSCONST";
@@ -36,7 +37,7 @@ describe("settings panel helpers", () => {
       [stringKey]: "Surge message",
       [choiceKey]: "GT",
     };
-    (global as any).game = {
+    setTestGame({
       i18n: { format: jest.fn((key: string) => `localized ${key}`) },
       settings: {
         settings,
@@ -45,7 +46,7 @@ describe("settings panel helpers", () => {
           async (_namespace: string, _key: string, value: unknown) => value,
         ),
       },
-    };
+    });
   });
 
   it("builds typed checkbox, text, and choice data from registered settings", () => {
@@ -95,24 +96,24 @@ describe("settings panel helpers", () => {
         ],
       },
     ]);
-    expect((global as any).game.settings.get).toHaveBeenCalledWith(
+    expect(testGlobals.game.settings.get).toHaveBeenCalledWith(
       WMSCONST.MODULE_ID,
       booleanKey,
     );
   });
 
   it("skips absent or unsupported registration metadata", () => {
-    (global as any).game.settings.settings.set(
+    testGlobals.game.settings.settings.set(
       `${WMSCONST.MODULE_ID}.${stringKey}`,
       registration(stringKey, Number),
     );
 
     expect(SettingsList([stringKey, WMSCONST.OPT_SPELL_REGEX])).toEqual([]);
-    expect((global as any).game.settings.get).not.toHaveBeenCalled();
+    expect(testGlobals.game.settings.get).not.toHaveBeenCalled();
   });
 
   it("does not render a registration whose stored value has the wrong type", () => {
-    (global as any).game.settings.get.mockReturnValue("true");
+    testGlobals.game.settings.get.mockReturnValue("true");
 
     expect(SettingsList([booleanKey])).toEqual([]);
   });
@@ -126,19 +127,19 @@ describe("settings panel helpers", () => {
 
     await UpdateObject(formData);
 
-    expect((global as any).game.settings.set).toHaveBeenNthCalledWith(
+    expect(testGlobals.game.settings.set).toHaveBeenNthCalledWith(
       1,
       WMSCONST.MODULE_ID,
       booleanKey,
       false,
     );
-    expect((global as any).game.settings.set).toHaveBeenNthCalledWith(
+    expect(testGlobals.game.settings.set).toHaveBeenNthCalledWith(
       2,
       WMSCONST.MODULE_ID,
       stringKey,
       "New message",
     );
-    expect((global as any).game.settings.set).toHaveBeenNthCalledWith(
+    expect(testGlobals.game.settings.set).toHaveBeenNthCalledWith(
       3,
       WMSCONST.MODULE_ID,
       choiceKey,
@@ -159,7 +160,7 @@ describe("settings panel helpers", () => {
     "rejects invalid form data without writing settings: %p",
     async (formData) => {
       await expect(UpdateObject(formData)).rejects.toThrow(TypeError);
-      expect((global as any).game.settings.set).not.toHaveBeenCalled();
+      expect(testGlobals.game.settings.set).not.toHaveBeenCalled();
     },
   );
 });

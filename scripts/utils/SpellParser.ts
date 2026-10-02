@@ -139,7 +139,7 @@ export default class SpellParser {
    * @param actor - Foundry Actor
    * @return {Promise<boolean>}
    */
-  static IsNPC(actor: Actor): boolean {
-    return IsDnd5eActorSubtype(actor, "npc");
+  static IsNPC(actor: Actor | undefined): boolean {
+    return actor ? IsDnd5eActorSubtype(actor, "npc") : false;
   }
 }

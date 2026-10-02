@@ -1,4 +1,5 @@
-(global as any).ChatMessage = {
+import { setTestGlobal } from "../scripts/test/FoundryFixtures";
+setTestGlobal("ChatMessage", {
   create: jest.fn().mockResolvedValue(null),
   getSpeaker: () => ({
     scene: null,
@@ -9,4 +10,4 @@
   getWhisperRecipients: () => {
     return [{ id: "gm-id" }];
   },
-};
+});

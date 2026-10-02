@@ -1,3 +1,4 @@
+import { setTestCanvas, setTestGame, testGlobals } from "./test/FoundryFixtures";
 import TriggerMacro from "./TriggerMacro";
 import Logger from "./Logger";
 import { WMSCONST } from "./WMSCONST";
@@ -13,7 +14,7 @@ describe("TriggerMacro", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    (global as any).game = {
+    setTestGame({
       actors: { get: jest.fn().mockReturnValue(actor) },
       macros: [{ name: "WMSMacro", isOwner: true, execute: mockMacroExecute }],
       settings: {
@@ -22,14 +23,14 @@ describe("TriggerMacro", () => {
           if (key === WMSCONST.OPT_TRIGGERMACRO_ENABLE) return true;
         }),
       },
-    };
-    (global as any).canvas = {
+    });
+    setTestCanvas({
       tokens: { get: jest.fn().mockReturnValue(token) },
-    };
+    });
   });
 
   it("does not call a macro when the module is disabled", async () => {
-    (global as any).game.settings.get.mockImplementation(
+    testGlobals.game.settings.get.mockImplementation(
       (_module: string, key: string) =>
         key === WMSCONST.OPT_TRIGGERMACRO_ENABLE ? false : "WMSMacro",
     );
@@ -37,11 +38,11 @@ describe("TriggerMacro", () => {
     await TriggerMacro.Run("actorId", "tokenId");
 
     expect(mockMacroExecute).not.toHaveBeenCalled();
-    expect((global as any).game.actors.get).not.toHaveBeenCalled();
+    expect(testGlobals.game.actors.get).not.toHaveBeenCalled();
   });
 
   it("does not call a missing macro", async () => {
-    (global as any).game.macros = [];
+    testGlobals.game.macros = [];
 
     await TriggerMacro.Run("actorId", "tokenId");
 
@@ -50,7 +51,7 @@ describe("TriggerMacro", () => {
   });
 
   it("does not call an unowned macro", async () => {
-    (global as any).game.macros[0].isOwner = false;
+    testGlobals.game.macros[0].isOwner = false;
 
     await TriggerMacro.Run("actorId", "tokenId");
 
@@ -61,36 +62,43 @@ describe("TriggerMacro", () => {
   it("passes the resolved actor and canvas token to the macro", async () => {
     await TriggerMacro.Run("actorId", "tokenId");
 
-    expect((global as any).game.actors.get).toHaveBeenCalledWith("actorId");
-    expect((global as any).canvas.tokens.get).toHaveBeenCalledWith("tokenId");
+    expect(testGlobals.game.actors.get).toHaveBeenCalledWith("actorId");
+    expect(testGlobals.canvas.tokens.get).toHaveBeenCalledWith("tokenId");
     expect(mockMacroExecute).toHaveBeenCalledWith({ actor, token });
+  });
+
+  it("propagates a macro execution failure", async () => {
+    const failure = new Error("macro failed");
+    mockMacroExecute.mockRejectedValueOnce(failure);
+
+    await expect(TriggerMacro.Run("actorId", "tokenId")).rejects.toBe(failure);
   });
 
   it("does not look up or execute a macro without an actor ID", async () => {
     await TriggerMacro.Run(null, "tokenId");
 
-    expect((global as any).game.actors.get).not.toHaveBeenCalled();
+    expect(testGlobals.game.actors.get).not.toHaveBeenCalled();
     expect(mockMacroExecute).not.toHaveBeenCalled();
   });
 
   it("does not execute a macro when the actor cannot be found", async () => {
-    (global as any).game.actors.get.mockReturnValue(undefined);
+    testGlobals.game.actors.get.mockReturnValue(undefined);
 
     await TriggerMacro.Run("actorId", "tokenId");
 
     expect(mockMacroExecute).not.toHaveBeenCalled();
-    expect((global as any).canvas.tokens.get).not.toHaveBeenCalled();
+    expect(testGlobals.canvas.tokens.get).not.toHaveBeenCalled();
   });
 
   it("runs an actor macro without a token ID", async () => {
     await TriggerMacro.Run("actorId", undefined);
 
-    expect((global as any).canvas.tokens.get).not.toHaveBeenCalled();
+    expect(testGlobals.canvas.tokens.get).not.toHaveBeenCalled();
     expect(mockMacroExecute).toHaveBeenCalledWith({ actor, token: undefined });
   });
 
   it("runs an actor macro when the canvas has no tokens", async () => {
-    (global as any).canvas = undefined;
+    setTestCanvas(undefined);
 
     await TriggerMacro.Run("actorId", "tokenId");
 

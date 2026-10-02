@@ -1,3 +1,4 @@
+import { actorFixture, setTestGame, testGlobals } from "../test/FoundryFixtures";
 import SurgeDetails from "./SurgeDetails";
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
@@ -41,11 +42,11 @@ describe("SurgeDetails", () => {
   describe("Has Path of Wild Magic Feat", () => {
     describe("And is Raging", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true),
           },
-        };
+        });
 
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
         mockSpellParserIsRage.mockReturnValue(true);
@@ -59,11 +60,11 @@ describe("SurgeDetails", () => {
     });
     describe("And is not Raging", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true),
           },
-        };
+        });
 
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(true);
         mockSpellParserIsRage.mockReturnValue(false);
@@ -80,16 +81,16 @@ describe("SurgeDetails", () => {
   describe("Custom Sorcerer Spell Regex", () => {
     describe("And is not enabled in settings", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
           },
-        };
+        });
 
         mockSpellParserIsPathOfWildMagicFeat.mockReturnValue(false);
       });
       it("should be undefined", () => {
-        const surgeChatMessageDetails = new SurgeDetails(actorNoWildMagic, firstLevel);
+        const surgeChatMessageDetails = new SurgeDetails(actorFixture(actorNoWildMagic), firstLevel);
 
         expect(
           surgeChatMessageDetails.isSorcererSpellRegexMatch
@@ -98,11 +99,11 @@ describe("SurgeDetails", () => {
     });
     describe("And is enabled and matches", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce("Wild Magic Surge").mockReturnValue(true),
           },
-        };
+        });
 
         mockSpellParserIsSorcererSpell.mockReturnValue(true);
         mockSpellParserSpellDetails.mockReturnValue("1st Level");
@@ -116,11 +117,11 @@ describe("SurgeDetails", () => {
     });
     describe("And is enabled and does not match", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue(true),
           },
-        };
+        });
 
         mockSpellParserIsSorcererSpell.mockReturnValue(false);
       });
@@ -136,14 +137,14 @@ describe("SurgeDetails", () => {
   describe("NPCs are not enabled", () => {
     describe("And it is a valid spell and the actor has the Wild Magic Feat", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest
               .fn()
               .mockReturnValueOnce(false)
               .mockReturnValueOnce(true),
           },
-        };
+        });
 
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsWildMagicFeat.mockReturnValue(true);
@@ -157,7 +158,7 @@ describe("SurgeDetails", () => {
     });
     describe("And it is a valid spell and the actor has the Wild Magic Feat but is an NPC", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest
               .fn()
@@ -165,7 +166,7 @@ describe("SurgeDetails", () => {
               .mockReturnValueOnce(false)
               .mockReturnValueOnce(false),
           },
-        };
+        });
 
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsWildMagicFeat.mockReturnValue(true);
@@ -179,7 +180,7 @@ describe("SurgeDetails", () => {
     });
     describe("And it is not a valid spell and the actor has the Wild Magic Feat", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest
               .fn()
@@ -187,7 +188,7 @@ describe("SurgeDetails", () => {
               .mockReturnValueOnce(false)
               .mockReturnValueOnce(false),
           },
-        };
+        });
 
         mockSpellParserIsSpell.mockReturnValue(false);
         mockSpellParserIsWildMagicFeat.mockReturnValue(true);
@@ -201,7 +202,7 @@ describe("SurgeDetails", () => {
     });
     describe("And it is a valid spell but the actor does not have the Wild Magic Feat", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest
               .fn()
@@ -209,7 +210,7 @@ describe("SurgeDetails", () => {
               .mockReturnValueOnce(false)
               .mockReturnValueOnce(false),
           },
-        };
+        });
 
         mockSpellParserIsSpell.mockReturnValue(true);
         mockSpellParserIsWildMagicFeat.mockReturnValue(false);

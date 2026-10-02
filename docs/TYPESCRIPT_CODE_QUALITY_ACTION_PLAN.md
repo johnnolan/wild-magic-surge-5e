@@ -221,20 +221,24 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 20. Improve test fixture typing
 
-- [ ] Inventory `global as any` casts in tests and identify repeated setup patterns.
-- [ ] Add or extend shared typed Foundry/Jest setup helpers and small fixture builders.
-- [ ] Use `Partial<T>` only where incompleteness is intentional; if a complete document instance is required, centralize the unavoidable cast in one helper.
-- [ ] Migrate fixtures by test area and keep assertions focused on behavior rather than declaration implementation details.
+- [x] Inventory `global as any` casts in tests and identify repeated setup patterns.
+- [x] Add or extend shared typed Foundry/Jest setup helpers and small fixture builders.
+- [x] Use `Partial<T>` only where incompleteness is intentional; if a complete document instance is required, centralize the unavoidable cast in one helper.
+- [x] Migrate fixtures by test area and keep assertions focused on behavior rather than declaration implementation details.
 
 **Done when:** common test setup is typed, and any remaining casts are narrow, explicit, and centralized.
 
+**Verification:** Common `game`, `Hooks`, `ui`, and `canvas` setup now uses typed test helpers. Actor, Item, Roll, table, Combat, and chat document assertions live in one fixture boundary; tests and mocks contain no `global as any` or scattered document casts. Resource tests use stateful fixtures and assert persisted values. Test and fixture files have no TypeScript diagnostics.
+
 ### 21. Await state changes where completion matters
 
-- [ ] Review document creation, Actor updates, flag writes, and nested helper calls.
-- [ ] Await operations whose completion determines the caller's result or error handling; preserve intentionally fire-and-forget work only when it is safe and documented.
-- [ ] Add or update tests to ensure async failures are observable and tests wait for persisted state.
+- [x] Review document creation, Actor updates, flag writes, and nested helper calls.
+- [x] Await operations whose completion determines the caller's result or error handling; preserve intentionally fire-and-forget work only when it is safe and documented.
+- [x] Add or update tests to ensure async failures are observable and tests wait for persisted state.
 
 **Done when:** state-changing async work has an explicit completion/error contract and tests do not pass before the work finishes.
+
+**Verification:** Surge checks, resource resets, embedded Item updates, macro execution, and module hook handlers await dependent work. Animation playback and DOM click actions report rejected promises at their event boundary. Deferred and rejected write tests cover resource, Item, macro, GM check, and reset flows. All 234 tests pass across 20 suites; production type checking still reports existing diagnostics outside these changes.
 
 ## Phase 5: Complete the Quality Workflow
 
