@@ -54,6 +54,19 @@ describe("Chat", () => {
         });
       });
     });
+
+    it("uses blind visibility when GM-only chat is enabled", async () => {
+      testGlobals.game.settings.get = jest.fn(
+        (_namespace: string, key: string) => key === WMSCONST.OPT_WHISPER_GM,
+      );
+
+      await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "GM message");
+
+      expect(ChatMessage.create).toHaveBeenCalledWith(
+        expect.objectContaining({ content: "<div>GM message</div>" }),
+        { messageMode: "blind" },
+      );
+    });
   });
 
   describe("createRollChat", () => {
@@ -71,12 +84,18 @@ describe("Chat", () => {
       it("It returns the just the content", async () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
-        expect(ChatMessage.create).toHaveBeenCalledWith({
-          content: `<div>My Custom Message (${roll.total})</div>`,
-          speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
-          whisper: ["gm-id"],
-          blind: true,
-        });
+        expect(ChatMessage.create).toHaveBeenCalledWith(
+          {
+            content: `<div>My Custom Message (${roll.total})</div>`,
+            speaker: {
+              scene: null,
+              actor: null,
+              token: null,
+              alias: "Test Speaker",
+            },
+          },
+          { messageMode: "blind" },
+        );
       });
     });
 
@@ -84,12 +103,18 @@ describe("Chat", () => {
       let roll: Roll;
 
       beforeEach(() => {
-        testGlobals.game.settings.get = jest.fn((_namespace: string, key: string) => {
-          if (key === WMSCONST.OPT_WHISPER_GM || key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT) return false;
-          if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
-          if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return "PLAYER_TRIGGER";
-          if (key === "rollMode") return "publicroll";
-        });
+        testGlobals.game.settings.get = jest.fn(
+          (_namespace: string, key: string) => {
+            if (
+              key === WMSCONST.OPT_WHISPER_GM ||
+              key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT
+            )
+              return false;
+            if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
+            if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return "PLAYER_TRIGGER";
+            if (key === "messageMode") return "public";
+          },
+        );
         roll = rollFixture({
           result: 20,
         });
@@ -102,11 +127,39 @@ describe("Chat", () => {
           {
             flavor: "Wild Magic Surge Check - My Custom Message",
             rolls: [roll],
-            speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
+            speaker: {
+              scene: null,
+              actor: null,
+              token: null,
+              alias: "Test Speaker",
+            },
           },
-          { rollMode: "publicroll" },
+          { messageMode: "public" },
         );
       });
+    });
+
+    it("uses the client's GM visibility mode for a normal roll", async () => {
+      testGlobals.game.settings.get = jest.fn(
+        (_namespace: string, key: string) => {
+          if (
+            key === WMSCONST.OPT_WHISPER_GM ||
+            key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT
+          )
+            return false;
+          if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
+          if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return "AUTO";
+          if (key === "messageMode") return "gm";
+        },
+      );
+      const roll = rollFixture({ result: 20 });
+
+      await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
+
+      expect(ChatMessage.create).toHaveBeenCalledWith(
+        expect.objectContaining({ rolls: [roll] }),
+        { messageMode: "gm" },
+      );
     });
 
     describe("Given I pass it a message but no roll object", () => {
@@ -117,7 +170,7 @@ describe("Chat", () => {
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+          .mockResolvedValueOnce("public");
         roll = rollFixture({
           result: 20,
         });
@@ -141,7 +194,7 @@ describe("Chat", () => {
           .fn()
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+          .mockResolvedValueOnce("public");
         surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
@@ -182,7 +235,7 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(true)
           .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+          .mockResolvedValueOnce("public");
         surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
@@ -207,7 +260,10 @@ describe("Chat", () => {
       it("It returns the just the content", async () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
 
-        expect(ChatMessage.create).toHaveBeenCalled();
+        expect(ChatMessage.create).toHaveBeenCalledWith(
+          expect.objectContaining({ rolls: [rollResult.roll] }),
+          { messageMode: "blind" },
+        );
       });
     });
 
@@ -221,7 +277,7 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+          .mockResolvedValueOnce("public");
         surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",
@@ -260,7 +316,7 @@ describe("Chat", () => {
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce(false)
           .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+          .mockResolvedValueOnce("public");
         surgeRollTable = rollTableFixture({
           data: {
             description: "Wild Magic Surge Table",

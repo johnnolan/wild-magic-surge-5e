@@ -6,6 +6,18 @@ function isTableDraw(value: Roll | RollTable.Draw): value is RollTable.Draw {
   return "results" in value && "roll" in value;
 }
 
+function getDefaultMessageMode(): ChatMessage.Mode | undefined {
+  // The pinned 14.366 type snapshot omits V14's core messageMode setting.
+  const settings = game.settings as unknown as {
+    get(namespace: "core", key: "messageMode"): unknown;
+  };
+  const mode = settings.get("core", "messageMode");
+  return typeof mode === "string" &&
+    Object.prototype.hasOwnProperty.call(CONFIG.ChatMessage.modes, mode)
+    ? (mode as ChatMessage.Mode)
+    : undefined;
+}
+
 /**
  * Chat class for handling common chat methods
  * @class Chat
@@ -33,12 +45,8 @@ export default class Chat {
       WMSCONST.OPT_WHISPER_GM_ROLL_CHAT,
     );
 
-    const gmsToWhisper = ChatMessage.getWhisperRecipients("GM")
-      .map((u) => u.id)
-      .filter((id): id is string => !!id);
-
     let chatData: ChatMessage.CreateData;
-    let rollMode: ChatMessage.PassableRollMode | undefined;
+    let messageMode: ChatMessage.Mode | undefined;
 
     switch (type) {
       case WMSCONST.CHAT_TYPE.ROLL:
@@ -49,10 +57,10 @@ export default class Chat {
           isWhisperRollResultGM,
         );
         if (!isWhisperRollResultGM) {
-          rollMode =
+          messageMode =
             getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
-              ? "publicroll"
-              : game.settings?.get("core", "rollMode");
+              ? "public"
+              : getDefaultMessageMode();
         }
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
@@ -69,24 +77,14 @@ export default class Chat {
       (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.DEFAULT) ||
       (isWhisperAutoRollTableGM && type === WMSCONST.CHAT_TYPE.TABLE)
     ) {
-      chatData = this.setChatToWhisper(chatData, gmsToWhisper);
+      messageMode = "blind";
     }
     chatData.speaker = ChatMessage.getSpeaker();
 
-    if (rollMode) {
-      return await ChatMessage.create(chatData, { rollMode });
+    if (messageMode) {
+      return await ChatMessage.create(chatData, { messageMode });
     }
     return await ChatMessage.create(chatData);
-  }
-
-  static setChatToWhisper(
-    chatData: ChatMessage.CreateData,
-    gmsToWhisper: string[],
-  ): ChatMessage.CreateData {
-    chatData.whisper = gmsToWhisper;
-    chatData.blind = true;
-
-    return chatData;
   }
 
   /**

@@ -1,6 +1,16 @@
-import { actorFixture, deferred, itemFixture, rollFixture, setTestCanvas, setTestGame, setTestHooks, testGlobals } from "./test/FoundryFixtures";
+import {
+  actorFixture,
+  deferred,
+  itemFixture,
+  rollFixture,
+  setTestCanvas,
+  setTestGame,
+  setTestHooks,
+  testGlobals,
+} from "./test/FoundryFixtures";
 import { WMSCONST } from "./WMSCONST";
 import MagicSurgeCheck from "./MagicSurgeCheck";
+import RollTableMagicSurge from "./RollTableMagicSurge";
 
 jest.mock("./ModuleSettings", () => ({
   __esModule: true,
@@ -19,9 +29,11 @@ describe("module hooks", () => {
       on: jest.fn((name: string, listener: (...args: unknown[]) => unknown) => {
         listeners.set(name, listener);
       }),
-      once: jest.fn((name: string, listener: (...args: unknown[]) => unknown) => {
-        onceListeners.set(name, listener);
-      }),
+      once: jest.fn(
+        (name: string, listener: (...args: unknown[]) => unknown) => {
+          onceListeners.set(name, listener);
+        },
+      ),
     });
     setTestGame({
       settings: {
@@ -31,6 +43,38 @@ describe("module hooks", () => {
 
     require("./module");
     await listeners.get("init")?.();
+  });
+
+  it("binds roll-table buttons in new and re-rendered chat messages", () => {
+    const render = listeners.get("renderChatMessageHTML");
+    expect(render).toBeDefined();
+    const roll = jest
+      .spyOn(RollTableMagicSurge, "RollOnTable")
+      .mockResolvedValue("surge result");
+    const markup =
+      '<div class="card-buttons wms-roll-table-buttons"><button class="roll-table-wms">Roll</button></div>';
+
+    try {
+      const firstMessage = document.createElement("li");
+      firstMessage.innerHTML = markup;
+      render?.(undefined, firstMessage);
+      firstMessage.querySelector<HTMLButtonElement>(".roll-table-wms")?.click();
+
+      const secondMessage = document.createElement("li");
+      secondMessage.innerHTML = markup;
+      render?.(undefined, secondMessage);
+      secondMessage
+        .querySelector<HTMLButtonElement>(".roll-table-wms")
+        ?.click();
+
+      firstMessage.innerHTML = markup;
+      render?.(undefined, firstMessage);
+      firstMessage.querySelector<HTMLButtonElement>(".roll-table-wms")?.click();
+
+      expect(roll).toHaveBeenCalledTimes(3);
+    } finally {
+      roll.mockRestore();
+    }
   });
 
   it("resets the supplied actor's surge resource without triggering a surge", async () => {
