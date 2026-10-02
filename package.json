@@ -22,7 +22,7 @@
     "@babel/plugin-transform-modules-commonjs": "8.0.1",
     "@babel/preset-typescript": "8.0.1",
     "@jest/types": "30.5.1",
-    "@league-of-foundry-developers/foundry-vtt-types": "13.346.0-beta.20250812191140",
+    "@league-of-foundry-developers/foundry-vtt-types": "14.366.0-beta.20261001000223",
     "@types/jest": "30.0.0",
     "@types/node": "25.9.8",
     "@typescript-eslint/eslint-plugin": "8.70.1",

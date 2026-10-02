@@ -63,6 +63,25 @@ declare global {
     lr: boolean;
     sr: boolean;
   }
+
+    type Dnd5ePostUseActivity = {
+      item: Item;
+      consumption: {
+        spellSlot?: boolean;
+      };
+    };
 }
+
+  declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    namespace Hooks {
+      interface HookConfig {
+        "dnd5e.postUseActivity": (
+          activity: Dnd5ePostUseActivity,
+          usageConfig: unknown,
+          results: unknown,
+        ) => boolean | void;
+      }
+    }
+  }
 
 export {};
