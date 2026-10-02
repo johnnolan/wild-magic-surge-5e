@@ -20,7 +20,7 @@ Hooks.on("init", function () {
 
   Hooks.on(
     "wild-magic-surge-5e.manualTriggerWMS",
-    async function (actor: Actor, roll: Roll) {
+    async function (actor, roll) {
       if (roll && actor) {
         const wildMagicSurgeCheck = new MagicSurgeCheck(
           actor,
@@ -33,7 +33,7 @@ Hooks.on("init", function () {
 
   Hooks.on(
     "wild-magic-surge-5e.reset",
-    async function (actor: Actor) {
+    async function (actor) {
       if (actor) {
         const wildMagicSurgeCheck = new MagicSurgeCheck(
           actor,
@@ -173,28 +173,28 @@ Hooks.once("ready", async function () {
 
   Hooks.on(
     "wild-magic-surge-5e.Reset",
-    async function (actorId: string) {
+    async function (actorId) {
       _resetChecks(actorId);
     },
   );
 
   Hooks.on(
     "wild-magic-surge-5e.ResetDieDescending",
-    async function (actorId: string) {
+    async function (actorId) {
       _resetChecks(actorId);
     },
   );
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
-    async function (actorId: string) {
+    async function (actorId) {
       _resetChecks(actorId);
     },
   );
 
   Hooks.on(
     "wild-magic-surge-5e.SetDieDescending",
-    async function (actorId: string, resourceNumber: number) {
+    async function (actorId, resourceNumber) {
       const actor = game.actors.get(actorId);
       if (!actor) {
         return false;
@@ -205,7 +205,7 @@ Hooks.once("ready", async function () {
 
   Hooks.on(
     "wild-magic-surge-5e.SetIncrementalCheck",
-    async function (actorId: string, resourceNumber: number) {
+    async function (actorId, resourceNumber) {
       const actor = game.actors.get(actorId);
       if (!actor) {
         return false;

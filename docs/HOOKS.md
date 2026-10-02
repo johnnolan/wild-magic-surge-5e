@@ -2,75 +2,59 @@
 
 I have added in hooks for the following events. This allows other developers or macro users to listen for events from the result of a Wild Magic Surge and add their own custom scripts.
 
+## wild-magic-surge-5e.manualTriggerWMS
+
+Pass an `Actor` and its evaluated `Roll` to trigger the module's surge check:
+
+```js
+Hooks.callAll("wild-magic-surge-5e.manualTriggerWMS", actor, roll);
+```
 
 ## wild-magic-surge-5e.DieDescendingChanged
 
-Example
+Receives the updated resource value when the die-descending value changes:
 
-```
-Hooks.on("wild-magic-surge-5e.DieDescendingChanged", (diceFormula) => {
-  console.log('The current dice being rolled is {diceFormula}')
+```js
+Hooks.on("wild-magic-surge-5e.DieDescendingChanged", (resource) => {
+  console.log(resource.value);
 });
 ```
 
-Runs when you set the module to `Descending Dice` and the dice value changes. Returns `string`.
+The payload has `label`, `lr`, `sr`, `max`, and `value` fields.
 
 ## wild-magic-surge-5e.IncrementalCheckChanged
 
-Example
+Receives the new target number for the incremental check:
 
-```
-Hooks.on("wild-magic-surge-5e.IncrementalCheckChanged", (num) => {
-  console.log('The current charge value is {num}')
+```js
+Hooks.on("wild-magic-surge-5e.IncrementalCheckChanged", ({ value }) => {
+  console.log(value);
 });
 ```
 
-Runs when you set the module to `Incremental Check` and the increment increases. Returns `integer`.
+Runs when you set the module to `Incremental Check` and the increment increases. The payload shape is `{ value: number }`.
 
 ## wild-magic-surge-5e.CheckForSurge
 
-Example
+Emits `{ value: true }` when a spell is used by a PC with the Wild Magic Feat and the module is configured to prompt:
 
-```
-Hooks.on("wild-magic-surge-5e.CheckForSurge", () => {
-  console.log('I must prompt to get them to roll a d20!')
+```js
+Hooks.on("wild-magic-surge-5e.CheckForSurge", ({ value }) => {
+  if (value) console.log("Prompt for a Wild Magic Surge roll");
 });
 ```
-
-Runs when you set the module to prompt you when a spell is used by a PC with the Wild Magic Feat. Returns `true`.
 
 ## wild-magic-surge-5e.IsWildMagicSurge
 
-Example
+Receives the surge result and its associated roll and actor/token identifiers:
 
-```
-Hooks.on("wild-magic-surge-5e.IsWildMagicSurge", (isWildMagicSurge) => {
-  console.log(isWildMagicSurge)
+```js
+Hooks.on("wild-magic-surge-5e.IsWildMagicSurge", (result) => {
+  console.log(result.surge, result.result, result.actorId, result.tokenId);
 });
 ```
 
-Runs when you set the module to auto roll a check for you. The result of the roll will trigger this hook and return whether it is a surge and the roll value.
-
-
-`true` = The PC has triggered a Wild Magic Surge
-
-```
-{
-  surge: true,
-  result: 1,
-  tokenId: "4lw0Gp7s0WH5DSil",
-}
-```
-
-`false` = The PC has not triggered a Wild Magic Surge
-
-```
-{
-  surge: false,
-  result: 12,
-  tokenId: "4lw0Gp7s0WH5DSil",
-}
-```
+`result` has type `string | undefined`, `tokenId` has type `string | undefined`, and `actorId` has type `string | null`.
 
 ## wild-magic-surge-5e.Reset
 
