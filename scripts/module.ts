@@ -58,22 +58,6 @@ function getTokenIdByActorId(
   );
 }
 
-async function Migrate(): Promise<void> {
-  const rollTableType = getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE);
-  if (rollTableType === "true") {
-    await setModuleSetting(
-      WMSCONST.OPT_ROLLTABLE_ENABLE,
-      WMSCONST.ROLLTABLE_TYPE.AUTO,
-    );
-  }
-  if (rollTableType === "false") {
-    await setModuleSetting(
-      WMSCONST.OPT_ROLLTABLE_ENABLE,
-      WMSCONST.ROLLTABLE_TYPE.DEFAULT,
-    );
-  }
-}
-
 async function _resetActorChecks(actor: Actor): Promise<void> {
   await IncrementalCheck.Reset(actor);
   await DieDescending.Reset(actor);
@@ -89,8 +73,6 @@ async function _resetChecks(actorId: string) {
 }
 
 Hooks.once("ready", async function () {
-  await Migrate();
-
   if (game.user?.isGM) {
     game.socket?.on(
       "module.wild-magic-surge-5e",
