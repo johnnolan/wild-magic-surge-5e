@@ -29,10 +29,16 @@ export default class CallHooks {
         Hooks.callAll("wild-magic-surge-5e.IsWildMagicSurge", notification[1]);
         break;
       case "DieDescendingChanged":
-        Hooks.callAll("wild-magic-surge-5e.DieDescendingChanged", notification[1]);
+        Hooks.callAll(
+          "wild-magic-surge-5e.DieDescendingChanged",
+          notification[1],
+        );
         break;
       case "IncrementalCheckChanged":
-        Hooks.callAll("wild-magic-surge-5e.IncrementalCheckChanged", notification[1]);
+        Hooks.callAll(
+          "wild-magic-surge-5e.IncrementalCheckChanged",
+          notification[1],
+        );
         break;
     }
   }

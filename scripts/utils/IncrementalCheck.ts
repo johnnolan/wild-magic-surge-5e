@@ -20,9 +20,7 @@ export default class IncrementalCheck extends Resource {
   static async _callChanged(value: number) {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
 
-    if (
-      getModuleSetting(WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT)
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT)) {
       await Chat.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
@@ -59,12 +57,15 @@ export default class IncrementalCheck extends Resource {
     return false;
   }
 
-  static async OverrideResource(actor: Actor, resourceNumber: number): Promise<void> {
+  static async OverrideResource(
+    actor: Actor,
+    resourceNumber: number,
+  ): Promise<void> {
     await this.SetResource(actor, {
-        max: 20,
-        value: resourceNumber,
-      });
-      const resourceValue = await this.GetResource(actor);
-      await this._callChanged(resourceValue.value);
+      max: 20,
+      value: resourceNumber,
+    });
+    const resourceValue = await this.GetResource(actor);
+    await this._callChanged(resourceValue.value);
   }
 }

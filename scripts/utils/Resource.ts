@@ -1,10 +1,7 @@
 import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
 import { GetDnd5eResource } from "./Dnd5eSystem";
-import {
-  getModuleActorFlag,
-  setModuleActorFlag,
-} from "./TypedSettings";
+import { getModuleActorFlag, setModuleActorFlag } from "./TypedSettings";
 import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 import type { Dnd5eResourceSlot } from "./Dnd5eSystem";
 import type { ResourceValue, ResourceValues } from "../types/domain";
@@ -84,9 +81,7 @@ export default class Resource {
 
   static async _setupDefault(actor: Actor): Promise<ResourceValue> {
     let maxValue = this.defaultValue.max;
-    switch (
-      getModuleSetting(WMSCONST.OPT_SURGE_TYPE)
-    ) {
+    switch (getModuleSetting(WMSCONST.OPT_SURGE_TYPE)) {
       case `INCREMENTAL_CHECK_CHAOTIC`:
         maxValue = 10;
         break;

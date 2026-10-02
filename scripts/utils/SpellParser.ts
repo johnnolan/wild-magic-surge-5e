@@ -30,8 +30,8 @@ export default class SpellParser {
     return (
       actor.items.find(
         (a: Item) =>
-          a.name ===
-            getModuleSetting(WMSCONST.OPT_POWM_NAME) && IsDnd5eItemSubtype(a, "subclass"),
+          a.name === getModuleSetting(WMSCONST.OPT_POWM_NAME) &&
+          IsDnd5eItemSubtype(a, "subclass"),
       ) !== undefined
     );
   }
@@ -49,17 +49,12 @@ export default class SpellParser {
     const spellLevel = GetDnd5eSpellLevel(item?.system);
     if (spellLevel === undefined) return;
 
-    if (
-      minimumSpellLevelTrigger > 0 &&
-      spellLevel < minimumSpellLevelTrigger
-    )
+    if (minimumSpellLevelTrigger > 0 && spellLevel < minimumSpellLevelTrigger)
       return undefined;
 
     switch (spellLevel) {
       case 0: {
-        if (
-          !getModuleSetting(WMSCONST.OPT_CANTRIP_SURGE_ENABLED)
-        ) {
+        if (!getModuleSetting(WMSCONST.OPT_CANTRIP_SURGE_ENABLED)) {
           return undefined;
         } else {
           return `Cantrip`;

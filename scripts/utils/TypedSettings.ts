@@ -266,6 +266,9 @@ export function setModuleActorFlag(
 }
 
 declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+  // Foundry reads these merged interfaces; they intentionally add no own members.
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface SettingConfig extends SettingConfigEntries {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface FlagConfig extends ModuleFlagConfig {}
 }

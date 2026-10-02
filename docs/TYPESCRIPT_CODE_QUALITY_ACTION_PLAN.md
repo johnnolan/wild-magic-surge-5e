@@ -244,11 +244,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 22. Lint the entire production surface
 
-- [ ] Inspect `.eslintrc.json` and remove or narrow the ignore for `scripts/panels/**/*.ts` so the five legacy panels receive appropriate lint coverage.
-- [ ] Resolve any lint errors introduced by enabling coverage without mixing unrelated formatting changes into behavioral fixes.
-- [ ] Run the full lint command and confirm each production panel is included.
+- [x] Inspect `.eslintrc.json` and remove or narrow the ignore for `scripts/panels/**/*.ts` so the five legacy panels receive appropriate lint coverage.
+- [x] Resolve any lint errors introduced by enabling coverage without mixing unrelated formatting changes into behavioral fixes.
+- [x] Run the full lint command and confirm each production panel is included.
 
 **Done when:** all production TypeScript, including legacy panels, is linted by an intentional rule set.
+
+**Verification:** ESLint 10 now uses a flat config with the Foundry globals, JavaScript and TypeScript recommended rules, and Prettier. The legacy config and panel ignore were removed. TypeScript 6.0.3 keeps the installed TypeScript ESLint parser compatible; direct production type checking still reports 178 existing diagnostics. `npm run lint:check` passes, and the JSON lint report includes all 33 production TypeScript files and every panel file with zero errors. All 234 tests and the build pass. The changed dependency lock entries also passed a frozen offline install in isolation.
 
 ### 23. Consolidate repeated settings-panel behavior
 

@@ -20,9 +20,7 @@ class RollTableMagicSurge {
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge,
     actor: Actor,
   ): Promise<string | undefined> {
-    if (
-      getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) !== "AUTO"
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) !== "AUTO") {
       return;
     }
     const actorLevel = GetDnd5eActorLevel(actor.system);

@@ -21,7 +21,7 @@ class TidesOfChaos {
       return;
     }
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    if (!tidesItem) {      
+    if (!tidesItem) {
       Logger.warn(
         `Tides of Chaos not found in feature list.`,
         "TidesOfChaos.getTidesOfChaosItem",
@@ -29,11 +29,13 @@ class TidesOfChaos {
       return;
     }
 
-    const updates = [{
-      _id: tidesItem.id,
-      "system.uses.value": 1,
-      "system.uses.spent": 0
-    }];
+    const updates = [
+      {
+        _id: tidesItem.id,
+        "system.uses.value": 1,
+        "system.uses.spent": 0,
+      },
+    ];
 
     await actor.updateEmbeddedDocuments("Item", updates);
   }
@@ -58,11 +60,11 @@ class TidesOfChaos {
   static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
     const tidesItem = await this.getTidesOfChaosItem(actor);
     const hasUsesSetup = GetDnd5eUses(tidesItem?.system)?.max === 1;
-    
+
     return <TidesItemData>{
       hasTidesOfChaosResource: hasUsesSetup,
       hasTidesOfChaosFeat: !!tidesItem,
-      isValid: hasUsesSetup
+      isValid: hasUsesSetup,
     };
   }
 
@@ -74,7 +76,7 @@ class TidesOfChaos {
   static async getTidesOfChaosItem(actor: Actor) {
     const featName = getModuleSetting(WMSCONST.OPT_TOC_NAME);
     return actor.items.find(
-      (a: Item) => a.name === featName && IsDnd5eItemSubtype(a, "feat")
+      (a: Item) => a.name === featName && IsDnd5eItemSubtype(a, "feat"),
     );
   }
 }

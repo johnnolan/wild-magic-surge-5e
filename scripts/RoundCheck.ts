@@ -29,13 +29,9 @@ class RoundCheck {
    * @return {Promise<void>}
    */
   static async Check(actor: Actor): Promise<void> {
-    if (
-      getModuleSetting(WMSCONST.OPT_AUTO_D20)
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_AUTO_D20)) {
       if (SpellParser.IsWildMagicFeat(actor)) {
-        if (
-          getModuleSetting(WMSCONST.OPT_ENABLE_NPCS)
-        ) {
+        if (getModuleSetting(WMSCONST.OPT_ENABLE_NPCS)) {
           await IncrementalCheck.Check(actor, undefined, 10);
         } else {
           if (!SpellParser.IsNPC(actor)) {

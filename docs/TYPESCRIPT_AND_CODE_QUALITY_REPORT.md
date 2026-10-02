@@ -63,7 +63,7 @@ For V14's package subpath exports to resolve correctly, set TypeScript's module 
 
 ## Other Best Practices
 
-- **Lint the whole production surface.** [`.eslintrc.json`](../.eslintrc.json) ignores `scripts/panels/**/*.ts`, including all five legacy settings panels. Remove that ignore or add a deliberate replacement lint rule set so these files receive the same checks as other production code.
+- **Lint the whole production surface.** The legacy ESLint config excluded `scripts/panels/**/*.ts`, including all five settings panels. Task 22 replaced it with [flat config](../eslint.config.cjs) that checks every production TypeScript file, including the panels.
 - **Make async work observable.** Await document creation, actor updates, flag writes, and nested helper calls when their completion matters. This makes failures visible and avoids tests passing before persistence has finished.
 - **Use immutable defaults and explicit return contracts.** Clone default records before mutation, annotate exported helper return types, and use `readonly` for configuration data that should not change.
 - **Reduce repeated settings-panel code.** The five legacy panels share settings-list and update behavior. After migration to ApplicationV2, consolidate genuinely shared rendering/submission behavior into a base/helper pattern, while keeping each panel's setting list explicit.

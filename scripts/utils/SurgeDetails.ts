@@ -41,9 +41,7 @@ export default class SurgeDetails {
   }
 
   get isSorcererSpellRegexMatch(): boolean | undefined {
-    if (
-      getModuleSetting(WMSCONST.OPT_SPELL_REGEX_ENABLED)
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_SPELL_REGEX_ENABLED)) {
       return this._isSorcererSpell;
     }
     return undefined;
@@ -64,9 +62,7 @@ export default class SurgeDetails {
 
     let isValid = this._isASpell;
 
-    if (
-      !getModuleSetting(WMSCONST.OPT_ENABLE_NPCS)
-    ) {
+    if (!getModuleSetting(WMSCONST.OPT_ENABLE_NPCS)) {
       isValid = isValid && !this._isNpc;
     }
 

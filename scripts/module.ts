@@ -35,14 +35,11 @@ Hooks.on("init", function () {
     },
   );
 
-  Hooks.on(
-    "wild-magic-surge-5e.reset",
-    async function (actor) {
-      if (actor) {
-        await _resetActorChecks(actor);
-      }
-    },
-  );
+  Hooks.on("wild-magic-surge-5e.reset", async function (actor) {
+    if (actor) {
+      await _resetActorChecks(actor);
+    }
+  });
 
   Hooks.on("renderChatMessageHTML", (_message, html) =>
     AttachRollTableButton(html, () => RollTableMagicSurge.RollOnTable()),
@@ -148,13 +145,13 @@ Hooks.once("ready", async function () {
     });
   });
 
-  if (
-    getModuleSetting(WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION)
-  ) {
+  if (getModuleSetting(WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION)) {
     Hooks.on("getHeaderControlsActorSheetV2", (app, controls) => {
       controls.push(
         CreateWMSActorSheetControl(app.document, (actor) => {
-          void new ActorHelperPanel({ document: actor }).render({ force: true });
+          void new ActorHelperPanel({ document: actor }).render({
+            force: true,
+          });
         }),
       );
     });
@@ -164,19 +161,13 @@ Hooks.once("ready", async function () {
     Hooks.on("updateCombat", RoundCheck.OnCombatUpdate);
   }
 
-  Hooks.on(
-    "wild-magic-surge-5e.Reset",
-    async function (actorId) {
-      await _resetChecks(actorId);
-    },
-  );
+  Hooks.on("wild-magic-surge-5e.Reset", async function (actorId) {
+    await _resetChecks(actorId);
+  });
 
-  Hooks.on(
-    "wild-magic-surge-5e.ResetDieDescending",
-    async function (actorId) {
-      await _resetChecks(actorId);
-    },
-  );
+  Hooks.on("wild-magic-surge-5e.ResetDieDescending", async function (actorId) {
+    await _resetChecks(actorId);
+  });
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
