@@ -29,5 +29,8 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
 
+    - name: TypeScript typecheck
+      run: yarn run typecheck
+
     - name: Build Module
       run: yarn run build

@@ -9,6 +9,8 @@
   "scripts": {
     "build": "node ./build.js",
     "build:dev": "node ./build.js && node ./build-copy.js",
+    "typecheck": "node ./scripts/typecheck.js",
+    "typecheck:test": "node ./scripts/typecheck.js test",
     "test": "jest --maxWorkers=1",
     "test:coverage": "jest --ci --runInBand",
     "test:watch": "jest --watch --maxWorkers=1",

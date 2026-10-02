@@ -26,6 +26,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
 
+      - name: Run production typecheck
+        run: yarn run typecheck
+
       - name: Run Jest
         run: yarn run test:coverage
 
