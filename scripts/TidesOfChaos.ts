@@ -1,5 +1,6 @@
 import { WMSCONST } from "./WMSCONST";
 import Logger from "./Logger";
+import { GetDnd5eUses, IsDnd5eItemSubtype } from "./utils/Dnd5eSystem";
 
 /**
  * Controls the Tides of Chaos feat
@@ -44,7 +45,7 @@ class TidesOfChaos {
   static async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
     const tidesItem = await this.getTidesOfChaosItem(actor);
     if (!tidesItem) return false;
-    return tidesItem.system.uses.value === 0;
+    return GetDnd5eUses(tidesItem.system)?.value === 0;
   }
 
   /**
@@ -53,12 +54,8 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
-    const featName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
-    );
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    const hasUsesSetup = !!tidesItem && tidesItem.system.uses?.max === 1;
+    const hasUsesSetup = GetDnd5eUses(tidesItem?.system)?.max === 1;
     
     return <TidesItemData>{
       hasTidesOfChaosResource: hasUsesSetup,
@@ -78,7 +75,7 @@ class TidesOfChaos {
       `${WMSCONST.OPT_TOC_NAME}`
     );
     return actor.items.find(
-      (a: Item) => a.name === featName && a.type === "feat"
+      (a: Item) => a.name === featName && IsDnd5eItemSubtype(a, "feat")
     );
   }
 }

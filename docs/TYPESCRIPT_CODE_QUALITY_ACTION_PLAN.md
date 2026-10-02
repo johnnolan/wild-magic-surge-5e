@@ -123,12 +123,14 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 11. Model only the D&D5E system data this module consumes
 
-- [ ] Inventory reads of spell `system.level`, actor `system.details.level`, actor `system.resources`, and Item/Actor subtype values.
-- [ ] Prefer declarations exported by the supported D&D5E release where appropriate; otherwise define narrow interfaces and guards in one module-owned location.
-- [ ] Update consumers to use those types/guards instead of repeated `any` casts on `system`.
-- [ ] Add tests for absent, malformed, and valid system data at the boundaries that affect surge behavior.
+- [x] Inventory reads of spell `system.level`, actor `system.details.level`, actor `system.resources`, and Item/Actor subtype values.
+- [x] Prefer declarations exported by the supported D&D5E release where appropriate; otherwise define narrow interfaces and guards in one module-owned location.
+- [x] Update consumers to use those types/guards instead of repeated `any` casts on `system`.
+- [x] Add tests for absent, malformed, and valid system data at the boundaries that affect surge behavior.
 
 **Done when:** each system-data access is either declaration-backed or guarded by a narrow runtime check.
+
+**Verification:** The project has no D&D5E type dependency, so `scripts/utils/Dnd5eSystem.ts` defines narrow readers for spell levels (integer 0-9), Actor `details.level`, resource slots (`max`/`value`), uses (`value` plus optional `max`/`spent`), and the Item/Actor subtypes used by feature checks. Spell parsing rejects malformed levels; missing actor levels use one roll-table result; malformed resources initialize and return the resource class default; invalid Tides uses data is treated as unknown/not consumed. The focused consumer suite passes 106 tests. Production and test/fixture checks remain within their baselines at 394/425 and 115/145 diagnostics, respectively. No direct production access remains outside the guard module, apart from typed document update paths.
 
 ### 12. Type module flags and settings
 

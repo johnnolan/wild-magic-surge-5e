@@ -119,6 +119,25 @@ describe("RollTableMagicSurge", () => {
     });
   });
 
+  it("uses one table roll when the actor level is absent or malformed", async () => {
+    const rollOnTable = jest
+      .spyOn(RollTableMagicSurge, "RollOnTable")
+      .mockResolvedValue("result");
+    (global as any).game = {
+      settings: { get: jest.fn().mockReturnValue("AUTO") },
+    };
+
+    try {
+      await RollTableMagicSurge.Check("WMS", {
+        system: { details: { level: "14" } },
+      } as unknown as Actor);
+
+      expect(rollOnTable).toHaveBeenCalledTimes(1);
+    } finally {
+      rollOnTable.mockRestore();
+    }
+  });
+
   describe("If the table type is Wild Magic Surge but no results passed back", () => {
 
     beforeEach(() => {

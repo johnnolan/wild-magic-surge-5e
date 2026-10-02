@@ -389,3 +389,47 @@ describe("TidesOfChaos", () => {
     });
   });
 });
+
+describe("TidesOfChaos with malformed D&D5E uses data", () => {
+  beforeEach(() => {
+    (global as any).game = {
+      settings: {
+        get: jest.fn().mockReturnValue("Tides of Chaos"),
+      },
+    };
+  });
+
+  it("treats malformed uses.value as not consumed", async () => {
+    const actor = {
+      items: [
+        {
+          id: "tides",
+          name: "Tides of Chaos",
+          type: "feat",
+          system: { uses: { value: "0" } },
+        },
+      ],
+    } as unknown as Actor;
+
+    await expect(TidesOfChaos.IsTidesOfChaosUsed(actor)).resolves.toBe(false);
+  });
+
+  it("treats malformed uses.max as unconfigured", async () => {
+    const actor = {
+      items: [
+        {
+          id: "tides",
+          name: "Tides of Chaos",
+          type: "feat",
+          system: { uses: { value: 1, max: "1" } },
+        },
+      ],
+    } as unknown as Actor;
+
+    await expect(TidesOfChaos.IsTidesOfChaosSetup(actor)).resolves.toEqual({
+      hasTidesOfChaosResource: false,
+      hasTidesOfChaosFeat: true,
+      isValid: false,
+    });
+  });
+});

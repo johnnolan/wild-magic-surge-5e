@@ -320,6 +320,15 @@ describe("SpellParser", () => {
 
         expect(result).toBeUndefined();
       });
+
+      it.each(["3", -1, 10, null])(
+        "rejects malformed spell level data: %p",
+        (level) => {
+          const malformedSpell = { system: { level } } as unknown as Item;
+
+          expect(SpellParser.SpellDetails(malformedSpell)).toBeUndefined();
+        },
+      );
     });
   });
 

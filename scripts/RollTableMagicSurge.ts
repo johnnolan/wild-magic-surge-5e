@@ -1,6 +1,7 @@
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import Logger from "./Logger";
+import { GetDnd5eActorLevel } from "./utils/Dnd5eSystem";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
@@ -25,7 +26,8 @@ class RollTableMagicSurge {
     ) {
       return;
     }
-    if (actor.system.details.level > 13) {
+    const actorLevel = GetDnd5eActorLevel(actor.system);
+    if (actorLevel !== undefined && actorLevel > 13) {
       let rollTableResults: string;
       rollTableResults = (await this.RollOnTable(type)) ?? "";
       rollTableResults =
