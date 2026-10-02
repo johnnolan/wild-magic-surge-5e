@@ -39,11 +39,7 @@ Hooks.on("init", function () {
     "wild-magic-surge-5e.reset",
     async function (actor) {
       if (actor) {
-        const wildMagicSurgeCheck = new MagicSurgeCheck(
-          actor,
-          getTokenIdByActorId(actor.id),
-        );
-        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+        await _resetActorChecks(actor);
       }
     },
   );
@@ -76,13 +72,17 @@ async function Migrate(): Promise<void> {
   }
 }
 
+async function _resetActorChecks(actor: Actor): Promise<void> {
+  await IncrementalCheck.Reset(actor);
+  await DieDescending.Reset(actor);
+}
+
 async function _resetChecks(actorId: string) {
   const actor = game.actors.get(actorId);
   if (!actor) {
     return false;
   }
-  await IncrementalCheck.Reset(actor);
-  await DieDescending.Reset(actor);
+  await _resetActorChecks(actor);
 }
 
 Hooks.once("ready", async function () {

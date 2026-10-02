@@ -170,11 +170,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 15. Fix the undefined `roll` in the reset hook
 
-- [ ] Inspect the `wild-magic-surge-5e.reset` hook registration and every emitter to determine intended reset behavior.
-- [ ] Replace the undefined `roll` reference with the correct reset operation or payload; do not suppress the compiler diagnostic.
-- [ ] Add a regression test that invokes the reset hook and verifies its state changes.
+- [x] Inspect the `wild-magic-surge-5e.reset` hook registration and every emitter to determine intended reset behavior.
+- [x] Replace the undefined `roll` reference with the correct reset operation or payload; do not suppress the compiler diagnostic.
+- [x] Add a regression test that invokes the reset hook and verifies its state changes.
 
 **Done when:** invoking reset cannot throw a `ReferenceError`, and the test verifies the intended behavior.
+
+**Verification:** No in-repository emitter calls lowercase `reset`; the documented uppercase `Reset` hook resets the incremental and descending resources by actor ID. Lowercase `reset` now performs those same resets on its supplied `Actor`. The regression test invokes the registered callback and verifies the resource returns to its initial value without writing a surge flag. All 209 tests pass, and the production diagnostic count is 211 with no undefined `roll` error.
 
 ### 16. Guard nullable Actor IDs and canvas tokens
 
