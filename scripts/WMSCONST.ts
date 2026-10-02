@@ -51,6 +51,12 @@ export const WMSCONST = {
   OPT_TSL_LVL9: "OPT_TSL_LVL9",
   OPT_TSL_LVL10: "OPT_TSL_LVL10",
 
+  OPT_UPCAST_WMS_TRIGGER_BASE: "wmsTriggerBaseLevel",
+  OPT_UPCAST_WMS_TRIGGER_UPCAST: "wmsTriggerUpcast",
+
+  OPT_UPCAST_TOC_TRIGGER_BASE: "tocTriggerBaseLevel",
+  OPT_UPCAST_TOC_TRIGGER_UPCAST: "tocTriggerUpcast",
+
   CHAT_TYPE: {
     DEFAULT: "DEFAULT",
     ROLL: "ROLL",

@@ -1,4 +1,5 @@
 import { WMSCONST } from "./WMSCONST";
+import { UpcastSettingsPanel } from "./panels/UpcastSettingsPanel";
 import {
   ChatSettingsPanel,
   IncrementalSettingsPanel,
@@ -200,6 +201,15 @@ class ModuleSettings {
       restricted: true,
     });
 
+    game.settings.registerMenu(`${WMSCONST.MODULE_ID}`, `UpcastSettingsPanel`, {
+      name: game.i18n.format("WildMagicSurge5E.settings_panel_upcast"),
+      label: game.i18n.format("WildMagicSurge5E.configure"),
+      icon: "fas fa-cog",
+      scope: "world",
+      type: UpcastSettingsPanel,
+      restricted: true,
+    });
+
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT}`,
@@ -239,6 +249,76 @@ class ModuleSettings {
         ),
         hint: game.i18n.format(
           "WildMagicSurge5E.opt_auto_d20_msg_enabled_hint",
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+      },
+    );
+
+    game.settings.register(
+      WMSCONST.MODULE_ID,
+      WMSCONST.OPT_UPCAST_WMS_TRIGGER_BASE,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_wms_trigger_base_name",
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_wms_trigger_base_hint",
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+      },
+    );
+
+    game.settings.register(
+      WMSCONST.MODULE_ID,
+      WMSCONST.OPT_UPCAST_WMS_TRIGGER_UPCAST,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_wms_trigger_upcast_name",
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_wms_trigger_upcast_hint",
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+      },
+    );
+
+    // TOC
+
+    game.settings.register(
+      WMSCONST.MODULE_ID,
+      WMSCONST.OPT_UPCAST_TOC_TRIGGER_BASE,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_toc_trigger_base_name",
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_toc_trigger_base_hint",
+        ),
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+      },
+    );
+
+    game.settings.register(
+      WMSCONST.MODULE_ID,
+      WMSCONST.OPT_UPCAST_TOC_TRIGGER_UPCAST,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_toc_trigger_upcast_name",
+        ),
+        hint: game.i18n.format(
+          "WildMagicSurge5E.opt_upcast_toc_trigger_upcast_hint",
         ),
         scope: "world",
         config: false,

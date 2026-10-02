@@ -8,6 +8,7 @@ import { RoundData } from "@league-of-foundry-developers/foundry-vtt-types/src/f
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import DieDescending from "./utils/DieDescending";
+import { UsageConfig } from "foundry-extensions";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -32,18 +33,15 @@ Hooks.on("init", function () {
     },
   );
 
-  Hooks.on(
-    "wild-magic-surge-5e.reset",
-    async function (actor: Actor) {
-      if (actor) {
-        const wildMagicSurgeCheck = new MagicSurgeCheck(
-          actor,
-          getTokenIdByActorId(actor.id),
-        );
-        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
-      }
-    },
-  );
+  Hooks.on("wild-magic-surge-5e.reset", async function (actor: Actor) {
+    if (actor) {
+      const wildMagicSurgeCheck = new MagicSurgeCheck(
+        actor,
+        getTokenIdByActorId(actor.id),
+      );
+      wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+    }
+  });
 
   Hooks.on(
     "renderChatMessage",
@@ -115,29 +113,36 @@ Hooks.once("ready", async function () {
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", (activity: Item) => {
-    const item = activity.item;
+  Hooks.on(
+    "dnd5e.postUseActivity",
+    (activity: Item, usageConfig: UsageConfig) => {
+      const item = activity.item;
 
-    // Only fire when a spell slot is actually consumed
-    if (!activity.consumption?.spellSlot) return;
+      // Only fire when a spell slot is actually consumed
+      if (!activity.consumption?.spellSlot) return;
 
-    if (item.actor) {
-      const tokenId = getTokenIdByActorId(item?.actor.id);
-      if (game.user?.isGM) {
-        const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
-        magicSurgeCheck.CheckItem(item);
-      } else {
-        game.socket?.emit("module.wild-magic-surge-5e", {
-          event: "SurgeCheck",
-          data: {
-            actorId: item?.actor.id,
-            tokenId: tokenId,
-            item: item,
-          },
-        });
+      if (item.actor) {
+        const tokenId = getTokenIdByActorId(item?.actor.id);
+        if (game.user?.isGM) {
+          const magicSurgeCheck = new MagicSurgeCheck(
+            item.actor,
+            tokenId,
+            usageConfig,
+          );
+          magicSurgeCheck.CheckItem(item);
+        } else {
+          game.socket?.emit("module.wild-magic-surge-5e", {
+            event: "SurgeCheck",
+            data: {
+              actorId: item?.actor.id,
+              tokenId: tokenId,
+              item: item,
+            },
+          });
+        }
       }
-    }
-  });
+    },
+  );
 
   if (
     game.settings.get(
@@ -145,14 +150,20 @@ Hooks.once("ready", async function () {
       `${WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION}`,
     )
   ) {
-    Hooks.on("getHeaderControlsActorSheetV2", (app: CharacterActorSheet, controls: Array<any>) => {
-      controls.push({
-        label: "WMS",
-        icon: "fas fa-wrench",
-        onClick: () => new ActorHelperPanel({ document: app.document }).render({ force: true }),
-        button: true,
-      });
-    });
+    Hooks.on(
+      "getHeaderControlsActorSheetV2",
+      (app: CharacterActorSheet, controls: Array<any>) => {
+        controls.push({
+          label: "WMS",
+          icon: "fas fa-wrench",
+          onClick: () =>
+            new ActorHelperPanel({ document: app.document }).render({
+              force: true,
+            }),
+          button: true,
+        });
+      },
+    );
   }
 
   if (game.user?.isGM) {
@@ -171,12 +182,9 @@ Hooks.once("ready", async function () {
     });
   }
 
-  Hooks.on(
-    "wild-magic-surge-5e.Reset",
-    async function (actorId: string) {
-      _resetChecks(actorId);
-    },
-  );
+  Hooks.on("wild-magic-surge-5e.Reset", async function (actorId: string) {
+    _resetChecks(actorId);
+  });
 
   Hooks.on(
     "wild-magic-surge-5e.ResetDieDescending",
