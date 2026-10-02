@@ -1,5 +1,6 @@
 import { WMSCONST } from "../WMSCONST";
 import { ParseDnd5eResource } from "./Dnd5eSystem";
+import type { DieValue, ResourceValue } from "../types/domain";
 
 export interface WMSModuleSettingValues {
   autoRollD20: boolean;

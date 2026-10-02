@@ -157,12 +157,14 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 14. Move application-owned aliases out of ambient globals
 
-- [ ] Move `SurgeType`, `Comparison`, `DieValue`, `HookValue`, `ResourceValue`, and `SpellLevelFormula` into an exported module-owned domain/types module.
-- [ ] Import those types explicitly where used.
-- [ ] Keep `scripts/types/globals.d.ts` limited to necessary Foundry augmentations and ambient declarations.
-- [ ] Check for duplicate global names or newly required runtime imports after moving types.
+- [x] Move `SurgeType`, `Comparison`, `DieValue`, `HookValue`, `ResourceValue`, and `SpellLevelFormula` into an exported module-owned domain/types module.
+- [x] Import those types explicitly where used.
+- [x] Keep `scripts/types/globals.d.ts` limited to necessary Foundry augmentations and ambient declarations.
+- [x] Check for duplicate global names or newly required runtime imports after moving types.
 
 **Done when:** application-domain types are explicit module imports and ambient declarations describe only actual ambient APIs/augmentations.
+
+**Verification:** `scripts/types/domain.ts` exports the requested aliases plus the other application-owned ambient shapes (`TidesItemData`, `ModuleSetup`, `FlagValue`, and resource shapes). All production/test consumers import used aliases with `import type`; `HookValue` had no remaining consumers. `globals.d.ts` now contains only the Foundry `game`/`Window.Hooks` augmentations and public hook-registry module augmentation. Production typecheck remains within baseline at 212/425.
 
 ## Phase 4: Fix Concrete Runtime and Quality Risks
 

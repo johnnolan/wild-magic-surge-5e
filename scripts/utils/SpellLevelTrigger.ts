@@ -1,6 +1,7 @@
 import { getModuleSetting } from "./TypedSettings";
 import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
+import type { SpellLevelFormula } from "../types/domain";
 
 export default class SpellLevelTrigger {
   static Check(result: number, spellLevel: string): boolean {

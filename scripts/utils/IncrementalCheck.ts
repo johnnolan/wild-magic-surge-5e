@@ -3,6 +3,7 @@ import { WMSCONST } from "../WMSCONST";
 import Chat from "../Chat";
 import CallHooks from "./CallHooks";
 import Resource from "./Resource";
+import type { ResourceValue } from "../types/domain";
 import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 
 export default class IncrementalCheck extends Resource {

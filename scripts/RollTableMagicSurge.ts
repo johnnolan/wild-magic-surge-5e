@@ -3,6 +3,7 @@ import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import Logger from "./Logger";
 import { GetDnd5eActorLevel } from "./utils/Dnd5eSystem";
+import type { SurgeType } from "./types/domain";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings

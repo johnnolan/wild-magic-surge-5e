@@ -1,6 +1,7 @@
 import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import { setModuleActorFlag } from "./utils/TypedSettings";
+import type { Comparison, DieValue } from "./types/domain";
 import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";

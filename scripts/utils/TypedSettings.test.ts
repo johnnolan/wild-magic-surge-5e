@@ -5,6 +5,7 @@ import {
   setModuleSetting,
   setModuleSettingFromForm,
 } from "./TypedSettings";
+import type { ResourceValue } from "../types/domain";
 
 if (false) {
   const actor = {} as Actor;

@@ -7,6 +7,7 @@ import {
 } from "./TypedSettings";
 import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 import type { Dnd5eResourceSlot } from "./Dnd5eSystem";
+import type { ResourceValue, ResourceValues } from "../types/domain";
 
 export default class Resource {
   static FLAG_NAME = WMSCONST.MODULE_ID;

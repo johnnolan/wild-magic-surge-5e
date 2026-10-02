@@ -1,3 +1,5 @@
+import type { ResourceValue } from "../types/domain";
+
 export interface WMSHookNotificationPayloads {
   CheckForSurge: { value: true };
   IsWildMagicSurge: {

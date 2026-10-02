@@ -2,6 +2,7 @@ import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import Logger from "./Logger";
 import { GetDnd5eUses, IsDnd5eItemSubtype } from "./utils/Dnd5eSystem";
+import type { TidesItemData } from "./types/domain";
 
 /**
  * Controls the Tides of Chaos feat

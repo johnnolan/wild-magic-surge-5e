@@ -2,6 +2,7 @@ import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
 import CallHooks from "./CallHooks";
 import Resource from "./Resource";
+import type { DieValue, ResourceValue } from "../types/domain";
 
 export default class DieDescending extends Resource {
   static defaultValue: ResourceValue = {
