@@ -135,3 +135,44 @@ describe("RoundCheck", () => {
     });
   });
 });
+
+describe("RoundCheck.OnCombatUpdate", () => {
+  const mockRoundCheck = jest.spyOn(RoundCheck, "Check");
+
+  beforeEach(() => {
+    (global as any).game = {
+      settings: {
+        get: jest.fn().mockReturnValue("INCREMENTAL_CHECK_CHAOTIC"),
+      },
+    };
+    mockRoundCheck.mockClear();
+    mockRoundCheck.mockResolvedValue();
+  });
+
+  afterAll(() => {
+    mockRoundCheck.mockRestore();
+  });
+
+  it("does not check when combat has no current combatant", async () => {
+    const combat = { combatant: undefined } as unknown as Combat;
+
+    await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
+    expect(mockRoundCheck).not.toHaveBeenCalled();
+  });
+
+  it("does not check when the current combatant has no actor", async () => {
+    const combat = { combatant: { actor: undefined } } as unknown as Combat;
+
+    await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
+    expect(mockRoundCheck).not.toHaveBeenCalled();
+  });
+
+  it("checks the actor on the current combatant", async () => {
+    const combat = { combatant: { actor } } as unknown as Combat;
+
+    await RoundCheck.OnCombatUpdate(combat);
+
+    expect(mockRoundCheck).toHaveBeenCalledTimes(1);
+    expect(mockRoundCheck).toHaveBeenCalledWith(actor);
+  });
+});

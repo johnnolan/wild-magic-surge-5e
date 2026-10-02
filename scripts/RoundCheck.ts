@@ -8,6 +8,24 @@ import Chat from "./Chat";
  * @class RoundCheck
  */
 class RoundCheck {
+  static async OnCombatUpdate(combat: Combat): Promise<false | void> {
+    if (
+      game.settings.get(
+        `${WMSCONST.MODULE_ID}`,
+        `${WMSCONST.OPT_SURGE_TYPE}`,
+      ) !== "INCREMENTAL_CHECK_CHAOTIC"
+    ) {
+      return;
+    }
+
+    const actor = combat.combatant?.actor;
+    if (!actor) {
+      return false;
+    }
+
+    await RoundCheck.Check(actor);
+  }
+
   /**
    * Checks for and does an incremental check for a surge on a new combat round
    * @return {Promise<void>}

@@ -156,19 +156,7 @@ Hooks.once("ready", async function () {
   }
 
   if (game.user?.isGM) {
-    Hooks.on("updateCombat", async function (combat) {
-      if (
-        game.settings.get(
-          `${WMSCONST.MODULE_ID}`,
-          `${WMSCONST.OPT_SURGE_TYPE}`,
-        ) === `INCREMENTAL_CHECK_CHAOTIC`
-      ) {
-        if (!combat.combatant?.actor) {
-          return false;
-        }
-        RoundCheck.Check(combat.combatant.actor);
-      }
-    });
+    Hooks.on("updateCombat", RoundCheck.OnCombatUpdate);
   }
 
   Hooks.on(

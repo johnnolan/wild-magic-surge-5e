@@ -102,11 +102,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 9. Correct and type the Combat hook
 
-- [ ] Change the `updateCombat` callback in `scripts/module.ts` to use the documented/public Combat hook signature or inferred parameters.
-- [ ] Rename the Combat argument to `combat` and access `combat.combatant?.actor` only after appropriate narrowing.
-- [ ] Add or update a focused test for missing combatant/actor data and the normal update path.
+- [x] Change the `updateCombat` callback in `scripts/module.ts` to use the documented/public Combat hook signature or inferred parameters.
+- [x] Rename the Combat argument to `combat` and access `combat.combatant?.actor` only after appropriate narrowing.
+- [x] Add or update a focused test for missing combatant/actor data and the normal update path.
 
 **Done when:** the callback reflects the real Foundry contract and safely handles absent combatant data.
+
+**Verification:** `RoundCheck.OnCombatUpdate(combat: Combat)` is registered directly with `Hooks.on("updateCombat", ...)`. Focused tests cover absent combatant, missing actor, and normal actor handling; all 8 `RoundCheck.test.ts` tests pass. Production typecheck remains within baseline at 414/425 diagnostics. A real Foundry smoke test is unavailable because no Foundry runtime is installed here.
 
 ### 10. Type the D&D5E Activity hook independently
 
