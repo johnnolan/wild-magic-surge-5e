@@ -201,11 +201,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 18. Make resource defaults immutable per operation
 
-- [ ] In `scripts/utils/Resource.ts`, inspect `SetResource` and all paths returning or mutating `defaultValue`.
-- [ ] Create a fresh resource object for each write and avoid returning shared mutable defaults.
-- [ ] Add a regression test proving one resource update does not alter the default or affect another resource instance.
+- [x] In `scripts/utils/Resource.ts`, inspect `SetResource` and all paths returning or mutating `defaultValue`.
+- [x] Create a fresh resource object for each write and avoid returning shared mutable defaults.
+- [x] Add a regression test proving one resource update does not alter the default or affect another resource instance.
 
 **Done when:** writes cannot mutate shared static defaults.
+
+**Verification:** Base and subclass defaults are frozen. `SetResource` writes a new object, and `GetResource` returns a copy of the actual initialized resource when none exists; initialization starts from the subclass default before applying surge-mode overrides. Regression tests mutate one actor's written resource and a returned fallback, then verify another actor, the stored fallback, and static defaults remain unchanged. All 235 tests pass; production and test TypeScript diagnostic counts remain at 191 and 112.
 
 ### 19. Await and correctly type chat message creation
 

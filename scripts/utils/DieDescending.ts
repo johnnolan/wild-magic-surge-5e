@@ -5,13 +5,13 @@ import Resource from "./Resource";
 import type { DieValue, ResourceValue } from "../types/domain";
 
 export default class DieDescending extends Resource {
-  static defaultValue: ResourceValue = {
+  static defaultValue: Readonly<ResourceValue> = Object.freeze({
     label: "Surge Chance",
     lr: false,
     sr: false,
     max: 6,
     value: 1,
-  };
+  });
 
   private static async _callChanged(value: ResourceValue): Promise<void> {
     CallHooks.Call("DieDescendingChanged", value);

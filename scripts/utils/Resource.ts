@@ -12,13 +12,13 @@ import type { ResourceValue, ResourceValues } from "../types/domain";
 export default class Resource {
   static FLAG_NAME = WMSCONST.MODULE_ID;
   static FLAG_OPTION: WMSModuleResourceFlagKey = "resource";
-  static defaultValue: ResourceValue = {
+  static defaultValue: Readonly<ResourceValue> = Object.freeze({
     label: "Surge Chance",
     lr: false,
     sr: false,
     max: 20,
     value: 1,
-  };
+  });
 
   static async Reset(actor: Actor) {
     await this._setupDefault(actor);
@@ -45,8 +45,7 @@ export default class Resource {
     }
 
     if (!resource) {
-      resource = { ...this.defaultValue };
-      await this._setupDefault(actor);
+      resource = await this._setupDefault(actor);
     }
 
     return { ...resource };
@@ -54,6 +53,7 @@ export default class Resource {
 
   static async SetResource(actor: Actor, resourceValues: ResourceValues) {
     const resourceType = getModuleSetting(WMSCONST.OPT_RESOURCE_TYPE);
+    // Foundry may retain the payload, so each write gets its own mutable copy.
     const resourceValue: ResourceValue = {
       ...this.defaultValue,
       max: resourceValues.max,
@@ -83,7 +83,7 @@ export default class Resource {
   }
 
   static async _setupDefault(actor: Actor): Promise<ResourceValue> {
-    let maxValue = 20;
+    let maxValue = this.defaultValue.max;
     switch (
       getModuleSetting(WMSCONST.OPT_SURGE_TYPE)
     ) {

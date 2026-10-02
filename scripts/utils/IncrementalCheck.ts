@@ -9,13 +9,13 @@ import type { WMSModuleResourceFlagKey } from "./TypedSettings";
 export default class IncrementalCheck extends Resource {
   static FLAG_NAME = WMSCONST.MODULE_ID;
   static FLAG_OPTION: WMSModuleResourceFlagKey = "surge_increment_resource";
-  static defaultValue: ResourceValue = {
+  static defaultValue: Readonly<ResourceValue> = Object.freeze({
     label: "Surge Chance",
     lr: false,
     sr: false,
     max: 20,
     value: 1,
-  };
+  });
 
   static async _callChanged(value: number) {
     CallHooks.Call("IncrementalCheckChanged", { value: value });
