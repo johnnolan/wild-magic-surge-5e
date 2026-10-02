@@ -20,6 +20,8 @@ interface TestGameFixture {
   settings?: {
     get?: jest.Mock;
     set?: jest.Mock;
+    register?: jest.Mock;
+    registerMenu?: jest.Mock;
     settings?: Map<string, unknown>;
   };
   actors?: { get?: jest.Mock };
@@ -66,6 +68,7 @@ type OtherFoundryGlobal =
   | "CONFIG"
   | "TextEditor"
   | "ChatMessage"
+  | "foundry"
   | "Sequence"
   | "hasProperty";
 
@@ -101,6 +104,12 @@ export function chatMessageFixture<T extends object>(
   fixture: T,
 ): ChatMessage.Stored & T {
   return fixture as ChatMessage.Stored & T;
+}
+
+export function formDataFixture(
+  object: Record<string, unknown>,
+): foundry.applications.ux.FormDataExtended {
+  return { object } as foundry.applications.ux.FormDataExtended;
 }
 
 export function rollTableFixture<T extends object>(fixture: T): RollTable & T {
