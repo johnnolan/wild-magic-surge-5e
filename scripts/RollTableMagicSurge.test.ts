@@ -1,5 +1,6 @@
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import Logger from "./Logger";
+import Chat from "./Chat";
 import "../__mocks__/index";
 import { actor } from "../MockData/actor";
 
@@ -116,6 +117,13 @@ describe("RollTableMagicSurge", () => {
       expect((global as any).game.tables[0].roll).toHaveBeenCalled();
 
       expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+    });
+
+    it("propagates a rejected table chat creation", async () => {
+      const error = new Error("Cannot create table chat");
+      (Chat.Send as jest.Mock).mockRejectedValueOnce(error);
+
+      await expect(RollTableMagicSurge.Check(undefined, actor)).rejects.toBe(error);
     });
   });
 

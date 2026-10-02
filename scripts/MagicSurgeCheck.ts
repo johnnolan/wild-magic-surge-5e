@@ -46,7 +46,7 @@ class MagicSurgeCheck {
           </button>
       </div>`;
     }
-    Chat.Send(
+    await Chat.Send(
       chatType,
       `${getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG)}${chatSurgeMessage}`,
       roll,
@@ -67,7 +67,7 @@ class MagicSurgeCheck {
       if (
         getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
       ) {
-        this._rollPlayerTrigger(
+        await this._rollPlayerTrigger(
           getModuleSetting(WMSCONST.OPT_POWM_ROLLTABLE_NAME),
           WMSCONST.CHAT_TYPE.DEFAULT,
         );
@@ -86,7 +86,7 @@ class MagicSurgeCheck {
           getModuleSetting(WMSCONST.OPT_SURGE_TYPE),
         );
       } else {
-        Chat.RunMessageCheck();
+        await Chat.RunMessageCheck();
       }
     }
   }
@@ -194,7 +194,7 @@ class MagicSurgeCheck {
     ) {
       if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
-        this.SurgeTidesOfChaos();
+        await this.SurgeTidesOfChaos();
       }
     }
 
@@ -235,7 +235,7 @@ class MagicSurgeCheck {
           );
           return;
       }
-      this.SurgeWildMagic(isSurge, roll);
+      await this.SurgeWildMagic(isSurge, roll);
     }
   }
 
@@ -274,7 +274,7 @@ class MagicSurgeCheck {
       if (
         getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_ENABLED)
       ) {
-        this._rollPlayerTrigger(
+        await this._rollPlayerTrigger(
           getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME),
           WMSCONST.CHAT_TYPE.ROLL,
           roll,
@@ -302,7 +302,7 @@ class MagicSurgeCheck {
       if (
         getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE_ENABLED)
       ) {
-        Chat.Send(
+        await Chat.Send(
           WMSCONST.CHAT_TYPE.ROLL,
           getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_NO_SURGE),
           roll,
@@ -335,7 +335,7 @@ class MagicSurgeCheck {
     if (
       getModuleSetting(WMSCONST.OPT_AUTO_D20_MSG_ENABLED)
     ) {
-      this._rollPlayerTrigger(
+      await this._rollPlayerTrigger(
         getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME),
         WMSCONST.CHAT_TYPE.DEFAULT,
       );

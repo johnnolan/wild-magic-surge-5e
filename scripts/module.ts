@@ -30,7 +30,7 @@ Hooks.on("init", function () {
           actor,
           getTokenIdByActorId(actor.id),
         );
-        wildMagicSurgeCheck.SurgeWildMagic(true, roll);
+        await wildMagicSurgeCheck.SurgeWildMagic(true, roll);
       }
     },
   );

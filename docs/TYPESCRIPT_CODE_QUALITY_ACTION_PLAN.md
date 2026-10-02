@@ -211,11 +211,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 19. Await and correctly type chat message creation
 
-- [ ] In `scripts/Chat.ts`, change the create input contract to Foundry's create-data type rather than an instantiated `ChatMessage` document.
-- [ ] Await `ChatMessage.create` inside the async method and propagate its result/failure according to the method's public contract.
-- [ ] Update tests to verify completion and rejected create behavior.
+- [x] In `scripts/Chat.ts`, change the create input contract to Foundry's create-data type rather than an instantiated `ChatMessage` document.
+- [x] Await `ChatMessage.create` inside the async method and propagate its result/failure according to the method's public contract.
+- [x] Update tests to verify completion and rejected create behavior.
 
 **Done when:** callers observe asynchronous create failures and the input type describes data, not a document instance.
+
+**Verification:** Chat builders return `ChatMessage.CreateData`; `Send` awaits creation and returns the created document or `undefined`. Recipient IDs use `whisper`, speaker data uses `ChatMessage.getSpeaker()`, roll data uses `rolls`, and roll mode is passed as a create option. Async surge, resource, and roll-table callers now await chat creation. Tests cover pending completion, the created result, and rejected create calls through `Send`, `RunMessageCheck`, and roll-table checks. All 239 tests pass; production and test TypeScript diagnostics fell from 191/112 to 179/105, with none in `Chat.ts`.
 
 ### 20. Improve test fixture typing
 

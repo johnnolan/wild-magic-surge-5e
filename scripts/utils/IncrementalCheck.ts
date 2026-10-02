@@ -23,7 +23,7 @@ export default class IncrementalCheck extends Resource {
     if (
       getModuleSetting(WMSCONST.OPT_INCREMENTAL_CHECK_TO_CHAT)
     ) {
-      Chat.Send(
+      await Chat.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
         `${game.i18n.format(
           "WildMagicSurge5E.opt_incremental_check_to_chat_text_name",
@@ -52,7 +52,7 @@ export default class IncrementalCheck extends Resource {
           max: maxValue,
           value: resourceValue.value,
         });
-        this._callChanged(resourceValue.value);
+        await this._callChanged(resourceValue.value);
       }
     }
 

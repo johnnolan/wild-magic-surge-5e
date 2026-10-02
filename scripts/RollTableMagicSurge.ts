@@ -54,9 +54,7 @@ class RollTableMagicSurge {
       return;
     }
 
-    const surgeRollTable = game.tables.find(
-      (t: RollTable) => t.name === rollTableName,
-    );
+    const surgeRollTable = game.tables?.find((t) => t.name === rollTableName);
 
     if (!surgeRollTable) {
       Logger.error(
@@ -67,10 +65,8 @@ class RollTableMagicSurge {
       return;
     }
 
-    const result = await surgeRollTable?.roll().then((result: Roll) => {
-      Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
-      return result;
-    });
+    const result = await surgeRollTable.roll();
+    await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
 
     if (result.results.length > 0) {
       return result.results[0].text;

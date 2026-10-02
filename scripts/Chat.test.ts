@@ -13,15 +13,43 @@ describe("Chat", () => {
     jest.resetAllMocks();
   });
 
+  it("resolves only after chat creation finishes and returns the created message", async () => {
+    const created = { id: "message-1" } as ChatMessage.Stored;
+    let finishCreate: ((message: ChatMessage.Stored) => void) | undefined;
+    const create = ChatMessage.create as jest.Mock;
+    create.mockImplementation(
+      () => new Promise<ChatMessage.Stored>((resolve) => { finishCreate = resolve; }),
+    );
+
+    let completed = false;
+    const send = Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "Deferred message");
+    void send.then(() => { completed = true; });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(create).toHaveBeenCalled();
+    expect(completed).toBe(false);
+    finishCreate?.(created);
+    await expect(send).resolves.toBe(created);
+    expect(completed).toBe(true);
+  });
+
+  it("rejects when chat creation fails", async () => {
+    const error = new Error("Cannot create chat message");
+    (ChatMessage.create as jest.Mock).mockRejectedValue(error);
+
+    await expect(Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "Failed message"))
+      .rejects.toBe(error);
+  });
+
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message", null);
+        await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message");
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: "<div>My Custom Message</div>",
-          speaker: [undefined],
+          speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
         });
       });
     });
@@ -44,8 +72,8 @@ describe("Chat", () => {
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: `<div>My Custom Message (${roll.total})</div>`,
-          speaker: [undefined],
-          whisper: [undefined],
+          speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
+          whisper: ["gm-id"],
           blind: true,
         });
       });
@@ -55,13 +83,12 @@ describe("Chat", () => {
       let roll: any;
 
       beforeEach(() => {
-        (global as any).game.settings.get = jest
-          .fn()
-          .mockResolvedValueOnce(false)
-          .mockResolvedValueOnce(false)
-          .mockResolvedValueOnce("PLAYER_TRIGGER")
-          .mockResolvedValueOnce("Wild Magic Surge")
-          .mockResolvedValueOnce("rollMode");
+        (global as any).game.settings.get = jest.fn((_namespace: string, key: string) => {
+          if (key === WMSCONST.OPT_WHISPER_GM || key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT) return false;
+          if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
+          if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return "PLAYER_TRIGGER";
+          if (key === "rollMode") return "publicroll";
+        });
         roll = {
           result: 20,
         };
@@ -70,14 +97,14 @@ describe("Chat", () => {
       it("It returns the just the content", async () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", roll);
 
-        expect(ChatMessage.create).toHaveBeenCalledWith({
-          flavor: "Wild Magic Surge Check - My Custom Message",
-          roll: {
-            result: 20,
+        expect(ChatMessage.create).toHaveBeenCalledWith(
+          {
+            flavor: "Wild Magic Surge Check - My Custom Message",
+            rolls: [roll],
+            speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
           },
-          rollMode: "rollMode",
-          speaker: [undefined],
-        });
+          { rollMode: "publicroll" },
+        );
       });
     });
 
@@ -287,6 +314,13 @@ describe("Chat", () => {
         expect((global as any).Hooks.callAll).toHaveBeenCalled();
 
         expect(ChatMessage.create).toHaveBeenCalled();
+      });
+
+      it("propagates chat creation failures to the caller", async () => {
+        const error = new Error("Cannot create chat message");
+        (ChatMessage.create as jest.Mock).mockRejectedValue(error);
+
+        await expect(Chat.RunMessageCheck()).rejects.toBe(error);
       });
     });
   });
