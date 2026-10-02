@@ -112,6 +112,28 @@ beforeEach(() => {
 });
 
 describe("MagicSurgeCheck", () => {
+  describe("macro context", () => {
+    it("passes the actual canvas token ID to a surge macro", async () => {
+      await new MagicSurgeCheck(actor, "token-123")._callIsSurgeHook(true);
+
+      expect(mockTriggerMacro).toHaveBeenCalledWith(actor.id, "token-123");
+    });
+
+    it("allows a surge macro when the canvas token is absent", async () => {
+      await new MagicSurgeCheck(actor, undefined)._callIsSurgeHook(true);
+
+      expect(mockTriggerMacro).toHaveBeenCalledWith(actor.id, undefined);
+    });
+
+    it("does not start a surge macro without an actor ID", async () => {
+      const unsavedActor = { ...actor, id: null } as Actor;
+
+      await new MagicSurgeCheck(unsavedActor, "token-123")._callIsSurgeHook(true);
+
+      expect(mockTriggerMacro).not.toHaveBeenCalled();
+    });
+  });
+
   describe("CheckItem", () => {
     describe("Is Wild Magic Surge Auto Check but not valid item", () => {
       let magicSurgeCheck: MagicSurgeCheck;

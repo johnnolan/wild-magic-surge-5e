@@ -69,4 +69,41 @@ describe("HandlePostUseActivity", () => {
     expect(onGMCheck).not.toHaveBeenCalled();
     expect(onPlayerCheck).not.toHaveBeenCalled();
   });
+
+  it("checks locally for the GM when the actor has no ID or canvas token", () => {
+    const unsavedActor = { ...actor, id: null } as Actor;
+    const unsavedItem = { actor: unsavedActor } as Item;
+
+    HandlePostUseActivity(
+      { item: unsavedItem, consumption: { spellSlot: true } },
+      handlers,
+    );
+
+    expect(getTokenIdByActorId).not.toHaveBeenCalled();
+    expect(onGMCheck).toHaveBeenCalledWith(
+      unsavedActor,
+      unsavedItem,
+      undefined,
+    );
+  });
+
+  it("does not send a player socket check without an actor ID", () => {
+    const unsavedItem = { actor: { ...actor, id: null } } as Item;
+
+    HandlePostUseActivity(
+      { item: unsavedItem, consumption: { spellSlot: true } },
+      { ...handlers, isGM: false },
+    );
+
+    expect(getTokenIdByActorId).not.toHaveBeenCalled();
+    expect(onPlayerCheck).not.toHaveBeenCalled();
+  });
+
+  it("passes an absent canvas token explicitly to the GM check", () => {
+    getTokenIdByActorId.mockReturnValue(undefined);
+
+    HandlePostUseActivity({ item, consumption: { spellSlot: true } }, handlers);
+
+    expect(onGMCheck).toHaveBeenCalledWith(actor, item, undefined);
+  });
 });

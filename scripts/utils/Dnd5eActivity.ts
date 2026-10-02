@@ -6,13 +6,13 @@ export interface Dnd5ePostUseActivity {
 }
 
 interface PostUseActivityHandlers {
-  getTokenIdByActorId: (actorId: string | null) => string | undefined;
+  getTokenIdByActorId: (actorId: string) => string | undefined;
   isGM: boolean;
   onGMCheck: (actor: Actor, item: Item, tokenId: string | undefined) => void;
   onPlayerCheck: (data: {
     event: "SurgeCheck";
     data: {
-      actorId: string | null;
+      actorId: string;
       tokenId: string | undefined;
       item: Item;
     };
@@ -29,16 +29,19 @@ export function HandlePostUseActivity(
   const actor = item.actor;
   if (!actor) return;
 
-  const tokenId = handlers.getTokenIdByActorId(actor.id);
+  const actorId = actor.id;
+  const tokenId = actorId ? handlers.getTokenIdByActorId(actorId) : undefined;
   if (handlers.isGM) {
     handlers.onGMCheck(actor, item, tokenId);
     return;
   }
 
+  if (!actorId) return;
+
   handlers.onPlayerCheck({
     event: "SurgeCheck",
     data: {
-      actorId: actor.id,
+      actorId,
       tokenId,
       item,
     },

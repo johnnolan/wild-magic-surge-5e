@@ -180,11 +180,13 @@ This checklist turns the findings in the [TypeScript and Code Quality Report](TY
 
 ### 16. Guard nullable Actor IDs and canvas tokens
 
-- [ ] Trace Actor ID and canvas token values from their source in `scripts/module.ts` and `scripts/TriggerMacro.ts` to their consumers.
-- [ ] Add guards where the operation requires a present ID/token; otherwise reflect optionality in function parameters/return values.
-- [ ] Test absent IDs/tokens and the normal path.
+- [x] Trace Actor ID and canvas token values from their source in `scripts/module.ts` and `scripts/TriggerMacro.ts` to their consumers.
+- [x] Add guards where the operation requires a present ID/token; otherwise reflect optionality in function parameters/return values.
+- [x] Test absent IDs/tokens and the normal path.
 
 **Done when:** no downstream call assumes an ID/token exists without a guard or an explicit non-optional contract.
+
+**Verification:** Post-use activity handling avoids token lookup without an actor ID and sends only saved actor IDs over the socket. The GM socket listener checks its actor ID and actor lookup before creating a surge check, while retaining an optional token ID. Surge macros now receive the canvas token ID, and `TriggerMacro.Run` skips absent actors while allowing an absent token in the macro scope. Tests cover missing and present IDs/tokens across these paths; all 221 tests pass. Production TypeScript diagnostics fell from 211 to 200, with no remaining ID/token diagnostics in `module.ts` or `TriggerMacro.ts`.
 
 ### 17. Replace `any` in settings panel helpers
 

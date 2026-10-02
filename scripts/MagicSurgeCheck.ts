@@ -254,7 +254,7 @@ class MagicSurgeCheck {
     });
 
     if (isSurge && this._actor.id) {
-      TriggerMacro.Run(this._actor.id, this._actor.id);
+      TriggerMacro.Run(this._actor.id, this._tokenId);
     }
   }
 

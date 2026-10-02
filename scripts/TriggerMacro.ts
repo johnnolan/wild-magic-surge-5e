@@ -7,18 +7,18 @@ import { WMSCONST } from "./WMSCONST";
  * @class TriggerMacro
  */
 class TriggerMacro {
-  static async Run(actorId: string, tokenId: string): Promise<void> {
+  static async Run(
+    actorId: string | null,
+    tokenId: string | undefined,
+  ): Promise<void> {
+    if (!actorId) return;
+
     const macroName = getModuleSetting(WMSCONST.OPT_TRIGGERMACRO_NAME);
-    if (
-      !getModuleSetting(WMSCONST.OPT_TRIGGERMACRO_ENABLE) ||
-      !macroName
-    ) {
+    if (!getModuleSetting(WMSCONST.OPT_TRIGGERMACRO_ENABLE) || !macroName) {
       return;
     }
 
-    const macro: Macro = game.macros.find(
-      (f) => f.name === macroName && f.isOwner,
-    );
+    const macro = game.macros?.find((f) => f.name === macroName && f.isOwner);
     if (!macro) {
       Logger.error(
         `Trigger Macro ${macroName} does not exist.`,
@@ -28,10 +28,11 @@ class TriggerMacro {
       return;
     }
 
-    const actor: Actor = game.actors?.get(actorId);
-    const token: Token = canvas.tokens?.get(tokenId);
+    const actor = game.actors?.get(actorId);
+    if (!actor) return;
+    const token = tokenId ? canvas?.tokens?.get(tokenId) : undefined;
 
-    macro.execute({ actor: actor, token: token });
+    macro.execute({ actor, token });
   }
 }
 

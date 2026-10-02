@@ -49,11 +49,16 @@ Hooks.on("init", function () {
   );
 });
 
-function getTokenIdByActorId(actorId: string | null | undefined): string | undefined {
+function getTokenIdByActorId(
+  actorId: string | null | undefined,
+): string | undefined {
   if (!actorId) {
     return undefined;
   }
-  return canvas?.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id ?? undefined;
+  return (
+    canvas?.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id ??
+    undefined
+  );
 }
 
 async function Migrate(): Promise<void> {
@@ -78,7 +83,8 @@ async function _resetActorChecks(actor: Actor): Promise<void> {
 }
 
 async function _resetChecks(actorId: string) {
-  const actor = game.actors.get(actorId);
+  if (!actorId) return false;
+  const actor = game.actors?.get(actorId);
   if (!actor) {
     return false;
   }
@@ -92,15 +98,38 @@ Hooks.once("ready", async function () {
     game.socket?.on(
       "module.wild-magic-surge-5e",
       async function (payload: unknown) {
-        if (payload.event === "SurgeCheck") {
-          const surgeCheckData = payload.data;
-          const actor = game.actors.get(surgeCheckData.actorId);
-          const magicSurgeCheck = new MagicSurgeCheck(
-            actor,
-            surgeCheckData.tokenId,
-          );
-          magicSurgeCheck.CheckItem(surgeCheckData.item);
+        if (
+          !payload ||
+          typeof payload !== "object" ||
+          !("event" in payload) ||
+          payload.event !== "SurgeCheck" ||
+          !("data" in payload)
+        ) {
+          return;
         }
+
+        const surgeCheckData = payload.data;
+        if (
+          !surgeCheckData ||
+          typeof surgeCheckData !== "object" ||
+          !("actorId" in surgeCheckData) ||
+          typeof surgeCheckData.actorId !== "string" ||
+          !surgeCheckData.actorId ||
+          !("item" in surgeCheckData) ||
+          !surgeCheckData.item
+        ) {
+          return;
+        }
+
+        const actor = game.actors?.get(surgeCheckData.actorId);
+        if (!actor) return;
+        const tokenId =
+          "tokenId" in surgeCheckData &&
+          typeof surgeCheckData.tokenId === "string"
+            ? surgeCheckData.tokenId
+            : undefined;
+        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+        await magicSurgeCheck.CheckItem(surgeCheckData.item as Item);
       },
     );
   }
@@ -159,7 +188,8 @@ Hooks.once("ready", async function () {
   Hooks.on(
     "wild-magic-surge-5e.SetDieDescending",
     async function (actorId, resourceNumber) {
-      const actor = game.actors.get(actorId);
+      if (!actorId) return false;
+      const actor = game.actors?.get(actorId);
       if (!actor) {
         return false;
       }
@@ -170,7 +200,8 @@ Hooks.once("ready", async function () {
   Hooks.on(
     "wild-magic-surge-5e.SetIncrementalCheck",
     async function (actorId, resourceNumber) {
-      const actor = game.actors.get(actorId);
+      if (!actorId) return false;
+      const actor = game.actors?.get(actorId);
       if (!actor) {
         return false;
       }
