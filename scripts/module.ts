@@ -60,8 +60,11 @@ Hooks.on("init", function () {
   );
 });
 
-function getTokenIdByActorId(actorId: string): string | undefined {
-  return canvas.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id;
+function getTokenIdByActorId(actorId: string | null | undefined): string | undefined {
+  if (!actorId) {
+    return undefined;
+  }
+  return canvas?.tokens?.placeables?.find((f) => f.actor?.id === actorId)?.id ?? undefined;
 }
 
 function Migrate() {
@@ -114,27 +117,28 @@ Hooks.once("ready", async function () {
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", (activity: Item) => {
+  Hooks.on("dnd5e.postUseActivity", (activity) => {
     const item = activity.item;
 
     // Only fire when a spell slot is actually consumed
     if (!activity.consumption?.spellSlot) return;
 
-    if (item.actor) {
-      const tokenId = getTokenIdByActorId(item?.actor.id);
-      if (game.user?.isGM) {
-        const magicSurgeCheck = new MagicSurgeCheck(item.actor, tokenId);
-        magicSurgeCheck.CheckItem(item);
-      } else {
-        game.socket?.emit("module.wild-magic-surge-5e", {
-          event: "SurgeCheck",
-          data: {
-            actorId: item?.actor.id,
-            tokenId: tokenId,
-            item: item,
-          },
-        });
-      }
+    const actor = item.actor;
+    if (!actor) return;
+
+    const tokenId = getTokenIdByActorId(actor.id);
+    if (game.user?.isGM) {
+      const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+      magicSurgeCheck.CheckItem(item);
+    } else {
+      game.socket?.emit("module.wild-magic-surge-5e", {
+        event: "SurgeCheck",
+        data: {
+          actorId: actor.id,
+          tokenId,
+          item,
+        },
+      });
     }
   });
 
