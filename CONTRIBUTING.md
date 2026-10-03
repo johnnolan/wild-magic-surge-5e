@@ -24,6 +24,8 @@ To do this
   * `yarn run jshint`
   * `yarn run build`
 
+For changes to Foundry UI or spell-use behavior, see [the browser test setup guide](docs/BROWSER_TESTING.md). These tests use a separate licensed Foundry world and run with `yarn test:e2e`.
+
 Once you are happy, create Pull Request to this repository from your Fork and I will look through and approve.
 
 The module is built using Typescript and I have a lot of code quality tooling in place to stop me writing loads of bad code. If I pass things back because these things don't pass these standard, please understand this is not to cause any sort of offence. It is important to keep things as standardised and tested as possible.

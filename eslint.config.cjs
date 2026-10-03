@@ -6,7 +6,8 @@ const prettierConfig = require("eslint-config-prettier");
 const foundryGlobals =
   require("@typhonjs-fvtt/eslint-config-foundry.js/latest").globals;
 
-const productionFiles = ["scripts/**/*.ts"];
+const productionFiles = ["scripts/**/*.ts", "e2e/**/*.ts", "playwright.config.ts"];
+const e2eRuntimeFiles = ["scripts/e2e/**/*.mjs"];
 
 module.exports = [
   {
@@ -23,6 +24,7 @@ module.exports = [
     ],
   },
   { ...js.configs.recommended, files: productionFiles },
+  { ...js.configs.recommended, files: e2eRuntimeFiles },
   ...tsPlugin.configs["flat/recommended"].map((config) => ({
     ...config,
     files: productionFiles,
@@ -32,7 +34,18 @@ module.exports = [
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaVersion: "latest", sourceType: "module" },
-      globals: foundryGlobals,
+      globals: { ...foundryGlobals, process: "readonly" },
+    },
+    plugins: { prettier },
+    rules: {
+      ...prettierConfig.rules,
+      "prettier/prettier": "error",
+    },
+  },
+  {
+    files: e2eRuntimeFiles,
+    languageOptions: {
+      globals: { process: "readonly", console: "readonly" },
     },
     plugins: { prettier },
     rules: {

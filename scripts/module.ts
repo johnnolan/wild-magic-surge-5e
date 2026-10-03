@@ -1,4 +1,4 @@
-import { getModuleSetting, setModuleSetting } from "./utils/TypedSettings";
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import MagicSurgeCheck from "./MagicSurgeCheck";
 import IncrementalCheck from "./utils/IncrementalCheck";

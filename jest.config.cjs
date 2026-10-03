@@ -1,6 +1,7 @@
 /* exported config */
 /** @type {import('jest').Config} */
 module.exports = {
+  testMatch: ["<rootDir>/scripts/**/*.test.ts"],
   transform: {
     "^.+\\.tsx?$": "babel-jest",
   },
