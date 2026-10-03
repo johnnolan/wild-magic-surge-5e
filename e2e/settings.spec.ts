@@ -1,26 +1,19 @@
 import { test, expect } from "./fixtures";
-import {
-  getReminderMessage,
-  openChatSettingsPanel,
-  setReminderMessage,
-} from "./foundry";
+import { getReminderMessage, openChatSettingsPanel } from "./foundry";
 
 test("saves a reminder message from Chat Message Options", async ({
   gmPage,
+  world,
 }) => {
-  const originalMessage = await getReminderMessage(gmPage);
+  await world.rememberSetting("magicSurgeChatMessage");
   const newMessage = `Browser test reminder ${Date.now()}`;
   const messageField = gmPage.getByLabel("Message to check for surge");
 
-  try {
-    await openChatSettingsPanel(gmPage);
-    await messageField.fill(newMessage);
-    await gmPage.getByRole("button", { name: "Save Changes" }).click();
+  await openChatSettingsPanel(gmPage);
+  await messageField.fill(newMessage);
+  await gmPage.getByRole("button", { name: "Save Changes" }).click();
 
-    await expect.poll(() => getReminderMessage(gmPage)).toBe(newMessage);
-    await openChatSettingsPanel(gmPage);
-    await expect(messageField).toHaveValue(newMessage);
-  } finally {
-    await setReminderMessage(gmPage, originalMessage);
-  }
+  await expect.poll(() => getReminderMessage(gmPage)).toBe(newMessage);
+  await openChatSettingsPanel(gmPage);
+  await expect(messageField).toHaveValue(newMessage);
 });
