@@ -27,6 +27,8 @@ The Playwright suite runs against a dedicated local Foundry VTT world. It does n
 
 The test data directory must be new or already carry the `.wild-magic-surge-5e-e2e` marker. The scripts refuse to modify an existing unmarked directory. The server uses its own port; Playwright refuses to reuse a server already on that port. Do not put campaign data in this directory. Keep license and account credentials outside the repository.
 
+The launcher checks the Node version used **for Foundry**. It prefers Node 24 or newer on `PATH`, then the `.nvmrc` version installed in `~/.nvm`. Fedora's `/usr/bin/yarn` may itself report Node 22 because its shebang points directly to `/usr/bin/node`; this does not prevent the launcher from using Node 24. If Node 24 is installed elsewhere, set `FOUNDRY_NODE_PATH` to its executable path.
+
 ## Daily use
 
 ```sh
