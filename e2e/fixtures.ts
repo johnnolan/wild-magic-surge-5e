@@ -26,17 +26,15 @@ export async function readGameState(page: Page): Promise<GameState> {
 export const test = base.extend<{ gmPage: Page }>({
   gmPage: async ({ page }, use) => {
     await page.goto("/join");
-    const userSelect = page.locator('select[name="userid"]');
-
-    if (await userSelect.isVisible()) {
-      const gmName = process.env.FOUNDRY_E2E_GM_NAME ?? "Gamemaster";
-      const gmOption = userSelect.locator("option", { hasText: gmName });
-      if ((await gmOption.count()) !== 1 || (await gmOption.isDisabled())) {
-        throw new Error(`GM user "${gmName}" is missing or already logged in.`);
-      }
-      await userSelect.selectOption({ label: gmName });
-      await page.locator('button[name="join"]').click();
-    }
+    const joinForm = page.locator('form[name="join"]');
+    await joinForm.waitFor({ state: "visible" });
+    await joinForm
+      .locator('input[name="username"]')
+      .fill(process.env.FOUNDRY_E2E_GM_NAME ?? "Gamemaster");
+    await joinForm
+      .locator('input[name="password"]')
+      .fill(process.env.FOUNDRY_E2E_GM_PASSWORD ?? "");
+    await joinForm.locator('button[name="join"]').click();
 
     await page.waitForFunction(
       () => {

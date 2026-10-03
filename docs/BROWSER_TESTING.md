@@ -22,7 +22,7 @@ The Playwright suite runs against a dedicated local Foundry VTT world. It does n
    1. Enter your license key and accept the agreement if prompted.
    2. In **Game Systems**, install **Dungeons & Dragons Fifth Edition (dnd5e)**, version `6.0.5` or later. The test scripts do not install the system for you.
    3. In **Game Worlds**, create a new world using dnd5e. Set its **Data Path** (world ID) to the exact value of `FOUNDRY_E2E_WORLD_ID`, and set its language to English.
-   4. Launch that world, enable **Wild Magic Surge 5e** in **Manage Modules**, and create or retain a passwordless GM with the exact name in `FOUNDRY_E2E_GM_NAME`.
+   4. Launch that world, enable **Wild Magic Surge 5e** in **Manage Modules**, and create or retain a GM with the exact name in `FOUNDRY_E2E_GM_NAME`. A passwordless GM works by default; if the GM has an access key, set `FOUNDRY_E2E_GM_PASSWORD` in your shell.
    5. Stop this setup server with Ctrl-C. Later `yarn test:e2e` runs the same extracted server against this world automatically.
 
 The test data directory must be new or already carry the `.wild-magic-surge-5e-e2e` marker. The scripts refuse to modify an existing unmarked directory. The server uses its own port; Playwright refuses to reuse a server already on that port. Do not put campaign data in this directory. Keep license and account credentials outside the repository.
@@ -43,4 +43,4 @@ To run one case, use `yarn test:e2e settings.spec.ts` or `yarn test:e2e -g "save
 
 The tests currently use a single GM session and one worker. Each test gets a new browser context. World settings still persist across browser contexts, so tests must restore any values they change. The first cases are a module-load smoke test and a browser test for saving a custom chat reminder. Spell activity cases from [the implementation spec](BROWSER_TESTING_SPEC.md) can be added once the installed dnd5e sheet and activity data are available to inspect.
 
-If startup fails, verify `FOUNDRY_INSTALL_PATH` contains `main.js`, the dedicated data directory contains `Data/systems/dnd5e/system.json` and the named world's `world.json`, and the module is enabled in that world. If login fails, close any other GM browser session for this test world.
+If startup fails, verify `FOUNDRY_INSTALL_PATH` contains `main.js`, the dedicated data directory contains `Data/systems/dnd5e/system.json` and the named world's `world.json`, and the module is enabled in that world. If login fails, check the GM name and access key, then close any other GM browser session for this test world.
