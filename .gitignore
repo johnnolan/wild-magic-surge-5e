@@ -8,3 +8,5 @@ build-copy*
 .foundry-e2e/
 playwright-report/
 test-results/playwright/
+.foundry-setup
+.foundry-install/

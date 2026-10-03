@@ -5,8 +5,8 @@ The Playwright suite runs against a dedicated local Foundry VTT world. It does n
 ## One-time setup
 
 1. Use the Node version in `.nvmrc` and install dependencies with `yarn install`.
-2. Obtain a licensed **Node server** installation of Foundry V14. Choose a build compatible with `module.json` (currently at least `14.367`). The test world also needs dnd5e `6.0.5` or later. Record the exact pair you use when reporting test results.
-3. Set these variables in your shell, substituting the actual installation path:
+2. From your Foundry account's **Purchased Licenses** page, download a V14 build compatible with `module.json` (currently at least `14.367`) and choose **Node.js** as the download type. **Extract the ZIP** into an application folder outside this repository, for example `~/FoundryVTT-Node`. The folder used for `FOUNDRY_INSTALL_PATH` must contain `main.js` directly. If the ZIP creates another enclosing folder, point the variable at that inner folder. Do not put the ZIP itself in the test data directory. You do not need to start Foundry manually: `yarn e2e:setup` starts it for first-time setup, and `yarn test:e2e` starts it for test runs. Foundry V14 needs Node 24; this repository's `.nvmrc` selects it.
+3. Set these variables in your shell, substituting the actual **extracted** installation path:
 
    ```sh
    export FOUNDRY_INSTALL_PATH=/absolute/path/to/FoundryVTT-Node
@@ -17,7 +17,13 @@ The Playwright suite runs against a dedicated local Foundry VTT world. It does n
    ```
 
 4. Install Playwright's Chromium once: `yarn playwright install chromium`.
-5. Run `yarn e2e:setup`. The command creates a marked, dedicated data directory, builds and stages the complete module, then starts Foundry in Setup mode. Open the printed local address. Accept the license if required, install dnd5e, and create a world with the exact ID in `FOUNDRY_E2E_WORLD_ID`. Set the world language to English. Start that world, enable **Wild Magic Surge 5e** in Manage Modules, and create or retain a passwordless GM with the exact name in `FOUNDRY_E2E_GM_NAME`. Stop this setup server with Ctrl-C when finished.
+5. Run `yarn e2e:setup`. The command creates a marked, dedicated data directory, builds and stages the complete module, then starts the extracted Foundry server in Setup mode. Open the printed local address and complete these UI steps:
+
+   1. Enter your license key and accept the agreement if prompted.
+   2. In **Game Systems**, install **Dungeons & Dragons Fifth Edition (dnd5e)**, version `6.0.5` or later. The test scripts do not install the system for you.
+   3. In **Game Worlds**, create a new world using dnd5e. Set its **Data Path** (world ID) to the exact value of `FOUNDRY_E2E_WORLD_ID`, and set its language to English.
+   4. Launch that world, enable **Wild Magic Surge 5e** in **Manage Modules**, and create or retain a passwordless GM with the exact name in `FOUNDRY_E2E_GM_NAME`.
+   5. Stop this setup server with Ctrl-C. Later `yarn test:e2e` runs the same extracted server against this world automatically.
 
 The test data directory must be new or already carry the `.wild-magic-surge-5e-e2e` marker. The scripts refuse to modify an existing unmarked directory. The server uses its own port; Playwright refuses to reuse a server already on that port. Do not put campaign data in this directory. Keep license and account credentials outside the repository.
 
