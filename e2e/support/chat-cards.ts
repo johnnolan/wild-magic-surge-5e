@@ -6,7 +6,6 @@ import { readSpellSlots, type ChatObservation } from "./observations";
 
 export interface ChatCardMarkers {
   actorId: string;
-  spellName: string;
   checkText: string;
   chargeText?: string;
   tableName?: string;
@@ -32,15 +31,15 @@ export function classifyChatCards(
     spell: messages.filter(
       (message) =>
         message.speakerActorId === markers.actorId &&
-        has(message, markers.spellName) &&
-        message.content.includes("chat-card"),
+        message.rollFormula === null &&
+        !has(message, markers.checkText),
     ),
     bareCheck: messages.filter(
       (message) =>
         message.rollFormula !== null &&
         message.rollTotal !== null &&
         !message.flavor &&
-        !message.content.trim(),
+        message.content.trim() === String(message.rollTotal),
     ),
     check: messages.filter((message) => has(message, markers.checkText)),
     charge: markers.chargeText
