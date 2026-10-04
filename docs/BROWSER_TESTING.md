@@ -33,13 +33,14 @@ The launcher checks the Node version used **for Foundry**. It prefers Node 24 or
 
 ```sh
 yarn test:e2e                 # build, stage, start Foundry, run tests, stop server
+yarn test:e2e:trace           # run headless and retain a trace for every test
 yarn test:e2e:headed          # show Chromium while tests run
 yarn test:e2e:ui              # Playwright UI mode
 yarn playwright test --list   # list browser tests without launching Foundry
 yarn typecheck:e2e            # type-check the browser suite
 ```
 
-To run one case, use `yarn test:e2e settings.panels.spec.ts`, `yarn test:e2e surge.standard.spec.ts`, or `yarn test:e2e -g "saves a reminder"`. The script builds and stages the module before Playwright starts. Failed tests leave traces in `test-results/playwright/`; inspect one with `yarn playwright show-trace <trace.zip>`. The HTML report is written to `playwright-report/`.
+To run one case, use `yarn test:e2e settings.panels.spec.ts`, `yarn test:e2e surge.standard.spec.ts`, or `yarn test:e2e -g "saves a reminder"`. The script builds and stages the module before Playwright starts. Failed tests leave traces in `test-results/playwright/`; `yarn test:e2e:trace` keeps traces for passing tests too. Inspect one with `yarn playwright show-trace <trace.zip>`. The HTML report is written to `playwright-report/`.
 
 The suite uses one worker and a logged-in GM. Cases that need to prove what a player sees also create a temporary player account and browser context. A player must be granted ownership of the test actor; the player page is then reloaded so Foundry includes that actor in its world data. The fixture closes that context and deletes the player after the case.
 

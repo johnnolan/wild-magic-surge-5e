@@ -17,6 +17,7 @@
     "test:watchcov": "jest --watch --coverage --maxWorkers=1",
     "e2e:setup": "yarn build && node ./scripts/e2e/setup-data.mjs && node ./scripts/e2e/stage-module.mjs && node ./scripts/e2e/start-foundry.mjs --setup",
     "test:e2e": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test",
+    "test:e2e:trace": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --trace on",
     "test:e2e:headed": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --headed",
     "test:e2e:ui": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --ui",
     "typecheck:e2e": "node ./node_modules/typescript/bin/tsc --noEmit --project tsconfig.e2e.json",
