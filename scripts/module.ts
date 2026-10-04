@@ -42,7 +42,9 @@ Hooks.on("init", function () {
   });
 
   Hooks.on("renderChatMessageHTML", (_message, html) =>
-    AttachRollTableButton(html, () => RollTableMagicSurge.RollOnTable()),
+    AttachRollTableButton(html, (type) =>
+      RollTableMagicSurge.RollOnTable(type),
+    ),
   );
 });
 

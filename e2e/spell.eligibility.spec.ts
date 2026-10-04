@@ -213,6 +213,48 @@ test("a cantrip reports a spell-slot activity without spending a slot", async ({
   expect(await readSpellSlots(gmPage, caster.actorId, 1)).toBe(slotsBefore);
 });
 
+test("the cantrip option controls whether a real cantrip checks for Wild Magic", async ({
+  gmPage,
+  world,
+}) => {
+  const caster = await createCantripCaster(
+    gmPage,
+    `E2E Cantrip Option ${Date.now()}`,
+  );
+  world.trackActor(caster.actorId);
+  const reminder = `E2E cantrip reminder ${Date.now()}`;
+  await world.setSetting("minimumSpellLevelTrigger", "0");
+  await world.setSetting("autoRollD20", false);
+  await world.setSetting("magicSurgeChatMessageEnabled", true);
+  await world.setSetting("magicSurgeChatMessage", reminder);
+
+  for (const enabled of [false, true]) {
+    await world.setSetting("cantripTriggerSurgeCheckEnabled", enabled);
+    const chatBefore = await readChatMessages(gmPage);
+    const slotsBefore = await readSpellSlots(gmPage, caster.actorId, 1);
+
+    const usedActivities = await recordUsedActivities(gmPage, () =>
+      castCantripFromSheet(gmPage, caster),
+    );
+
+    expect(usedActivities).toContainEqual({
+      itemName: "Light",
+      itemType: "spell",
+      spellLevel: 0,
+      spellSlotFlag: true,
+    });
+    expect(await readSpellSlots(gmPage, caster.actorId, 1)).toBe(slotsBefore);
+    await expect
+      .poll(
+        async () =>
+          messagesAfter(chatBefore, await readChatMessages(gmPage)).filter(
+            (message) => message.content.includes(reminder),
+          ).length,
+      )
+      .toBe(enabled ? 1 : 0);
+  }
+});
+
 test("the spell-name filter can include or exclude the same marked spell", async ({
   gmPage,
   world,

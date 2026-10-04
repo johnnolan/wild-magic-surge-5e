@@ -18,7 +18,20 @@ describe("AttachRollTableButton", () => {
     );
 
     expect(onRoll).toHaveBeenCalledTimes(1);
+    expect(onRoll).toHaveBeenCalledWith("WMS");
     expect(onContainerClick).not.toHaveBeenCalled();
+  });
+
+  it("uses the Path of Wild Magic table for a Barbarian button", () => {
+    const container = document.createElement("div");
+    container.innerHTML =
+      '<button class="roll-table-wms" data-wms-surge-type="POWM">Roll</button>';
+    const onRoll = jest.fn();
+
+    AttachRollTableButton(container, onRoll);
+    container.querySelector<HTMLButtonElement>("button")?.click();
+
+    expect(onRoll).toHaveBeenCalledWith("POWM");
   });
 
   it("does not bind the same rendered button more than once", () => {

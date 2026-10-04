@@ -10,7 +10,7 @@ This setup will roll on a Wild Magic Surge table every time a Path of Wild Magic
 
 ![Roll Type](../images/docs/auto-roll-table.png)
 
-3. Set the name of the Roll Table for the Wild Magic Surge to roll on
+3. Set `Path of Wild Magic Roll Table Name` to the name of the Barbarian RollTable. This is separate from the Sorcerer Wild Magic Surge table name.
 
 ![Roll Table name setting](../images/docs/table-name.jpg)
 

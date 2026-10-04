@@ -59,4 +59,17 @@ At the Phase 1 baseline, `yarn test` passed 250 tests, `yarn typecheck:e2e`, `ya
 
 On Foundry **14.367** with dnd5e **6.0.5**, the completed Phase 2 suite passed **42 browser cases twice** without resetting the world. The Sequencer/JB2A animation assertion was skipped because those optional modules are absent. The missing-dependency fallback passed, and the suite's last case confirmed that its temporary documents and chat messages were removed.
 
+## Live contract notes
+
+| Finding in Foundry 14.367 / dnd5e 6.0.5 | Guard |
+| --- | --- |
+| Roll Type displays **Standard**, and the registered defaults for Roll Type and table behavior must use the `DEFAULT` choice key. Earlier registrations used `Default`, which was not a valid choice key. | `documentation.contract.spec.ts` |
+| The default feature names are `Wild Magic Surge`, `Tides of Chaos`, and `Path of Wild Magic`. | `documentation.contract.spec.ts`, `settings.panels.spec.ts`, `barbarian.spec.ts` |
+| The module's optional Sorcerer spell filter matches the spell **name**; it does not inspect dnd5e's Source Class field. The player setup guide now says this explicitly. | `spell.eligibility.spec.ts` |
+| dnd5e reports remaining Tides uses in `uses.value` and spent uses in `uses.spent`. The guide keeps the setup values `max: 1` and `spent: 0`. | `tides.spec.ts` |
+| Public hook names and payloads match `HOOKS.md`; the selected-token console example now uses the V14 actor ID path. | `hooks.spec.ts` |
+| The real Light cantrip and Rage feat both report `consumption.spellSlot=true` in `postUseActivity`, while neither spends a spell slot. The cantrip option works through the existing entry point. The Barbarian player button needed its table type in the chat markup so it could select the Path table. | `spell.eligibility.spec.ts`, `barbarian.spec.ts` |
+
+The completed Phase 3 suite passed **46 browser cases twice** on Foundry **14.367.0** and dnd5e **6.0.5**, without resetting the dedicated world. The Sequencer/JB2A animation case remained the sole skip; cleanup passed at the end of both runs. Jest passed **251 tests**, and `yarn typecheck:e2e`, `yarn lint:check`, and `yarn build` passed.
+
 If startup fails, verify `FOUNDRY_INSTALL_PATH` contains `main.js`, the dedicated data directory contains `Data/systems/dnd5e/system.json` and the named world's `world.json`, and the module is enabled in that world. If login fails, check the GM name and access key, then close any other GM browser session for this test world.

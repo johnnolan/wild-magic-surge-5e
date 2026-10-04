@@ -1,7 +1,7 @@
 import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import { setModuleActorFlag } from "./utils/TypedSettings";
-import type { Comparison, DieValue } from "./types/domain";
+import type { Comparison, DieValue, SurgeType } from "./types/domain";
 import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -33,11 +33,12 @@ class MagicSurgeCheck {
     rollTableName: string,
     chatType: string,
     roll: Roll | undefined = undefined,
+    surgeType: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge,
   ) {
     let chatSurgeMessage = "";
     if (getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER") {
       chatSurgeMessage = `<br /><div class="card-buttons wms-roll-table-buttons">
-          <button class="roll-table-wms">
+          <button class="roll-table-wms" data-wms-surge-type="${surgeType}">
           ${game.i18n.format(
             "WildMagicSurge5E.es_roll_on_table",
           )} ${rollTableName}
@@ -68,6 +69,8 @@ class MagicSurgeCheck {
         await this._rollPlayerTrigger(
           getModuleSetting(WMSCONST.OPT_POWM_ROLLTABLE_NAME),
           WMSCONST.CHAT_TYPE.DEFAULT,
+          undefined,
+          WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic,
         );
       } else {
         await RollTableMagicSurge.Check(

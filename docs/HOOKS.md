@@ -64,7 +64,7 @@ To get the actor ID
 
 * select the token you want on the map
 * Press F12
-* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* In the Console paste `canvas.tokens.controlled[0]?.actor?.id`
 * This is your actorId
 
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
@@ -81,7 +81,7 @@ To get the actor ID
 
 * select the token you want on the map
 * Press F12
-* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* In the Console paste `canvas.tokens.controlled[0]?.actor?.id`
 * This is your actorId
 
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
@@ -91,13 +91,13 @@ In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the 
 
 ## wild-magic-surge-5e.SetIncrementalCheck
 
-This hook allows you to specify which die to use for the incremental count. Handy for when you want to add homebrew rules like increasing or decreasing manually based on a story element or other event.
+This hook allows you to specify the target number for the incremental check. Handy for when you want to add homebrew rules like increasing or decreasing manually based on a story element or other event.
 
 To get the actor ID
 
 * select the token you want on the map
 * Press F12
-* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* In the Console paste `canvas.tokens.controlled[0]?.actor?.id`
 * This is your actorId
 
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
@@ -116,7 +116,7 @@ To get the actor ID
 
 * select the token you want on the map
 * Press F12
-* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* In the Console paste `canvas.tokens.controlled[0]?.actor?.id`
 * This is your actorId
 
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId
@@ -131,7 +131,7 @@ To get the actor ID
 
 * select the token you want on the map
 * Press F12
-* In the Console paste `canvas.tokens.controlled[0].data.actorId`
+* In the Console paste `canvas.tokens.controlled[0]?.actor?.id`
 * This is your actorId
 
 In your macro, use the following code replacing the `Owr50jt6HyYru2e1` with the above actorId

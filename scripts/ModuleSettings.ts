@@ -118,7 +118,7 @@ class ModuleSettings {
         scope: "world",
         config: true,
         choices: WMSCONST.SURGE_TYPE,
-        default: "Default",
+        default: "DEFAULT",
         type: String,
       },
     );
@@ -320,7 +320,7 @@ class ModuleSettings {
         scope: "world",
         config: true,
         choices: WMSCONST.ROLLTABLE_TYPE,
-        default: "Default",
+        default: "DEFAULT",
         type: String,
       },
     );
