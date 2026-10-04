@@ -259,6 +259,8 @@ Standard rules are 1st Level and higher to trigger a surge. This also enables it
 
 The contributing guidelines can be found in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
+For code changes, see the [architecture map](./docs/ARCHITECTURE.md) and [testing guide](./docs/TESTING.md).
+
 Our Code of Conduct can also be found in the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) file.
 
 ### Translations

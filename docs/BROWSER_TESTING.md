@@ -54,11 +54,7 @@ The Light cantrip's real dnd5e 6.0.5 `postUseActivity` payload sets `consumption
 
 `e2e/support/rolls.ts` can temporarily set Foundry's `CONFIG.Dice.randomUniform` for a known die face. Descending and chaotic tests use this with a real `Roll` and restore the original function in `finally`. This makes the rare roll-of-one path bounded without replacing the module's outcome logic. Other deterministic recipes use valid formulas and comparison settings. A test must wait for its actor or chat outcome before the temporary dice source is restored.
 
-Cases that use the `world` fixture record original world and selected core settings, created actor, table, macro, scene, and combat IDs, and starting chat-message IDs. Its teardown restores settings and deletes only tracked documents and new messages, including after ordinary assertion failures. The separate player fixture closes its browser context before deleting the player. Keep tests on the dedicated world and one worker; a timeout that closes the browser before teardown may require manual cleanup. `zz.cleanup.spec.ts` checks for leftover `E2E` documents and chat messages. The [expansion checklist](E2E_TEST_TODO.md) records completed scenario work; [the test context](E2E_TEST_CONTEXT.md) guides future additions.
-
-At the Phase 1 baseline, `yarn test` passed 250 tests, `yarn typecheck:e2e`, `yarn lint:check`, and `yarn build` passed, and the two original browser cases passed. `yarn typecheck:test` was already over its recorded diagnostic limit: 200 diagnostics against a limit of 145. This is separate from the new E2E TypeScript project.
-
-On Foundry **14.367** with dnd5e **6.0.5**, the completed Phase 2 suite passed **42 browser cases twice** without resetting the world. The Sequencer/JB2A animation assertion was skipped because those optional modules are absent. The missing-dependency fallback passed, and the suite's last case confirmed that its temporary documents and chat messages were removed.
+Cases that use the `world` fixture record original world and selected core settings, created actor, table, macro, scene, and combat IDs, and starting chat-message IDs. Its teardown restores settings and deletes only tracked documents and new messages, including after ordinary assertion failures. The separate player fixture closes its browser context before deleting the player. Keep tests on the dedicated world and one worker; a timeout that closes the browser before teardown may require manual cleanup. `zz.cleanup.spec.ts` checks for leftover `E2E` documents and chat messages. [The test context](E2E_TEST_CONTEXT.md) guides future additions; [historical verification notes](BROWSER_TESTING_HISTORY.md) record earlier suite results.
 
 ## Live contract notes
 
@@ -71,6 +67,6 @@ On Foundry **14.367** with dnd5e **6.0.5**, the completed Phase 2 suite passed *
 | Public hook names and payloads match `HOOKS.md`; the selected-token console example now uses the V14 actor ID path. | `hooks.spec.ts` |
 | The real Light cantrip and Rage feat both report `consumption.spellSlot=true` in `postUseActivity`, while neither spends a spell slot. The cantrip option works through the existing entry point. The Barbarian player button needed its table type in the chat markup so it could select the Path table. | `spell.eligibility.spec.ts`, `barbarian.spec.ts` |
 
-The completed Phase 3 suite passed **46 browser cases twice** on Foundry **14.367.0** and dnd5e **6.0.5**, without resetting the dedicated world. The Sequencer/JB2A animation case remained the sole skip; cleanup passed at the end of both runs. Jest passed **251 tests**, and `yarn typecheck:e2e`, `yarn lint:check`, and `yarn build` passed.
+## Troubleshooting
 
 If startup fails, verify `FOUNDRY_INSTALL_PATH` contains `main.js`, the dedicated data directory contains `Data/systems/dnd5e/system.json` and the named world's `world.json`, and the module is enabled in that world. If login fails, check the GM name and access key, then close any other GM browser session for this test world.
