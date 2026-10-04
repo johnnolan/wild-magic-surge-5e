@@ -86,7 +86,9 @@ export const test = base.extend<E2EFixtures>({
       return user.id;
     }, playerName);
 
-    const context = await browser.newContext();
+    const context = await browser.newContext({
+      viewport: { width: 1440, height: 900 },
+    });
     try {
       const page = await context.newPage();
       await page.goto("/join");
@@ -104,6 +106,13 @@ export const test = base.extend<E2EFixtures>({
         null,
         { timeout: 60_000 },
       );
+      const playerConfiguration = page.getByRole("button", {
+        name: "Save Player Configuration",
+      });
+      if (await playerConfiguration.isVisible()) {
+        await playerConfiguration.click();
+        await expect(playerConfiguration).toBeHidden();
+      }
       await use({ page, userId });
     } finally {
       await context.close();

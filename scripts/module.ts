@@ -148,13 +148,19 @@ Hooks.once("ready", async function () {
   });
 
   Hooks.on("wild-magic-surge-5e.ResetDieDescending", async function (actorId) {
-    await _resetChecks(actorId);
+    if (!actorId) return false;
+    const actor = game.actors?.get(actorId);
+    if (!actor) return false;
+    await DieDescending.Reset(actor);
   });
 
   Hooks.on(
     "wild-magic-surge-5e.ResetIncrementalCheck",
     async function (actorId) {
-      await _resetChecks(actorId);
+      if (!actorId) return false;
+      const actor = game.actors?.get(actorId);
+      if (!actor) return false;
+      await IncrementalCheck.Reset(actor);
     },
   );
 

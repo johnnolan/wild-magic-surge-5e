@@ -2,8 +2,12 @@ import type { Page } from "@playwright/test";
 
 const moduleId = "wild-magic-surge-5e";
 
-export async function openChatSettingsPanel(page: Page): Promise<void> {
-  await page.evaluate(() => {
+export async function openSettingsPanel(
+  page: Page,
+  panel: string,
+  firstSetting: string,
+): Promise<void> {
+  await page.evaluate((panelName) => {
     const { game } = globalThis as unknown as {
       game: {
         settings: {
@@ -14,46 +18,36 @@ export async function openChatSettingsPanel(page: Page): Promise<void> {
         };
       };
     };
-    const menu = game.settings.menus.get(
-      "wild-magic-surge-5e.ChatSettingsPanel",
-    );
-    if (!menu)
-      throw new Error("The Chat Message Options menu is not registered.");
+    const menu = game.settings.menus.get(`wild-magic-surge-5e.${panelName}`);
+    if (!menu) throw new Error(`The ${panelName} menu is not registered.`);
     new menu.type().render({ force: true });
-  });
-  await page
-    .locator('input[name="wild-magic-surge-5e.magicSurgeChatMessage"]')
-    .waitFor();
+  }, panel);
+  await page.locator(`[name="${moduleId}.${firstSetting}"]`).waitFor();
 }
 
-export async function getReminderMessage(page: Page): Promise<string> {
-  return page.evaluate((namespace) => {
-    const { game } = globalThis as unknown as {
-      game: { settings: { get(namespace: string, key: string): string } };
-    };
-    return game.settings.get(namespace, "magicSurgeChatMessage");
-  }, moduleId);
-}
-
-export async function setReminderMessage(
+export async function readSetting<T extends string | boolean>(
   page: Page,
-  message: string,
-): Promise<void> {
-  await page.evaluate(
-    async ({ namespace, value }) => {
+  key: string,
+): Promise<T> {
+  return page.evaluate(
+    ({ namespace, key }) => {
       const { game } = globalThis as unknown as {
         game: {
           settings: {
-            set(
-              namespace: string,
-              key: string,
-              value: string,
-            ): Promise<unknown>;
+            get(namespace: string, key: string): string | boolean;
           };
         };
       };
-      await game.settings.set(namespace, "magicSurgeChatMessage", value);
+      return game.settings.get(namespace, key) as T;
     },
-    { namespace: moduleId, value: message },
+    { namespace: moduleId, key },
   );
+}
+
+export async function openChatSettingsPanel(page: Page): Promise<void> {
+  await openSettingsPanel(page, "ChatSettingsPanel", "magicSurgeChatMessage");
+}
+
+export async function getReminderMessage(page: Page): Promise<string> {
+  return readSetting<string>(page, "magicSurgeChatMessage");
 }

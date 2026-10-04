@@ -6,26 +6,40 @@ export interface ChatObservation {
   flavor: string;
   speakerActorId: string | null;
   rollTotal: number | null;
+  rollFormula: string | null;
 }
 
 export async function readLevelOneSlots(
   page: Page,
   actorId: string,
 ): Promise<number> {
-  return page.evaluate((id) => {
-    const { game } = globalThis as unknown as {
-      game: {
-        actors: {
-          get(
-            id: string,
-          ): { system: { spells: { spell1: { value: number } } } } | undefined;
+  return readSpellSlots(page, actorId, 1);
+}
+
+export async function readSpellSlots(
+  page: Page,
+  actorId: string,
+  level: number,
+): Promise<number> {
+  return page.evaluate(
+    ({ actorId: id, level }) => {
+      const { game } = globalThis as unknown as {
+        game: {
+          actors: {
+            get(
+              id: string,
+            ):
+              | { system: { spells: Record<string, { value: number }> } }
+              | undefined;
+          };
         };
       };
-    };
-    const actor = game.actors.get(id);
-    if (!actor) throw new Error(`Test actor ${id} is missing.`);
-    return actor.system.spells.spell1.value;
-  }, actorId);
+      const actor = game.actors.get(id);
+      if (!actor) throw new Error(`Test actor ${id} is missing.`);
+      return actor.system.spells[`spell${level}`]?.value ?? 0;
+    },
+    { actorId, level },
+  );
 }
 
 export async function readSurgedFlag(
@@ -79,6 +93,41 @@ export async function readSurgeResource(
   );
 }
 
+export async function readSheetResource(
+  page: Page,
+  actorId: string,
+  slot: "primary" | "secondary" | "tertiary",
+): Promise<{ value: number; max: number; label: string }> {
+  return page.evaluate(
+    ({ actorId, slot }) => {
+      const { game } = globalThis as unknown as {
+        game: {
+          actors: {
+            get(id: string):
+              | {
+                  system: {
+                    resources: Record<
+                      string,
+                      { value: number; max: number; label: string }
+                    >;
+                  };
+                }
+              | undefined;
+          };
+        };
+      };
+      const resource = game.actors.get(actorId)?.system.resources[slot];
+      if (!resource) throw new Error(`The ${slot} resource is missing.`);
+      return {
+        value: resource.value,
+        max: resource.max,
+        label: resource.label,
+      };
+    },
+    { actorId, slot },
+  );
+}
+
 export async function readChatMessages(page: Page): Promise<ChatObservation[]> {
   return page.evaluate(() => {
     const { game } = globalThis as unknown as {
@@ -88,19 +137,24 @@ export async function readChatMessages(page: Page): Promise<ChatObservation[]> {
             id: string;
             content: string;
             flavor?: string;
+            visible: boolean;
+            isContentVisible: boolean;
             speaker?: { actor?: string };
-            rolls?: Array<{ total?: number | null }>;
+            rolls?: Array<{ total?: number | null; formula?: string }>;
           }>;
         };
       };
     };
-    return game.messages.contents.map((message) => ({
-      id: message.id,
-      content: message.content,
-      flavor: message.flavor ?? "",
-      speakerActorId: message.speaker?.actor ?? null,
-      rollTotal: message.rolls?.[0]?.total ?? null,
-    }));
+    return game.messages.contents
+      .filter((message) => message.visible && message.isContentVisible)
+      .map((message) => ({
+        id: message.id,
+        content: message.content,
+        flavor: message.flavor ?? "",
+        speakerActorId: message.speaker?.actor ?? null,
+        rollTotal: message.rolls?.[0]?.total ?? null,
+        rollFormula: message.rolls?.[0]?.formula ?? null,
+      }));
   });
 }
 

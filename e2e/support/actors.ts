@@ -5,21 +5,45 @@ export interface TestCaster {
   actorName: string;
   spellId: string;
   activityId: string;
+  spellLevel: number;
 }
 
 type CasterOptions = {
   name: string;
   featName?: string;
   includeFeat?: boolean;
+  spellSlots?: number;
+  spellName?: string;
+  displaySpellName?: string;
+  actorType?: "character" | "npc";
+  allowCantrip?: boolean;
 };
 
 /** Build a real dnd5e 6.0.5 caster from the installed SRD spell pack. */
 export async function createCaster(
   page: Page,
-  { name, featName = "Wild Magic Surge", includeFeat = true }: CasterOptions,
+  {
+    name,
+    featName = "Wild Magic Surge",
+    includeFeat = true,
+    spellSlots = 2,
+    spellName = "Magic Missile",
+    displaySpellName,
+    actorType = "character",
+    allowCantrip = false,
+  }: CasterOptions,
 ): Promise<TestCaster> {
   return page.evaluate(
-    async ({ name, featName, includeFeat }) => {
+    async ({
+      name,
+      featName,
+      includeFeat,
+      spellSlots,
+      spellName,
+      displaySpellName,
+      actorType,
+      allowCantrip,
+    }) => {
       type TestItem = {
         id: string;
         type: string;
@@ -39,7 +63,7 @@ export async function createCaster(
       type TestActor = {
         id: string;
         name: string;
-        system: { spells: { spell1: { value: number; max: number } } };
+        system: { spells: Record<string, { value: number; max: number }> };
         createEmbeddedDocuments(
           type: "Item",
           data: Record<string, unknown>[],
@@ -69,19 +93,19 @@ export async function createCaster(
         };
       };
 
-      const actor = await Actor.create({ name, type: "character" });
+      const actor = await Actor.create({ name, type: actorType });
       if (!actor) throw new Error("Foundry did not create the test caster.");
 
       try {
         const pack = game.packs.get("dnd5e.spells");
         if (!pack) throw new Error("The dnd5e SRD spell pack is missing.");
         const index = await pack.getIndex();
-        const entry = index.find((item) => item.name === "Magic Missile");
+        const entry = index.find((item) => item.name === spellName);
         if (!entry)
-          throw new Error("Magic Missile is missing from dnd5e.spells.");
+          throw new Error(`${spellName} is missing from dnd5e.spells.`);
         const source = await pack.getDocument(entry._id);
         if (!source)
-          throw new Error("Could not read Magic Missile from dnd5e.spells.");
+          throw new Error(`Could not read ${spellName} from dnd5e.spells.`);
 
         if (includeFeat) {
           const [feat] = await actor.createEmbeddedDocuments("Item", [
@@ -92,24 +116,35 @@ export async function createCaster(
           }
         }
 
+        const spellData = source.toObject();
+        if (displaySpellName) spellData.name = displaySpellName;
         const [spell] = await actor.createEmbeddedDocuments("Item", [
-          source.toObject(),
+          spellData,
         ]);
-        const activity = spell?.system.activities?.find(
-          (candidate) => candidate.consumption?.spellSlot === true,
+        const spellLevel = spell?.system.level;
+        const activity = spell?.system.activities?.find((candidate) =>
+          spellLevel === 0 ? true : candidate.consumption?.spellSlot === true,
         );
-        if (spell?.type !== "spell" || spell.system.level !== 1 || !activity) {
-          throw new Error(
-            "Magic Missile has no usable level-one spell activity.",
-          );
+        if (
+          spell?.type !== "spell" ||
+          spellLevel === undefined ||
+          (spellLevel === 0 && !allowCantrip) ||
+          !activity
+        ) {
+          throw new Error(`${spellName} has no usable spell activity.`);
         }
 
-        await actor.update({
-          "system.spells.spell1.override": 2,
-          "system.spells.spell1.value": 2,
-        });
-        if (actor.system.spells.spell1.value !== 2) {
-          throw new Error("The test caster has no level-one spell slots.");
+        if (spellLevel > 0) {
+          const slotKey = `spell${spellLevel}`;
+          await actor.update({
+            [`system.spells.${slotKey}.override`]: spellSlots,
+            [`system.spells.${slotKey}.value`]: spellSlots,
+          });
+          if (actor.system.spells[slotKey]?.value !== spellSlots) {
+            throw new Error(
+              `The test caster has no level-${spellLevel} spell slots.`,
+            );
+          }
         }
 
         return {
@@ -117,14 +152,31 @@ export async function createCaster(
           actorName: actor.name,
           spellId: spell.id,
           activityId: activity.id,
+          spellLevel,
         };
       } catch (error) {
         await actor.delete();
         throw error;
       }
     },
-    { name, featName, includeFeat },
+    {
+      name,
+      featName,
+      includeFeat,
+      spellSlots,
+      spellName,
+      displaySpellName,
+      actorType,
+      allowCantrip,
+    },
   );
+}
+
+export async function createCantripCaster(
+  page: Page,
+  name: string,
+): Promise<TestCaster> {
+  return createCaster(page, { name, spellName: "Light", allowCantrip: true });
 }
 
 export async function grantActorToPlayer(
@@ -169,8 +221,19 @@ export async function setIncrementalThreshold(
   actorId: string,
   value: number,
 ): Promise<void> {
+  return setSurgeStage(page, actorId, value, 20);
+}
+
+/** Seed the module-owned flag before a real cast exercises a specific stage. */
+export async function setSurgeStage(
+  page: Page,
+  actorId: string,
+  value: number,
+  max: number,
+  key: "surge_increment_resource" | "resource" = "surge_increment_resource",
+): Promise<void> {
   await page.evaluate(
-    async ({ actorId, value }) => {
+    async ({ actorId, value, max, key }) => {
       const { game } = globalThis as unknown as {
         game: {
           actors: {
@@ -188,14 +251,76 @@ export async function setIncrementalThreshold(
       };
       const actor = game.actors.get(actorId);
       if (!actor) throw new Error(`Test actor ${actorId} is missing.`);
-      await actor.setFlag("wild-magic-surge-5e", "surge_increment_resource", {
+      await actor.setFlag("wild-magic-surge-5e", key, {
         label: "Surge Chance",
         lr: false,
         sr: false,
-        max: 20,
+        max,
         value,
       });
     },
-    { actorId, value },
+    { actorId, value, max, key },
+  );
+}
+
+export async function setSheetResource(
+  page: Page,
+  actorId: string,
+  slot: "primary" | "secondary" | "tertiary",
+  resource: { label: string; value: number; max: number },
+): Promise<void> {
+  await page.evaluate(
+    async ({ actorId, slot, resource }) => {
+      const { game } = globalThis as unknown as {
+        game: {
+          actors: {
+            get(
+              id: string,
+            ):
+              | { update(data: Record<string, unknown>): Promise<unknown> }
+              | undefined;
+          };
+        };
+      };
+      const actor = game.actors.get(actorId);
+      if (!actor) throw new Error(`Test actor ${actorId} is missing.`);
+      await actor.update({
+        [`system.resources.${slot}`]: { ...resource, lr: false, sr: false },
+      });
+    },
+    { actorId, slot, resource },
+  );
+}
+
+export async function addClassLevels(
+  page: Page,
+  actorId: string,
+  levels: number,
+): Promise<number> {
+  return page.evaluate(
+    async ({ actorId, levels }) => {
+      const { game } = globalThis as unknown as {
+        game: {
+          actors: {
+            get(id: string):
+              | {
+                  createEmbeddedDocuments(
+                    type: "Item",
+                    data: Record<string, unknown>[],
+                  ): Promise<unknown>;
+                  system: { details: { level: number } };
+                }
+              | undefined;
+          };
+        };
+      };
+      const actor = game.actors.get(actorId);
+      if (!actor) throw new Error(`Test actor ${actorId} is missing.`);
+      await actor.createEmbeddedDocuments("Item", [
+        { name: "E2E Sorcerer", type: "class", system: { levels } },
+      ]);
+      return actor.system.details.level;
+    },
+    { actorId, levels },
   );
 }
