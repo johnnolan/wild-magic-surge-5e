@@ -1,4 +1,12 @@
-import { chatMessageFixture, rollFixture, rollTableFixture, tableDrawFixture, setTestGame, setTestHooks, testGlobals } from "./test/FoundryFixtures";
+import {
+  chatMessageFixture,
+  rollFixture,
+  rollTableFixture,
+  tableDrawFixture,
+  setTestGame,
+  setTestHooks,
+  testGlobals,
+} from "./test/FoundryFixtures";
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import "../__mocks__/index";
@@ -19,12 +27,17 @@ describe("Chat", () => {
     let finishCreate: ((message: ChatMessage.Stored) => void) | undefined;
     const create = ChatMessage.create as jest.Mock;
     create.mockImplementation(
-      () => new Promise<ChatMessage.Stored>((resolve) => { finishCreate = resolve; }),
+      () =>
+        new Promise<ChatMessage.Stored>((resolve) => {
+          finishCreate = resolve;
+        }),
     );
 
     let completed = false;
     const send = Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "Deferred message");
-    void send.then(() => { completed = true; });
+    void send.then(() => {
+      completed = true;
+    });
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(create).toHaveBeenCalled();
@@ -38,19 +51,222 @@ describe("Chat", () => {
     const error = new Error("Cannot create chat message");
     (ChatMessage.create as jest.Mock).mockRejectedValue(error);
 
-    await expect(Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "Failed message"))
-      .rejects.toBe(error);
+    await expect(
+      Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "Failed message"),
+    ).rejects.toBe(error);
   });
+
+  const routingCases = [
+    {
+      name: "DEFAULT public",
+      type: "DEFAULT",
+      whisper: false,
+      tableWhisper: false,
+      coreMode: "public",
+      tableMode: "DEFAULT",
+      expectedMode: undefined,
+    },
+    {
+      name: "DEFAULT GM-only",
+      type: "DEFAULT",
+      whisper: true,
+      tableWhisper: false,
+      coreMode: "public",
+      tableMode: "DEFAULT",
+      expectedMode: "blind",
+    },
+    {
+      name: "ROLL public",
+      type: "ROLL",
+      whisper: false,
+      tableWhisper: false,
+      coreMode: "public",
+      tableMode: "DEFAULT",
+      expectedMode: "public",
+    },
+    {
+      name: "ROLL GM-only",
+      type: "ROLL",
+      whisper: true,
+      tableWhisper: false,
+      coreMode: "public",
+      tableMode: "DEFAULT",
+      expectedMode: "blind",
+    },
+    {
+      name: "ROLL core self",
+      type: "ROLL",
+      whisper: false,
+      tableWhisper: false,
+      coreMode: "self",
+      tableMode: "DEFAULT",
+      expectedMode: "self",
+    },
+    {
+      name: "ROLL core GM",
+      type: "ROLL",
+      whisper: false,
+      tableWhisper: false,
+      coreMode: "gm",
+      tableMode: "DEFAULT",
+      expectedMode: "gm",
+    },
+    {
+      name: "ROLL ignores table whisper",
+      type: "ROLL",
+      whisper: false,
+      tableWhisper: true,
+      coreMode: "public",
+      tableMode: "DEFAULT",
+      expectedMode: "public",
+    },
+    {
+      name: "ROLL player trigger overrides self",
+      type: "ROLL",
+      whisper: false,
+      tableWhisper: false,
+      coreMode: "self",
+      tableMode: "PLAYER_TRIGGER",
+      expectedMode: "public",
+    },
+    {
+      name: "ROLL GM whisper overrides player trigger",
+      type: "ROLL",
+      whisper: true,
+      tableWhisper: false,
+      coreMode: "self",
+      tableMode: "PLAYER_TRIGGER",
+      expectedMode: "blind",
+    },
+    {
+      name: "TABLE public despite check whisper",
+      type: "TABLE",
+      whisper: true,
+      tableWhisper: false,
+      coreMode: "self",
+      tableMode: "AUTO",
+      expectedMode: undefined,
+    },
+    {
+      name: "TABLE GM-only",
+      type: "TABLE",
+      whisper: false,
+      tableWhisper: true,
+      coreMode: "public",
+      tableMode: "AUTO",
+      expectedMode: "blind",
+    },
+  ] as const;
+
+  it.each(routingCases)(
+    "routes $name with one ChatMessage.create call",
+    async ({
+      type,
+      whisper,
+      tableWhisper,
+      coreMode,
+      tableMode,
+      expectedMode,
+    }) => {
+      testGlobals.game.settings.get = jest.fn(
+        (namespace: string, key: string) => {
+          if (namespace === "core" && key === "messageMode") return coreMode;
+          if (key === WMSCONST.OPT_WHISPER_GM) return whisper;
+          if (key === WMSCONST.OPT_WHISPER_GM_ROLL_CHAT) return tableWhisper;
+          if (key === WMSCONST.OPT_ROLLTABLE_ENABLE) return tableMode;
+          if (key === WMSCONST.OPT_WMS_NAME) return "Wild Magic Surge";
+        },
+      );
+      const roll = rollFixture({ total: 7, formula: "1d20" });
+      const draw = tableDrawFixture({
+        roll: rollFixture({
+          render: jest.fn().mockResolvedValue("<span>7</span>"),
+        }),
+        results: [{ text: "Unique table result" }],
+      });
+      const table = rollTableFixture({ name: "Unique table" });
+      const input =
+        type === "TABLE" ? draw : type === "ROLL" ? roll : undefined;
+
+      await Chat.Send(type, "Unique check text", input, table);
+
+      const create = ChatMessage.create as jest.Mock;
+      expect(create).toHaveBeenCalledTimes(1);
+      const [data, options] = create.mock.calls[0];
+      expect(data.speaker).toEqual(ChatMessage.getSpeaker());
+      if (type === "ROLL" && !whisper) {
+        expect(data.flavor).toContain("Unique check text");
+        expect(data.rolls).toEqual([roll]);
+      } else if (type === "TABLE") {
+        expect(data.content).toContain("Unique table result");
+        expect(data.rolls).toEqual([draw.roll]);
+      } else {
+        expect(data.content).toContain("Unique check text");
+      }
+      expect(options).toEqual(
+        expectedMode ? { messageMode: expectedMode } : undefined,
+      );
+      expect(create.mock.calls[0]).toHaveLength(expectedMode ? 2 : 1);
+    },
+  );
+
+  it.each([
+    {
+      name: "ROLL without a roll",
+      type: "ROLL",
+      input: undefined,
+      table: undefined,
+    },
+    {
+      name: "ROLL with a table draw",
+      type: "ROLL",
+      input: tableDrawFixture({ roll: rollFixture({}), results: [] }),
+      table: undefined,
+    },
+    {
+      name: "TABLE without a draw",
+      type: "TABLE",
+      input: undefined,
+      table: rollTableFixture({}),
+    },
+    {
+      name: "TABLE without a table",
+      type: "TABLE",
+      input: tableDrawFixture({ roll: rollFixture({}), results: [] }),
+      table: undefined,
+    },
+    {
+      name: "TABLE with a plain roll",
+      type: "TABLE",
+      input: rollFixture({}),
+      table: rollTableFixture({}),
+    },
+  ])(
+    "skips $name without creating a message",
+    async ({ type, input, table }) => {
+      testGlobals.game.settings.get = jest.fn().mockReturnValue(false);
+
+      await expect(
+        Chat.Send(type, "Unused", input, table),
+      ).resolves.toBeUndefined();
+
+      expect(ChatMessage.create).not.toHaveBeenCalled();
+    },
+  );
 
   describe("createDefaultChat", () => {
     describe("Given I pass it a message", () => {
-
       it("It returns the just the content", async () => {
         await Chat.Send(WMSCONST.CHAT_TYPE.DEFAULT, "My Custom Message");
 
         expect(ChatMessage.create).toHaveBeenCalledWith({
           content: "<div>My Custom Message</div>",
-          speaker: { scene: null, actor: null, token: null, alias: "Test Speaker" },
+          speaker: {
+            scene: null,
+            actor: null,
+            token: null,
+            alias: "Test Speaker",
+          },
         });
       });
     });
@@ -177,7 +393,11 @@ describe("Chat", () => {
       });
 
       it("It returns undefined", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.ROLL, "My Custom Message", undefined);
+        await Chat.Send(
+          WMSCONST.CHAT_TYPE.ROLL,
+          "My Custom Message",
+          undefined,
+        );
 
         expect(ChatMessage.create).not.toHaveBeenCalled();
       });
@@ -217,7 +437,12 @@ describe("Chat", () => {
       });
 
       it("It just returns", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", undefined, surgeRollTable);
+        await Chat.Send(
+          WMSCONST.CHAT_TYPE.TABLE,
+          "",
+          undefined,
+          surgeRollTable,
+        );
 
         expect(ChatMessage.create).not.toHaveBeenCalled();
 
@@ -258,7 +483,12 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(
+          WMSCONST.CHAT_TYPE.TABLE,
+          "",
+          rollResult,
+          surgeRollTable,
+        );
 
         expect(ChatMessage.create).toHaveBeenCalledWith(
           expect.objectContaining({ rolls: [rollResult.roll] }),
@@ -300,7 +530,12 @@ describe("Chat", () => {
       });
 
       it("It returns the just the content", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResult, surgeRollTable);
+        await Chat.Send(
+          WMSCONST.CHAT_TYPE.TABLE,
+          "",
+          rollResult,
+          surgeRollTable,
+        );
 
         expect(ChatMessage.create).toHaveBeenCalled();
       });
@@ -344,7 +579,12 @@ describe("Chat", () => {
       });
 
       it("It calls the correct methods", async () => {
-        await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", rollResultTwoResults, surgeRollTable);
+        await Chat.Send(
+          WMSCONST.CHAT_TYPE.TABLE,
+          "",
+          rollResultTwoResults,
+          surgeRollTable,
+        );
 
         expect(ChatMessage.create).toHaveBeenCalled();
       });
@@ -353,7 +593,6 @@ describe("Chat", () => {
 
   describe("RunMessageCheck", () => {
     describe("Given I call RunMessageCheck to send a message to chat", () => {
-
       beforeEach(() => {
         setTestHooks({
           callAll: jest.fn(),
