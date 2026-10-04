@@ -2,7 +2,9 @@ import type { Page } from "@playwright/test";
 
 export interface ChatObservation {
   id: string;
+  authorId: string | null;
   content: string;
+  visibleContent: string;
   flavor: string;
   speakerActorId: string | null;
   rollTotal: number | null;
@@ -135,6 +137,7 @@ export async function readChatMessages(page: Page): Promise<ChatObservation[]> {
         messages: {
           contents: Array<{
             id: string;
+            author?: { id?: string };
             content: string;
             flavor?: string;
             visible: boolean;
@@ -147,15 +150,59 @@ export async function readChatMessages(page: Page): Promise<ChatObservation[]> {
     };
     return game.messages.contents
       .filter((message) => message.visible && message.isContentVisible)
-      .map((message) => ({
-        id: message.id,
-        content: message.content,
-        flavor: message.flavor ?? "",
-        speakerActorId: message.speaker?.actor ?? null,
-        rollTotal: message.rolls?.[0]?.total ?? null,
-        rollFormula: message.rolls?.[0]?.formula ?? null,
-      }));
+      .map((message) => {
+        const content = document.createElement("div");
+        content.innerHTML = message.content ?? "";
+        return {
+          id: message.id,
+          authorId: message.author?.id ?? null,
+          content: message.content,
+          visibleContent: content.textContent?.trim() ?? "",
+          flavor: message.flavor ?? "",
+          speakerActorId: message.speaker?.actor ?? null,
+          rollTotal: message.rolls?.[0]?.total ?? null,
+          rollFormula: message.rolls?.[0]?.formula ?? null,
+        };
+      });
   });
+}
+
+export type ChatSessions = { gm: Page; caster: Page; unrelated: Page };
+export type ChatViews = Record<keyof ChatSessions, ChatObservation[]>;
+
+/** Compare IDs after one action; each list contains only content the user can see. */
+export async function readChatViews(
+  sessions: ChatSessions,
+): Promise<ChatViews> {
+  const [gm, caster, unrelated] = await Promise.all([
+    readChatMessages(sessions.gm),
+    readChatMessages(sessions.caster),
+    readChatMessages(sessions.unrelated),
+  ]);
+  return { gm, caster, unrelated };
+}
+
+export function newChatViews(before: ChatViews, after: ChatViews): ChatViews {
+  return {
+    gm: messagesAfter(before.gm, after.gm),
+    caster: messagesAfter(before.caster, after.caster),
+    unrelated: messagesAfter(before.unrelated, after.unrelated),
+  };
+}
+
+export function sharedMessageIds(views: ChatViews): {
+  all: string[];
+  gmOnly: string[];
+  players: string[];
+} {
+  const gm = new Set(views.gm.map((message) => message.id));
+  const caster = new Set(views.caster.map((message) => message.id));
+  const unrelated = new Set(views.unrelated.map((message) => message.id));
+  return {
+    all: [...gm].filter((id) => caster.has(id) && unrelated.has(id)),
+    gmOnly: [...gm].filter((id) => !caster.has(id) && !unrelated.has(id)),
+    players: [...new Set([...caster, ...unrelated])],
+  };
 }
 
 export function messagesAfter(
