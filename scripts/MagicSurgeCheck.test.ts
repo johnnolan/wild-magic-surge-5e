@@ -289,6 +289,23 @@ describe("MagicSurgeCheck", () => {
   });
 
   describe("WildMagicSurgeRollCheck", () => {
+    it("evaluates and returns the roll without posting a bare chat message", async () => {
+      setTestGame({
+        settings: {
+          get: jest.fn((_namespace: string, key: string) =>
+            key === "OPT_SURGE_TYPE" ? "DEFAULT" : "1d20",
+          ),
+        },
+      });
+      const check = new MagicSurgeCheck(actor, undefined);
+
+      const roll = await check.WildMagicSurgeRollCheck();
+
+      expect(roll).toBe(testGlobals.Roll.mock.results.at(-1)?.value);
+      expect(roll?.evaluate).toHaveBeenCalledWith({ allowInteractive: false });
+      expect(roll?.toMessage).not.toHaveBeenCalled();
+    });
+
     describe("On a Default Surge Type", () => {
       let magicSurgeCheck: MagicSurgeCheck;
 
