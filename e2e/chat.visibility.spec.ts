@@ -122,14 +122,16 @@ async function preparePlayerCaster(
 
 for (const kind of ["reminder", "incremental charge", "roll result"] as const) {
   const article = kind === "incremental charge" ? "an" : "a";
-  test(`${article} ${kind} is visible to both users or only the GM as configured`, async ({
+  test(`${article} ${kind} is visible to all users or only the GM as configured`, async ({
     gmPage,
     player,
+    unrelatedPlayer,
     world,
   }) => {
     test.setTimeout(240_000);
     const caster = await preparePlayerCaster(gmPage, player, world);
     const marker = `E2E ${kind} ${Date.now()}`;
+    await world.setCoreSetting("messageMode", "public");
     if (kind === "incremental charge") {
       await configureIncrementalIncrease(world);
       await world.setSetting("incrementalCheckToChat", true);
@@ -159,6 +161,7 @@ for (const kind of ["reminder", "incremental charge", "roll result"] as const) {
       await world.setSetting("whisperToGM", privateToGM);
       const gmBefore = await readChatMessages(gmPage);
       const playerBefore = await readChatMessages(player.page);
+      const unrelatedBefore = await readChatMessages(unrelatedPlayer.page);
       const slotsBefore = await readSpellSlots(player.page, caster.actorId, 1);
 
       await castSpellFromSheet(player.page, caster);
@@ -196,6 +199,15 @@ for (const kind of ["reminder", "incremental charge", "roll result"] as const) {
               ).filter((message) => mentions(message, expectedText)).length,
           )
           .toBe(1);
+        await expect
+          .poll(
+            async () =>
+              messagesAfter(
+                unrelatedBefore,
+                await readChatMessages(unrelatedPlayer.page),
+              ).filter((message) => mentions(message, expectedText)).length,
+          )
+          .toBe(1);
       } else {
         await expect
           .poll(
@@ -211,6 +223,22 @@ for (const kind of ["reminder", "incremental charge", "roll result"] as const) {
           messagesAfter(
             playerBefore,
             await readChatMessages(player.page),
+          ).filter((message) => mentions(message, expectedText)),
+        ).toHaveLength(0);
+        await expect
+          .poll(
+            async () =>
+              messagesAfter(
+                unrelatedBefore,
+                await readChatMessages(unrelatedPlayer.page),
+              ).filter((message) => message.speakerActorId === caster.actorId)
+                .length,
+          )
+          .toBeGreaterThan(0);
+        expect(
+          messagesAfter(
+            unrelatedBefore,
+            await readChatMessages(unrelatedPlayer.page),
           ).filter((message) => mentions(message, expectedText)),
         ).toHaveLength(0);
       }
