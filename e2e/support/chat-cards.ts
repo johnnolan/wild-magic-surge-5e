@@ -52,9 +52,7 @@ export function classifyChatCards(
             has(message, markers.tableName!),
         )
       : [],
-    button: messages.filter((message) =>
-      message.content.includes("roll-table-wms"),
-    ),
+    button: messages.filter((message) => has(message, "roll-table-wms")),
   };
 }
 
