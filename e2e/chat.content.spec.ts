@@ -1,14 +1,20 @@
 import { test, expect } from "./fixtures";
-import { createCaster } from "./support/actors";
+import { createCaster, setIncrementalThreshold } from "./support/actors";
 import { castLevelOneSpellFromSheet } from "./support/actions";
+import { castAndWaitForCheck } from "./support/chat-cards";
 import {
   messagesAfter,
   readChatMessages,
   readLevelOneSlots,
   readSurgedFlag,
+  readSurgeResource,
   type ChatObservation,
 } from "./support/observations";
-import { configureStandardOutcome } from "./support/recipes";
+import {
+  configureIncrementalIncrease,
+  configureStandardOutcome,
+} from "./support/recipes";
+import { withFoundryRandomValue } from "./support/rolls";
 
 function containsText(message: ChatObservation, text: string): boolean {
   return `${message.content} ${message.flavor}`.includes(text);
@@ -102,3 +108,54 @@ for (const outcome of ["surge", "no surge"] as const) {
     ).toHaveLength(0);
   });
 }
+
+test("an incremental charge card appears only for enabled increases, not a disabled increase or threshold reset", async ({
+  gmPage,
+  world,
+}) => {
+  test.setTimeout(180_000);
+  const caster = await createCaster(gmPage, {
+    name: `E2E Charge Switch ${Date.now()}`,
+    spellSlots: 3,
+  });
+  world.trackActor(caster.actorId);
+  await configureIncrementalIncrease(world);
+  await world.setSetting("enableRollTable", "DEFAULT");
+  await world.setSetting("incrementalCheckToChat", true);
+  await world.setCoreSetting("messageMode", "public");
+  await setIncrementalThreshold(gmPage, caster.actorId, 1);
+  const chargePrefix = await gmPage.evaluate(() => {
+    const { game } = globalThis as unknown as {
+      game: { i18n: { format(key: string): string } };
+    };
+    return game.i18n.format(
+      "WildMagicSurge5E.opt_incremental_check_to_chat_text_name",
+    );
+  });
+  const chargeCards = async (
+    before: Awaited<ReturnType<typeof readChatMessages>>,
+  ) =>
+    messagesAfter(before, await readChatMessages(gmPage)).filter((message) =>
+      containsText(message, chargePrefix),
+    );
+
+  const enabledBefore = await readChatMessages(gmPage);
+  await castAndWaitForCheck(gmPage, gmPage, caster);
+  expect(await chargeCards(enabledBefore)).toHaveLength(1);
+  expect((await readSurgeResource(gmPage, caster.actorId))?.value).toBe(2);
+
+  await world.setSetting("incrementalCheckToChat", false);
+  const disabledBefore = await readChatMessages(gmPage);
+  await castAndWaitForCheck(gmPage, gmPage, caster);
+  expect(await chargeCards(disabledBefore)).toHaveLength(0);
+  expect((await readSurgeResource(gmPage, caster.actorId))?.value).toBe(3);
+
+  await world.setSetting("incrementalCheckToChat", true);
+  await world.setSetting("customRollDiceFormula", "1d20");
+  const resetBefore = await readChatMessages(gmPage);
+  await withFoundryRandomValue(gmPage, 0.999, () =>
+    castAndWaitForCheck(gmPage, gmPage, caster),
+  );
+  expect(await chargeCards(resetBefore)).toHaveLength(0);
+  expect((await readSurgeResource(gmPage, caster.actorId))?.value).toBe(1);
+});
