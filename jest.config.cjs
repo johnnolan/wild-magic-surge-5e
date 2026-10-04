@@ -12,6 +12,7 @@ module.exports = {
     },
   },
   collectCoverage: true,
+  coverageReporters: ["clover", "json", "lcov", "text", "json-summary"],
   collectCoverageFrom: [
     "!**/node_modules/**",
     "scripts/**/*.ts",

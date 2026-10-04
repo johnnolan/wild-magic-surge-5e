@@ -5,8 +5,19 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  create_tag_publish:
+  lint:
+    name: ESLint
+    uses: ./.github/workflows/lint_job.yml
+
+  test:
+    name: Typecheck and Jest
+    uses: ./.github/workflows/test_job.yml
+
+  build:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -17,20 +28,10 @@ jobs:
       uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version-file: '.nvmrc'
-
-    - name: Cache yarn dependencies
-      id: cache
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-      with:
-        path: ./node_modules
-        key: modules-${{ hashFiles('yarn.lock') }}
+        cache: yarn
 
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
-
-    - name: TypeScript typecheck
-      run: yarn run typecheck
+      run: yarn install --frozen-lockfile
 
     - name: Build Module
       run: yarn run build
