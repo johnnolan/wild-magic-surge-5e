@@ -1,4 +1,9 @@
-import { test as base, expect, type Page } from "@playwright/test";
+import {
+  test as base,
+  expect,
+  type Browser,
+  type Page,
+} from "@playwright/test";
 import { TestWorld } from "./support/cleanup";
 
 type PlayerSession = { page: Page; userId: string };
@@ -6,6 +11,7 @@ type E2EFixtures = {
   gmPage: Page;
   world: TestWorld;
   player: PlayerSession;
+  unrelatedPlayer: PlayerSession;
 };
 
 type GameState = {
@@ -29,6 +35,69 @@ export async function readGameState(page: Page): Promise<GameState> {
       moduleActive: game?.modules?.get("wild-magic-surge-5e")?.active === true,
     };
   });
+}
+
+async function createPlayerSession(
+  gmPage: Page,
+  browser: Browser,
+  use: (session: PlayerSession) => Promise<void>,
+): Promise<void> {
+  const playerName = `E2E Player ${Date.now()} ${Math.random().toString(36).slice(2)}`;
+  const userId = await gmPage.evaluate(async (name) => {
+    const { User } = globalThis as unknown as {
+      User: {
+        create(data: {
+          name: string;
+          role: number;
+        }): Promise<{ id: string } | null>;
+      };
+    };
+    const user = await User.create({ name, role: 1 });
+    if (!user) throw new Error("Foundry did not create the test player.");
+    return user.id;
+  }, playerName);
+
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto("/join");
+    const joinForm = page.locator('form[name="join"]');
+    await joinForm.waitFor({ state: "visible" });
+    await joinForm.locator('input[name="username"]').fill(playerName);
+    await joinForm.locator('button[name="join"]').click();
+    await page.waitForFunction(
+      () => {
+        const { game } = globalThis as unknown as {
+          game?: { ready?: boolean; user?: { isGM?: boolean } };
+        };
+        return game?.ready === true && game.user?.isGM === false;
+      },
+      null,
+      { timeout: 60_000 },
+    );
+    const playerConfiguration = page.getByRole("button", {
+      name: "Save Player Configuration",
+    });
+    if (await playerConfiguration.isVisible()) {
+      await playerConfiguration.click();
+      await expect(playerConfiguration).toBeHidden();
+    }
+    await use({ page, userId });
+  } finally {
+    await context.close();
+    await gmPage.evaluate(async (id) => {
+      const { game } = globalThis as unknown as {
+        game: {
+          users: {
+            get(id: string): { delete(): Promise<unknown> } | undefined;
+          };
+        };
+      };
+      await game.users.get(id)?.delete();
+    }, userId);
+  }
 }
 
 export const test = base.extend<E2EFixtures>({
@@ -70,64 +139,10 @@ export const test = base.extend<E2EFixtures>({
       await world.restore();
     }
   },
-  player: async ({ gmPage, browser }, use) => {
-    const playerName = `E2E Player ${Date.now()}`;
-    const userId = await gmPage.evaluate(async (name) => {
-      const { User } = globalThis as unknown as {
-        User: {
-          create(data: {
-            name: string;
-            role: number;
-          }): Promise<{ id: string } | null>;
-        };
-      };
-      const user = await User.create({ name, role: 1 });
-      if (!user) throw new Error("Foundry did not create the test player.");
-      return user.id;
-    }, playerName);
-
-    const context = await browser.newContext({
-      viewport: { width: 1440, height: 900 },
-    });
-    try {
-      const page = await context.newPage();
-      await page.goto("/join");
-      const joinForm = page.locator('form[name="join"]');
-      await joinForm.waitFor({ state: "visible" });
-      await joinForm.locator('input[name="username"]').fill(playerName);
-      await joinForm.locator('button[name="join"]').click();
-      await page.waitForFunction(
-        () => {
-          const { game } = globalThis as unknown as {
-            game?: { ready?: boolean; user?: { isGM?: boolean } };
-          };
-          return game?.ready === true && game.user?.isGM === false;
-        },
-        null,
-        { timeout: 60_000 },
-      );
-      const playerConfiguration = page.getByRole("button", {
-        name: "Save Player Configuration",
-      });
-      if (await playerConfiguration.isVisible()) {
-        await playerConfiguration.click();
-        await expect(playerConfiguration).toBeHidden();
-      }
-      await use({ page, userId });
-    } finally {
-      await context.close();
-      await gmPage.evaluate(async (id) => {
-        const { game } = globalThis as unknown as {
-          game: {
-            users: {
-              get(id: string): { delete(): Promise<unknown> } | undefined;
-            };
-          };
-        };
-        await game.users.get(id)?.delete();
-      }, userId);
-    }
-  },
+  player: async ({ gmPage, browser }, use) =>
+    createPlayerSession(gmPage, browser, use),
+  unrelatedPlayer: async ({ gmPage, browser }, use) =>
+    createPlayerSession(gmPage, browser, use),
 });
 
 export { expect };
