@@ -157,23 +157,31 @@ describe("RoundCheck.OnCombatUpdate", () => {
   it("does not check when combat has no current combatant", async () => {
     const combat = combatFixture({ combatant: undefined });
 
-    await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
+    await expect(RoundCheck.OnCombatUpdate(combat, { turn: 0 })).resolves.toBe(false);
     expect(mockRoundCheck).not.toHaveBeenCalled();
   });
 
   it("does not check when the current combatant has no actor", async () => {
     const combat = combatFixture({ combatant: { actor: undefined } });
 
-    await expect(RoundCheck.OnCombatUpdate(combat)).resolves.toBe(false);
+    await expect(RoundCheck.OnCombatUpdate(combat, { turn: 0 })).resolves.toBe(false);
     expect(mockRoundCheck).not.toHaveBeenCalled();
   });
 
-  it("checks the actor on the current combatant", async () => {
+  it.each([{ turn: 0 }, { round: 1 }])("checks the actor on the current combatant for %j", async (changed) => {
     const combat = combatFixture({ combatant: { actor } });
 
-    await RoundCheck.OnCombatUpdate(combat);
+    await RoundCheck.OnCombatUpdate(combat, changed);
 
     expect(mockRoundCheck).toHaveBeenCalledTimes(1);
     expect(mockRoundCheck).toHaveBeenCalledWith(actor);
+  });
+
+  it.each([{}, { active: true }])("does not check for an unrelated update %j", async (changed) => {
+    const combat = combatFixture({ combatant: { actor } });
+
+    await RoundCheck.OnCombatUpdate(combat, changed);
+
+    expect(mockRoundCheck).not.toHaveBeenCalled();
   });
 });

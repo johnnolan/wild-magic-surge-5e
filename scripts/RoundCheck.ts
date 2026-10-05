@@ -9,7 +9,11 @@ import Chat from "./Chat";
  * @class RoundCheck
  */
 class RoundCheck {
-  static async OnCombatUpdate(combat: Combat): Promise<false | void> {
+  static async OnCombatUpdate(
+    combat: Combat,
+    changed: Record<string, unknown>,
+  ): Promise<false | void> {
+    if (!("turn" in changed) && !("round" in changed)) return;
     if (
       getModuleSetting(WMSCONST.OPT_SURGE_TYPE) !== "INCREMENTAL_CHECK_CHAOTIC"
     ) {
