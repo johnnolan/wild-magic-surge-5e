@@ -72,7 +72,7 @@ Below is a list of links to help you setup the module and your Player Characters
 
 ## Top Level Features
 
-- **Default**: On a roll of 1, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
+- **Standard**: On a roll of 1, trigger a Wild Magic Surge (the default mode; configurable in Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: [Wild Magic Surge triggers dependent on spell level. Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
@@ -107,7 +107,7 @@ Below is a list of links to help you setup the module and your Player Characters
 
 Choose between the following options to track your Wild Magic Surges
 
-- **Default**: On a roll of `1`, trigger a Wild Magic Surge (Default and can be configured in the Dice Formula options)
+- **Standard**: On a roll of `1`, trigger a Wild Magic Surge (the default mode; configurable in Dice Formula options)
 - **Incremental Check**: Every time a spell is cast, the threshold is increased by `1` for a Surge. Once triggered the threshold is reset back to `1`.
 - **Incremental Check (Chaotic)**: For the amazingly awesome chaotic players and GMs. Instead of increasing every time a spell is cast, at the start of every turn in combat, the threshold is increased by `1` for a Surge to a maximum of `10`. Once triggered the threshold is reset back to `1`.
 - **Spell Level Dependent Rolls**: [Wild Magic Surge triggers dependent on spell level. Click here for more option details.](./docs/SPELL_LEVEL_DEPENDENT.md)
@@ -116,7 +116,7 @@ Choose between the following options to track your Wild Magic Surges
 
 ### Whisper chat results to GM
 
-Whisper all message to the GM in case you want to be nice and fudge the rolls.
+Whisper reminder and surge-check messages to the GM. The separate table-result whisper option controls RollTable output.
 
 [![Whisper chat results to GM](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/whisper-chat.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/whisper-chat.jpg)
 
@@ -205,7 +205,7 @@ Set a custom dice formula you want to roll to check for a `Wild Magic Surge`. Th
 
 ### Track Wild Magic Surge for NPCs
 
-Enabling this setting will automate Wild Magic Surge for Non Player Characters as well as Player Characters. Ensure the NPC has the `Wilg Magic Surge` feat.
+Enabling this setting will automate Wild Magic Surge for Non Player Characters as well as Player Characters. Ensure the NPC has the `Wild Magic Surge` feat.
 
 [![Dice Formula](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/track-npcs.jpg)](https://raw.githubusercontent.com/johnnolan/wild-magic-surge-5e/main/images/track-npcs.jpg)
 
@@ -258,6 +258,8 @@ Standard rules are 1st Level and higher to trigger a surge. This also enables it
 ## Contributing
 
 The contributing guidelines can be found in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
+
+For code changes, see the [architecture map](./docs/ARCHITECTURE.md) and [testing guide](./docs/TESTING.md).
 
 Our Code of Conduct can also be found in the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) file.
 

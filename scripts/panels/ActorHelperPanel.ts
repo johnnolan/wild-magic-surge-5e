@@ -1,12 +1,14 @@
 import TidesOfChaos from "../TidesOfChaos";
 import SpellParser from "../utils/SpellParser";
-let { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class ActorHelperPanel extends HandlebarsApplicationMixin(ApplicationV2) {
+export class ActorHelperPanel extends HandlebarsApplicationMixin(
+  ApplicationV2,
+) {
   constructor(actor) {
-        super({id: 'wild-magic-config'});
-        this.actor = actor.document;
-    }
+    super({ id: "wild-magic-config" });
+    this.actor = actor.document;
+  }
   static DEFAULT_OPTIONS = {
     id: "wild-magic-config",
     classes: ["wild-magic", "sheet"],
@@ -14,14 +16,14 @@ export class ActorHelperPanel extends HandlebarsApplicationMixin(ApplicationV2) 
     width: 400,
     height: "auto",
     resizable: false,
-    minimizable: false
+    minimizable: false,
   };
 
   static PARTS = {
     form: {
       template: "modules/wild-magic-surge-5e/templates/ActorHelperPanel.hbs",
-      scrollable: ['']
-    }
+      scrollable: [""],
+    },
   };
 
   async _prepareContext(): Promise<object> {
@@ -32,14 +34,14 @@ export class ActorHelperPanel extends HandlebarsApplicationMixin(ApplicationV2) 
 
     return {
       actor: {
-        name: actor.name
+        name: actor.name,
       },
       settings: {
         isValid: hasWildMagicFeat && tides.isValid,
         hasWildMagicFeat,
         hasTidesOfChaosResource: tides.hasTidesOfChaosResource,
-        hasTidesOfChaosFeat: tides.hasTidesOfChaosFeat
-      }
+        hasTidesOfChaosFeat: tides.hasTidesOfChaosFeat,
+      },
     };
   }
 }

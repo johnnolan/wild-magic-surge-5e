@@ -1,87 +1,87 @@
+import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
+import { GetDnd5eResource } from "./Dnd5eSystem";
+import { getModuleActorFlag, setModuleActorFlag } from "./TypedSettings";
+import type { WMSModuleResourceFlagKey } from "./TypedSettings";
+import type { Dnd5eResourceSlot } from "./Dnd5eSystem";
+import type { ResourceValue, ResourceValues } from "../types/domain";
 
 export default class Resource {
-  static FLAG_NAME = "wild-magic-surge-5e";
-  static FLAG_OPTION = "resource";
-  static defaultValue: ResourceValue = {
+  static FLAG_NAME = WMSCONST.MODULE_ID;
+  static FLAG_OPTION: WMSModuleResourceFlagKey = "resource";
+  static defaultValue: Readonly<ResourceValue> = Object.freeze({
     label: "Surge Chance",
     lr: false,
     sr: false,
     max: 20,
     value: 1,
-  };
+  });
 
   static async Reset(actor: Actor) {
     await this._setupDefault(actor);
   }
 
   static async GetResource(actor: Actor): Promise<ResourceValue> {
-    const resourceType = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`,
-    );
+    const resourceType = getModuleSetting(WMSCONST.OPT_RESOURCE_TYPE);
 
-    let resource = this.defaultValue;
+    let resource: ResourceValue | undefined;
 
     switch (resourceType) {
       case "NONE":
-        resource = <ResourceValue>actor.getFlag(this.FLAG_NAME, this.FLAG_OPTION);
+        resource = await getModuleActorFlag(actor, this.FLAG_OPTION);
         break;
       case "PRIMARY":
-        resource = actor.system.resources.primary;
+        resource = this.getSystemResource(actor, "primary");
         break;
       case "SECONDARY":
-        resource = actor.system.resources.secondary;
+        resource = this.getSystemResource(actor, "secondary");
         break;
       case "TERTIARY":
-        resource = actor.system.resources.tertiary;
+        resource = this.getSystemResource(actor, "tertiary");
         break;
     }
 
     if (!resource) {
-      this._setupDefault(actor);
-      resource = this.defaultValue;
+      resource = await this._setupDefault(actor);
     }
 
-    return resource;
+    return { ...resource };
   }
 
   static async SetResource(actor: Actor, resourceValues: ResourceValues) {
-    const resourceType = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_RESOURCE_TYPE}`,
-    );
-    const resourceValue = this.defaultValue;
-    resourceValue.max = resourceValues.max;
-    resourceValue.value = resourceValues.value;
+    const resourceType = getModuleSetting(WMSCONST.OPT_RESOURCE_TYPE);
+    // Foundry may retain the payload, so each write gets its own mutable copy.
+    const resourceValue: ResourceValue = {
+      ...this.defaultValue,
+      max: resourceValues.max,
+      value: resourceValues.value,
+    };
 
     switch (resourceType) {
       case "NONE":
-        actor.setFlag(this.FLAG_NAME, this.FLAG_OPTION, resourceValue);
+        await setModuleActorFlag(actor, this.FLAG_OPTION, resourceValue);
         break;
       case "PRIMARY":
-        actor.update({
+        await actor.update({
           "system.resources.primary": resourceValue,
         });
         break;
       case "SECONDARY":
-        actor.update({
+        await actor.update({
           "system.resources.secondary": resourceValue,
         });
         break;
       case "TERTIARY":
-        actor.update({
+        await actor.update({
           "system.resources.tertiary": resourceValue,
         });
         break;
     }
   }
 
-  static async _setupDefault(actor: Actor): Promise<void> {
-    let maxValue = 20;
-    switch (
-      game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_SURGE_TYPE}`)
-    ) {
+  static async _setupDefault(actor: Actor): Promise<ResourceValue> {
+    let maxValue = this.defaultValue.max;
+    switch (getModuleSetting(WMSCONST.OPT_SURGE_TYPE)) {
       case `INCREMENTAL_CHECK_CHAOTIC`:
         maxValue = 10;
         break;
@@ -89,9 +89,19 @@ export default class Resource {
         maxValue = 6;
         break;
     }
-    await this.SetResource(actor, {
+    const resource: ResourceValue = {
+      ...this.defaultValue,
       max: maxValue,
       value: 1,
-    });
+    };
+    await this.SetResource(actor, resource);
+    return resource;
+  }
+
+  private static getSystemResource(
+    actor: Actor,
+    slot: Dnd5eResourceSlot,
+  ): ResourceValue | undefined {
+    return GetDnd5eResource(actor.system, slot);
   }
 }

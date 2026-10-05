@@ -5,16 +5,44 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   lint:
-    name: ESLint Javascript
+    name: ESLint
     uses: ./.github/workflows/lint_job.yml
 
   test:
-    name: Jest Tests
+    name: Typecheck and Jest
     uses: ./.github/workflows/test_job.yml
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Module
+        run: yarn build
 
   publish_unit_tests:
     name: Publish Unit Tests
-    needs: ['lint', 'test']
+    needs: test
+    # Fork PRs use the Jest job summary; GitHub does not grant them write tokens.
+    if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository }}
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     uses: ./.github/workflows/publish_unit_tests_job.yml

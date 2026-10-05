@@ -1,4 +1,6 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
+import Logger from "./Logger";
 
 /**
  * AutoEffects class for handling sequencer animations
@@ -41,13 +43,7 @@ class AutoEffects {
    */
   static async Run(tokenId: string | undefined): Promise<void> {
     if (!tokenId) return;
-    if (
-      !game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_EFFECTS_ENABLED}`,
-      )
-    )
-      return;
+    if (!getModuleSetting(WMSCONST.OPT_EFFECTS_ENABLED)) return;
     if (!this._isModuleActive("sequencer")) {
       ui.notifications?.info(
         `Wild Magic Surge 5e: Play animation on surge is enabled in settings but the sequencer module is not active/installed. Disable the play animation in settings or install and enable sequencer.`,
@@ -87,7 +83,25 @@ class AutoEffects {
       .fadeOut(1000)
       .atLocation(tokenId);
 
-    wildMagicSurgeEffect.play();
+    // Visual playback outlives the surge update; report failures without
+    // delaying resource and flag completion for the animation duration.
+    try {
+      void Promise.resolve(wildMagicSurgeEffect.play()).catch(
+        (error: unknown) => {
+          Logger.error(
+            "Wild Magic Surge animation failed",
+            "AutoEffects.Run",
+            error,
+          );
+        },
+      );
+    } catch (error) {
+      Logger.error(
+        "Wild Magic Surge animation failed",
+        "AutoEffects.Run",
+        error,
+      );
+    }
   }
 }
 

@@ -1,5 +1,7 @@
+import { actorFixture, setTestGame, testGlobals } from "./test/FoundryFixtures";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import Logger from "./Logger";
+import Chat from "./Chat";
 import "../__mocks__/index";
 import { actor } from "../MockData/actor";
 
@@ -11,7 +13,7 @@ describe("RollTableMagicSurge", () => {
   describe("If no table is found matching", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -34,13 +36,13 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).not.toHaveBeenCalled();
       expect(mockLoggerError).toHaveBeenCalled();
     });
   });
@@ -48,7 +50,7 @@ describe("RollTableMagicSurge", () => {
   describe("If no table is found matching", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -71,20 +73,20 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should not call the table", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).not.toHaveBeenCalled();
     });
   });
 
   describe("If the table type is not passed", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -107,23 +109,49 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check(undefined, actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
+
+    it("propagates a rejected table chat creation", async () => {
+      const error = new Error("Cannot create table chat");
+      (Chat.Send as jest.Mock).mockRejectedValueOnce(error);
+
+      await expect(RollTableMagicSurge.Check(undefined, actor)).rejects.toBe(error);
+    });
+  });
+
+  it("uses one table roll when the actor level is absent or malformed", async () => {
+    const rollOnTable = jest
+      .spyOn(RollTableMagicSurge, "RollOnTable")
+      .mockResolvedValue("result");
+    setTestGame({
+      settings: { get: jest.fn().mockReturnValue("AUTO") },
+    });
+
+    try {
+      await RollTableMagicSurge.Check("WMS", actorFixture({
+        system: { details: { level: "14" } },
+      }));
+
+      expect(rollOnTable).toHaveBeenCalledTimes(1);
+    } finally {
+      rollOnTable.mockRestore();
+    }
   });
 
   describe("If the table type is Wild Magic Surge but no results passed back", () => {
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -146,15 +174,15 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -162,7 +190,7 @@ describe("RollTableMagicSurge", () => {
 
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -187,15 +215,15 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should call the draw function once", async () => {
       const result = await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalledTimes(1);
 
       expect(result).toBe("test, undefined");
     });
@@ -204,7 +232,7 @@ describe("RollTableMagicSurge", () => {
   describe("If the table type is Path of Wild Magic", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Path of Wild Magic",
@@ -227,22 +255,22 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should call the draw function once", async () => {
       await RollTableMagicSurge.Check("POWM", actor);
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(1);
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("If the roll table setting is false", () => {
     beforeEach(() => {
       global.renderTemplate = jest.fn().mockResolvedValue("Content");
-      (global as any).game = {
+      setTestGame({
         tables: [
           {
             name: "Wild Magic Surge",
@@ -265,15 +293,15 @@ describe("RollTableMagicSurge", () => {
         user: {
           id: "123",
         },
-      };
+      });
     });
 
     it("should not call the draw function", async () => {
       await RollTableMagicSurge.Check("WMS", actor);
 
-      expect((global as any).game.tables[0].roll).not.toHaveBeenCalled();
+      expect(testGlobals.game.tables[0].roll).not.toHaveBeenCalled();
 
-      expect((global as any).game.tables[0].roll).toHaveBeenCalledTimes(0);
+      expect(testGlobals.game.tables[0].roll).toHaveBeenCalledTimes(0);
     });
   });
 });

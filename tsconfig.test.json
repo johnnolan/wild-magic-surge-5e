@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["scripts/**/*.ts", "MockData/**/*.ts", "__mocks__/**/*.ts"],
+  "exclude": ["scripts/macros/**/*.*"]
+}

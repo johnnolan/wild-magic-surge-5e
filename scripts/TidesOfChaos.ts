@@ -1,5 +1,8 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import Logger from "./Logger";
+import { GetDnd5eUses, IsDnd5eItemSubtype } from "./utils/Dnd5eSystem";
+import type { TidesItemData } from "./types/domain";
 
 /**
  * Controls the Tides of Chaos feat
@@ -14,11 +17,11 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async Check(actor: Actor): Promise<void> {
-    if (!game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_ENABLE_TOC}`)) {
+    if (!getModuleSetting(WMSCONST.OPT_ENABLE_TOC)) {
       return;
     }
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    if (!tidesItem) {      
+    if (!tidesItem) {
       Logger.warn(
         `Tides of Chaos not found in feature list.`,
         "TidesOfChaos.getTidesOfChaosItem",
@@ -26,11 +29,13 @@ class TidesOfChaos {
       return;
     }
 
-    const updates = [{
-      _id: tidesItem.id,
-      "system.uses.value": 1,
-      "system.uses.spent": 0
-    }];
+    const updates = [
+      {
+        _id: tidesItem.id,
+        "system.uses.value": 1,
+        "system.uses.spent": 0,
+      },
+    ];
 
     await actor.updateEmbeddedDocuments("Item", updates);
   }
@@ -44,7 +49,7 @@ class TidesOfChaos {
   static async IsTidesOfChaosUsed(actor: Actor): Promise<boolean> {
     const tidesItem = await this.getTidesOfChaosItem(actor);
     if (!tidesItem) return false;
-    return tidesItem.system.uses.value === 0;
+    return GetDnd5eUses(tidesItem.system)?.value === 0;
   }
 
   /**
@@ -53,17 +58,13 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async IsTidesOfChaosSetup(actor: Actor): Promise<TidesItemData> {
-    const featName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
-    );
     const tidesItem = await this.getTidesOfChaosItem(actor);
-    const hasUsesSetup = !!tidesItem && tidesItem.system.uses?.max === 1;
-    
+    const hasUsesSetup = GetDnd5eUses(tidesItem?.system)?.max === 1;
+
     return <TidesItemData>{
       hasTidesOfChaosResource: hasUsesSetup,
       hasTidesOfChaosFeat: !!tidesItem,
-      isValid: hasUsesSetup
+      isValid: hasUsesSetup,
     };
   }
 
@@ -73,12 +74,9 @@ class TidesOfChaos {
    * @param actor - The Foundry Actor.
    */
   static async getTidesOfChaosItem(actor: Actor) {
-    const featName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TOC_NAME}`
-    );
+    const featName = getModuleSetting(WMSCONST.OPT_TOC_NAME);
     return actor.items.find(
-      (a: Item) => a.name === featName && a.type === "feat"
+      (a: Item) => a.name === featName && IsDnd5eItemSubtype(a, "feat"),
     );
   }
 }

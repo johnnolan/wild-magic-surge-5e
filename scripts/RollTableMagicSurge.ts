@@ -1,6 +1,9 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import Chat from "./Chat";
 import Logger from "./Logger";
+import { GetDnd5eActorLevel } from "./utils/Dnd5eSystem";
+import type { SurgeType } from "./types/domain";
 
 /**
  * Finds, rolls and sends to chat the correct RollTable based on Surge Type and custom table name settings
@@ -17,15 +20,11 @@ class RollTableMagicSurge {
     type: SurgeType = WMSCONST.SURGE_FEAT_TYPE.WildMagicSurge,
     actor: Actor,
   ): Promise<string | undefined> {
-    if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-      ) !== "AUTO"
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) !== "AUTO") {
       return;
     }
-    if (actor.system.details.level > 13) {
+    const actorLevel = GetDnd5eActorLevel(actor.system);
+    if (actorLevel !== undefined && actorLevel > 13) {
       let rollTableResults: string;
       rollTableResults = (await this.RollOnTable(type)) ?? "";
       rollTableResults =
@@ -41,15 +40,9 @@ class RollTableMagicSurge {
   ): Promise<string | undefined> {
     let rollTableName: string;
     if (type === WMSCONST.SURGE_FEAT_TYPE.PathOfWildMagic) {
-      rollTableName = game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_POWM_ROLLTABLE_NAME}`,
-      );
+      rollTableName = getModuleSetting(WMSCONST.OPT_POWM_ROLLTABLE_NAME);
     } else {
-      rollTableName = game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_ROLLTABLE_NAME}`,
-      );
+      rollTableName = getModuleSetting(WMSCONST.OPT_ROLLTABLE_NAME);
     }
     if (rollTableName === undefined) {
       Logger.error(
@@ -59,9 +52,7 @@ class RollTableMagicSurge {
       return;
     }
 
-    const surgeRollTable = game.tables.find(
-      (t: RollTable) => t.name === rollTableName,
-    );
+    const surgeRollTable = game.tables?.find((t) => t.name === rollTableName);
 
     if (!surgeRollTable) {
       Logger.error(
@@ -72,10 +63,8 @@ class RollTableMagicSurge {
       return;
     }
 
-    const result = await surgeRollTable?.roll().then((result: Roll) => {
-      Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
-      return result;
-    });
+    const result = await surgeRollTable.roll();
+    await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
 
     if (result.results.length > 0) {
       return result.results[0].text;

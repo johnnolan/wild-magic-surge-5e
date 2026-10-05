@@ -1,4 +1,10 @@
+import { getModuleSetting } from "./TypedSettings";
 import { WMSCONST } from "../WMSCONST";
+import {
+  GetDnd5eSpellLevel,
+  IsDnd5eActorSubtype,
+  IsDnd5eItemSubtype,
+} from "./Dnd5eSystem";
 
 export default class SpellParser {
   /**
@@ -7,13 +13,10 @@ export default class SpellParser {
    * @return {boolean}
    */
   static IsWildMagicFeat(actor: Actor): boolean {
-    const surgeName = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WMS_NAME}`,
-    );
+    const surgeName = getModuleSetting(WMSCONST.OPT_WMS_NAME);
     return (
       actor.items.find(
-        (a: Item) => a.name === surgeName && a.type === "feat",
+        (a: Item) => a.name === surgeName && IsDnd5eItemSubtype(a, "feat"),
       ) !== undefined
     );
   }
@@ -27,11 +30,8 @@ export default class SpellParser {
     return (
       actor.items.find(
         (a: Item) =>
-          a.name ===
-            game.settings.get(
-              `${WMSCONST.MODULE_ID}`,
-              `${WMSCONST.OPT_POWM_NAME}`,
-            ) && a.type === "subclass",
+          a.name === getModuleSetting(WMSCONST.OPT_POWM_NAME) &&
+          IsDnd5eItemSubtype(a, "subclass"),
       ) !== undefined
     );
   }
@@ -43,46 +43,36 @@ export default class SpellParser {
    */
   static SpellDetails(item: Item): string | undefined {
     const minimumSpellLevelTrigger = parseInt(
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER}`,
-      ),
+      getModuleSetting(WMSCONST.OPT_MINIMUM_SPELL_LEVEL_TRIGGER),
     );
 
-    if (item?.system?.level === undefined) return;
+    const spellLevel = GetDnd5eSpellLevel(item?.system);
+    if (spellLevel === undefined) return;
 
-    if (
-      minimumSpellLevelTrigger > 0 &&
-      item.system.level < minimumSpellLevelTrigger
-    )
+    if (minimumSpellLevelTrigger > 0 && spellLevel < minimumSpellLevelTrigger)
       return undefined;
 
-    switch (item.system.level) {
+    switch (spellLevel) {
       case 0: {
-        if (
-          !game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_CANTRIP_SURGE_ENABLED}`,
-          )
-        ) {
+        if (!getModuleSetting(WMSCONST.OPT_CANTRIP_SURGE_ENABLED)) {
           return undefined;
         } else {
           return `Cantrip`;
         }
       }
       case 1:
-        return `${item.system.level}st Level`;
+        return `${spellLevel}st Level`;
       case 2:
-        return `${item.system.level}nd Level`;
+        return `${spellLevel}nd Level`;
       case 3:
-        return `${item.system.level}rd Level`;
+        return `${spellLevel}rd Level`;
       case 4:
       case 5:
       case 6:
       case 7:
       case 8:
       case 9:
-        return `${item.system.level}th Level`;
+        return `${spellLevel}th Level`;
       default:
         return undefined;
     }
@@ -106,7 +96,7 @@ export default class SpellParser {
    */
   static IsSpell(item: Item): boolean {
     const result = SpellParser.SpellDetails(item);
-    return result !== undefined && item.type === "spell";
+    return result !== undefined && IsDnd5eItemSubtype(item, "spell");
   }
 
   /**
@@ -117,15 +107,9 @@ export default class SpellParser {
   static IsSorcererSpell(item: Item): boolean {
     const spellName = item.name;
 
-    const spellRegex = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX}`,
-    );
+    const spellRegex = getModuleSetting(WMSCONST.OPT_SPELL_REGEX);
 
-    const isInverse = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_SPELL_REGEX_INVERSE}`,
-    );
+    const isInverse = getModuleSetting(WMSCONST.OPT_SPELL_REGEX_INVERSE);
 
     if (isInverse) {
       return spellName?.match(spellRegex) ? false : true;
@@ -150,7 +134,7 @@ export default class SpellParser {
    * @param actor - Foundry Actor
    * @return {Promise<boolean>}
    */
-  static IsNPC(actor: Actor): boolean {
-    return actor ? actor.type === "npc" : false;
+  static IsNPC(actor: Actor | undefined): boolean {
+    return actor ? IsDnd5eActorSubtype(actor, "npc") : false;
   }
 }

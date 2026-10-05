@@ -1,5 +1,22 @@
+import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import CallHooks from "./utils/CallHooks";
+
+function isTableDraw(value: Roll | RollTable.Draw): value is RollTable.Draw {
+  return "results" in value && "roll" in value;
+}
+
+function getDefaultMessageMode(): ChatMessage.Mode | undefined {
+  // The pinned 14.366 type snapshot omits V14's core messageMode setting.
+  const settings = game.settings as unknown as {
+    get(namespace: "core", key: "messageMode"): unknown;
+  };
+  const mode = settings.get("core", "messageMode");
+  return typeof mode === "string" &&
+    Object.prototype.hasOwnProperty.call(CONFIG.ChatMessage.modes, mode)
+    ? (mode as ChatMessage.Mode)
+    : undefined;
+}
 
 /**
  * Chat class for handling common chat methods
@@ -9,49 +26,46 @@ export default class Chat {
   /**
    * Sends the correct ChatMessage to the Chat window
    * @public
-   * @return {Promise<void>}
+   * @return The created chat message, or undefined when no message is created.
    * @param type - The type of roll to be sent.
    * @param message - The chat message to send.
-   * @param rollObject - Roll to send.
+   * @param rollObject - Roll or RollTable draw to send.
    * @param rollTable - Optional RollTable to send.
    */
   static async Send(
     type: string,
     message: string,
-    rollObject?: Roll,
+    rollObject?: Roll | RollTable.Draw,
     rollTable?: RollTable,
-  ): Promise<void> {
-    const isWhisperRollResultGM = await game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM}`,
+  ): Promise<ChatMessage.Stored | undefined> {
+    const isWhisperRollResultGM = await getModuleSetting(
+      WMSCONST.OPT_WHISPER_GM,
     );
-    const isWhisperAutoRollTableGM = await game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_WHISPER_GM_ROLL_CHAT}`,
+    const isWhisperAutoRollTableGM = await getModuleSetting(
+      WMSCONST.OPT_WHISPER_GM_ROLL_CHAT,
     );
 
-    const gmsToWhisper = ChatMessage.getWhisperRecipients("GM").map(
-      (u: User) => u.id,
-    );
-
-    let chatData: ChatMessage;
+    let chatData: ChatMessage.CreateData;
+    let messageMode: ChatMessage.Mode | undefined;
 
     switch (type) {
       case WMSCONST.CHAT_TYPE.ROLL:
-        if (!rollObject) return;
+        if (!rollObject || isTableDraw(rollObject)) return;
         chatData = await this.createRollChat(
           message,
           rollObject,
           isWhisperRollResultGM,
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_ROLLTABLE_ENABLE}`,
-          ) === "PLAYER_TRIGGER",
         );
+        if (!isWhisperRollResultGM) {
+          messageMode =
+            getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
+              ? "public"
+              : getDefaultMessageMode();
+        }
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
-        if (!rollObject || !rollTable) return;
-        chatData = await this.createRollTable(rollObject, rollTable);
+        if (!rollObject || !rollTable || !isTableDraw(rollObject)) return;
+        chatData = await this.createRollTable(rollObject);
         break;
       default:
         chatData = await this.createDefaultChat(message);
@@ -63,37 +77,32 @@ export default class Chat {
       (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.DEFAULT) ||
       (isWhisperAutoRollTableGM && type === WMSCONST.CHAT_TYPE.TABLE)
     ) {
-      chatData = this.setChatToWhisper(chatData, gmsToWhisper);
+      messageMode = "blind";
     }
-    chatData.speaker = gmsToWhisper;
+    chatData.speaker = ChatMessage.getSpeaker();
 
-    ChatMessage.create(chatData);
-  }
-
-  static setChatToWhisper(
-    chatData: ChatMessage,
-    gmsToWhisper: Array<string | null>,
-  ) {
-    chatData.whisper = gmsToWhisper;
-    chatData.blind = true;
-
-    return chatData;
+    if (messageMode) {
+      return await ChatMessage.create(chatData, { messageMode });
+    }
+    return await ChatMessage.create(chatData);
   }
 
   /**
    * Creates a basic HTML string message
-   * @return {Promise<ChatMessage>} The chatData object
+   * @return The chat message create data.
    * @param message - The chat message to send.
    */
-  static async createDefaultChat(message: string): Promise<ChatMessage> {
-    return <ChatMessage>{
+  static async createDefaultChat(
+    message: string,
+  ): Promise<ChatMessage.CreateData> {
+    return {
       content: `<div>${message}</div>`,
     };
   }
 
   /**
    * Creates a HTML string message with a Roll result and whether to whisper to the GM or not
-   * @return {Promise<ChatMessage>} The chatData object
+   * @return The chat message create data.
    * @param message - The chat message to send.
    * @param roll - The Roll to parse for the message.
    * @param isWhisperGM - Should the roll only whisper the GM.
@@ -102,42 +111,32 @@ export default class Chat {
     message: string,
     roll: Roll,
     isWhisperGM: boolean,
-    isRollOnTableButton = false,
-  ): Promise<ChatMessage> {
+  ): Promise<ChatMessage.CreateData> {
     if (isWhisperGM) {
-      return <ChatMessage>{
+      return {
         content: `<div>${message} (${roll.total ?? 0})</div>`,
       };
     } else {
-      const wildMagicSurgeName = await game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_WMS_NAME}`,
-      );
-      return <ChatMessage>{
+      const wildMagicSurgeName = await getModuleSetting(WMSCONST.OPT_WMS_NAME);
+      return {
         flavor: `${wildMagicSurgeName} Check - ${message}`,
-        roll: roll,
-        rollMode: isRollOnTableButton
-          ? "publicroll"
-          : await game.settings.get("core", "rollMode"),
+        rolls: [roll],
       };
     }
   }
 
   /**
    * Creates a HTML string message based on a RollTable
-   * @return {Promise<ChatMessage>} The chatData object
-   * @param {RollResult} rollResult The result of a Roll.
-   * @param {RollTable} surgeRollTable The Roll Table to use.
+   * @return The chat message create data.
+   * @param rollResult The result of a RollTable draw.
    */
   static async createRollTable(
-    rollResult: Roll,
-    surgeRollTable: RollTable,
-  ): Promise<ChatMessage> {
+    rollResult: RollTable.Draw,
+  ): Promise<ChatMessage.CreateData> {
     const results = rollResult.results;
     const roll = rollResult.roll;
 
-    const chatData = <ChatMessage>{
-      user: game.user.id,
+    const chatData: ChatMessage.CreateData = {
       rolls: [roll],
       sound: null,
     };
@@ -145,13 +144,16 @@ export default class Chat {
     const rollText = results.map((r: TableResult) => {
       return r.text;
     });
+    const surgeName =
+      game.i18n?.format("WildMagicSurge5E.es_wild_magic_surge") ??
+      "Wild Magic Surge";
 
     chatData.content = `
         <div class="my-roll-result">
           <div class="dnd5e2 chat-card">
             <section class="card-header description ">
               <header class="summary"><img class="gold-icon" src="icons/magic/lightning/bolts-forked-large-magenta.webp" alt="Wild Magic Surge">
-                <div class="name-stacked"><span class="title">${game.i18n.format("WildMagicSurge5E.es_wild_magic_surge",)}</span>
+                <div class="name-stacked"><span class="title">${surgeName}</span>
                   <span class="subtitle">${rollText}</span>
                 </div>
               </header>
@@ -166,19 +168,14 @@ export default class Chat {
 
   /**
    * Sends the default Wild Magic Surge Check chat message
-   * @return {Promise<void>} The chatData object
+   * @return Resolves after the optional chat message is created.
    */
   static async RunMessageCheck(): Promise<void> {
     CallHooks.Call("CheckForSurge", { value: true });
-    if (
-      game.settings.get(
-        `${WMSCONST.MODULE_ID}`,
-        `${WMSCONST.OPT_CHAT_MSG_ENABLED}`,
-      )
-    ) {
+    if (getModuleSetting(WMSCONST.OPT_CHAT_MSG_ENABLED)) {
       await this.Send(
         WMSCONST.CHAT_TYPE.DEFAULT,
-        game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_CHAT_MSG}`),
+        getModuleSetting(WMSCONST.OPT_CHAT_MSG),
       );
     }
   }

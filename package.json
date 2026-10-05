@@ -9,20 +9,30 @@
   "scripts": {
     "build": "node ./build.js",
     "build:dev": "node ./build.js && node ./build-copy.js",
+    "typecheck": "node ./scripts/typecheck.js",
+    "typecheck:test": "node ./scripts/typecheck.js test",
     "test": "jest --maxWorkers=1",
     "test:coverage": "jest --ci --runInBand",
     "test:watch": "jest --watch --maxWorkers=1",
     "test:watchcov": "jest --watch --coverage --maxWorkers=1",
-    "lint:check": "eslint --ignore-path .eslintignore .",
-    "lint:report": "eslint --ignore-path .eslintignore --output-file eslint_report.json --format json .",
-    "lint:fix": "eslint --fix --ignore-path .eslintignore ."
+    "e2e:setup": "yarn build && node ./scripts/e2e/setup-data.mjs && node ./scripts/e2e/stage-module.mjs && node ./scripts/e2e/start-foundry.mjs --setup",
+    "test:e2e": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test",
+    "test:e2e:trace": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --trace on",
+    "test:e2e:headed": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --headed",
+    "test:e2e:ui": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --ui",
+    "typecheck:e2e": "node ./node_modules/typescript/bin/tsc --noEmit --project tsconfig.e2e.json",
+    "lint:check": "eslint .",
+    "lint:report": "eslint --output-file eslint_report.json --format json .",
+    "lint:fix": "eslint --fix ."
   },
   "devDependencies": {
     "@babel/core": "8.0.6",
     "@babel/plugin-transform-modules-commonjs": "8.0.1",
     "@babel/preset-typescript": "8.0.1",
+    "@eslint/js": "10.0.1",
     "@jest/types": "30.5.1",
-    "@league-of-foundry-developers/foundry-vtt-types": "13.346.0-beta.20250812191140",
+    "@league-of-foundry-developers/foundry-vtt-types": "14.366.0-beta.20261001000223",
+    "@playwright/test": "1.63.0",
     "@types/jest": "30.0.0",
     "@types/node": "25.9.8",
     "@typescript-eslint/eslint-plugin": "8.70.1",
@@ -40,7 +50,7 @@
     "jquery": "4.0.0",
     "jshint": "2.13.6",
     "prettier": "3.9.9",
-    "typescript": "7.0.2"
+    "typescript": "6.0.3"
   },
   "jest-junit": {
     "outputDirectory": "./test-results/junit",

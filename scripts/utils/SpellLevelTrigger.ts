@@ -1,5 +1,7 @@
+import { getModuleSetting } from "./TypedSettings";
 import Logger from "../Logger";
 import { WMSCONST } from "../WMSCONST";
+import type { SpellLevelFormula } from "../types/domain";
 
 export default class SpellLevelTrigger {
   static Check(result: number, spellLevel: string): boolean {
@@ -27,10 +29,7 @@ export default class SpellLevelTrigger {
   }
 
   static ParseRollFormula(spellLevel?: string): string {
-    const diceFormula = game.settings.get(
-      `${WMSCONST.MODULE_ID}`,
-      `${WMSCONST.OPT_TSL_DIE}`,
-    );
+    const diceFormula = getModuleSetting(WMSCONST.OPT_TSL_DIE);
 
     if (!spellLevel) {
       this._warnSetup({ spellLevel });
@@ -85,55 +84,27 @@ export default class SpellLevelTrigger {
   static _spellString(spellLevel: string) {
     switch (spellLevel) {
       case WMSCONST.SPELL_LEVELS.Cantrip:
-        return <string>(
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_TSL_CANTRIP}`,
-          )
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_CANTRIP);
       case WMSCONST.SPELL_LEVELS.LEVEL_1:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL1}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL1);
       case WMSCONST.SPELL_LEVELS.LEVEL_2:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL2}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL2);
       case WMSCONST.SPELL_LEVELS.LEVEL_3:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL3}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL3);
       case WMSCONST.SPELL_LEVELS.LEVEL_4:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL4}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL4);
       case WMSCONST.SPELL_LEVELS.LEVEL_5:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL5}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL5);
       case WMSCONST.SPELL_LEVELS.LEVEL_6:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL6}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL6);
       case WMSCONST.SPELL_LEVELS.LEVEL_7:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL7}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL7);
       case WMSCONST.SPELL_LEVELS.LEVEL_8:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL8}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL8);
       case WMSCONST.SPELL_LEVELS.LEVEL_9:
-        return <string>(
-          game.settings.get(`${WMSCONST.MODULE_ID}`, `${WMSCONST.OPT_TSL_LVL9}`)
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL9);
       case WMSCONST.SPELL_LEVELS.LEVEL_10:
-        return <string>(
-          game.settings.get(
-            `${WMSCONST.MODULE_ID}`,
-            `${WMSCONST.OPT_TSL_LVL10}`,
-          )
-        );
+        return <string>getModuleSetting(WMSCONST.OPT_TSL_LVL10);
     }
   }
 

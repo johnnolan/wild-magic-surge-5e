@@ -1,3 +1,4 @@
+import { actorFixture, itemFixture, setTestGame, setTestHooks, testGlobals } from "../test/FoundryFixtures";
 import SpellParser from "./SpellParser";
 import { actor } from "../../MockData/actor";
 import { actorNoWildMagic } from "../../MockData/actorNoWildMagic";
@@ -6,10 +7,10 @@ import "../../__mocks__/index";
 
 describe("SpellParser", () => {
   describe("IsWildMagicFeat", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
-    (global as any).game = {
+    });
+    setTestGame({
       settings: {
         get: jest.fn().mockReturnValueOnce("= 4"),
       },
@@ -20,17 +21,17 @@ describe("SpellParser", () => {
           results: jest.fn().mockResolvedValue([]),
         },
       ],
-    };
+    });
 
     describe("Has Wild Magic Feat", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("Wild Magic Surge"),
           },
-        };
+        });
       });
 
       it("should be true", () => {
@@ -47,7 +48,7 @@ describe("SpellParser", () => {
       });
 
       it("should be false", () => {
-        const result = SpellParser.IsWildMagicFeat(actorNoWildMagic);
+        const result = SpellParser.IsWildMagicFeat(actorFixture(actorNoWildMagic));
 
         expect(result).toBeFalsy();
       });
@@ -55,30 +56,30 @@ describe("SpellParser", () => {
   });
 
   describe("IsPathOfWildMagicFeat", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
+    });
 
     describe("Has Path of Wild Magic Feat", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValue("POWM"),
           },
-        };
+        });
       });
 
       it("should be true", () => {
-        const result = SpellParser.IsPathOfWildMagicFeat({
+        const result = SpellParser.IsPathOfWildMagicFeat(actorFixture({
           items: [
             {
               name: "POWM",
               type: "subclass",
             },
           ],
-        });
+        }));
 
         expect(result).toBeTruthy();
       });
@@ -91,14 +92,14 @@ describe("SpellParser", () => {
       });
 
       it("should be false", () => {
-        const result = SpellParser.IsPathOfWildMagicFeat({
+        const result = SpellParser.IsPathOfWildMagicFeat(actorFixture({
           items: [
             {
               name: "WMS",
               type: "subclass",
             },
           ],
-        });
+        }));
 
         expect(result).toBeFalsy();
       });
@@ -106,9 +107,9 @@ describe("SpellParser", () => {
   });
 
   describe("SpellLevel", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
+    });
 
     describe("Has a level", () => {
       beforeEach(() => {
@@ -138,9 +139,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsSpell", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
+    });
 
     describe("Has a level", () => {
       beforeEach(() => {
@@ -175,11 +176,11 @@ describe("SpellParser", () => {
         beforeEach(() => {
           jest.clearAllMocks();
           jest.resetAllMocks();
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce("3").mockReturnValueOnce(false),
             },
-          };
+          });
         });
 
         it("should be undefined", async () => {
@@ -193,11 +194,11 @@ describe("SpellParser", () => {
         beforeEach(() => {
           jest.clearAllMocks();
           jest.resetAllMocks();
-          (global as any).game = {
+          setTestGame({
             settings: {
               get: jest.fn().mockReturnValueOnce(false),
             },
-          };
+          });
         });
 
         it("should be 3rd Level", async () => {
@@ -212,11 +213,11 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(false),
           },
-        };
+        });
       });
 
       it("should be 1st Level if in description", async () => {
@@ -230,11 +231,11 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(true),
           },
-        };
+        });
       });
 
       it("should be a cantrip", async () => {
@@ -248,11 +249,11 @@ describe("SpellParser", () => {
       beforeEach(() => {
         jest.clearAllMocks();
         jest.resetAllMocks();
-        (global as any).game = {
+        setTestGame({
           settings: {
             get: jest.fn().mockReturnValueOnce("0").mockReturnValueOnce(false),
           },
-        };
+        });
       });
 
       it("should be undefined if spell level is 0", async () => {
@@ -320,19 +321,28 @@ describe("SpellParser", () => {
 
         expect(result).toBeUndefined();
       });
+
+      it.each(["3", -1, 10, null])(
+        "rejects malformed spell level data: %p",
+        (level) => {
+          const malformedSpell = itemFixture({ system: { level } });
+
+          expect(SpellParser.SpellDetails(malformedSpell)).toBeUndefined();
+        },
+      );
     });
   });
 
   describe("IsSorcererSpell", () => {
     beforeEach(() => {
-      (global as any).Hooks = {
+      setTestHooks({
         callAll: jest.fn().mockReturnValue(true),
-      };
-      (global as any).game = {
+      });
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(false),
         },
-      };
+      });
     });
 
     describe("Is a Sorcerer Spell", () => {
@@ -354,14 +364,14 @@ describe("SpellParser", () => {
 
   describe("IsSorcererSpell Negative Lookup", () => {
     beforeEach(() => {
-      (global as any).Hooks = {
+      setTestHooks({
         callAll: jest.fn().mockReturnValue(true),
-      };
-      (global as any).game = {
+      });
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce("\\(S\\)").mockReturnValueOnce(true),
         },
-      };
+      });
     });
 
     describe("Is a Sorcerer Spell", () => {
@@ -382,9 +392,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsRage", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
+    });
 
     describe("Is Rage", () => {
       beforeEach(() => {
@@ -414,9 +424,9 @@ describe("SpellParser", () => {
   });
 
   describe("IsNPC", () => {
-    (global as any).Hooks = {
+    setTestHooks({
       callAll: jest.fn().mockReturnValue(true),
-    };
+    });
 
     describe("Is set to be a NPC", () => {
       beforeEach(() => {
@@ -425,9 +435,9 @@ describe("SpellParser", () => {
       });
 
       it("should be true", () => {
-        const result = SpellParser.IsNPC({
+        const result = SpellParser.IsNPC(actorFixture({
           type: "npc",
-        });
+        }));
 
         expect(result).toBeTruthy();
       });
@@ -440,9 +450,9 @@ describe("SpellParser", () => {
       });
 
       it("should be false", () => {
-        const result = SpellParser.IsNPC({
+        const result = SpellParser.IsNPC(actorFixture({
           type: "pc",
-        });
+        }));
 
         expect(result).toBeFalsy();
       });

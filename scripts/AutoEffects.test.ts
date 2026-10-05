@@ -1,4 +1,6 @@
+import { setTestGame, setTestGlobal, setTestUi, testGlobals } from "./test/FoundryFixtures";
 import AutoEffects from "./AutoEffects";
+import Logger from "./Logger";
 import "../__mocks__/index.ts";
 
 const mockSequenceEffect = jest.fn().mockReturnThis();
@@ -28,8 +30,7 @@ beforeEach(() => {
   mockSequencePlay.mockClear();
 });
 
-// @ts-expect-error TS(7017): Element implicitly has an 'any' type because type ... Remove this comment to see the full error message
-global.Sequence = jest.fn().mockImplementation(() => ({
+setTestGlobal("Sequence", jest.fn().mockImplementation(() => ({
   play: mockSequencePlay,
   effect: mockSequenceEffect,
   file: mockSequenceFile,
@@ -37,19 +38,19 @@ global.Sequence = jest.fn().mockImplementation(() => ({
   fadeIn: mockSequenceFadeIn,
   fadeOut: mockSequenceFadeOut,
   atLocation: mockSequenceAtLocation,
-}));
+})));
 
 describe("AutoEffects", () => {
   describe("ModuleActive", () => {
     describe("Given module is Active", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: true };
             },
           },
-        };
+        });
       });
 
       it("It returns true", async () => {
@@ -61,13 +62,13 @@ describe("AutoEffects", () => {
 
     describe("Given module is Inactive", () => {
       beforeEach(() => {
-        (global as any).game = {
+        setTestGame({
           modules: {
             get: () => {
               return { active: false };
             },
           },
-        };
+        });
       });
 
       it("It returns true", async () => {
@@ -80,11 +81,11 @@ describe("AutoEffects", () => {
 
   describe("Given AutoEffects setting is disabled", () => {
     beforeEach(() => {
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockReturnValueOnce(false),
         },
-      };
+      });
     });
 
     it("It returns undefined", async () => {
@@ -96,16 +97,31 @@ describe("AutoEffects", () => {
 
   describe("Given Effects are enabled", () => {
     beforeEach(() => {
-      (global as any).game = {
+      setTestGame({
         settings: {
           get: jest.fn().mockResolvedValueOnce(true),
         },
-      };
+      });
 
       AutoEffects._isModuleActive = jest.fn().mockResolvedValue(true);
     });
 
     describe("Given Sequencer and JB2A are installed and active", () => {
+      it("reports a rejected animation without delaying the surge", async () => {
+        const failure = new Error("animation failed");
+        mockSequencePlay.mockRejectedValueOnce(failure);
+        const report = jest.spyOn(Logger, "error").mockImplementation(() => undefined);
+        try {
+          await expect(AutoEffects.Run("tokenid")).resolves.toBeUndefined();
+          await Promise.resolve();
+          expect(report).toHaveBeenCalledWith(
+            "Wild Magic Surge animation failed", "AutoEffects.Run", failure,
+          );
+        } finally {
+          report.mockRestore();
+        }
+      });
+
       it("It returns the just the content", async () => {
         await AutoEffects.Run("tokenid");
 
@@ -129,16 +145,16 @@ describe("AutoEffects", () => {
   describe("Given Effects are disabled", () => {
     describe("Given Sequencer is not installed or active", () => {
       beforeEach(() => {
-        (global as any).ui = {
+        setTestUi({
           notifications: {
             info: mockUiInfo,
           },
-        };
-        (global as any).game = {
+        });
+        setTestGame({
           settings: {
             get: jest.fn().mockResolvedValueOnce(true),
           },
-        };
+        });
 
         AutoEffects._isModuleActive = jest.fn().mockReturnValue(false);
       });
@@ -168,16 +184,16 @@ describe("AutoEffects", () => {
 
     describe("Given JB2A_DnD5e is not installed or active", () => {
       beforeEach(() => {
-        (global as any).ui = {
+        setTestUi({
           notifications: {
             info: mockUiInfo,
           },
-        };
-        (global as any).game = {
+        });
+        setTestGame({
           settings: {
             get: jest.fn().mockResolvedValueOnce(true),
           },
-        };
+        });
 
         AutoEffects._isModuleActive = jest
           .fn()

@@ -1,11 +1,13 @@
-<form class="flexcol" autocomplete="off">
+<div class="flexcol">
   <section class="content">
     {{#each modules}} {{#if this.isString}}
     <div class="form-group">
-      <label>{{this.displayname}}</label>
+      <label for="wms-setting-{{this.key}}">{{this.displayname}}</label>
       <div class="form-fields">
         <input
           type="text"
+          id="wms-setting-{{this.key}}"
+          autocomplete="off"
           name="{{this.module}}.{{this.key}}"
           value="{{this.value}}"
           data-dtype="{{this.type}}"
@@ -17,9 +19,10 @@
     {{/if}}
     {{#if this.isBoolean}}
     <div class="form-group">
-      <label>{{this.displayname}}</label>
+      <label for="wms-setting-{{this.key}}">{{this.displayname}}</label>
       <div class="form-fields">
         <input type="checkbox"
+          id="wms-setting-{{this.key}}"
           name="{{this.module}}.{{this.key}}"
           data-dtype="{{this.type}}"
           {{#if this.value}}checked{{/if}}>
@@ -30,9 +33,9 @@
     {{/if}}
     {{#if this.isArray}}
     <div class="form-group">
-      <label>{{this.displayname}}</label>
+      <label for="wms-setting-{{this.key}}">{{this.displayname}}</label>
       <div class="form-fields">
-        <select name="{{this.module}}.{{this.key}}" 
+        <select id="wms-setting-{{this.key}}" name="{{this.module}}.{{this.key}}"
           data-dtype="{{this.type}}">
           {{#each this.choicesSelect}}
             <option value="{{this.key}}"
@@ -52,4 +55,4 @@
       </button>
     </div>
   </section>
-</form>
+</div>

@@ -1,6 +1,7 @@
 /* exported config */
 /** @type {import('jest').Config} */
 module.exports = {
+  testMatch: ["<rootDir>/scripts/**/*.test.ts"],
   transform: {
     "^.+\\.tsx?$": "babel-jest",
   },
@@ -11,6 +12,7 @@ module.exports = {
     },
   },
   collectCoverage: true,
+  coverageReporters: ["clover", "json", "lcov", "text", "json-summary"],
   collectCoverageFrom: [
     "!**/node_modules/**",
     "scripts/**/*.ts",

@@ -4,9 +4,21 @@ on:
   release:
     types: [released]
 
+permissions:
+  contents: read
+
 jobs:
+  lint:
+    name: ESLint
+    uses: ./.github/workflows/lint_job.yml
+
+  test:
+    name: Typecheck and Jest
+    uses: ./.github/workflows/test_job.yml
+
   create_changelog_commit:
     name: Create and commit Changelog
+    needs: ['lint', 'test']
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,33 +38,29 @@ jobs:
       uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version-file: '.nvmrc'
-
-    - name: Cache yarn dependencies
-      id: cache
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-      with:
-        path: ./node_modules
-        key: modules-${{ hashFiles('yarn.lock') }}
+        cache: yarn
 
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install
+      run: yarn install --frozen-lockfile
 
     - name: Build Module
       run: yarn run build
     
     - name: Substitute Manifest and Download Links For Versioned Ones
       id: sub_manifest_link_version
+      env:
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+        RELEASE_REPOSITORY: ${{ github.repository }}
       run: |
-        jq --arg version "${{ github.event.release.tag_name }}" \
-          --arg url "https://github.com/${{ github.repository }}" \
-          --arg manifest "https://github.com/${{ github.repository }}/releases/latest/download/module.json" \
-          --arg download "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.zip" \
+        jq --arg version "$RELEASE_TAG" \
+          --arg url "https://github.com/$RELEASE_REPOSITORY" \
+          --arg manifest "https://github.com/$RELEASE_REPOSITORY/releases/latest/download/module.json" \
+          --arg download "https://github.com/$RELEASE_REPOSITORY/releases/download/$RELEASE_TAG/module.zip" \
           '.version = $version | .url = $url | .manifest = $manifest | .download = $download' \
           module.json > module.tmp.json && mv module.tmp.json module.json
 
     # Create a zip file with all files required by the module to add to the release
-    - run: zip -r ./module.zip module.json CHANGELOG.md LICENSE dist/ styles/ languages/ templates/ packs/
+    - run: zip -r ./module.zip module.json CHANGELOG.md LICENSE dist/ languages/ templates/ packs/
 
     # Create a release for this specific version
     - name: Update Release with Files
