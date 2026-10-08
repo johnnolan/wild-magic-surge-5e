@@ -20,7 +20,7 @@
     "test:e2e:trace": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --trace on",
     "test:e2e:headed": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --headed",
     "test:e2e:ui": "yarn build && node ./scripts/e2e/stage-module.mjs && playwright test --ui",
-    "typecheck:e2e": "node ./node_modules/typescript/bin/tsc --noEmit --project tsconfig.e2e.json",
+    "typecheck:e2e": "tsc --noEmit --project tsconfig.e2e.json",
     "lint:check": "eslint .",
     "lint:report": "eslint --output-file eslint_report.json --format json .",
     "lint:fix": "eslint --fix ."
@@ -37,6 +37,7 @@
     "@types/node": "25.9.9",
     "@typescript-eslint/eslint-plugin": "8.71.0",
     "@typescript-eslint/parser": "8.71.0",
+    "@typescript/native": "npm:typescript@7.0.2",
     "@typhonjs-fvtt/eslint-config-foundry.js": "0.8.0",
     "babel-jest": "30.5.2",
     "esbuild": "0.28.2",
@@ -50,7 +51,7 @@
     "jquery": "4.0.0",
     "jshint": "2.13.6",
     "prettier": "3.9.9",
-    "typescript": "6.0.3"
+    "typescript": "npm:@typescript/typescript6@6.0.2"
   },
   "jest-junit": {
     "outputDirectory": "./test-results/junit",
