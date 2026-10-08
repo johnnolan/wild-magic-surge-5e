@@ -182,7 +182,7 @@ describe("Chat", () => {
         roll: rollFixture({
           render: jest.fn().mockResolvedValue("<span>7</span>"),
         }),
-        results: [{ text: "Unique table result" }],
+        results: [{ description: "Unique table result" }],
       });
       const table = rollTableFixture({ name: "Unique table" });
       const input =
@@ -423,7 +423,7 @@ describe("Chat", () => {
         rollResult = tableDrawFixture({
           results: [
             {
-              text: "test text",
+              description: "test text",
 
               getChatText: jest.fn(),
             },
@@ -469,7 +469,7 @@ describe("Chat", () => {
         rollResult = tableDrawFixture({
           results: [
             {
-              text: "test text",
+              description: "test text",
 
               getChatText: jest.fn(),
             },
@@ -516,7 +516,7 @@ describe("Chat", () => {
         rollResult = tableDrawFixture({
           results: [
             {
-              text: "test text",
+              description: "test text",
 
               getChatText: jest.fn(),
             },
@@ -560,12 +560,12 @@ describe("Chat", () => {
         rollResultTwoResults = tableDrawFixture({
           results: [
             {
-              text: "test text",
+              description: "test text",
 
               getChatText: jest.fn(),
             },
             {
-              text: "test text 2",
+              description: "test text 2",
 
               getChatText: jest.fn(),
             },

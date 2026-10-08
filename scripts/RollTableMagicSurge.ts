@@ -67,7 +67,7 @@ class RollTableMagicSurge {
     await Chat.Send(WMSCONST.CHAT_TYPE.TABLE, "", result, surgeRollTable);
 
     if (result.results.length > 0) {
-      return result.results[0].text;
+      return result.results[0].description;
     } else {
       return;
     }
