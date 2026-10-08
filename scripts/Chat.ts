@@ -141,8 +141,8 @@ export default class Chat {
       sound: null,
     };
 
-    const rollText = results.map((r: TableResult) => {
-      return r.text;
+    const rollText = results.map((result: TableResult) => {
+      return result.description;
     });
     const surgeName =
       game.i18n?.format("WildMagicSurge5E.es_wild_magic_surge") ??

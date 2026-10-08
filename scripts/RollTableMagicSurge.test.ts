@@ -196,7 +196,7 @@ describe("RollTableMagicSurge", () => {
             name: "Wild Magic Surge",
             roll: jest.fn().mockResolvedValue({
               results: [{
-                text: "test"
+                description: "test"
               }],
               render: jest.fn().mockResolvedValue(""),
             }),

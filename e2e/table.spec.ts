@@ -32,15 +32,18 @@ test("automatic table draws happen once and the None option draws nothing", asyn
   await world.setSetting("enableRollTable", "AUTO");
   const chatBeforeAuto = await readChatMessages(gmPage);
   await castSpellFromSheet(gmPage, caster);
-  await expect
-    .poll(
-      async () =>
-        tableMessages(
-          messagesAfter(chatBeforeAuto, await readChatMessages(gmPage)),
-          table.name,
-        ).length,
-    )
-    .toBe(1);
+  const autoMessages = async () =>
+    tableMessages(
+      messagesAfter(chatBeforeAuto, await readChatMessages(gmPage)),
+      table.name,
+    );
+  await expect.poll(async () => (await autoMessages()).length).toBe(1);
+  const autoMessage = (await autoMessages())[0];
+  expect(
+    table.resultDescriptions.some((description) =>
+      autoMessage.content.includes(description),
+    ),
+  ).toBe(true);
 
   await world.setSetting("enableRollTable", "DEFAULT");
   const chatBeforeNone = await readChatMessages(gmPage);
