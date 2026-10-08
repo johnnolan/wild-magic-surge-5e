@@ -81,3 +81,37 @@ jobs:
         branch: ${{ github.event.release.target_commitish }}
         commit_message: Update CHANGELOG
         file_pattern: CHANGELOG.md
+
+    - name: Publish package to Foundry VTT
+      if: ${{ !github.event.release.prerelease }}
+      env:
+        FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+        RELEASE_REPOSITORY: ${{ github.repository }}
+        RELEASE_URL: ${{ github.event.release.html_url }}
+      run: |
+        if [ -z "$FOUNDRY_RELEASE_TOKEN" ]; then
+          echo "::error::Add the FOUNDRY_RELEASE_TOKEN repository secret to publish to Foundry VTT."
+          exit 1
+        fi
+
+        payload=$(jq --arg manifest "https://github.com/$RELEASE_REPOSITORY/releases/download/$RELEASE_TAG/module.json" \
+          --arg notes "$RELEASE_URL" \
+          '{id: .id, release: {version: .version, manifest: $manifest, notes: $notes, compatibility: .compatibility}}' \
+          module.json)
+
+        response_file=$(mktemp)
+        trap 'rm -f "$response_file"' EXIT
+        curl --fail-with-body --silent --show-error \
+          --connect-timeout 30 --max-time 120 \
+          --request POST \
+          --header "Authorization: $FOUNDRY_RELEASE_TOKEN" \
+          --header "Content-Type: application/json" \
+          --data "$payload" \
+          --output "$response_file" \
+          https://foundryvtt.com/_api/packages/release_version/ || {
+            cat "$response_file"
+            exit 1
+          }
+        cat "$response_file"
+        jq --exit-status '.status == "success"' "$response_file"
