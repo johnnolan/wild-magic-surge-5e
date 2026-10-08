@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.4.0 - 2026-10-08
+
+Updates to latest version of FoundryVTT and DND5e
+
 ## 7.3.0 - 2025-12-28
 
 ### Features
