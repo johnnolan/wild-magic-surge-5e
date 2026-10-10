@@ -3,6 +3,10 @@ import { ParseDnd5eResource } from "./Dnd5eSystem";
 import type { DieValue, ResourceValue } from "../types/domain";
 
 export interface WMSModuleSettingValues {
+  wmsTriggerBaseLevel: boolean;
+  wmsTriggerUpcast: boolean;
+  tocTriggerBaseLevel: boolean;
+  tocTriggerUpcast: boolean;
   autoRollD20: boolean;
   wmsName: string;
   spellRegexEnabled: boolean;
@@ -76,6 +80,10 @@ const moduleSettingValueTypes: Record<
   WMSModuleSettingKey,
   "boolean" | "string"
 > = {
+  wmsTriggerBaseLevel: "boolean",
+  wmsTriggerUpcast: "boolean",
+  tocTriggerBaseLevel: "boolean",
+  tocTriggerUpcast: "boolean",
   autoRollD20: "boolean",
   wmsName: "string",
   spellRegexEnabled: "boolean",

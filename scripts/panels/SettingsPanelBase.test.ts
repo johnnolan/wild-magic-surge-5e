@@ -32,6 +32,7 @@ const {
   SpellLevelSettingsPanel,
   SpellRegexSettingsPanel,
   StandardSettingsPanel,
+  UpcastSettingsPanel,
 } = require("./index") as typeof import("./index");
 const ModuleSettings = (
   require("../ModuleSettings") as typeof import("../ModuleSettings")
@@ -41,6 +42,16 @@ const settingsTemplate = compile(
 );
 
 const panels = [
+  {
+    panel: UpcastSettingsPanel,
+    title: "WildMagicSurge5E.settings_panel_upcast",
+    keys: [
+      WMSCONST.OPT_UPCAST_WMS_TRIGGER_BASE,
+      WMSCONST.OPT_UPCAST_WMS_TRIGGER_UPCAST,
+      WMSCONST.OPT_UPCAST_TOC_TRIGGER_BASE,
+      WMSCONST.OPT_UPCAST_TOC_TRIGGER_UPCAST,
+    ],
+  },
   {
     panel: ChatSettingsPanel,
     title: "WildMagicSurge5E.settings_panel_chat_message",
@@ -213,6 +224,33 @@ describe("settings panels", () => {
       expect(values.get(key)).toBe(submittedValue);
     },
   );
+
+  it("defaults all upcast options to enabled and saves unchecked options", async () => {
+    const panel = new UpcastSettingsPanel();
+    const context = await renderData(panel);
+    expect(context.modules).toHaveLength(4);
+    const form = document.createElement("form");
+    form.innerHTML = settingsTemplate(context);
+    const inputs = Array.from(
+      form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'),
+    );
+    expect(inputs).toHaveLength(4);
+    expect(inputs.every((input) => input.checked)).toBe(true);
+
+    await UpcastSettingsPanel.DEFAULT_OPTIONS.form.handler(
+      new Event("submit"),
+      form,
+      formDataFixture(
+        Object.fromEntries(inputs.map((input) => [input.name, false])),
+      ),
+    );
+
+    expect(set).toHaveBeenCalledTimes(4);
+    for (const { key } of context.modules) {
+      expect(set).toHaveBeenCalledWith(WMSCONST.MODULE_ID, key, false);
+      expect(values.get(key)).toBe(false);
+    }
+  });
 
   it("propagates a failed settings write to the submitting panel", async () => {
     const failure = new Error("setting write failed");

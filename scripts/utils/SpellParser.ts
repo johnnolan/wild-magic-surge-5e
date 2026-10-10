@@ -1,4 +1,5 @@
 import { getModuleSetting } from "./TypedSettings";
+import type { UsageConfig } from "../types/domain";
 import { WMSCONST } from "../WMSCONST";
 import {
   GetDnd5eSpellLevel,
@@ -7,6 +8,11 @@ import {
 } from "./Dnd5eSystem";
 
 export default class SpellParser {
+  /** Checks if the spell was cast at a higher level. */
+  static IsUpcastSpell(usageConfig?: UsageConfig): boolean {
+    return (usageConfig?.scaling ?? 0) > 0;
+  }
+
   /**
    * Returns whether the actor has the Wild Magic Feat in their items
    * @param actor - Foundry Actor

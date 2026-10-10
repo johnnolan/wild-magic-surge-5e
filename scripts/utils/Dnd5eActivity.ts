@@ -1,3 +1,5 @@
+import type { UsageConfig } from "../types/domain";
+
 export interface Dnd5ePostUseActivity {
   item: Item;
   consumption?: {
@@ -50,4 +52,17 @@ export async function HandlePostUseActivity(
       item,
     },
   });
+}
+/** Normalize hook and socket data; older callers have no scaling information. */
+export function ParseUsageConfig(value: unknown): UsageConfig {
+  if (
+    value &&
+    typeof value === "object" &&
+    "scaling" in value &&
+    typeof value.scaling === "number" &&
+    Number.isFinite(value.scaling)
+  ) {
+    return { scaling: value.scaling };
+  }
+  return { scaling: 0 };
 }

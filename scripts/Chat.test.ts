@@ -13,6 +13,7 @@ import "../__mocks__/index";
 
 describe("Chat", () => {
   beforeEach(() => {
+    testGlobals.game.settings.settings = new Map([["core.messageMode", {}]]);
     testGlobals.game.roll = {
       get: jest.fn().mockResolvedValue(true),
       result: jest.fn().mockResolvedValue(20),

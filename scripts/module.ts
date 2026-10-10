@@ -8,9 +8,10 @@ import { ActorHelperPanel } from "./panels/ActorHelperPanel";
 import Logger from "./Logger";
 import RollTableMagicSurge from "./RollTableMagicSurge";
 import DieDescending from "./utils/DieDescending";
-import { HandlePostUseActivity } from "./utils/Dnd5eActivity";
+import { HandlePostUseActivity, ParseUsageConfig } from "./utils/Dnd5eActivity";
 import { AttachRollTableButton } from "./utils/ChatMessageHooks";
 import { CreateWMSActorSheetControl } from "./utils/ActorSheetControls";
+import { ResetSurgeChecks } from "./utils/ResetSurgeChecks";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -37,7 +38,7 @@ Hooks.on("init", function () {
 
   Hooks.on("wild-magic-surge-5e.reset", async function (actor) {
     if (actor) {
-      await _resetActorChecks(actor);
+      await ResetSurgeChecks(actor);
     }
   });
 
@@ -60,18 +61,13 @@ function getTokenIdByActorId(
   );
 }
 
-async function _resetActorChecks(actor: Actor): Promise<void> {
-  await IncrementalCheck.Reset(actor);
-  await DieDescending.Reset(actor);
-}
-
 async function _resetChecks(actorId: string) {
   if (!actorId) return false;
   const actor = game.actors?.get(actorId);
   if (!actor) {
     return false;
   }
-  await _resetActorChecks(actor);
+  await ResetSurgeChecks(actor);
 }
 
 Hooks.once("ready", async function () {
@@ -109,22 +105,39 @@ Hooks.once("ready", async function () {
           typeof surgeCheckData.tokenId === "string"
             ? surgeCheckData.tokenId
             : undefined;
-        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+        const usageConfig = ParseUsageConfig(
+          "usageConfig" in surgeCheckData
+            ? surgeCheckData.usageConfig
+            : undefined,
+        );
+        const magicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          tokenId,
+          usageConfig,
+        );
         await magicSurgeCheck.CheckItem(surgeCheckData.item as Item);
       },
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", async (activity) => {
+  Hooks.on("dnd5e.postUseActivity", async (activity, config) => {
+    const usageConfig = ParseUsageConfig(config);
     await HandlePostUseActivity(activity, {
       getTokenIdByActorId,
       isGM: game.user?.isGM ?? false,
       onGMCheck: async (actor, item, tokenId) => {
-        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+        const magicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          tokenId,
+          usageConfig,
+        );
         await magicSurgeCheck.CheckItem(item);
       },
       onPlayerCheck: (payload) => {
-        game.socket?.emit("module.wild-magic-surge-5e", payload);
+        game.socket?.emit("module.wild-magic-surge-5e", {
+          ...payload,
+          data: { ...payload.data, usageConfig },
+        });
       },
     });
   });

@@ -6,16 +6,45 @@ function isTableDraw(value: Roll | RollTable.Draw): value is RollTable.Draw {
   return "results" in value && "roll" in value;
 }
 
-function getDefaultMessageMode(): ChatMessage.Mode | undefined {
-  // The pinned 14.366 type snapshot omits V14's core messageMode setting.
-  const settings = game.settings as unknown as {
-    get(namespace: "core", key: "messageMode"): unknown;
-  };
-  const mode = settings.get("core", "messageMode");
-  return typeof mode === "string" &&
-    Object.prototype.hasOwnProperty.call(CONFIG.ChatMessage.modes, mode)
-    ? (mode as ChatMessage.Mode)
-    : undefined;
+type ChatVisibility =
+  | { messageMode: ChatMessage.Mode }
+  | { rollMode: ChatMessage.PassableRollMode };
+
+function getCoreChatSettings() {
+  return game.settings as unknown as
+    | {
+        settings: ReadonlyMap<string, unknown>;
+        get(namespace: "core", key: "messageMode" | "rollMode"): unknown;
+      }
+    | undefined;
+}
+
+function getMessageVisibility(mode: "public" | "blind"): ChatVisibility {
+  return getCoreChatSettings()?.settings.has("core.messageMode")
+    ? { messageMode: mode }
+    : { rollMode: mode === "public" ? "publicroll" : "blindroll" };
+}
+
+function getDefaultMessageVisibility(): ChatVisibility | undefined {
+  const settings = getCoreChatSettings();
+  if (settings?.settings.has("core.messageMode")) {
+    const mode = settings.get("core", "messageMode");
+    return typeof mode === "string" &&
+      Object.prototype.hasOwnProperty.call(CONFIG.ChatMessage.modes, mode)
+      ? { messageMode: mode as ChatMessage.Mode }
+      : undefined;
+  }
+  if (!settings?.settings.has("core.rollMode")) return undefined;
+  const mode = settings.get("core", "rollMode");
+  if (
+    mode === "publicroll" ||
+    mode === "gmroll" ||
+    mode === "blindroll" ||
+    mode === "selfroll"
+  ) {
+    return { rollMode: mode };
+  }
+  return undefined;
 }
 
 /**
@@ -46,7 +75,7 @@ export default class Chat {
     );
 
     let chatData: ChatMessage.CreateData;
-    let messageMode: ChatMessage.Mode | undefined;
+    let visibility: ChatVisibility | undefined;
 
     switch (type) {
       case WMSCONST.CHAT_TYPE.ROLL:
@@ -57,10 +86,10 @@ export default class Chat {
           isWhisperRollResultGM,
         );
         if (!isWhisperRollResultGM) {
-          messageMode =
+          visibility =
             getModuleSetting(WMSCONST.OPT_ROLLTABLE_ENABLE) === "PLAYER_TRIGGER"
-              ? "public"
-              : getDefaultMessageMode();
+              ? getMessageVisibility("public")
+              : getDefaultMessageVisibility();
         }
         break;
       case WMSCONST.CHAT_TYPE.TABLE:
@@ -77,12 +106,16 @@ export default class Chat {
       (isWhisperRollResultGM && type === WMSCONST.CHAT_TYPE.DEFAULT) ||
       (isWhisperAutoRollTableGM && type === WMSCONST.CHAT_TYPE.TABLE)
     ) {
-      messageMode = "blind";
+      visibility = getMessageVisibility("blind");
     }
     chatData.speaker = ChatMessage.getSpeaker();
 
-    if (messageMode) {
-      return await ChatMessage.create(chatData, { messageMode });
+    if (visibility && "messageMode" in visibility) {
+      return await ChatMessage.create(chatData, visibility);
+    }
+    if (visibility && "rollMode" in visibility) {
+      // Apply to the data directly so text-only GM messages stay private too.
+      ChatMessage.applyRollMode(chatData, visibility.rollMode);
     }
     return await ChatMessage.create(chatData);
   }
