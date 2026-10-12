@@ -24,6 +24,8 @@ test("the live settings show the documented modes and valid defaults", async ({
       "wmsName",
       "tocName",
       "powmName",
+      "wmsCastWhen",
+      "tocCastWhen",
     ];
     const values = Object.fromEntries(
       keys.map((key) => {
@@ -41,6 +43,8 @@ test("the live settings show the documented modes and valid defaults", async ({
   expect(registrations.wmsName.default).toBe("Wild Magic Surge");
   expect(registrations.tocName.default).toBe("Tides of Chaos");
   expect(registrations.powmName.default).toBe("Path of Wild Magic");
+  expect(registrations.wmsCastWhen.default).toBe("ALL");
+  expect(registrations.tocCastWhen.default).toBe("ALL");
 
   const settings = gmPage.locator("#settings-config");
   await expect(settings).toBeVisible();
@@ -67,6 +71,12 @@ test("the live settings show the documented modes and valid defaults", async ({
     },
     { value: "DIE_DESCENDING", label: "Descending Dice" },
   ]);
+  for (const key of ["wmsCastWhen", "tocCastWhen"]) {
+    expect(await choices(key)).toEqual([
+      { value: "ALL", label: "All eligible spells" },
+      { value: "UPCAST", label: "Upcast spells only" },
+    ]);
+  }
   expect(await choices("enableRollTable")).toEqual([
     { value: "DEFAULT", label: "None" },
     { value: "AUTO", label: "Auto Roll Table" },

@@ -14,6 +14,7 @@ class ModuleSettings {
    * @return {void}
    */
   static Register(): void {
+    if (!game.settings || !game.i18n) return;
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_AUTO_D20}`,
@@ -26,6 +27,19 @@ class ModuleSettings {
         type: Boolean,
       },
     );
+
+    game.settings.register(WMSCONST.MODULE_ID, WMSCONST.OPT_WMS_CAST_WHEN, {
+      name: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_name"),
+      hint: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_hint"),
+      scope: "world",
+      config: true,
+      default: "ALL",
+      type: String,
+      choices: {
+        ALL: "WildMagicSurge5E.cast_when_all",
+        UPCAST: "WildMagicSurge5E.cast_when_upcast",
+      },
+    });
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
@@ -579,6 +593,19 @@ class ModuleSettings {
         type: Boolean,
       },
     );
+
+    game.settings.register(WMSCONST.MODULE_ID, WMSCONST.OPT_TOC_CAST_WHEN, {
+      name: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_name"),
+      hint: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_hint"),
+      scope: "world",
+      config: true,
+      default: "ALL",
+      type: String,
+      choices: {
+        ALL: "WildMagicSurge5E.cast_when_all",
+        UPCAST: "WildMagicSurge5E.cast_when_upcast",
+      },
+    });
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,

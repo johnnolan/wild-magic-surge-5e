@@ -109,24 +109,32 @@ Hooks.once("ready", async function () {
           typeof surgeCheckData.tokenId === "string"
             ? surgeCheckData.tokenId
             : undefined;
-        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
+        const magicSurgeCheck = new MagicSurgeCheck(
+          actor,
+          tokenId,
+          "isUpcast" in surgeCheckData && surgeCheckData.isUpcast === true,
+        );
         await magicSurgeCheck.CheckItem(surgeCheckData.item as Item);
       },
     );
   }
 
-  Hooks.on("dnd5e.postUseActivity", async (activity) => {
-    await HandlePostUseActivity(activity, {
-      getTokenIdByActorId,
-      isGM: game.user?.isGM ?? false,
-      onGMCheck: async (actor, item, tokenId) => {
-        const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId);
-        await magicSurgeCheck.CheckItem(item);
+  Hooks.on("dnd5e.postUseActivity", async (activity, usageConfig) => {
+    await HandlePostUseActivity(
+      activity,
+      {
+        getTokenIdByActorId,
+        isGM: game.user?.isGM ?? false,
+        onGMCheck: async (actor, item, tokenId, isUpcast) => {
+          const magicSurgeCheck = new MagicSurgeCheck(actor, tokenId, isUpcast);
+          await magicSurgeCheck.CheckItem(item);
+        },
+        onPlayerCheck: (payload) => {
+          game.socket?.emit("module.wild-magic-surge-5e", payload);
+        },
       },
-      onPlayerCheck: (payload) => {
-        game.socket?.emit("module.wild-magic-surge-5e", payload);
-      },
-    });
+      usageConfig,
+    );
   });
 
   if (getModuleSetting(WMSCONST.OPT_SHOW_WMS_DEBUG_OPTION)) {

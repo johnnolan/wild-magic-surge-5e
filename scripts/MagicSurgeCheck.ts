@@ -24,9 +24,11 @@ import TriggerMacro from "./TriggerMacro";
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string | undefined;
-  constructor(actor: Actor, tokenId: string | undefined) {
+  _isUpcast: boolean;
+  constructor(actor: Actor, tokenId: string | undefined, isUpcast = false) {
     this._actor = actor;
     this._tokenId = tokenId;
+    this._isUpcast = isUpcast;
   }
 
   async _rollPlayerTrigger(
@@ -185,7 +187,11 @@ class MagicSurgeCheck {
     let roll: Roll | undefined;
 
     let isAutoSurge = false;
-    if (getModuleSetting(WMSCONST.OPT_SURGE_TOC_ENABLED)) {
+    if (
+      getModuleSetting(WMSCONST.OPT_SURGE_TOC_ENABLED) &&
+      (getModuleSetting(WMSCONST.OPT_TOC_CAST_WHEN) !== "UPCAST" ||
+        this._isUpcast)
+    ) {
       if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
         await this.SurgeTidesOfChaos();
@@ -193,6 +199,11 @@ class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
+      if (
+        getModuleSetting(WMSCONST.OPT_WMS_CAST_WHEN) === "UPCAST" &&
+        !this._isUpcast
+      )
+        return;
       roll = await this.WildMagicSurgeRollCheck(spellLevel);
       if (!roll) return;
       const rollTotal = roll.total ?? 1;
