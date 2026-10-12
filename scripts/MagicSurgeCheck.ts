@@ -1,7 +1,12 @@
 import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import { setModuleActorFlag } from "./utils/TypedSettings";
-import type { Comparison, DieValue, SurgeType } from "./types/domain";
+import type {
+  Comparison,
+  DieValue,
+  SurgeType,
+  UsageConfig,
+} from "./types/domain";
 import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -13,6 +18,8 @@ import CallHooks from "./utils/CallHooks";
 import SurgeDetails from "./utils/SurgeDetails";
 import Logger from "./Logger";
 import TriggerMacro from "./TriggerMacro";
+import SpellParser from "./utils/SpellParser";
+import { ResetSurgeChecks } from "./utils/ResetSurgeChecks";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -24,9 +31,15 @@ import TriggerMacro from "./TriggerMacro";
 class MagicSurgeCheck {
   _actor: Actor;
   _tokenId: string | undefined;
-  constructor(actor: Actor, tokenId: string | undefined) {
+  _usageConfig: UsageConfig;
+  constructor(
+    actor: Actor,
+    tokenId: string | undefined,
+    usageConfig: UsageConfig = { scaling: 0 },
+  ) {
     this._actor = actor;
     this._tokenId = tokenId;
+    this._usageConfig = usageConfig;
   }
 
   async _rollPlayerTrigger(
@@ -185,14 +198,31 @@ class MagicSurgeCheck {
     let roll: Roll | undefined;
 
     let isAutoSurge = false;
+    const isUpcastSpell = SpellParser.IsUpcastSpell(this._usageConfig);
     if (getModuleSetting(WMSCONST.OPT_SURGE_TOC_ENABLED)) {
-      if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
+      if (
+        (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) &&
+        getModuleSetting(
+          isUpcastSpell
+            ? WMSCONST.OPT_UPCAST_TOC_TRIGGER_UPCAST
+            : WMSCONST.OPT_UPCAST_TOC_TRIGGER_BASE,
+        )
+      ) {
         isAutoSurge = true;
         await this.SurgeTidesOfChaos();
       }
     }
 
     if (!isAutoSurge) {
+      if (
+        !getModuleSetting(
+          isUpcastSpell
+            ? WMSCONST.OPT_UPCAST_WMS_TRIGGER_UPCAST
+            : WMSCONST.OPT_UPCAST_WMS_TRIGGER_BASE,
+        )
+      ) {
+        return;
+      }
       roll = await this.WildMagicSurgeRollCheck(spellLevel);
       if (!roll) return;
       const rollTotal = roll.total ?? 1;
@@ -314,8 +344,7 @@ class MagicSurgeCheck {
       );
     }
     await TidesOfChaos.Check(this._actor);
-    await IncrementalCheck.Reset(this._actor);
-    await DieDescending.Reset(this._actor);
+    await ResetSurgeChecks(this._actor);
     await this._callIsSurgeHook(true);
     await AutoEffects.Run(this._tokenId);
   }

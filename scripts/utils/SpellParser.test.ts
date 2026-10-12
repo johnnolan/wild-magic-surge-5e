@@ -472,3 +472,20 @@ describe("SpellParser", () => {
     });
   });
 });
+describe("IsUpcastSpell", () => {
+  it("recognizes positive scaling", () => {
+    expect(SpellParser.IsUpcastSpell({ scaling: 2 })).toBe(true);
+  });
+
+  it("treats zero scaling as a base-level cast", () => {
+    expect(SpellParser.IsUpcastSpell({ scaling: 0 })).toBe(false);
+  });
+
+  it("does not treat negative scaling as an upcast", () => {
+    expect(SpellParser.IsUpcastSpell({ scaling: -1 })).toBe(false);
+  });
+
+  it("tolerates missing usage configuration", () => {
+    expect(SpellParser.IsUpcastSpell()).toBe(false);
+  });
+});

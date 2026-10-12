@@ -2,6 +2,10 @@ export type SurgeType = "WMS" | "POWM" | "TOCSURGE";
 
 export type Comparison = "EQ" | "GT" | "LT";
 
+export interface UsageConfig {
+  scaling: number;
+}
+
 export type DieValue =
   undefined | "1d20" | "1d12" | "1d10" | "1d8" | "1d6" | "1d4";
 

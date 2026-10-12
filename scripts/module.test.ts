@@ -121,6 +121,49 @@ describe("module hooks", () => {
     );
   });
 
+  it.each([
+    { mode: "INCREMENTAL_CHECK", max: 20 },
+    { mode: "INCREMENTAL_CHECK_CHAOTIC", max: 10 },
+    { mode: "DIE_DESCENDING", max: 6 },
+  ])(
+    "keeps the $mode sheet resource maximum for both reset hooks",
+    async ({ mode, max }) => {
+      const initial = {
+        label: "Surge Chance",
+        lr: false,
+        sr: false,
+        value: 5,
+        max,
+      };
+      const system = { resources: { primary: initial } };
+      const actor = actorFixture({
+        id: "caster",
+        system,
+        update: jest.fn(async (updates: Record<string, typeof initial>) => {
+          system.resources.primary = updates["system.resources.primary"];
+        }),
+      });
+      setTestGame({
+        user: { isGM: false },
+        actors: { get: jest.fn().mockReturnValue(actor) },
+        settings: {
+          get: jest.fn((_namespace: string, key: string) => {
+            if (key === WMSCONST.OPT_RESOURCE_TYPE) return "PRIMARY";
+            if (key === WMSCONST.OPT_SURGE_TYPE) return mode;
+          }),
+        },
+      });
+      await onceListeners.get("ready")?.();
+
+      await listeners.get("wild-magic-surge-5e.reset")?.(actor);
+      expect(system.resources.primary).toEqual({ ...initial, value: 1 });
+
+      system.resources.primary = { ...initial };
+      await listeners.get("wild-magic-surge-5e.Reset")?.(actor.id);
+      expect(system.resources.primary).toEqual({ ...initial, value: 1 });
+    },
+  );
+
   it("awaits a socket reset write and exposes a failed flag update", async () => {
     const write = deferred<void>();
     const actor = actorFixture({
@@ -198,6 +241,7 @@ describe("module hooks", () => {
       actor: Actor;
       tokenId: string | undefined;
       item: Item;
+      scaling: number;
     }> = [];
     const checkItem = jest
       .spyOn(MagicSurgeCheck.prototype, "CheckItem")
@@ -206,6 +250,7 @@ describe("module hooks", () => {
           actor: this._actor,
           tokenId: this._tokenId,
           item: checkedItem,
+          scaling: this._usageConfig.scaling,
         });
       });
     try {
@@ -229,11 +274,70 @@ describe("module hooks", () => {
         data: { actorId: actor.id, item },
       });
       expect(checked).toEqual([
-        { actor, tokenId: "token-1", item },
-        { actor, tokenId: undefined, item },
+        { actor, tokenId: "token-1", item, scaling: 0 },
+        { actor, tokenId: undefined, item, scaling: 0 },
       ]);
     } finally {
       checkItem.mockRestore();
     }
   });
+
+  it.each([0, 2])(
+    "preserves scaling %i for GM casts and player socket checks",
+    async (scaling) => {
+      const actor = actorFixture({ id: "actor-1" });
+      const item = itemFixture({ actor, name: "spell" });
+      const activity = { item, consumption: { spellSlot: true } };
+      const socketOn = jest.fn();
+      const socketEmit = jest.fn();
+      const seenScaling: number[] = [];
+      const check = jest
+        .spyOn(MagicSurgeCheck.prototype, "CheckItem")
+        .mockImplementation(async function (this: MagicSurgeCheck) {
+          seenScaling.push(this._usageConfig.scaling);
+        });
+      try {
+        setTestCanvas({ tokens: { placeables: [{ id: "token-1", actor }] } });
+        setTestGame({
+          user: { isGM: true },
+          actors: { get: jest.fn().mockReturnValue(actor) },
+          socket: { on: socketOn, emit: socketEmit },
+          settings: { get: jest.fn() },
+        });
+        await onceListeners.get("ready")?.();
+        await listeners.get("dnd5e.postUseActivity")?.(activity, { scaling });
+        expect(seenScaling).toEqual([scaling]);
+        expect(socketEmit).not.toHaveBeenCalled();
+        const receive = socketOn.mock.calls[0][1];
+
+        setTestGame({
+          user: { isGM: false },
+          socket: { emit: socketEmit },
+          settings: { get: jest.fn() },
+        });
+        await onceListeners.get("ready")?.();
+        await listeners.get("dnd5e.postUseActivity")?.(activity, { scaling });
+        expect(check).toHaveBeenCalledTimes(1);
+        expect(socketEmit).toHaveBeenCalledWith("module.wild-magic-surge-5e", {
+          event: "SurgeCheck",
+          data: {
+            actorId: actor.id,
+            item,
+            tokenId: "token-1",
+            usageConfig: { scaling },
+          },
+        });
+
+        setTestGame({
+          user: { isGM: true },
+          actors: { get: jest.fn().mockReturnValue(actor) },
+          settings: { get: jest.fn() },
+        });
+        await receive(socketEmit.mock.calls[0][1]);
+        expect(seenScaling).toEqual([scaling, scaling]);
+      } finally {
+        check.mockRestore();
+      }
+    },
+  );
 });

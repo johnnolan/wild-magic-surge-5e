@@ -1,7 +1,27 @@
 import { actorFixture, deferred, itemFixture } from "../test/FoundryFixtures";
-import { HandlePostUseActivity } from "./Dnd5eActivity";
+import { HandlePostUseActivity, ParseUsageConfig } from "./Dnd5eActivity";
 import { actor } from "../../MockData/actor";
 import "../../__mocks__/index";
+
+describe("ParseUsageConfig", () => {
+  it.each([
+    undefined,
+    null,
+    {},
+    "upcast",
+    { scaling: "2" },
+    { scaling: NaN },
+    { scaling: Infinity },
+  ])("treats absent or invalid scaling as base-level: %p", (value) =>
+    expect(ParseUsageConfig(value)).toEqual({ scaling: 0 }),
+  );
+
+  it("keeps the cast scaling without forwarding unrelated hook data", () => {
+    expect(ParseUsageConfig({ scaling: 2, unrelated: "data" })).toEqual({
+      scaling: 2,
+    });
+  });
+});
 
 describe("HandlePostUseActivity", () => {
   const item = itemFixture({ actor });
