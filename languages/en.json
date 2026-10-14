@@ -122,10 +122,11 @@
   "WildMagicSurge5E.settings_panel_upcast_spell": "Upcast Spell Options",
   "WildMagicSurge5E.configure": "Configure",
   "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information",
-  "WildMagicSurge5E.cast_when_all": "All eligible spells",
-  "WildMagicSurge5E.cast_when_upcast": "Upcast spells only",
+  "WildMagicSurge5E.cast_when_default": "Default behavior (both base-level and upcast)",
+  "WildMagicSurge5E.cast_when_base": "Base-level only",
+  "WildMagicSurge5E.cast_when_upcast": "Upcast only",
   "WildMagicSurge5E.opt_wms_cast_when_name": "Wild Magic Surge — Cast when",
-  "WildMagicSurge5E.opt_wms_cast_when_hint": "Choose which eligible casts trigger an automated Wild Magic Surge check. Upcast spells use a higher-level spell slot.",
+  "WildMagicSurge5E.opt_wms_cast_when_hint": "Choose which eligible casts trigger an automated Wild Magic Surge check. Base-level casts use the spell's normal level; upcasts use a higher-level spell slot. Both and Default behavior allow either cast type.",
   "WildMagicSurge5E.opt_toc_cast_when_name": "Tides of Chaos — Cast when",
   "WildMagicSurge5E.opt_toc_cast_when_hint": "Choose which eligible casts trigger an automatic surge after Tides of Chaos is spent. Other casts can still trigger an ordinary Wild Magic Surge check."
 }

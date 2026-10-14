@@ -34,11 +34,12 @@ class ModuleSettings {
       hint: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_hint"),
       scope: "world",
       config: false,
-      default: "ALL",
+      default: "DEFAULT",
       type: String,
       choices: {
-        ALL: "WildMagicSurge5E.cast_when_all",
+        BASE: "WildMagicSurge5E.cast_when_base",
         UPCAST: "WildMagicSurge5E.cast_when_upcast",
+        DEFAULT: "WildMagicSurge5E.cast_when_default",
       },
     });
 
@@ -215,20 +216,14 @@ class ModuleSettings {
       restricted: true,
     });
 
-    game.settings.registerMenu(
-      WMSCONST.MODULE_ID,
-      UpcastSpellSettingsPanel.name,
-      {
-        name: game.i18n.format(
-          "WildMagicSurge5E.settings_panel_upcast_spell",
-        ),
-        label: game.i18n.format("WildMagicSurge5E.configure"),
-        icon: "fas fa-cog",
-        scope: "world",
-        type: UpcastSpellSettingsPanel,
-        restricted: true,
-      },
-    );
+    game.settings.registerMenu(WMSCONST.MODULE_ID, "UpcastSpellSettingsPanel", {
+      name: game.i18n.format("WildMagicSurge5E.settings_panel_upcast_spell"),
+      label: game.i18n.format("WildMagicSurge5E.configure"),
+      icon: "fas fa-cog",
+      scope: "world",
+      type: UpcastSpellSettingsPanel,
+      restricted: true,
+    });
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
@@ -615,11 +610,12 @@ class ModuleSettings {
       hint: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_hint"),
       scope: "world",
       config: false,
-      default: "ALL",
+      default: "DEFAULT",
       type: String,
       choices: {
-        ALL: "WildMagicSurge5E.cast_when_all",
+        BASE: "WildMagicSurge5E.cast_when_base",
         UPCAST: "WildMagicSurge5E.cast_when_upcast",
+        DEFAULT: "WildMagicSurge5E.cast_when_default",
       },
     });
 

@@ -30,6 +30,6 @@ The module does not inspect a spell's `Source Class`. If you enable the spell-na
 
 ### Cast when options
 
-The module settings include separate Wild Magic Surge and Tides of Chaos "Cast when" dropdowns. Both default to `All eligible spells`, preserving existing behavior. Select `Upcast spells only` to require a spell cast above its base level, such as Magic Missile cast using a level-three slot.
+The module settings include separate Wild Magic Surge and Tides of Chaos "Cast when" dropdowns. Each dropdown offers `Base-level only`, `Upcast only`, and `Default behavior`. Default behavior is the default for new worlds and checks both cast types. Existing Both selections retain their behavior. Base-level only excludes upcasts; Upcast only requires a spell cast above its base level, such as Magic Missile cast using a level-three slot.
 
 These options apply to automated checks and keep the existing feat, minimum spell level, cantrip, and spell-name filters. Automatic Tides surges also require the corresponding option to be enabled and Tides to be spent. If a cast does not qualify for an automatic Tides surge, it can still receive an ordinary Wild Magic Surge check according to that dropdown.

@@ -149,7 +149,7 @@ export function SettingsList(
       value,
       choicesSelect: Object.entries(metadata.choices).map(([key, label]) => ({
         key,
-        value: label,
+        value: game.i18n?.format(label) ?? label,
         selected: key === value,
       })),
     });

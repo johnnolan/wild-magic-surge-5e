@@ -1,7 +1,7 @@
 import { getModuleSetting } from "./utils/TypedSettings";
 import { WMSCONST } from "./WMSCONST";
 import { setModuleActorFlag } from "./utils/TypedSettings";
-import type { Comparison, DieValue, SurgeType } from "./types/domain";
+import type { CastWhen, Comparison, DieValue, SurgeType } from "./types/domain";
 import Chat from "./Chat";
 import TidesOfChaos from "./TidesOfChaos";
 import RollTableMagicSurge from "./RollTableMagicSurge";
@@ -177,6 +177,18 @@ class MagicSurgeCheck {
     return false;
   }
 
+  private _matchesCastWhen(castWhen: CastWhen): boolean {
+    switch (castWhen) {
+      case "BASE":
+        return !this._isUpcast;
+      case "UPCAST":
+        return this._isUpcast;
+      default:
+        // Both and Default behavior preserve checks for either cast type.
+        return true;
+    }
+  }
+
   /**
    * Automatically checks for a surge against the spell level and game type.
    * @param {string} spellLevel
@@ -190,8 +202,7 @@ class MagicSurgeCheck {
     let isAutoSurge = false;
     if (
       getModuleSetting(WMSCONST.OPT_SURGE_TOC_ENABLED) &&
-      (getModuleSetting(WMSCONST.OPT_TOC_CAST_WHEN) !== "UPCAST" ||
-        this._isUpcast)
+      this._matchesCastWhen(getModuleSetting(WMSCONST.OPT_TOC_CAST_WHEN))
     ) {
       if (await TidesOfChaos.IsTidesOfChaosUsed(this._actor)) {
         isAutoSurge = true;
@@ -200,10 +211,7 @@ class MagicSurgeCheck {
     }
 
     if (!isAutoSurge) {
-      if (
-        getModuleSetting(WMSCONST.OPT_WMS_CAST_WHEN) === "UPCAST" &&
-        !this._isUpcast
-      )
+      if (!this._matchesCastWhen(getModuleSetting(WMSCONST.OPT_WMS_CAST_WHEN)))
         return;
       roll = await this.WildMagicSurgeRollCheck(spellLevel);
       if (!roll) return;

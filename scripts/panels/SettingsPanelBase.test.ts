@@ -186,10 +186,11 @@ describe("settings panels", () => {
       expect(registrations.get(`${WMSCONST.MODULE_ID}.${key}`)).toEqual(
         expect.objectContaining({
           config: false,
-          default: "ALL",
+          default: "DEFAULT",
           choices: {
-            ALL: "WildMagicSurge5E.cast_when_all",
+            BASE: "WildMagicSurge5E.cast_when_base",
             UPCAST: "WildMagicSurge5E.cast_when_upcast",
+            DEFAULT: "WildMagicSurge5E.cast_when_default",
           },
         }),
       );
