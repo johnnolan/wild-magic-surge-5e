@@ -13,6 +13,7 @@ import CallHooks from "./utils/CallHooks";
 import SurgeDetails from "./utils/SurgeDetails";
 import Logger from "./Logger";
 import TriggerMacro from "./TriggerMacro";
+import { ResetSurgeChecks } from "./utils/ResetSurgeChecks";
 
 /**
  * Main entry point for Wild Magic Surge Checks
@@ -325,8 +326,7 @@ class MagicSurgeCheck {
       );
     }
     await TidesOfChaos.Check(this._actor);
-    await IncrementalCheck.Reset(this._actor);
-    await DieDescending.Reset(this._actor);
+    await ResetSurgeChecks(this._actor);
     await this._callIsSurgeHook(true);
     await AutoEffects.Run(this._tokenId);
   }

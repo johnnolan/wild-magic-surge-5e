@@ -11,6 +11,7 @@ import DieDescending from "./utils/DieDescending";
 import { HandlePostUseActivity } from "./utils/Dnd5eActivity";
 import { AttachRollTableButton } from "./utils/ChatMessageHooks";
 import { CreateWMSActorSheetControl } from "./utils/ActorSheetControls";
+import { ResetSurgeChecks } from "./utils/ResetSurgeChecks";
 
 Hooks.on("init", function () {
   Logger.log(`Registering ${WMSCONST.MODULE_NAME} Settings.`, "module.init");
@@ -37,7 +38,7 @@ Hooks.on("init", function () {
 
   Hooks.on("wild-magic-surge-5e.reset", async function (actor) {
     if (actor) {
-      await _resetActorChecks(actor);
+      await ResetSurgeChecks(actor);
     }
   });
 
@@ -60,18 +61,13 @@ function getTokenIdByActorId(
   );
 }
 
-async function _resetActorChecks(actor: Actor): Promise<void> {
-  await IncrementalCheck.Reset(actor);
-  await DieDescending.Reset(actor);
-}
-
 async function _resetChecks(actorId: string) {
   if (!actorId) return false;
   const actor = game.actors?.get(actorId);
   if (!actor) {
     return false;
   }
-  await _resetActorChecks(actor);
+  await ResetSurgeChecks(actor);
 }
 
 Hooks.once("ready", async function () {
