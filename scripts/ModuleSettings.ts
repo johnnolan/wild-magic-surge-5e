@@ -5,6 +5,7 @@ import {
   SpellLevelSettingsPanel,
   StandardSettingsPanel,
   SpellRegexSettingsPanel,
+  UpcastSpellSettingsPanel,
 } from "./panels/index";
 
 class ModuleSettings {
@@ -32,7 +33,7 @@ class ModuleSettings {
       name: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_name"),
       hint: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_hint"),
       scope: "world",
-      config: true,
+      config: false,
       default: "ALL",
       type: String,
       choices: {
@@ -213,6 +214,21 @@ class ModuleSettings {
       type: ChatSettingsPanel,
       restricted: true,
     });
+
+    game.settings.registerMenu(
+      WMSCONST.MODULE_ID,
+      UpcastSpellSettingsPanel.name,
+      {
+        name: game.i18n.format(
+          "WildMagicSurge5E.settings_panel_upcast_spell",
+        ),
+        label: game.i18n.format("WildMagicSurge5E.configure"),
+        icon: "fas fa-cog",
+        scope: "world",
+        type: UpcastSpellSettingsPanel,
+        restricted: true,
+      },
+    );
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
@@ -598,7 +614,7 @@ class ModuleSettings {
       name: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_name"),
       hint: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_hint"),
       scope: "world",
-      config: true,
+      config: false,
       default: "ALL",
       type: String,
       choices: {

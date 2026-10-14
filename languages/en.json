@@ -119,6 +119,7 @@
   "WildMagicSurge5E.settings_panel_spell_level_dep": "Spell Level Dependent Rolls Variant",
   "WildMagicSurge5E.settings_panel_incremental": "Incremental Check Variant",
   "WildMagicSurge5E.settings_panel_chat_message": "Chat Message Options",
+  "WildMagicSurge5E.settings_panel_upcast_spell": "Upcast Spell Options",
   "WildMagicSurge5E.configure": "Configure",
   "WildMagicSurge5E.settings_panel_information": "Wild Magic Surge 5e Information",
   "WildMagicSurge5E.cast_when_all": "All eligible spells",

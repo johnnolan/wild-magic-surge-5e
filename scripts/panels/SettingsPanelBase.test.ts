@@ -32,6 +32,7 @@ const {
   SpellLevelSettingsPanel,
   SpellRegexSettingsPanel,
   StandardSettingsPanel,
+  UpcastSpellSettingsPanel,
 } = require("./index") as typeof import("./index");
 const ModuleSettings = (
   require("../ModuleSettings") as typeof import("../ModuleSettings")
@@ -93,6 +94,11 @@ const panels = [
       WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK,
       WMSCONST.OPT_CUSTOM_ROLL_RESULT,
     ],
+  },
+  {
+    panel: UpcastSpellSettingsPanel,
+    title: "WildMagicSurge5E.settings_panel_upcast_spell",
+    keys: [WMSCONST.OPT_WMS_CAST_WHEN, WMSCONST.OPT_TOC_CAST_WHEN],
   },
 ] satisfies {
   panel: new () => SettingsPanelBase;
@@ -169,6 +175,24 @@ describe("settings panels", () => {
         "modules/wild-magic-surge-5e/templates/settings.html",
       );
       expect(new panel().options).toEqual({ window: { title } });
+    }
+  });
+
+  it("keeps upcast filters out of the main settings list", () => {
+    for (const key of [
+      WMSCONST.OPT_WMS_CAST_WHEN,
+      WMSCONST.OPT_TOC_CAST_WHEN,
+    ]) {
+      expect(registrations.get(`${WMSCONST.MODULE_ID}.${key}`)).toEqual(
+        expect.objectContaining({
+          config: false,
+          default: "ALL",
+          choices: {
+            ALL: "WildMagicSurge5E.cast_when_all",
+            UPCAST: "WildMagicSurge5E.cast_when_upcast",
+          },
+        }),
+      );
     }
   });
 
