@@ -91,8 +91,8 @@ describe("settings panel helpers", () => {
         choices: { EQ: "Equal", GT: "Greater" },
         value: "GT",
         choicesSelect: [
-          { key: "EQ", value: "Equal", selected: false },
-          { key: "GT", value: "Greater", selected: true },
+          { key: "EQ", value: "localized Equal", selected: false },
+          { key: "GT", value: "localized Greater", selected: true },
         ],
       },
     ]);

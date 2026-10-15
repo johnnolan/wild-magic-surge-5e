@@ -27,3 +27,9 @@ In dnd5e 6.0.5, `uses.value` is the remaining count and `uses.spent` is the spen
 ### Sorcerer spell filtering
 
 The module does not inspect a spell's `Source Class`. If you enable the spell-name regex filter, it checks the spell name (for example, `Magic Missile (S)`). Keep `Source Class` accurate for dnd5e, but use the module's name filter to include or exclude spells for Wild Magic.
+
+### Cast when options
+
+The module settings include separate Wild Magic Surge and Tides of Chaos "Cast when" dropdowns. Each dropdown offers `Base-level only`, `Upcast only`, and `Default behavior`. Default behavior is the default for new worlds and checks both cast types. Existing Both selections retain their behavior. Base-level only excludes upcasts; Upcast only requires a spell cast above its base level, such as Magic Missile cast using a level-three slot.
+
+These options apply to automated checks and keep the existing feat, minimum spell level, cantrip, and spell-name filters. Automatic Tides surges also require the corresponding option to be enabled and Tides to be spent. If a cast does not qualify for an automatic Tides surge, it can still receive an ordinary Wild Magic Surge check according to that dropdown.

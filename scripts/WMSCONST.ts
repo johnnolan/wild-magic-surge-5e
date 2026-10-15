@@ -22,6 +22,8 @@ export const WMSCONST = {
 
   OPT_ENABLE_TOC: "enableTidesOfChaosRecharge",
 
+  OPT_WMS_CAST_WHEN: "wmsCastWhen",
+  OPT_TOC_CAST_WHEN: "tocCastWhen",
   OPT_AUTO_D20: "autoRollD20",
   OPT_CHAT_MSG: "magicSurgeChatMessage",
   OPT_CHAT_MSG_ENABLED: "magicSurgeChatMessageEnabled",

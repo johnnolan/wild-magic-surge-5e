@@ -41,17 +41,14 @@ export async function openActorSheet(
 export async function castSpellFromSheet(
   page: Page,
   caster: TestCaster,
+  slotLevel = caster.spellLevel,
 ): Promise<void> {
   const sheet = await openActorSheet(page, caster.actorId);
   await sheet.locator('a[data-tab="spells"]').click();
 
   const spell = sheet.locator(`[data-item-id="${caster.spellId}"]`);
   await expect(spell).toBeVisible();
-  const slotsBefore = await readSpellSlots(
-    page,
-    caster.actorId,
-    caster.spellLevel,
-  );
+  const slotsBefore = await readSpellSlots(page, caster.actorId, slotLevel);
   await spell.locator('[data-action="use"]').click();
 
   const usageDialog = page.locator("dialog.activity-usage");
@@ -92,7 +89,7 @@ export async function castSpellFromSheet(
         },
         {
           actorId: caster.actorId,
-          spellLevel: caster.spellLevel,
+          spellLevel: slotLevel,
           activityId: caster.activityId,
           slotsBefore,
         },
@@ -105,6 +102,11 @@ export async function castSpellFromSheet(
       continue;
     }
     if (state === "confirm") {
+      const slotSelect = usageDialog.locator('select[name="spell.slot"]');
+      if (await slotSelect.count())
+        await slotSelect.selectOption(`spell${slotLevel}`);
+      else if (slotLevel !== caster.spellLevel)
+        throw new Error("No spell slot selector is available for upcasting.");
       await usageDialog.getByRole("button", { name: "Cast Spell" }).click();
       return;
     }

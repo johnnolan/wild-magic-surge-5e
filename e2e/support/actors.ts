@@ -17,6 +17,7 @@ type CasterOptions = {
   displaySpellName?: string;
   actorType?: "character" | "npc";
   allowCantrip?: boolean;
+  additionalSlotLevel?: number;
 };
 
 /** Build a real dnd5e 6.0.5 caster from the installed SRD spell pack. */
@@ -31,6 +32,7 @@ export async function createCaster(
     displaySpellName,
     actorType = "character",
     allowCantrip = false,
+    additionalSlotLevel,
   }: CasterOptions,
 ): Promise<TestCaster> {
   return page.evaluate(
@@ -43,6 +45,7 @@ export async function createCaster(
       displaySpellName,
       actorType,
       allowCantrip,
+      additionalSlotLevel,
     }) => {
       type TestItem = {
         id: string;
@@ -147,6 +150,13 @@ export async function createCaster(
           }
         }
 
+        if (additionalSlotLevel) {
+          await actor.update({
+            [`system.spells.spell${additionalSlotLevel}.override`]: spellSlots,
+            [`system.spells.spell${additionalSlotLevel}.value`]: spellSlots,
+          });
+        }
+
         return {
           actorId: actor.id,
           actorName: actor.name,
@@ -168,6 +178,7 @@ export async function createCaster(
       displaySpellName,
       actorType,
       allowCantrip,
+      additionalSlotLevel,
     },
   );
 }

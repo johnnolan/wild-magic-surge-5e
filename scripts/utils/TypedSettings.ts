@@ -1,8 +1,10 @@
 import { WMSCONST } from "../WMSCONST";
 import { ParseDnd5eResource } from "./Dnd5eSystem";
-import type { DieValue, ResourceValue } from "../types/domain";
+import type { CastWhen, DieValue, ResourceValue } from "../types/domain";
 
 export interface WMSModuleSettingValues {
+  wmsCastWhen: CastWhen;
+  tocCastWhen: CastWhen;
   autoRollD20: boolean;
   wmsName: string;
   spellRegexEnabled: boolean;
@@ -76,6 +78,8 @@ const moduleSettingValueTypes: Record<
   WMSModuleSettingKey,
   "boolean" | "string"
 > = {
+  wmsCastWhen: "string",
+  tocCastWhen: "string",
   autoRollD20: "boolean",
   wmsName: "string",
   spellRegexEnabled: "boolean",

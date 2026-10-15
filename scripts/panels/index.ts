@@ -3,6 +3,7 @@ import { IncrementalSettingsPanel } from "./IncrementalSettingsPanel";
 import { SpellLevelSettingsPanel } from "./SpellLevelSettingsPanel";
 import { StandardSettingsPanel } from "./StandardSettingsPanel";
 import { SpellRegexSettingsPanel } from "./SpellRegexSettingsPanel";
+import { UpcastSpellSettingsPanel } from "./UpcastSpellSettingsPanel";
 
 export {
   ChatSettingsPanel,
@@ -10,4 +11,5 @@ export {
   SpellLevelSettingsPanel,
   StandardSettingsPanel,
   SpellRegexSettingsPanel,
+  UpcastSpellSettingsPanel,
 };

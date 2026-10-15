@@ -34,6 +34,8 @@ const PANEL_SETTING_KEYS = [
   WMSCONST.OPT_CUSTOM_ROLL_DICE_FORMULA,
   WMSCONST.OPT_CUSTOM_ROLL_RESULT_CHECK,
   WMSCONST.OPT_CUSTOM_ROLL_RESULT,
+  WMSCONST.OPT_WMS_CAST_WHEN,
+  WMSCONST.OPT_TOC_CAST_WHEN,
 ] as const satisfies readonly WMSModuleSettingKey[];
 
 export type PanelSettingKey = (typeof PANEL_SETTING_KEYS)[number];
@@ -147,7 +149,7 @@ export function SettingsList(
       value,
       choicesSelect: Object.entries(metadata.choices).map(([key, label]) => ({
         key,
-        value: label,
+        value: game.i18n?.format(label) ?? label,
         selected: key === value,
       })),
     });

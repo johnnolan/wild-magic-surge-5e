@@ -1,4 +1,5 @@
 import { test, expect } from "./fixtures";
+import { openSettingsPanel, readSetting } from "./foundry";
 
 test("the live settings show the documented modes and valid defaults", async ({
   gmPage,
@@ -24,6 +25,8 @@ test("the live settings show the documented modes and valid defaults", async ({
       "wmsName",
       "tocName",
       "powmName",
+      "wmsCastWhen",
+      "tocCastWhen",
     ];
     const values = Object.fromEntries(
       keys.map((key) => {
@@ -41,6 +44,8 @@ test("the live settings show the documented modes and valid defaults", async ({
   expect(registrations.wmsName.default).toBe("Wild Magic Surge");
   expect(registrations.tocName.default).toBe("Tides of Chaos");
   expect(registrations.powmName.default).toBe("Path of Wild Magic");
+  expect(registrations.wmsCastWhen.default).toBe("DEFAULT");
+  expect(registrations.tocCastWhen.default).toBe("DEFAULT");
 
   const settings = gmPage.locator("#settings-config");
   await expect(settings).toBeVisible();
@@ -72,4 +77,53 @@ test("the live settings show the documented modes and valid defaults", async ({
     { value: "AUTO", label: "Auto Roll Table" },
     { value: "PLAYER_TRIGGER", label: "Player Trigger Roll" },
   ]);
+  await openSettingsPanel(gmPage, "UpcastSpellSettingsPanel", "wmsCastWhen");
+  for (const key of ["wmsCastWhen", "tocCastWhen"]) {
+    expect(
+      await gmPage
+        .locator(`select[name="wild-magic-surge-5e.${key}"] option`)
+        .evaluateAll((options) =>
+          options.map((option) => ({
+            value: (option as HTMLOptionElement).value,
+            label: option.textContent?.trim(),
+          })),
+        ),
+    ).toEqual([
+      { value: "BASE", label: "Base-level only" },
+      { value: "UPCAST", label: "Upcast only" },
+      { value: "DEFAULT", label: "Default behavior" },
+    ]);
+  }
+});
+
+test("the cast options panel saves and reopens all four selections", async ({
+  gmPage,
+  world,
+}) => {
+  const keys = ["wmsCastWhen", "tocCastWhen"];
+  for (const key of keys) await world.rememberSetting(key);
+  for (const mode of ["BASE", "UPCAST", "DEFAULT"]) {
+    await openSettingsPanel(gmPage, "UpcastSpellSettingsPanel", "wmsCastWhen");
+    const field = gmPage.locator(
+      'select[name="wild-magic-surge-5e.wmsCastWhen"]',
+    );
+    const form = gmPage.locator("form").filter({ has: field });
+    for (const key of keys)
+      await form
+        .locator(`select[name="wild-magic-surge-5e.${key}"]`)
+        .selectOption(mode);
+    await form.getByRole("button", { name: "Save Changes" }).click();
+    for (const key of keys)
+      await expect.poll(() => readSetting(gmPage, key)).toBe(mode);
+    await openSettingsPanel(gmPage, "UpcastSpellSettingsPanel", "wmsCastWhen");
+    for (const key of keys)
+      await expect(
+        gmPage.locator(`select[name="wild-magic-surge-5e.${key}"]`),
+      ).toHaveValue(mode);
+    await gmPage
+      .locator("form")
+      .filter({ has: field })
+      .getByRole("button", { name: "Save Changes" })
+      .click();
+  }
 });

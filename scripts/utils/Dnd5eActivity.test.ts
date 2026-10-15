@@ -45,7 +45,7 @@ describe("HandlePostUseActivity", () => {
     );
 
     expect(getTokenIdByActorId).toHaveBeenCalledWith(actor.id);
-    expect(onGMCheck).toHaveBeenCalledWith(actor, item, "token-id");
+    expect(onGMCheck).toHaveBeenCalledWith(actor, item, "token-id", false);
     expect(onPlayerCheck).not.toHaveBeenCalled();
   });
 
@@ -57,7 +57,7 @@ describe("HandlePostUseActivity", () => {
 
     expect(onPlayerCheck).toHaveBeenCalledWith({
       event: "SurgeCheck",
-      data: { actorId: actor.id, tokenId: "token-id", item },
+      data: { actorId: actor.id, tokenId: "token-id", item, isUpcast: false },
     });
     expect(onGMCheck).not.toHaveBeenCalled();
   });
@@ -88,6 +88,7 @@ describe("HandlePostUseActivity", () => {
       unsavedActor,
       unsavedItem,
       undefined,
+      false,
     );
   });
 
@@ -111,7 +112,7 @@ describe("HandlePostUseActivity", () => {
       handlers,
     );
 
-    expect(onGMCheck).toHaveBeenCalledWith(actor, item, undefined);
+    expect(onGMCheck).toHaveBeenCalledWith(actor, item, undefined, false);
   });
 
   it("waits for the GM check and propagates its failure", async () => {
@@ -125,5 +126,58 @@ describe("HandlePostUseActivity", () => {
     const failure = new Error("surge check failed");
     check.reject(failure);
     await expect(pending).rejects.toBe(failure);
+  });
+});
+
+// Exercise both routes with the same hook classification.
+describe.each([true, false])("cast scaling with GM=%s", (isGM) => {
+  it.each([undefined, false, 0, -1, "2", NaN, Infinity, 2])(
+    "classifies scaling %p and forwards only the cast type",
+    async (scaling) => {
+      const caster = actorFixture({ id: "caster" });
+      const spell = itemFixture({ actor: caster, type: "spell" });
+      const onGMCheck = jest.fn();
+      const onPlayerCheck = jest.fn();
+      await HandlePostUseActivity(
+        { item: spell, consumption: { spellSlot: true } },
+        {
+          isGM,
+          getTokenIdByActorId: () => undefined,
+          onGMCheck,
+          onPlayerCheck,
+        },
+        { scaling },
+      );
+      if (isGM)
+        expect(onGMCheck).toHaveBeenCalledWith(
+          caster,
+          spell,
+          undefined,
+          scaling === 2,
+        );
+      else
+        expect(onPlayerCheck).toHaveBeenCalledWith({
+          event: "SurgeCheck",
+          data: {
+            actorId: "caster",
+            tokenId: undefined,
+            item: spell,
+            isUpcast: scaling === 2,
+          },
+        });
+    },
+  );
+  it("does not classify a scaled feature as an upcast spell", async () => {
+    const onGMCheck = jest.fn();
+    const onPlayerCheck = jest.fn();
+    const feature = itemFixture({ actor, type: "feat" });
+    await HandlePostUseActivity(
+      { item: feature, consumption: { spellSlot: true } },
+      { isGM, getTokenIdByActorId: () => undefined, onGMCheck, onPlayerCheck },
+      { scaling: 2 },
+    );
+    if (isGM)
+      expect(onGMCheck).toHaveBeenCalledWith(actor, feature, undefined, false);
+    else expect(onPlayerCheck.mock.calls[0][0].data.isUpcast).toBe(false);
   });
 });

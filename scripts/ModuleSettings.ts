@@ -5,6 +5,7 @@ import {
   SpellLevelSettingsPanel,
   StandardSettingsPanel,
   SpellRegexSettingsPanel,
+  UpcastSpellSettingsPanel,
 } from "./panels/index";
 
 class ModuleSettings {
@@ -14,6 +15,7 @@ class ModuleSettings {
    * @return {void}
    */
   static Register(): void {
+    if (!game.settings || !game.i18n) return;
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
       `${WMSCONST.OPT_AUTO_D20}`,
@@ -26,6 +28,20 @@ class ModuleSettings {
         type: Boolean,
       },
     );
+
+    game.settings.register(WMSCONST.MODULE_ID, WMSCONST.OPT_WMS_CAST_WHEN, {
+      name: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_name"),
+      hint: game.i18n.format("WildMagicSurge5E.opt_wms_cast_when_hint"),
+      scope: "world",
+      config: false,
+      default: "DEFAULT",
+      type: String,
+      choices: {
+        BASE: "WildMagicSurge5E.cast_when_base",
+        UPCAST: "WildMagicSurge5E.cast_when_upcast",
+        DEFAULT: "WildMagicSurge5E.cast_when_default",
+      },
+    });
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,
@@ -197,6 +213,15 @@ class ModuleSettings {
       icon: "fas fa-cog",
       scope: "world",
       type: ChatSettingsPanel,
+      restricted: true,
+    });
+
+    game.settings.registerMenu(WMSCONST.MODULE_ID, "UpcastSpellSettingsPanel", {
+      name: game.i18n.format("WildMagicSurge5E.settings_panel_upcast_spell"),
+      label: game.i18n.format("WildMagicSurge5E.configure"),
+      icon: "fas fa-cog",
+      scope: "world",
+      type: UpcastSpellSettingsPanel,
       restricted: true,
     });
 
@@ -579,6 +604,20 @@ class ModuleSettings {
         type: Boolean,
       },
     );
+
+    game.settings.register(WMSCONST.MODULE_ID, WMSCONST.OPT_TOC_CAST_WHEN, {
+      name: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_name"),
+      hint: game.i18n.format("WildMagicSurge5E.opt_toc_cast_when_hint"),
+      scope: "world",
+      config: false,
+      default: "DEFAULT",
+      type: String,
+      choices: {
+        BASE: "WildMagicSurge5E.cast_when_base",
+        UPCAST: "WildMagicSurge5E.cast_when_upcast",
+        DEFAULT: "WildMagicSurge5E.cast_when_default",
+      },
+    });
 
     game.settings.register(
       `${WMSCONST.MODULE_ID}`,

@@ -198,6 +198,7 @@ describe("module hooks", () => {
       actor: Actor;
       tokenId: string | undefined;
       item: Item;
+      isUpcast: boolean;
     }> = [];
     const checkItem = jest
       .spyOn(MagicSurgeCheck.prototype, "CheckItem")
@@ -206,6 +207,7 @@ describe("module hooks", () => {
           actor: this._actor,
           tokenId: this._tokenId,
           item: checkedItem,
+          isUpcast: this._isUpcast,
         });
       });
     try {
@@ -222,15 +224,15 @@ describe("module hooks", () => {
 
       await socketHandler({
         event: "SurgeCheck",
-        data: { actorId: actor.id, item, tokenId: "token-1" },
+        data: { actorId: actor.id, item, tokenId: "token-1", isUpcast: true },
       });
       await socketHandler({
         event: "SurgeCheck",
         data: { actorId: actor.id, item },
       });
       expect(checked).toEqual([
-        { actor, tokenId: "token-1", item },
-        { actor, tokenId: undefined, item },
+        { actor, tokenId: "token-1", item, isUpcast: true },
+        { actor, tokenId: undefined, item, isUpcast: false },
       ]);
     } finally {
       checkItem.mockRestore();

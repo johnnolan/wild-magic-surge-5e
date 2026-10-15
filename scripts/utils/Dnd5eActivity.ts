@@ -1,3 +1,5 @@
+import { IsDnd5eItemSubtype } from "./Dnd5eSystem";
+
 export interface Dnd5ePostUseActivity {
   item: Item;
   consumption?: {
@@ -12,6 +14,7 @@ interface PostUseActivityHandlers {
     actor: Actor,
     item: Item,
     tokenId: string | undefined,
+    isUpcast: boolean,
   ) => Promise<void> | void;
   onPlayerCheck: (data: {
     event: "SurgeCheck";
@@ -19,6 +22,7 @@ interface PostUseActivityHandlers {
       actorId: string;
       tokenId: string | undefined;
       item: Item;
+      isUpcast: boolean;
     };
   }) => void;
 }
@@ -26,17 +30,27 @@ interface PostUseActivityHandlers {
 export async function HandlePostUseActivity(
   activity: Dnd5ePostUseActivity,
   handlers: PostUseActivityHandlers,
+  usageConfig?: unknown,
 ): Promise<void> {
   if (!activity.consumption?.spellSlot) return;
 
   const item = activity.item;
+  const scaling =
+    usageConfig && typeof usageConfig === "object" && "scaling" in usageConfig
+      ? usageConfig.scaling
+      : undefined;
+  const isUpcast =
+    IsDnd5eItemSubtype(item, "spell") &&
+    typeof scaling === "number" &&
+    Number.isFinite(scaling) &&
+    scaling > 0;
   const actor = item.actor;
   if (!actor) return;
 
   const actorId = actor.id;
   const tokenId = actorId ? handlers.getTokenIdByActorId(actorId) : undefined;
   if (handlers.isGM) {
-    await handlers.onGMCheck(actor, item, tokenId);
+    await handlers.onGMCheck(actor, item, tokenId, isUpcast);
     return;
   }
 
@@ -48,6 +62,7 @@ export async function HandlePostUseActivity(
       actorId,
       tokenId,
       item,
+      isUpcast,
     },
   });
 }

@@ -1,5 +1,7 @@
 export type SurgeType = "WMS" | "POWM" | "TOCSURGE";
 
+export type CastWhen = "DEFAULT" | "BASE" | "UPCAST";
+
 export type Comparison = "EQ" | "GT" | "LT";
 
 export type DieValue =
